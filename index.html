@@ -4745,49 +4745,87 @@
         }
 
         // Chart helpers
-        function makeLineChart(data, color, color2, labels) {
-            const w = 600, h = 160, pad = 30;
-            const max = Math.max(...data, ...data.map(d => d * 1.2)) * 1.1;
-            const min = Math.min(...data) * 0.7;
+        function makeLineChart(data, color, color2, labels, unit) {
+            unit = unit || '';
+            const w = 600, h = 200, padL = 50, padR = 20, padT = 25, padB = 35;
+            const maxData = Math.max(...data);
+            const minData = Math.min(...data);
+            const max = maxData * 1.15;
+            const min = Math.max(0, minData * 0.7);
             const range = max - min || 1;
-            const stepX = (w - pad * 2) / (data.length - 1);
+            const stepX = (w - padL - padR) / (data.length - 1);
             let path = '', area = '';
             data.forEach((v, i) => {
-                const x = pad + i * stepX;
-                const y = h - pad - ((v - min) / range) * (h - pad * 2);
+                const x = padL + i * stepX;
+                const y = h - padB - ((v - min) / range) * (h - padT - padB);
                 path += (i === 0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1);
-                if (i === 0) area = 'M' + x.toFixed(1) + ',' + (h - pad) + 'L' + x.toFixed(1) + ',' + y.toFixed(1);
+                if (i === 0) area = 'M' + x.toFixed(1) + ',' + (h - padB) + 'L' + x.toFixed(1) + ',' + y.toFixed(1);
                 else area += 'L' + x.toFixed(1) + ',' + y.toFixed(1);
             });
-            area += 'L' + (pad + (data.length - 1) * stepX).toFixed(1) + ',' + (h - pad) + 'Z';
+            area += 'L' + (padL + (data.length - 1) * stepX).toFixed(1) + ',' + (h - padB) + 'Z';
             let grid = '';
-            for (let i = 0; i <= 3; i++) {
-                const y = pad + i * ((h - pad * 2) / 3);
-                grid += '<line x1="' + pad + '" y1="' + y.toFixed(1) + '" x2="' + (w - pad) + '" y2="' + y.toFixed(1) + '" stroke="rgba(255,255,255,0.04)"/>';
+            for (let i = 0; i <= 4; i++) {
+                const y = padT + i * ((h - padT - padB) / 4);
+                const val = (max - (i * range / 4));
+                const valStr = val >= 1000 ? (val/1000).toFixed(1) + 'k' : val.toFixed(val < 10 ? 1 : 0);
+                grid += '<line x1="' + padL + '" y1="' + y.toFixed(1) + '" x2="' + (w - padR) + '" y2="' + y.toFixed(1) + '" stroke="rgba(255,255,255,0.06)" stroke-dasharray="3,3"/>';
+                grid += '<text x="' + (padL - 6) + '" y="' + (y + 3).toFixed(1) + '" text-anchor="end" fill="#6B7280" font-size="10">' + valStr + unit + '</text>';
             }
             let dots = '';
             data.forEach((v, i) => {
-                const x = pad + i * stepX;
-                const y = h - pad - ((v - min) / range) * (h - pad * 2);
-                dots += '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="3" fill="' + color + '"/>';
+                const x = padL + i * stepX;
+                const y = h - padB - ((v - min) / range) * (h - padT - padB);
+                const vStr = v >= 1000 ? (v/1000).toFixed(1) + 'k' : v.toFixed(v < 10 ? 1 : 0);
+                dots += '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="4" fill="' + color + '" stroke="#0A0A0B" stroke-width="2"/>';
+                dots += '<text x="' + x.toFixed(1) + '" y="' + (y - 10).toFixed(1) + '" text-anchor="middle" fill="' + color + '" font-size="11" font-weight="700">' + vStr + unit + '</text>';
             });
             let lbls = '';
             if (labels) labels.forEach((l, i) => {
-                const x = pad + i * stepX;
-                lbls += '<text x="' + x.toFixed(1) + '" y="' + (h - 6) + '" text-anchor="middle" fill="#4B5563" font-size="10">' + l + '</text>';
+                const x = padL + i * stepX;
+                lbls += '<text x="' + x.toFixed(1) + '" y="' + (h - 8) + '" text-anchor="middle" fill="#6B7280" font-size="10">' + l + '</text>';
             });
-            return '<svg viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="none" style="width:100%;height:180px">' + grid + '<path d="' + area + '" fill="url(#gLine)" opacity="0.3"/><path d="' + path + '" fill="none" stroke="' + color + '" stroke-width="2.5"/>' + dots + lbls + '<defs><linearGradient id="gLine" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="' + color + '" stop-opacity="0.4"/><stop offset="100%" stop-color="' + color + '" stop-opacity="0"/></linearGradient></defs></svg>';
+            // Stats bar
+            const avg = data.reduce((a,b) => a+b, 0) / data.length;
+            const avgStr = avg >= 1000 ? (avg/1000).toFixed(1) + 'k' : avg.toFixed(avg < 10 ? 1 : 0);
+            const maxStr = maxData >= 1000 ? (maxData/1000).toFixed(1) + 'k' : maxData.toFixed(maxData < 10 ? 1 : 0);
+            const minStr = minData >= 1000 ? (minData/1000).toFixed(1) + 'k' : minData.toFixed(minData < 10 ? 1 : 0);
+            const trend = data[data.length-1] >= data[0] ? '📈' : '📉';
+            const trendPct = (((data[data.length-1] - data[0]) / data[0]) * 100).toFixed(1);
+            return '<div style="margin-bottom:8px;display:flex;gap:16px;font-size:11px;color:var(--gray-4);flex-wrap:wrap">' +
+                '<span>Min: <strong style="color:var(--gray-2)">' + minStr + unit + '</strong></span>' +
+                '<span>Max: <strong style="color:var(--gray-2)">' + maxStr + unit + '</strong></span>' +
+                '<span>Moyenne: <strong style="color:var(--gray-2)">' + avgStr + unit + '</strong></span>' +
+                '<span>Tendance: <strong style="color:' + (trendPct >= 0 ? 'var(--green)' : 'var(--red)') + '">' + trendPct + '%</strong></span>' +
+                '</div>' +
+                '<svg viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="none" style="width:100%;height:200px">' + grid + '<path d="' + area + '" fill="url(#gLine)" opacity="0.3"/><path d="' + path + '" fill="none" stroke="' + color + '" stroke-width="2.5"/>' + dots + lbls + '<defs><linearGradient id="gLine" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="' + color + '" stop-opacity="0.4"/><stop offset="100%" stop-color="' + color + '" stop-opacity="0"/></linearGradient></defs></svg>';
         }
 
-        function makeBarChart(data, labels, colors) {
-            const max = Math.max(...data) * 1.15;
+        function makeBarChart(data, labels, colors, unit) {
+            unit = unit || '';
+            const max = Math.max(...data) * 1.2;
+            const avg = data.reduce((a,b) => a+b, 0) / data.length;
             let bars = '';
             data.forEach((v, i) => {
                 const pct = (v / max) * 100;
                 const c = colors ? colors[i % colors.length] : '#FF3B3B';
-                bars += '<div class="free-bar-col"><div class="free-bar-val">' + v + '</div><div class="free-bar" style="height:' + pct.toFixed(0) + '%;background:linear-gradient(180deg,' + c + ',' + c + '88)"></div><div class="free-bar-label">' + labels[i] + '</div></div>';
+                const vStr = v >= 1000 ? (v/1000).toFixed(1) + 'k' : (v < 10 ? v.toFixed(1) : Math.round(v));
+                const isMax = v === Math.max(...data);
+                const isMin = v === Math.min(...data);
+                bars += '<div class="free-bar-col">' +
+                    '<div class="free-bar-val" style="color:' + (isMax ? c : isMin ? '#6B7280' : 'var(--gray-2)') + (isMax ? ';font-weight:800;font-size:13px' : '') + '">' + vStr + unit + '</div>' +
+                    '<div class="free-bar" style="height:' + pct.toFixed(0) + '%;background:linear-gradient(180deg,' + c + ',' + c + '66)' + (isMax ? ';box-shadow:0 0 12px ' + c + '44' : '') + '"></div>' +
+                    '<div class="free-bar-label">' + labels[i] + '</div>' +
+                    (isMax ? '<div style="font-size:9px;color:' + c + ';font-weight:700">MAX</div>' : '') +
+                    '</div>';
             });
-            return '<div class="free-bars">' + bars + '</div>';
+            const avgStr = avg >= 1000 ? (avg/1000).toFixed(1) + 'k' : (avg < 10 ? avg.toFixed(1) : Math.round(avg));
+            return '<div style="margin-bottom:8px;display:flex;gap:16px;font-size:11px;color:var(--gray-4);flex-wrap:wrap">' +
+                '<span>Min: <strong style="color:var(--gray-2)">' + (Math.min(...data) >= 1000 ? (Math.min(...data)/1000).toFixed(1) + 'k' : Math.min(...data)) + unit + '</strong></span>' +
+                '<span>Max: <strong style="color:var(--gray-2)">' + (Math.max(...data) >= 1000 ? (Math.max(...data)/1000).toFixed(1) + 'k' : Math.max(...data)) + unit + '</strong></span>' +
+                '<span>Moyenne: <strong style="color:var(--gray-2)">' + avgStr + unit + '</strong></span>' +
+                '<span>Total: <strong style="color:var(--gray-2)">' + (data.reduce((a,b) => a+b, 0) >= 1000 ? (data.reduce((a,b) => a+b, 0)/1000).toFixed(1) + 'k' : data.reduce((a,b) => a+b, 0)) + unit + '</strong></span>' +
+                '</div>' +
+                '<div class="free-bars">' + bars + '</div>';
         }
 
         function makeDonut(segments) {
@@ -4807,10 +4845,12 @@
                 const x3 = cx + ir * Math.cos(endRad), y3 = cy + ir * Math.sin(endRad);
                 const x4 = cx + ir * Math.cos(startRad), y4 = cy + ir * Math.sin(startRad);
                 paths += '<path d="M' + x1.toFixed(1) + ',' + y1.toFixed(1) + 'A' + r + ',' + r + ' 0 ' + large + ',1 ' + x2.toFixed(1) + ',' + y2.toFixed(1) + 'L' + x3.toFixed(1) + ',' + y3.toFixed(1) + 'A' + ir + ',' + ir + ' 0 ' + large + ',0 ' + x4.toFixed(1) + ',' + y4.toFixed(1) + 'Z" fill="' + seg.color + '"/>';
-                legend += '<div class="free-donut-row"><div class="free-chart-legend-dot" style="background:' + seg.color + '"></div>' + seg.label + '<strong>' + seg.value + '%</strong></div>';
+                const pctStr = (pct * 100).toFixed(1);
+                legend += '<div class="free-donut-row"><div class="free-chart-legend-dot" style="background:' + seg.color + '"></div>' + seg.label + '<strong>' + seg.value + ' (' + pctStr + '%)</strong></div>';
                 angle += sweep;
             });
-            return '<div class="free-donut-wrap"><svg viewBox="0 0 120 120" style="width:120px;height:120px;flex-shrink:0">' + paths + '</svg><div class="free-donut-legend">' + legend + '</div></div>';
+            return '<div style="margin-bottom:8px;font-size:11px;color:var(--gray-4)">Total: <strong style="color:var(--gray-2)">' + total + '</strong> · Segments: <strong style="color:var(--gray-2)">' + segments.length + '</strong></div>' +
+                '<div class="free-donut-wrap"><svg viewBox="0 0 120 120" style="width:130px;height:130px;flex-shrink:0">' + paths + '<text x="60" y="58" text-anchor="middle" fill="#E5E7EB" font-size="16" font-weight="800">' + total + '</text><text x="60" y="72" text-anchor="middle" fill="#6B7280" font-size="8">total</text></svg><div class="free-donut-legend">' + legend + '</div></div>';
         }
 
         function makeSparkline(data, color) {
@@ -5006,7 +5046,7 @@
             const revBase = Math.floor(revenue * 0.4);
             const revData = [revBase, Math.floor(revBase * 1.1), Math.floor(revBase * 1.25), Math.floor(revBase * 1.4), Math.floor(revBase * 1.6), revenue];
             html += '<div class="free-chart-box"><div class="free-chart-title">Évolution du CA (6 mois) <span>en millions €</span></div>';
-            html += makeLineChart(revData, '#10B981', null, ['S1','S2','S3','S4','S5','S6']);
+            html += makeLineChart(revData, '#10B981', null, ['S1','S2','S3','S4','S5','S6'], 'M€');
             html += '</div>';
             const ms = parseFloat(marketShare);
             html += '<div class="free-chart-box"><div class="free-chart-title">Part de marché <span>vs concurrence</span></div>';
@@ -5031,7 +5071,7 @@
             const satBase = Math.max(30, satisfaction - 15);
             const satData = [satBase, satBase + 3, satBase - 2, satBase + 5, satBase + 2, satisfaction];
             html += '<div class="free-chart-box"><div class="free-chart-title">Tendance satisfaction client <span>6 mois</span></div>';
-            html += makeBarChart(satData, ['S1','S2','S3','S4','S5','Actuel'], ['#10B981','#10B981','#10B981','#10B981','#10B981', satisfaction > 70 ? '#10B981' : satisfaction > 50 ? '#F59E0B' : '#FF3B3B']);
+            html += makeBarChart(satData, ['S1','S2','S3','S4','S5','Actuel'], ['#10B981','#10B981','#10B981','#10B981','#10B981', satisfaction > 70 ? '#10B981' : satisfaction > 50 ? '#F59E0B' : '#FF3B3B'], '%');
             html += '</div>';
             html += '</div>';
 
@@ -5045,11 +5085,11 @@
             const pMid2 = mainPrice.oldP * 1.05;
             const priceData = [pStart, pMid1, pStart, pMid2, mainPrice.oldP, mainPrice.newP];
             html += '<div class="free-chart-box"><div class="free-chart-title">Évolution "' + mainPrice.item + '" (6 mois) <span>en ' + mainPrice.unit.replace('/mois', '').replace('/an', '') + '</span></div>';
-            html += makeLineChart(priceData, '#FF3B3B', null, ['Avr','Mai','Juin','Juil','Août','Sept']);
+            html += makeLineChart(priceData, '#FF3B3B', null, ['Avr','Mai','Juin','Juil','Août','Sept'], mainPrice.unit.replace('/mois','').replace('/an','').replace('/virement',''));
             html += '</div>';
 
             html += '<div class="free-chart-box"><div class="free-chart-title">Comparaison des prix <span>actuel</span></div>';
-            html += makeBarChart(priceItems.map(p => p.newP), priceItems.map(p => p.item.substring(0, 12)), priceItems.map(p => p.isDrop ? '#FF3B3B' : '#10B981'));
+            html += makeBarChart(priceItems.map(p => p.newP), priceItems.map(p => p.item.substring(0, 12)), priceItems.map(p => p.isDrop ? '#FF3B3B' : '#10B981'), mainPrice.unit);
             html += '</div>';
 
             priceItems.forEach((item, i) => {
@@ -5107,7 +5147,7 @@
             const engFb = Math.floor(1 + seededRand(seed, 82) * 5);
             const engIg = Math.floor(1 + seededRand(seed, 83) * 6);
             const engTw = Math.floor(0.5 + seededRand(seed, 84) * 3);
-            html += makeBarChart([engLi, engFb, engIg, engTw], ['LinkedIn','Facebook','Instagram','Twitter'], ['#4A9EFF','#5B9BD5','#E1306C','#71C5FC']);
+            html += makeBarChart([engLi, engFb, engIg, engTw], ['LinkedIn','Facebook','Instagram','Twitter'], ['#4A9EFF','#5B9BD5','#E1306C','#71C5FC'], 'k');
             html += '</div>';
             const likes1 = Math.floor(500 + seededRand(seed, 8) * 3000);
             html += '<div class="free-card"><div class="free-card-h"><span class="free-tag linkedin">LinkedIn</span><span class="free-card-meta">Il y a 2h · ' + (likes1/1000).toFixed(1) + 'k likes</span></div>';
@@ -5140,7 +5180,7 @@
             html += '<div class="free-chart-box"><div class="free-chart-title">Sentiment clients <span>tendance 6 mois</span></div>';
             const sentData = [];
             for (let i = 0; i < 6; i++) sentData.push(Math.floor(40 + seededRand(seed, 90 + i) * 50));
-            html += makeLineChart(sentData, sentiment === 'Positif' ? '#10B981' : sentiment === 'Negatif' ? '#FF3B3B' : '#F59E0B', null, ['Avr','Mai','Juin','Juil','Août','Sept']);
+            html += makeLineChart(sentData, sentiment === 'Positif' ? '#10B981' : sentiment === 'Negatif' ? '#FF3B3B' : '#F59E0B', null, ['Avr','Mai','Juin','Juil','Août','Sept'], '%');
             html += '</div>';
             html += '<div class="free-card"><div class="free-card-h"><span class="free-tag trustpilot">Trustpilot</span><span class="free-card-meta">1 etoile · il y a 2h</span></div>';
             html += '<div class="free-card-text">"Le support met 48h a repondre. Quand j\'ai un probleme bloquant, personne ne repond. Franchement deconcu pour le prix."</div>';
@@ -5157,13 +5197,13 @@
             html += '<div class="free-chart-box"><div class="free-chart-title">Budget pub mensuel <span>en milliers €</span></div>';
             const adBase = Math.floor(adBudget * 0.3);
             const adData = [adBase, Math.floor(adBase * 1.2), Math.floor(adBase * 0.9), Math.floor(adBase * 1.4), Math.floor(adBase * 1.6), adBudget];
-            html += makeLineChart(adData, '#8B5CF6', null, ['Avr','Mai','Juin','Juil','Août','Sept']);
+            html += makeLineChart(adData, '#8B5CF6', null, ['Avr','Mai','Juin','Juil','Août','Sept'], 'k€');
             html += '</div>';
             html += '<div class="free-chart-box"><div class="free-chart-title">CTR par plateforme <span>en %</span></div>';
             const ctrFb = (0.5 + seededRand(seed, 59) * 3).toFixed(1);
             const ctrGo = (1 + seededRand(seed, 63) * 4).toFixed(1);
             const ctrTt = (3 + seededRand(seed, 69) * 15).toFixed(1);
-            html += makeBarChart([parseFloat(ctrFb), parseFloat(ctrGo), parseFloat(ctrTt)], ['Facebook','Google','TikTok'], ['#5B9BD5','#4285F4','#E1306C']);
+            html += makeBarChart([parseFloat(ctrFb), parseFloat(ctrGo), parseFloat(ctrTt)], ['Facebook','Google','TikTok'], ['#5B9BD5','#4285F4','#E1306C'], '%');
             html += '</div>';
             html += '<div class="free-card"><div class="free-card-h"><span class="free-tag red">Facebook Ads</span><span class="free-card-meta">Active · ' + Math.floor(5 + seededRand(seed, 57) * 30) + ' jours</span></div>';
             html += '<div class="free-card-text">"Rejoignez ' + n + '. Essai gratuit de 14 jours. Plus de 10 000 clients satisfaits."</div>';
@@ -5197,7 +5237,7 @@
             html += '<div class="free-chart-box"><div class="free-chart-title">Croissance abonnés <span>6 mois (toutes plateformes)</span></div>';
             const socBase = Math.floor(socialFollowers * 0.5);
             const socData = [socBase, Math.floor(socBase * 1.1), Math.floor(socBase * 1.2), Math.floor(socBase * 1.35), Math.floor(socBase * 1.5), socialFollowers];
-            html += makeLineChart(socData, '#D1D5DB', null, ['Avr','Mai','Juin','Juil','Août','Sept']);
+            html += makeLineChart(socData, '#D1D5DB', null, ['Avr','Mai','Juin','Juil','Août','Sept'], 'k');
             html += '</div>';
             html += '<div class="free-card">';
             html += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;font-size:13px;text-align:center">';
