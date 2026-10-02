@@ -517,6 +517,764 @@
             letter-spacing: 1px;
         }
 
+        /* ========== DASHBOARD MOCKUP ========== */
+        .dashboard-section {
+            padding: 100px 24px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .dashboard-header h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .dashboard-header h2 span {
+            background: linear-gradient(135deg, var(--red), var(--silver));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .dashboard-header p {
+            font-size: 18px;
+            color: var(--gray-3);
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        .dashboard-window {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: linear-gradient(145deg, #121214, #0A0A0C);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+        }
+
+        .dashboard-topbar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .dashboard-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .dashboard-dot.red { background: #FF5F57; }
+        .dashboard-dot.yellow { background: #FEBC2E; }
+        .dashboard-dot.green { background: #28C840; }
+
+        .dashboard-url {
+            margin-left: 12px;
+            padding: 6px 14px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            font-size: 12px;
+            color: var(--gray-4);
+        }
+
+        .dashboard-body {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            min-height: 420px;
+        }
+
+        .dashboard-sidebar {
+            background: rgba(0, 0, 0, 0.25);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px 12px;
+        }
+
+        .dashboard-nav-item {
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--gray-4);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dashboard-nav-item.active {
+            background: rgba(255, 59, 59, 0.12);
+            color: var(--red);
+            border: 1px solid rgba(255, 59, 59, 0.2);
+        }
+
+        .dashboard-nav-item svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.5;
+        }
+
+        .dashboard-main {
+            padding: 24px;
+        }
+
+        .dashboard-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .dashboard-title-row h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .dashboard-badge-live {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            background: rgba(255, 59, 59, 0.12);
+            border: 1px solid rgba(255, 59, 59, 0.25);
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--red);
+        }
+
+        .dashboard-badge-live::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--red);
+            border-radius: 50%;
+            animation: liveBlink 1s ease-in-out infinite;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .dashboard-stat {
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+        }
+
+        .dashboard-stat-label {
+            font-size: 11px;
+            color: var(--gray-4);
+            margin-bottom: 6px;
+        }
+
+        .dashboard-stat-value {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .dashboard-stat-value.red { color: var(--red); }
+        .dashboard-stat-value.silver { color: var(--silver); }
+        .dashboard-stat-value.green { color: var(--green); }
+        .dashboard-stat-value.orange { color: var(--orange); }
+
+        .dashboard-stat-change {
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .dashboard-stat-change.up { color: var(--green); }
+        .dashboard-stat-change.down { color: var(--red); }
+
+        .dashboard-chart {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .dashboard-chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .dashboard-chart-header h4 {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: 16px;
+        }
+
+        .chart-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--gray-4);
+        }
+
+        .chart-legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+        }
+
+        .chart-legend-dot.mine { background: var(--silver); }
+        .chart-legend-dot.rival { background: var(--red); }
+
+        .chart-svg {
+            width: 100%;
+            height: 160px;
+        }
+
+        .dashboard-feed {
+            margin-top: 16px;
+        }
+
+        .dashboard-feed-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+        .dashboard-feed-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .dashboard-feed-icon.red {
+            background: rgba(255, 59, 59, 0.15);
+            border: 1px solid rgba(255, 59, 59, 0.25);
+        }
+
+        .dashboard-feed-icon.silver {
+            background: rgba(209, 213, 219, 0.1);
+            border: 1px solid rgba(209, 213, 219, 0.2);
+        }
+
+        .dashboard-feed-icon.orange {
+            background: rgba(245, 158, 11, 0.12);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+        }
+
+        .dashboard-feed-icon svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.5;
+        }
+
+        .dashboard-feed-icon.red svg { stroke: var(--red); }
+        .dashboard-feed-icon.silver svg { stroke: var(--silver); }
+        .dashboard-feed-icon.orange svg { stroke: var(--orange); }
+
+        .dashboard-feed-content h5 {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .dashboard-feed-content p {
+            font-size: 12px;
+            color: var(--gray-4);
+        }
+
+        .dashboard-feed-time {
+            margin-left: auto;
+            font-size: 11px;
+            color: var(--gray-5);
+            white-space: nowrap;
+        }
+
+        /* ========== PRICE ANALYSIS ========== */
+        .price-analysis-section {
+            padding: 100px 24px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .price-analysis-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .price-analysis-header h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .price-analysis-header h2 span {
+            background: linear-gradient(135deg, var(--red), var(--orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .price-analysis-header p {
+            font-size: 18px;
+            color: var(--gray-3);
+        }
+
+        .price-analysis-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .price-card {
+            background: linear-gradient(145deg, #121214, #0A0A0C);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 28px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .price-card.alert {
+            border-color: rgba(255, 59, 59, 0.3);
+            box-shadow: 0 0 40px rgba(255, 59, 59, 0.08);
+        }
+
+        .price-card-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        .price-card-label.red {
+            background: rgba(255, 59, 59, 0.15);
+            color: var(--red);
+            border: 1px solid rgba(255, 59, 59, 0.25);
+        }
+
+        .price-card-label.silver {
+            background: rgba(209, 213, 219, 0.1);
+            color: var(--silver);
+            border: 1px solid rgba(209, 213, 219, 0.2);
+        }
+
+        .price-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .price-card > p {
+            font-size: 14px;
+            color: var(--gray-4);
+            margin-bottom: 20px;
+        }
+
+        .price-change-box {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .price-old {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--gray-5);
+            text-decoration: line-through;
+        }
+
+        .price-arrow {
+            color: var(--red);
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .price-new {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--red);
+        }
+
+        .price-drop-badge {
+            margin-left: auto;
+            padding: 4px 10px;
+            background: rgba(255, 59, 59, 0.15);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--red);
+        }
+
+        .price-mini-chart {
+            width: 100%;
+            height: 80px;
+            margin-bottom: 20px;
+        }
+
+        .reaction-box {
+            padding: 16px;
+            background: rgba(255, 59, 59, 0.06);
+            border: 1px solid rgba(255, 59, 59, 0.15);
+            border-radius: 12px;
+        }
+
+        .reaction-box.recommend {
+            background: rgba(16, 185, 129, 0.06);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .reaction-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .reaction-box .reaction-title { color: var(--red); }
+        .reaction-box.recommend .reaction-title { color: var(--green); }
+
+        .reaction-box ul {
+            list-style: none;
+        }
+
+        .reaction-box li {
+            padding: 6px 0;
+            font-size: 13px;
+            color: var(--gray-2);
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .reaction-box li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-top: 6px;
+            flex-shrink: 0;
+        }
+
+        .reaction-box li::before { background: var(--red); }
+        .reaction-box.recommend li::before { background: var(--green); }
+
+        /* ========== POST ANALYSIS ========== */
+        .post-analysis-section {
+            padding: 100px 24px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .post-analysis-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .post-analysis-header h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .post-analysis-header h2 span {
+            background: linear-gradient(135deg, var(--purple, #8B5CF6), var(--red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .post-analysis-header p {
+            font-size: 18px;
+            color: var(--gray-3);
+        }
+
+        .post-cards {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .post-card {
+            background: linear-gradient(145deg, #121214, #0A0A0C);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .post-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .post-platform-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .post-platform-icon.linkedin {
+            background: rgba(10, 102, 194, 0.2);
+            border: 1px solid rgba(10, 102, 194, 0.3);
+        }
+
+        .post-platform-icon.facebook {
+            background: rgba(24, 119, 242, 0.15);
+            border: 1px solid rgba(24, 119, 242, 0.25);
+        }
+
+        .post-platform-icon svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+        }
+
+        .post-card-meta h4 {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .post-card-meta p {
+            font-size: 12px;
+            color: var(--gray-4);
+        }
+
+        .post-card-time {
+            margin-left: auto;
+            font-size: 11px;
+            color: var(--gray-5);
+        }
+
+        .post-card-body {
+            padding: 20px;
+        }
+
+        .post-content-box {
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            border-left: 3px solid var(--red);
+            margin-bottom: 16px;
+        }
+
+        .post-content-box p {
+            font-size: 14px;
+            color: var(--gray-2);
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .post-stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 16px;
+        }
+
+        .post-stat {
+            text-align: center;
+        }
+
+        .post-stat-value {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .post-stat-value.red { color: var(--red); }
+        .post-stat-value.orange { color: var(--orange); }
+        .post-stat-value.silver { color: var(--silver); }
+
+        .post-stat-label {
+            font-size: 11px;
+            color: var(--gray-4);
+        }
+
+        .post-reaction {
+            padding: 14px;
+            background: rgba(16, 185, 129, 0.06);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 10px;
+        }
+
+        .post-reaction-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--green);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .post-reaction p {
+            font-size: 13px;
+            color: var(--gray-2);
+            line-height: 1.5;
+        }
+
+        /* ========== COMMENTS ANALYSIS ========== */
+        .comments-section {
+            padding: 100px 24px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .comments-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .comments-header h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .comments-header h2 span {
+            background: linear-gradient(135deg, var(--orange), var(--red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .comments-header p {
+            font-size: 18px;
+            color: var(--gray-3);
+        }
+
+        .comments-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .comment-card {
+            background: linear-gradient(145deg, #121214, #0A0A0C);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .comment-card:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .comment-source {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .comment-source-badge {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .comment-source-badge.trustpilot {
+            background: rgba(0, 195, 137, 0.15);
+            color: #00C389;
+        }
+
+        .comment-source-badge.g2 {
+            background: rgba(255, 79, 49, 0.15);
+            color: #FF4F31;
+        }
+
+        .comment-source-badge.google {
+            background: rgba(66, 133, 244, 0.15);
+            color: #4285F4;
+        }
+
+        .comment-stars {
+            margin-left: auto;
+            font-size: 12px;
+            color: var(--orange);
+        }
+
+        .comment-text {
+            font-size: 13px;
+            color: var(--gray-2);
+            line-height: 1.6;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        .comment-sentiment {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .comment-sentiment.negative {
+            background: rgba(255, 59, 59, 0.1);
+            color: var(--red);
+        }
+
+        .comment-sentiment.opportunity {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--green);
+        }
+
+        .comment-sentiment.neutral {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--orange);
+        }
+
         /* ========== PHONE SECTION ========== */
         .phone-section {
             padding: 140px 24px;
@@ -636,6 +1394,12 @@
             flex-direction: column;
             gap: 12px;
             height: calc(100% - 50px);
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+
+        .phone-screen::-webkit-scrollbar {
+            display: none;
         }
 
         .notif {
@@ -645,7 +1409,7 @@
             padding: 16px;
             border: 1px solid rgba(255, 255, 255, 0.15);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            animation: notifUrgent 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            animation: notifSlideDown 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) both;
             position: relative;
             overflow: hidden;
         }
@@ -666,24 +1430,28 @@
             50% { opacity: 0.5; }
         }
 
-        @keyframes notifUrgent {
+        @keyframes notifSlideDown {
             0% {
                 opacity: 0;
-                transform: translateX(100px) scale(0.8);
+                transform: translateY(-100px) scale(0.85);
             }
             60% {
-                transform: translateX(-10px) scale(1.02);
+                transform: translateY(10px) scale(1.03);
+            }
+            80% {
+                transform: translateY(-4px) scale(0.99);
             }
             100% {
                 opacity: 1;
-                transform: translateX(0) scale(1);
+                transform: translateY(0) scale(1);
             }
         }
 
-        .notif:nth-child(1) { animation-delay: 0.5s; }
-        .notif:nth-child(2) { animation-delay: 1.2s; }
-        .notif:nth-child(3) { animation-delay: 1.9s; }
-        .notif:nth-child(4) { animation-delay: 2.6s; }
+        .notif:nth-child(1) { animation-delay: 0.4s; }
+        .notif:nth-child(2) { animation-delay: 1.0s; }
+        .notif:nth-child(3) { animation-delay: 1.6s; }
+        .notif:nth-child(4) { animation-delay: 2.2s; }
+        .notif:nth-child(5) { animation-delay: 2.8s; }
 
         .notif-header {
             display: flex;
@@ -711,6 +1479,10 @@
 
         .notif-app-icon.green {
             background: linear-gradient(135deg, var(--green), #059669);
+        }
+
+        .notif-app-icon.orange {
+            background: linear-gradient(135deg, var(--orange), #D97706);
         }
 
         .notif-app-icon svg {
@@ -749,6 +1521,7 @@
         .notif-highlight.red { color: var(--red); }
         .notif-highlight.silver { color: var(--silver); }
         .notif-highlight.green { color: var(--green); }
+        .notif-highlight.orange { color: var(--orange); }
 
         .notif-urgent {
             display: inline-flex;
@@ -1530,6 +2303,33 @@
             .vs-text {
                 font-size: 18px;
             }
+            .dashboard-body {
+                grid-template-columns: 1fr;
+            }
+            .dashboard-sidebar {
+                display: flex;
+                gap: 8px;
+                overflow-x: auto;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                padding: 12px;
+            }
+            .dashboard-nav-item {
+                white-space: nowrap;
+                margin-bottom: 0;
+            }
+            .dashboard-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .price-analysis-grid {
+                grid-template-columns: 1fr;
+            }
+            .post-cards {
+                grid-template-columns: 1fr;
+            }
+            .comments-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width: 768px) {
@@ -1544,6 +2344,16 @@
             }
             .footer-content {
                 grid-template-columns: 1fr;
+            }
+            .dashboard-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            .comments-grid {
+                grid-template-columns: 1fr;
+            }
+            .post-stats {
+                flex-wrap: wrap;
+                gap: 12px;
             }
         }
     </style>
@@ -1570,6 +2380,10 @@
         </a>
         <ul class="nav-links">
             <li><a href="#buildings">Concurrence</a></li>
+            <li><a href="#dashboard">App</a></li>
+            <li><a href="#prix">Prix</a></li>
+            <li><a href="#posts">Posts</a></li>
+            <li><a href="#avis">Avis</a></li>
             <li><a href="#analysis">Analyse</a></li>
             <li><a href="#predictions">Pronostics</a></li>
             <li><a href="#pricing">Tarifs</a></li>
@@ -1641,6 +2455,351 @@
                         <div class="arena-brand-stat-value">-5%</div>
                         <div class="arena-brand-stat-label">Prix baissé</div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DASHBOARD MOCKUP -->
+    <section class="dashboard-section" id="dashboard">
+        <div class="dashboard-header reveal">
+            <h2>Votre tableau de bord <span>en temps réel</span></h2>
+            <p>Tout ce que RivalEye surveille sur vos concurrents — au même endroit.</p>
+        </div>
+        <div class="dashboard-window reveal">
+            <div class="dashboard-topbar">
+                <div class="dashboard-dot red"></div>
+                <div class="dashboard-dot yellow"></div>
+                <div class="dashboard-dot green"></div>
+                <div class="dashboard-url">app.rivaleye.io/dashboard</div>
+            </div>
+            <div class="dashboard-body">
+                <div class="dashboard-sidebar">
+                    <div class="dashboard-nav-item active">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                        Vue d'ensemble
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+                        Prix
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                        Posts
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+                        Avis
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                        Pronostics
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+                        Alertes
+                    </div>
+                </div>
+                <div class="dashboard-main">
+                    <div class="dashboard-title-row">
+                        <h3>Shopify — Surveillance active</h3>
+                        <div class="dashboard-badge-live">En direct</div>
+                    </div>
+                    <div class="dashboard-stats">
+                        <div class="dashboard-stat">
+                            <div class="dashboard-stat-label">Posts cette semaine</div>
+                            <div class="dashboard-stat-value silver">24</div>
+                            <div class="dashboard-stat-change up">+8 vs M-1</div>
+                        </div>
+                        <div class="dashboard-stat">
+                            <div class="dashboard-stat-label">Changements prix</div>
+                            <div class="dashboard-stat-value red">3</div>
+                            <div class="dashboard-stat-change down">Baisse moyenne -12%</div>
+                        </div>
+                        <div class="dashboard-stat">
+                            <div class="dashboard-stat-label">Avis négatifs</div>
+                            <div class="dashboard-stat-value orange">47</div>
+                            <div class="dashboard-stat-change up">+15 cette semaine</div>
+                        </div>
+                        <div class="dashboard-stat">
+                            <div class="dashboard-stat-label">Score menace</div>
+                            <div class="dashboard-stat-value red">72</div>
+                            <div class="dashboard-stat-change down">Élevé</div>
+                        </div>
+                    </div>
+                    <div class="dashboard-chart">
+                        <div class="dashboard-chart-header">
+                            <h4>Évolution prix — 6 derniers mois</h4>
+                            <div class="chart-legend">
+                                <div class="chart-legend-item"><div class="chart-legend-dot mine"></div>MonApp</div>
+                                <div class="chart-legend-item"><div class="chart-legend-dot rival"></div>Shopify</div>
+                            </div>
+                        </div>
+                        <svg class="chart-svg" viewBox="0 0 600 160" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="fillMine" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="rgba(209,213,219,0.15)"/>
+                                    <stop offset="100%" stop-color="rgba(209,213,219,0)"/>
+                                </linearGradient>
+                                <linearGradient id="fillRival" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="rgba(255,59,59,0.15)"/>
+                                    <stop offset="100%" stop-color="rgba(255,59,59,0)"/>
+                                </linearGradient>
+                            </defs>
+                            <line x1="0" y1="40" x2="600" y2="40" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+                            <line x1="0" y1="80" x2="600" y2="80" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+                            <line x1="0" y1="120" x2="600" y2="120" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+                            <path d="M0,90 Q100,85 200,88 T400,92 T600,88 L600,160 L0,160 Z" fill="url(#fillMine)"/>
+                            <path d="M0,90 Q100,85 200,88 T400,92 T600,88" fill="none" stroke="#D1D5DB" stroke-width="2"/>
+                            <path d="M0,50 Q100,55 200,60 T400,70 T600,95 L600,160 L0,160 Z" fill="url(#fillRival)"/>
+                            <path d="M0,50 Q100,55 200,60 T400,70 T600,95" fill="none" stroke="#FF3B3B" stroke-width="2"/>
+                            <circle cx="600" cy="88" r="4" fill="#D1D5DB"/>
+                            <circle cx="600" cy="95" r="4" fill="#FF3B3B"/>
+                        </svg>
+                    </div>
+                    <div class="dashboard-feed">
+                        <div class="dashboard-feed-item">
+                            <div class="dashboard-feed-icon red">
+                                <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+                            </div>
+                            <div class="dashboard-feed-content">
+                                <h5>Prix baissé — Shopify Basic</h5>
+                                <p>29€ → 24€ (-17%). Impact estimé : -8% de conversions côté MonApp.</p>
+                            </div>
+                            <div class="dashboard-feed-time">il y a 12 min</div>
+                        </div>
+                        <div class="dashboard-feed-item">
+                            <div class="dashboard-feed-icon orange">
+                                <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+                            </div>
+                            <div class="dashboard-feed-content">
+                                <h5>Avis négatif — Trustpilot</h5>
+                                <p>32% des avis Shopify mentionnent "support inexistant". Opportunité de différenciation.</p>
+                            </div>
+                            <div class="dashboard-feed-time">il y a 1h</div>
+                        </div>
+                        <div class="dashboard-feed-item">
+                            <div class="dashboard-feed-icon silver">
+                                <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+                            </div>
+                            <div class="dashboard-feed-content">
+                                <h5>Nouveau post — LinkedIn</h5>
+                                <p>Shopify annonce un programme d'affiliation. 2.4k likes en 3h. Sujets : e-commerce, IA.</p>
+                            </div>
+                            <div class="dashboard-feed-time">il y a 3h</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICE ANALYSIS -->
+    <section class="price-analysis-section" id="prix">
+        <div class="price-analysis-header reveal">
+            <h2>Chaque <span>baisse de prix</span> analysée</h2>
+            <p>Quand un concurrent change ses prix, vous savez quoi faire.</p>
+        </div>
+        <div class="price-analysis-grid">
+            <div class="price-card alert reveal">
+                <div class="price-card-label red">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    Alerte prix
+                </div>
+                <h3>Shopify — Baisse détectée</h3>
+                <p>Il y a 12 minutes sur shopify.com/pricing</p>
+                <div class="price-change-box">
+                    <div class="price-old">29€</div>
+                    <div class="price-arrow">→</div>
+                    <div class="price-new">24€</div>
+                    <div class="price-drop-badge">-17%</div>
+                </div>
+                <svg class="price-mini-chart" viewBox="0 0 400 80" preserveAspectRatio="none">
+                    <path d="M0,20 L100,20 L150,22 L200,25 L250,25 L300,55 L350,58 L400,60" fill="none" stroke="#FF3B3B" stroke-width="2"/>
+                    <circle cx="300" cy="55" r="5" fill="#FF3B3B"/>
+                    <line x1="0" y1="20" x2="400" y2="20" stroke="rgba(255,255,255,0.06)" stroke-dasharray="4"/>
+                    <text x="0" y="14" fill="#6B7280" font-size="10">Avant</text>
+                    <text x="300" y="75" fill="#FF3B3B" font-size="10">Après</text>
+                </svg>
+                <div class="reaction-box">
+                    <div class="reaction-title">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+                        Réaction recommandée
+                    </div>
+                    <ul>
+                        <li>Ne baissez pas votre prix — différenciez sur la valeur</li>
+                        <li>Communiquez sur votre support 24/7 (faiblesse Shopify)</li>
+                        <li>Lancez une offre "migration gratuite" ciblée</li>
+                        <li>Activez le tracking concurrents actifs</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="price-card reveal">
+                <div class="price-card-label silver">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    Historique
+                </div>
+                <h3>WooCommerce — Stabilité</h3>
+                <p>Aucun changement de prix depuis 6 mois</p>
+                <div class="price-change-box">
+                    <div class="price-old" style="text-decoration:none;color:var(--silver)">0€</div>
+                    <div class="price-arrow" style="color:var(--gray-5)">→</div>
+                    <div class="price-new" style="color:var(--silver);font-size:22px">0€</div>
+                    <div class="price-drop-badge" style="background:rgba(209,213,219,0.1);color:var(--silver)">Stable</div>
+                </div>
+                <svg class="price-mini-chart" viewBox="0 0 400 80" preserveAspectRatio="none">
+                    <path d="M0,40 L100,40 L200,40 L300,40 L400,40" fill="none" stroke="#D1D5DB" stroke-width="2"/>
+                    <circle cx="400" cy="40" r="4" fill="#D1D5DB"/>
+                    <line x1="0" y1="40" x2="400" y2="40" stroke="rgba(255,255,255,0.06)" stroke-dasharray="4"/>
+                    <text x="0" y="14" fill="#6B7280" font-size="10">Stable depuis 6 mois</text>
+                </svg>
+                <div class="reaction-box recommend">
+                    <div class="reaction-title">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        Opportunity
+                    </div>
+                    <ul>
+                        <li>WooCommerce stagne — poussez sur l'innovation</li>
+                        <li>Ciblez leurs utilisateurs insatisfaits des mises à jour</li>
+                        <li>Proposez une offre de migration WooCommerce → MonApp</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- POST ANALYSIS -->
+    <section class="post-analysis-section" id="posts">
+        <div class="post-analysis-header reveal">
+            <h2>Chaque post analysé, <span>chaque réaction prête</span></h2>
+            <p>Ce que vos concurrents postent partout — et comment réagir.</p>
+        </div>
+        <div class="post-cards">
+            <div class="post-card reveal">
+                <div class="post-card-header">
+                    <div class="post-platform-icon linkedin">
+                        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    </div>
+                    <div class="post-card-meta">
+                        <h4>Shopify</h4>
+                        <p>LinkedIn · 2,4k likes · 89 commentaires</p>
+                    </div>
+                    <div class="post-card-time">il y a 2h</div>
+                </div>
+                <div class="post-card-body">
+                    <div class="post-content-box">
+                        <p>"🚀 Découvrez notre nouveau programme d'affiliation ! 20% de commission sur chaque vente. L'e-commerce évolue, soyez à la pointe. #Shopify #Ecommerce #Affiliation"</p>
+                    </div>
+                    <div class="post-stats">
+                        <div class="post-stat">
+                            <div class="post-stat-value red">2,4k</div>
+                            <div class="post-stat-label">Likes</div>
+                        </div>
+                        <div class="post-stat">
+                            <div class="post-stat-value orange">89</div>
+                            <div class="post-stat-label">Commentaires</div>
+                        </div>
+                        <div class="post-stat">
+                            <div class="post-stat-value silver">312</div>
+                            <div class="post-stat-label">Partages</div>
+                        </div>
+                        <div class="post-stat">
+                            <div class="post-stat-value" style="color:#8B5CF6">Élevé</div>
+                            <div class="post-stat-label">Engagement</div>
+                        </div>
+                    </div>
+                    <div class="post-reaction">
+                        <div class="post-reaction-title">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            Comment réagir
+                        </div>
+                        <p>Postez votre propre programme d'affiliation dans les 24h. Ciblez les mêmes audiences. Mettez en avant votre taux supérieur ou votre support inclus. Publiez un témoignage d'affilé.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="post-card reveal">
+                <div class="post-card-header">
+                    <div class="post-platform-icon facebook">
+                        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </div>
+                    <div class="post-card-meta">
+                        <h4>Shopify</h4>
+                        <p>Facebook · 1,1k likes · 156 commentaires</p>
+                    </div>
+                    <div class="post-card-time">il y a 5h</div>
+                </div>
+                <div class="post-card-body">
+                    <div class="post-content-box">
+                        <p>"🔥 OFFRE LIMITÉE : -30% sur tous les plans pendant 48h seulement ! Ne manquez pas cette occasion unique pour lancer votre boutique en ligne. Lien en bio 👇"</p>
+                    </div>
+                    <div class="post-stats">
+                        <div class="post-stat">
+                            <div class="post-stat-value red">1,1k</div>
+                            <div class="post-stat-label">Likes</div>
+                        </div>
+                        <div class="post-stat">
+                            <div class="post-stat-value orange">156</div>
+                            <div class="post-stat-label">Commentaires</div>
+                        </div>
+                        <div class="post-stat">
+                            <div class="post-stat-value silver">89</div>
+                            <div class="post-stat-label">Partages</div>
+                        </div>
+                        <div class="post-stat">
+                            <div class="post-stat-value" style="color:var(--orange)">Moyen</div>
+                            <div class="post-stat-label">Engagement</div>
+                        </div>
+                    </div>
+                    <div class="post-reaction">
+                        <div class="post-reaction-title">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            Comment réagir
+                        </div>
+                        <p>Répondez avec une offre "price match + avantages exclusifs" (support prioritaire, onboarding gratuit). Publiez un comparatif prix transparent. Ciblez leurs commentaires avec une DM personnalisée.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMMENTS ANALYSIS -->
+    <section class="comments-section" id="avis">
+        <div class="comments-header reveal">
+            <h2>Les avis de vos concurrents, <span>vos armes</span></h2>
+            <p>Chaque plainte client est une opportunité pour vous.</p>
+        </div>
+        <div class="comments-grid">
+            <div class="comment-card reveal">
+                <div class="comment-source">
+                    <span class="comment-source-badge trustpilot">Trustpilot</span>
+                    <span class="comment-stars">★☆☆☆☆</span>
+                </div>
+                <p class="comment-text">"Le support met 48h à répondre. Quand j'ai un problème bloquant sur ma boutique, personne ne répond. Franchement déçu pour le prix."</p>
+                <div class="comment-sentiment negative">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                    Sentiment négatif · Shopify
+                </div>
+            </div>
+            <div class="comment-card reveal">
+                <div class="comment-source">
+                    <span class="comment-source-badge g2">G2</span>
+                    <span class="comment-stars">★★☆☆☆</span>
+                </div>
+                <p class="comment-text">"Les nouvelles fonctionnalités IA sont buggées. Ça plante toutes les semaines. J'ai basculé sur une alternative plus stable."</p>
+                <div class="comment-sentiment opportunity">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    Opportunité · Migration ciblée
+                </div>
+            </div>
+            <div class="comment-card reveal">
+                <div class="comment-source">
+                    <span class="comment-source-badge google">Google</span>
+                    <span class="comment-stars">★★★☆☆</span>
+                </div>
+                <p class="comment-text">"Les frais cachés s'ajoutent vite. Le prix de base est ok mais les plugins obligatoires coûtent cher à la fin."</p>
+                <div class="comment-sentiment neutral">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    Insatisfaction prix · Comparatif à faire
                 </div>
             </div>
         </div>
@@ -1726,6 +2885,19 @@
                             </div>
                             <div class="notif-body">
                                 <span class="notif-highlight red">PrestaShop</span> lance -25% sur Facebook.
+                            </div>
+                        </div>
+                        <div class="notif">
+                            <div class="notif-header">
+                                <div class="notif-app-icon orange">
+                                    <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+                                </div>
+                                <span class="notif-app-name">RivalEye</span>
+                                <span class="notif-time">12 min</span>
+                            </div>
+                            <div class="notif-title">Avis négatif détecté</div>
+                            <div class="notif-body">
+                                3 nouveaux avis <span class="notif-highlight orange">1★</span> pour Shopify sur Trustpilot.
                             </div>
                         </div>
                     </div>
@@ -2059,7 +3231,11 @@
                 <h4>Produit</h4>
                 <ul>
                     <li><a href="#buildings">Concurrence</a></li>
-                    <li><a href="#analysis">Analyse</a></li>
+            <li><a href="#dashboard">App</a></li>
+            <li><a href="#prix">Prix</a></li>
+            <li><a href="#posts">Posts</a></li>
+            <li><a href="#avis">Avis</a></li>
+            <li><a href="#analysis">Analyse</a></li>
                     <li><a href="#pricing">Tarifs</a></li>
                 </ul>
             </div>
