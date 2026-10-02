@@ -3964,13 +3964,15 @@
         // Live timer
         let seconds = 0;
         const timerEl = document.getElementById('liveTimer');
-        setInterval(() => {
-            seconds++;
-            const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
-            const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
-            const s = String(seconds % 60).padStart(2, '0');
-            timerEl.textContent = `${h}:${m}:${s}`;
-        }, 1000);
+        if (timerEl) {
+            setInterval(() => {
+                seconds++;
+                const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
+                const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+                const s = String(seconds % 60).padStart(2, '0');
+                timerEl.textContent = `${h}:${m}:${s}`;
+            }, 1000);
+        }
 
         // Scroll reveal
         const revealElements = document.querySelectorAll('.reveal');
@@ -4003,7 +4005,14 @@
         const SUPABASE_URL = 'https://khcrtpjryjgpybslpbqu.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoY3J0cGpyeWpncHlic2xwYnF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5NTQxNjMsImV4cCI6MjEwNjUzMDE2M30.Dz8-uSPShPT3RvDiXZSxY7hLbhyyGqei60yTLPXy7ac';
 
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        let supabaseClient = null;
+        try {
+            if (window.supabase && window.supabase.createClient) {
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            }
+        } catch (e) {
+            console.warn('Supabase indisponible:', e.message);
+        }
 
         let authMode = 'signup';
 
@@ -4063,12 +4072,19 @@
 
             errorEl.classList.remove('show');
             successEl.classList.remove('show');
+
+            if (!supabaseClient) {
+                errorEl.textContent = 'Service d\'authentification indisponible. Réessayez plus tard.';
+                errorEl.classList.add('show');
+                return;
+            }
+
             submitBtn.disabled = true;
             submitBtn.textContent = authMode === 'signup' ? 'Création...' : 'Connexion...';
 
             try {
                 if (authMode === 'signup') {
-                    const { data, error } = await supabase.auth.signUp({
+                    const { data, error } = await supabaseClient.auth.signUp({
                         email,
                         password,
                         options: {
@@ -4090,7 +4106,7 @@
                         }, 1200);
                     }
                 } else {
-                    const { data, error } = await supabase.auth.signInWithPassword({
+                    const { data, error } = await supabaseClient.auth.signInWithPassword({
                         email,
                         password
                     });
@@ -4112,6 +4128,8 @@
                     msg = 'Le mot de passe doit contenir au moins 6 caractères.';
                 } else if (msg.includes('Email not confirmed')) {
                     msg = 'Veuillez confirmer votre email avant de vous connecter.';
+                } else if (msg.includes('Failed to fetch') || msg.includes('NetworkError')) {
+                    msg = 'Erreur réseau. Vérifiez votre connexion.';
                 }
                 errorEl.textContent = msg;
                 errorEl.classList.add('show');
@@ -4122,19 +4140,21 @@
         }
 
         // Check auth state on load
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            if (session) {
-                console.log('Connecté:', session.user.email);
-            }
-        });
+        if (supabaseClient) {
+            supabaseClient.auth.getSession().then(({ data: { session } }) => {
+                if (session) {
+                    console.log('Connecté:', session.user.email);
+                }
+            }).catch(() => {});
 
-        supabase.auth.onAuthStateChange((event, session) => {
-            if (event === 'SIGNED_IN') {
-                console.log('Connecté:', session.user.email);
-            } else if (event === 'SIGNED_OUT') {
-                console.log('Déconnecté');
-            }
-        });
+            supabaseClient.auth.onAuthStateChange((event, session) => {
+                if (event === 'SIGNED_IN' && session) {
+                    console.log('Connecté:', session.user.email);
+                } else if (event === 'SIGNED_OUT') {
+                    console.log('Déconnecté');
+                }
+            });
+        }
 
         // PWA Install
         let deferredPrompt = null;
