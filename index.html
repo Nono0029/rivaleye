@@ -14,16 +14,17 @@
 
         :root {
             --red: #FF3B3B;
-            --red-dark: #E62E2E;
-            --red-glow: rgba(255, 59, 59, 0.4);
-            --blue: #3B82F6;
-            --blue-dark: #2563EB;
-            --blue-glow: rgba(59, 130, 246, 0.4);
+            --red-dark: #C41E1E;
+            --red-deep: #8B0F0F;
+            --red-glow: rgba(255, 59, 59, 0.45);
+            --silver: #D1D5DB;
+            --silver-dark: #9CA3AF;
+            --silver-glow: rgba(209, 213, 219, 0.35);
             --green: #10B981;
             --green-glow: rgba(16, 185, 129, 0.4);
             --orange: #F59E0B;
-            --purple: #8B5CF6;
             --white: #FFFFFF;
+            --black: #050505;
             --gray-1: #F8FAFC;
             --gray-2: #E2E8F0;
             --gray-3: #94A3B8;
@@ -31,7 +32,7 @@
             --gray-5: #475569;
             --gray-6: #334155;
             --gray-7: #1E293B;
-            --gray-8: #0F172A;
+            --gray-8: #0A0A0B;
         }
 
         html {
@@ -61,11 +62,11 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(ellipse at 20% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 30%, rgba(255, 59, 59, 0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-                linear-gradient(180deg, #0F172A 0%, #1E293B 50%, #0F172A 100%);
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(255, 59, 59, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 30%, rgba(15, 15, 15, 0.8) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(255, 59, 59, 0.06) 0%, transparent 50%),
+                linear-gradient(180deg, #050505 0%, #111113 50%, #050505 100%);
         }
 
         .bg-grid {
@@ -86,19 +87,19 @@
 
         .floating-particle {
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--blue);
+            width: 3px;
+            height: 3px;
+            background: var(--red);
             border-radius: 50%;
-            opacity: 0.3;
+            opacity: 0.25;
             animation: floatUp 15s linear infinite;
         }
 
-        .floating-particle:nth-child(1) { left: 10%; animation-delay: 0s; }
-        .floating-particle:nth-child(2) { left: 30%; animation-delay: 3s; background: var(--red); }
-        .floating-particle:nth-child(3) { left: 50%; animation-delay: 6s; }
-        .floating-particle:nth-child(4) { left: 70%; animation-delay: 9s; background: var(--purple); }
-        .floating-particle:nth-child(5) { left: 90%; animation-delay: 12s; background: var(--green); }
+        .floating-particle:nth-child(1) { left: 10%; animation-delay: 0s; background: var(--red); }
+        .floating-particle:nth-child(2) { left: 30%; animation-delay: 3s; background: var(--silver); }
+        .floating-particle:nth-child(3) { left: 50%; animation-delay: 6s; background: var(--red-dark); }
+        .floating-particle:nth-child(4) { left: 70%; animation-delay: 9s; background: var(--silver-dark); }
+        .floating-particle:nth-child(5) { left: 90%; animation-delay: 12s; background: var(--red); }
 
         @keyframes floatUp {
             0% { transform: translateY(100vh) scale(0); opacity: 0; }
@@ -122,9 +123,9 @@
         }
 
         .nav.scrolled {
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(8, 8, 10, 0.85);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .nav-logo {
@@ -154,9 +155,10 @@
         .nav-logo-text {
             font-size: 22px;
             font-weight: 700;
-            background: linear-gradient(135deg, #fff, #94A3B8);
+            background: linear-gradient(135deg, #FFFFFF, #A8AEB8 60%, #E8E8E8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
         }
 
         .nav-links {
@@ -217,15 +219,15 @@
             box-shadow: 0 8px 30px var(--red-glow);
         }
 
-        .btn-blue {
-            background: linear-gradient(135deg, var(--blue), var(--blue-dark));
-            color: white;
-            box-shadow: 0 4px 20px var(--blue-glow);
+        .btn-silver {
+            background: linear-gradient(135deg, #E5E7EB, #9CA3AF);
+            color: #0A0A0A;
+            box-shadow: 0 4px 20px rgba(209, 213, 219, 0.2);
         }
 
-        .btn-blue:hover {
+        .btn-silver:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px var(--blue-glow);
+            box-shadow: 0 8px 30px rgba(209, 213, 219, 0.3);
         }
 
         .btn-large {
@@ -285,8 +287,8 @@
             letter-spacing: -2px;
         }
 
-        .hero h1 .text-blue {
-            background: linear-gradient(135deg, var(--blue), var(--purple));
+        .hero h1 .text-silver {
+            background: linear-gradient(135deg, #FFFFFF, #9CA3AF 50%, #E5E7EB);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -341,82 +343,458 @@
             max-width: 1100px;
             margin: 0 auto;
             position: relative;
-            height: 500px;
+            height: 560px;
+            border-radius: 24px;
+            overflow: hidden;
+            background:
+                linear-gradient(to top, #050505 0%, #050505 6%, transparent 6%),
+                radial-gradient(ellipse at 50% 100%, rgba(255, 59, 59, 0.1) 0%, transparent 45%),
+                radial-gradient(ellipse at 30% 80%, rgba(209, 213, 219, 0.05) 0%, transparent 40%),
+                linear-gradient(180deg, #0A0A0B 0%, #121214 60%, #08080A 100%);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .arena-stars {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.4), transparent),
+                radial-gradient(1px 1px at 30% 8%, rgba(255,255,255,0.25), transparent),
+                radial-gradient(1px 1px at 55% 20%, rgba(255,255,255,0.3), transparent),
+                radial-gradient(1px 1px at 75% 12%, rgba(255,255,255,0.2), transparent),
+                radial-gradient(1px 1px at 90% 22%, rgba(255,255,255,0.35), transparent),
+                radial-gradient(1px 1px at 45% 5%, rgba(255,255,255,0.2), transparent);
+            pointer-events: none;
+        }
+
+        .arena-skyline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 180px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 40px;
+            opacity: 0.45;
+            pointer-events: none;
+        }
+
+        .skyline-block {
+            background: linear-gradient(180deg, #141416 0%, #0A0A0B 100%);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-bottom: none;
+            position: relative;
+        }
+
+        .skyline-block::after {
+            content: '';
+            position: absolute;
+            inset: 6px 4px;
+            background-image:
+                linear-gradient(rgba(255, 220, 150, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 220, 150, 0.06) 1px, transparent 1px);
+            background-size: 6px 8px;
+        }
+
+        .skyline-block:nth-child(1) { width: 36px; height: 70px; }
+        .skyline-block:nth-child(2) { width: 28px; height: 100px; }
+        .skyline-block:nth-child(3) { width: 44px; height: 55px; }
+        .skyline-block:nth-child(4) { width: 32px; height: 120px; }
+        .skyline-block:nth-child(5) { width: 50px; height: 45px; }
+        .skyline-block:nth-child(6) { width: 30px; height: 90px; }
+        .skyline-block:nth-child(7) { width: 40px; height: 65px; }
+        .skyline-block:nth-child(8) { width: 26px; height: 110px; }
+        .skyline-block:nth-child(9) { width: 48px; height: 50px; }
+        .skyline-block:nth-child(10) { width: 34px; height: 85px; }
+
+        .arena-ground {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 6%;
+            background: linear-gradient(180deg, #0D0D0F 0%, #050505 100%);
+            border-top: 1px solid rgba(255, 59, 59, 0.15);
+            z-index: 5;
+        }
+
+        .arena-ground::before {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(to top, rgba(255, 59, 59, 0.06), transparent);
+            pointer-events: none;
         }
 
         .building {
             position: absolute;
-            bottom: 0;
-            transition: all 0.5s ease;
+            bottom: 6%;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .building-mine {
-            left: 10%;
-            animation: buildingBounce 3s ease-in-out infinite;
+            left: 14%;
+            animation: buildingBounce 4s ease-in-out infinite;
         }
 
         .building-rival {
-            right: 10%;
-            animation: buildingBounce 3s ease-in-out 1.5s infinite;
+            right: 14%;
+            animation: buildingBounce 4s ease-in-out 1.8s infinite;
         }
 
         @keyframes buildingBounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+            50% { transform: translateY(-8px); }
         }
 
+        /* --- REALISTIC SKYSCRAPER --- */
+        .building-structure {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.6));
+        }
+
+        .building-antenna {
+            width: 2px;
+            background: linear-gradient(180deg, transparent 0%, var(--gray-5) 100%);
+            position: relative;
+            margin-bottom: -1px;
+        }
+
+        .building-mine .building-antenna { height: 42px; background: linear-gradient(180deg, var(--silver-dark), var(--gray-5)); }
+        .building-rival .building-antenna { height: 56px; background: linear-gradient(180deg, var(--red-dark), var(--gray-5)); }
+
+        .building-antenna::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .building-mine .building-antenna::before {
+            background: var(--silver);
+            box-shadow: 0 0 12px var(--silver-glow), 0 0 24px var(--silver-glow);
+            animation: beaconBlink 2s ease-in-out infinite;
+        }
+
+        .building-rival .building-antenna::before {
+            background: var(--red);
+            box-shadow: 0 0 12px var(--red-glow), 0 0 28px var(--red-glow);
+            animation: beaconBlink 1.2s ease-in-out infinite;
+        }
+
+        @keyframes beaconBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.35; }
+        }
+
+        /* Rooftop crown / logo */
+        .building-crown {
+            width: 72%;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: none;
+            position: relative;
+        }
+
+        .building-mine .building-crown {
+            background: linear-gradient(180deg, #3A3A40 0%, #1A1A1E 100%);
+        }
+
+        .building-rival .building-crown {
+            background: linear-gradient(180deg, #4A1515 0%, #1A0A0A 100%);
+        }
+
+        .building-logo {
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .building-mine .building-logo {
+            color: var(--silver);
+            text-shadow: 0 0 10px var(--silver-glow);
+        }
+
+        .building-rival .building-logo {
+            color: var(--red);
+            text-shadow: 0 0 10px var(--red-glow);
+        }
+
+        /* Main tower body */
         .building-body {
-            width: 120px;
-            border-radius: 8px 8px 0 0;
+            width: 140px;
             position: relative;
             overflow: hidden;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .building-mine .building-body {
-            background: linear-gradient(180deg, var(--blue), var(--blue-dark));
-            box-shadow: 0 0 40px var(--blue-glow);
-            height: 280px;
+            height: 300px;
+            background:
+                linear-gradient(90deg,
+                    rgba(0, 0, 0, 0.35) 0%,
+                    transparent 12%,
+                    transparent 88%,
+                    rgba(0, 0, 0, 0.35) 100%),
+                repeating-linear-gradient(180deg,
+                    transparent 0px,
+                    transparent 28px,
+                    rgba(0, 0, 0, 0.25) 28px,
+                    rgba(0, 0, 0, 0.25) 30px),
+                linear-gradient(180deg,
+                    #4A4A52 0%,
+                    #2A2A30 30%,
+                    #1C1C22 70%,
+                    #141418 100%);
+            box-shadow:
+                inset 0 0 40px rgba(209, 213, 219, 0.04),
+                0 0 50px rgba(209, 213, 219, 0.08);
         }
 
         .building-rival .building-body {
-            background: linear-gradient(180deg, var(--red), var(--red-dark));
-            box-shadow: 0 0 40px var(--red-glow);
-            height: 240px;
+            height: 260px;
+            background:
+                linear-gradient(90deg,
+                    rgba(0, 0, 0, 0.4) 0%,
+                    transparent 12%,
+                    transparent 88%,
+                    rgba(0, 0, 0, 0.4) 100%),
+                repeating-linear-gradient(180deg,
+                    transparent 0px,
+                    transparent 28px,
+                    rgba(0, 0, 0, 0.3) 28px,
+                    rgba(0, 0, 0, 0.3) 30px),
+                linear-gradient(180deg,
+                    #5A1818 0%,
+                    #3A1010 30%,
+                    #220A0A 70%,
+                    #140606 100%);
+            box-shadow:
+                inset 0 0 40px rgba(255, 59, 59, 0.05),
+                0 0 50px rgba(255, 59, 59, 0.12);
+        }
+
+        /* Setback mid-tier (realistic architecture) */
+        .building-body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .building-mine .building-body::before {
+            background: linear-gradient(180deg, rgba(209, 213, 219, 0.06), transparent);
+        }
+
+        .building-rival .building-body::before {
+            background: linear-gradient(180deg, rgba(255, 59, 59, 0.08), transparent);
+        }
+
+        /* Vertical glass mullions */
+        .building-body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: repeating-linear-gradient(90deg,
+                transparent 0px,
+                transparent 26px,
+                rgba(255, 255, 255, 0.04) 26px,
+                rgba(255, 255, 255, 0.04) 28px);
+            pointer-events: none;
+            z-index: 1;
         }
 
         .building-windows {
             position: absolute;
-            top: 20px;
-            left: 15px;
-            right: 15px;
-            bottom: 20px;
+            top: 60px;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(6, 1fr);
-            gap: 8px;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 18px;
+            gap: 6px 5px;
+            z-index: 2;
         }
 
         .window {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 2px;
-            animation: windowFlicker 4s ease-in-out infinite;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1px;
+            animation: windowFlicker 6s ease-in-out infinite;
+            position: relative;
         }
 
-        .window:nth-child(odd) { animation-delay: 0.5s; }
-        .window:nth-child(3n) { animation-delay: 1s; background: rgba(255, 255, 255, 0.4); }
+        .window.lit {
+            background: linear-gradient(180deg, rgba(255, 230, 170, 0.75), rgba(255, 200, 120, 0.55));
+            border-color: rgba(255, 230, 170, 0.3);
+            box-shadow:
+                0 0 6px rgba(255, 210, 130, 0.45),
+                inset 0 0 4px rgba(255, 255, 255, 0.2);
+        }
+
+        .window.lit-red {
+            background: linear-gradient(180deg, rgba(255, 140, 140, 0.7), rgba(255, 80, 80, 0.5));
+            border-color: rgba(255, 120, 120, 0.35);
+            box-shadow:
+                0 0 6px rgba(255, 80, 80, 0.45),
+                inset 0 0 4px rgba(255, 255, 255, 0.15);
+        }
+
+        .window.lit-bright {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(230, 230, 230, 0.7));
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow:
+                0 0 10px rgba(255, 255, 255, 0.5),
+                inset 0 0 4px rgba(255, 255, 255, 0.3);
+        }
+
+        .window:nth-child(odd) { animation-delay: 0.8s; }
+        .window:nth-child(3n) { animation-delay: 1.6s; }
+        .window:nth-child(5n) { animation-delay: 2.4s; }
 
         @keyframes windowFlicker {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.8; }
+            0%, 100% { opacity: 0.85; }
+            40% { opacity: 1; }
+            70% { opacity: 0.7; }
+        }
+
+        /* Mid-tier setback (architecture realism) */
+        .building-tier {
+            width: 80%;
+            height: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .building-mine .building-tier {
+            background:
+                repeating-linear-gradient(180deg,
+                    transparent 0px,
+                    transparent 16px,
+                    rgba(0, 0, 0, 0.2) 16px,
+                    rgba(0, 0, 0, 0.2) 18px),
+                linear-gradient(180deg, #3A3A42 0%, #1E1E24 100%);
+            box-shadow: 0 -4px 20px rgba(209, 213, 219, 0.05);
+        }
+
+        .building-rival .building-tier {
+            background:
+                repeating-linear-gradient(180deg,
+                    transparent 0px,
+                    transparent 16px,
+                    rgba(0, 0, 0, 0.25) 16px,
+                    rgba(0, 0, 0, 0.25) 18px),
+                linear-gradient(180deg, #4A1818 0%, #200C0C 100%);
+            box-shadow: 0 -4px 20px rgba(255, 59, 59, 0.08);
+        }
+
+        .building-tier-windows {
+            position: absolute;
+            top: 6px;
+            left: 10px;
+            right: 10px;
+            bottom: 6px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: 1fr;
+            gap: 4px;
+            z-index: 2;
+        }
+
+        .building-tier-windows .window {
+            border-radius: 1px;
+        }
+
+        /* Ground floor entrance */
+        .building-base {
+            width: 120%;
+            height: 36px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .building-mine .building-base {
+            background: linear-gradient(180deg, #2A2A32 0%, #121216 100%);
+        }
+
+        .building-rival .building-base {
+            background: linear-gradient(180deg, #3A1414 0%, #120808 100%);
+        }
+
+        .building-entrance {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 32px;
+            height: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-bottom: none;
+            overflow: hidden;
+        }
+
+        .building-mine .building-entrance {
+            background: linear-gradient(180deg, rgba(209, 213, 219, 0.2), rgba(209, 213, 219, 0.05));
+            box-shadow: 0 0 16px rgba(209, 213, 219, 0.15);
+        }
+
+        .building-rival .building-entrance {
+            background: linear-gradient(180deg, rgba(255, 59, 59, 0.3), rgba(255, 59, 59, 0.08));
+            box-shadow: 0 0 16px rgba(255, 59, 59, 0.2);
+        }
+
+        .building-entrance::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(90deg,
+                transparent 0px,
+                transparent 7px,
+                rgba(255, 255, 255, 0.08) 7px,
+                rgba(255, 255, 255, 0.08) 8px);
         }
 
         .building-label {
             position: absolute;
-            bottom: -50px;
+            bottom: -48px;
             left: 50%;
             transform: translateX(-50%);
             text-align: center;
             white-space: nowrap;
+            z-index: 20;
         }
 
         .building-label-name {
@@ -425,30 +803,36 @@
             margin-bottom: 4px;
         }
 
-        .building-mine .building-label-name { color: var(--blue); }
+        .building-mine .building-label-name { color: var(--silver); }
         .building-rival .building-label-name { color: var(--red); }
 
         .building-label-stat {
             font-size: 13px;
-            color: var(--gray-3);
+            color: var(--gray-4);
         }
 
         .building-stats {
             position: absolute;
-            top: -80px;
+            top: -70px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(8, 8, 10, 0.92);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             padding: 12px 20px;
-            backdrop-filter: blur(10px);
-            animation: statsFloat 3s ease-in-out infinite;
+            backdrop-filter: blur(12px);
+            animation: statsFloat 4s ease-in-out infinite;
+            z-index: 20;
+        }
+
+        .building-rival .building-stats {
+            border-color: rgba(255, 59, 59, 0.3);
+            box-shadow: 0 0 20px rgba(255, 59, 59, 0.1);
         }
 
         @keyframes statsFloat {
             0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-10px); }
+            50% { transform: translateX(-50%) translateY(-8px); }
         }
 
         .building-stats-value {
@@ -456,7 +840,7 @@
             font-weight: 800;
         }
 
-        .building-mine .building-stats-value { color: var(--blue); }
+        .building-mine .building-stats-value { color: var(--silver); }
         .building-rival .building-stats-value { color: var(--red); }
 
         .building-stats-label {
@@ -468,32 +852,36 @@
         .vs-badge {
             position: absolute;
             left: 50%;
-            top: 50%;
+            top: 48%;
             transform: translate(-50%, -50%);
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, var(--gray-7), var(--gray-8));
-            border: 3px solid rgba(255, 255, 255, 0.2);
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #1A1A1E 0%, #0A0A0C 100%);
+            border: 2px solid rgba(255, 59, 59, 0.4);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
-            font-weight: 900;
             z-index: 20;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
-            animation: vsPulse 2s ease-in-out infinite;
+            box-shadow:
+                0 0 40px rgba(255, 59, 59, 0.2),
+                0 0 80px rgba(0, 0, 0, 0.6),
+                inset 0 0 20px rgba(255, 59, 59, 0.08);
+            animation: vsPulse 2.5s ease-in-out infinite;
         }
 
         @keyframes vsPulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.05); }
+            0%, 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 40px rgba(255, 59, 59, 0.2), 0 0 80px rgba(0,0,0,0.6); }
+            50% { transform: translate(-50%, -50%) scale(1.06); box-shadow: 0 0 60px rgba(255, 59, 59, 0.35), 0 0 100px rgba(0,0,0,0.6); }
         }
 
         .vs-text {
-            background: linear-gradient(135deg, var(--red), var(--blue));
+            font-size: 28px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--red), #FFFFFF);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
         }
 
         /* Live ticker */
@@ -502,14 +890,15 @@
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(8, 8, 10, 0.92);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 50px;
             padding: 10px 24px;
             display: flex;
             align-items: center;
             gap: 12px;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            z-index: 30;
         }
 
         .live-dot {
@@ -605,16 +994,16 @@
         .phone-frame {
             width: 320px;
             height: 640px;
-            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            background: linear-gradient(145deg, #141416, #0A0A0C);
             border-radius: 40px;
-            border: 3px solid rgba(255, 255, 255, 0.1);
+            border: 3px solid rgba(255, 255, 255, 0.12);
             padding: 16px;
             position: relative;
             overflow: hidden;
-            box-shadow: 
-                0 40px 80px rgba(0, 0, 0, 0.5),
-                0 0 0 1px rgba(255, 255, 255, 0.05),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            box-shadow:
+                0 40px 80px rgba(0, 0, 0, 0.7),
+                0 0 0 1px rgba(255, 59, 59, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
             animation: phoneVibrate 0.5s ease-in-out infinite;
         }
 
@@ -725,8 +1114,8 @@
             background: linear-gradient(135deg, var(--red), var(--red-dark));
         }
 
-        .notif-app-icon.blue {
-            background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+        .notif-app-icon.silver {
+            background: linear-gradient(135deg, #E5E7EB, #9CA3AF);
         }
 
         .notif-app-icon.green {
@@ -767,7 +1156,7 @@
         }
 
         .notif-highlight.red { color: var(--red); }
-        .notif-highlight.blue { color: var(--blue); }
+        .notif-highlight.silver { color: var(--silver); }
         .notif-highlight.green { color: var(--green); }
 
         .notif-urgent {
@@ -802,7 +1191,7 @@
         }
 
         .analysis-header h2 span {
-            background: linear-gradient(135deg, var(--blue), var(--purple));
+            background: linear-gradient(135deg, var(--red), var(--silver));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -837,7 +1226,7 @@
             left: 0;
             right: 0;
             height: 2px;
-            background: linear-gradient(90deg, var(--blue), var(--purple));
+            background: linear-gradient(90deg, var(--red), var(--silver));
             transform: scaleX(0);
             transition: transform 0.4s ease;
         }
@@ -860,14 +1249,14 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 20px;
-            background: rgba(59, 130, 246, 0.15);
-            border: 1px solid rgba(59, 130, 246, 0.3);
+            background: rgba(255, 59, 59, 0.12);
+            border: 1px solid rgba(255, 59, 59, 0.28);
         }
 
         .analysis-icon svg {
             width: 24px;
             height: 24px;
-            stroke: var(--blue);
+            stroke: var(--red);
             fill: none;
             stroke-width: 1.5;
         }
@@ -903,7 +1292,7 @@
         }
 
         .predictions-header h2 span {
-            background: linear-gradient(135deg, var(--green), var(--blue));
+            background: linear-gradient(135deg, var(--green), var(--silver));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -970,11 +1359,11 @@
         }
         .prediction-icon.red svg { stroke: var(--red); }
 
-        .prediction-icon.blue {
-            background: rgba(59, 130, 246, 0.15);
-            border: 1px solid rgba(59, 130, 246, 0.3);
+        .prediction-icon.silver {
+            background: rgba(209, 213, 219, 0.12);
+            border: 1px solid rgba(209, 213, 219, 0.25);
         }
-        .prediction-icon.blue svg { stroke: var(--blue); }
+        .prediction-icon.silver svg { stroke: var(--silver); }
 
         .prediction-card h3 {
             font-size: 18px;
@@ -1026,7 +1415,7 @@
         .prediction-accuracy-fill {
             height: 100%;
             border-radius: 3px;
-            background: linear-gradient(90deg, var(--green), var(--blue));
+            background: linear-gradient(90deg, var(--red), var(--silver));
         }
 
         .prediction-accuracy-value {
@@ -1277,8 +1666,10 @@
             max-width: 700px;
             margin: 0 auto;
             padding: 80px 40px;
-            background: linear-gradient(135deg, rgba(255, 59, 59, 0.1), rgba(59, 130, 246, 0.1));
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background:
+                radial-gradient(ellipse at 30% 20%, rgba(255, 59, 59, 0.15) 0%, transparent 50%),
+                linear-gradient(145deg, #121214 0%, #0A0A0C 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 28px;
             text-align: center;
         }
@@ -1290,7 +1681,7 @@
         }
 
         .cta h2 span {
-            background: linear-gradient(135deg, var(--red), var(--blue));
+            background: linear-gradient(135deg, var(--red), var(--silver));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -1404,7 +1795,7 @@
         }
 
         .modal {
-            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            background: linear-gradient(145deg, #141416, #0A0A0C);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
             padding: 40px;
@@ -1412,7 +1803,7 @@
             width: 100%;
             position: relative;
             animation: modalIn 0.3s ease;
-            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7);
         }
 
         @keyframes modalIn {
@@ -1530,7 +1921,7 @@
                 grid-template-columns: repeat(2, 1fr);
             }
             .buildings-arena {
-                height: 400px;
+                height: 460px;
             }
         }
 
@@ -1548,7 +1939,11 @@
                 grid-template-columns: 1fr;
             }
             .building {
-                transform: scale(0.7);
+                transform: scale(0.62);
+                transform-origin: bottom center;
+            }
+            .vs-badge {
+                transform: translate(-50%, -50%) scale(0.75);
             }
         }
     </style>
@@ -1594,7 +1989,7 @@
             </div>
             <h1>
                 Chaque seconde,<br>
-                <span class="text-blue">vos concurrents</span> bougent.<br>
+                <span class="text-silver">vos concurrents</span> bougent.<br>
                 <span class="text-red">Restez devant.</span>
             </h1>
             <p class="hero-subtitle">
@@ -1619,6 +2014,21 @@
             <p>Chaque bâtiment est une entreprise. Chaque fenêtre s'allume quand ils bougent.</p>
         </div>
         <div class="buildings-arena reveal">
+            <div class="arena-stars"></div>
+            <div class="arena-skyline">
+                <div class="skyline-block"></div>
+                <div class="skyline-block"></div>
+                <div class="skyline-block"></div>
+                <div class="skyline-block"></div>
+                <div class="skyline-block"></div>
+                <div class="skyline-block"></div>
+                <div class="skyline-block"></div>
+                <div class="skyline-block"></div>
+                <div class="skyline-block"></div>
+                <div class="skyline-block"></div>
+            </div>
+            <div class="arena-ground"></div>
+
             <div class="live-ticker">
                 <span class="live-dot"></span>
                 <span class="live-text">Surveillance active</span>
@@ -1630,26 +2040,32 @@
                     <div class="building-stats-value">+12%</div>
                     <div class="building-stats-label">Croissance</div>
                 </div>
-                <div class="building-body">
-                    <div class="building-windows">
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
+                <div class="building-structure">
+                    <div class="building-antenna"></div>
+                    <div class="building-crown"><span class="building-logo">YOU</span></div>
+                    <div class="building-tier">
+                        <div class="building-tier-windows">
+                            <div class="window lit"></div>
+                            <div class="window"></div>
+                            <div class="window lit-bright"></div>
+                        </div>
+                    </div>
+                    <div class="building-body">
+                        <div class="building-windows">
+                            <div class="window lit"></div><div class="window"></div><div class="window"></div><div class="window lit-bright"></div>
+                            <div class="window"></div><div class="window lit"></div><div class="window"></div><div class="window"></div>
+                            <div class="window"></div><div class="window"></div><div class="window lit"></div><div class="window"></div>
+                            <div class="window lit-bright"></div><div class="window"></div><div class="window"></div><div class="window lit"></div>
+                            <div class="window"></div><div class="window lit"></div><div class="window"></div><div class="window"></div>
+                            <div class="window"></div><div class="window"></div><div class="window lit-bright"></div><div class="window"></div>
+                            <div class="window lit"></div><div class="window"></div><div class="window"></div><div class="window lit"></div>
+                            <div class="window"></div><div class="window lit"></div><div class="window"></div><div class="window"></div>
+                            <div class="window lit-bright"></div><div class="window"></div><div class="window lit"></div><div class="window"></div>
+                            <div class="window"></div><div class="window"></div><div class="window"></div><div class="window lit"></div>
+                        </div>
+                    </div>
+                    <div class="building-base">
+                        <div class="building-entrance"></div>
                     </div>
                 </div>
                 <div class="building-label">
@@ -1667,26 +2083,30 @@
                     <div class="building-stats-value">-5%</div>
                     <div class="building-stats-label">Prix baissé</div>
                 </div>
-                <div class="building-body">
-                    <div class="building-windows">
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
-                        <div class="window"></div>
+                <div class="building-structure">
+                    <div class="building-antenna"></div>
+                    <div class="building-crown"><span class="building-logo">RIVAL</span></div>
+                    <div class="building-tier">
+                        <div class="building-tier-windows">
+                            <div class="window lit-red"></div><div class="window lit"></div><div class="window"></div>
+                        </div>
+                    </div>
+                    <div class="building-body">
+                        <div class="building-windows">
+                            <div class="window lit-red"></div><div class="window"></div><div class="window lit"></div><div class="window"></div>
+                            <div class="window"></div><div class="window lit-red"></div><div class="window"></div><div class="window"></div>
+                            <div class="window lit"></div><div class="window"></div><div class="window lit-red"></div><div class="window"></div>
+                            <div class="window"></div><div class="window"></div><div class="window"></div><div class="window lit"></div>
+                            <div class="window lit-red"></div><div class="window"></div><div class="window"></div><div class="window lit-red"></div>
+                            <div class="window"></div><div class="window lit"></div><div class="window"></div><div class="window"></div>
+                            <div class="window lit-red"></div><div class="window"></div><div class="window lit"></div><div class="window"></div>
+                            <div class="window"></div><div class="window lit-red"></div><div class="window"></div><div class="window"></div>
+                            <div class="window lit"></div><div class="window"></div><div class="window lit-red"></div><div class="window"></div>
+                            <div class="window"></div><div class="window"></div><div class="window"></div><div class="window lit-red"></div>
+                        </div>
+                    </div>
+                    <div class="building-base">
+                        <div class="building-entrance"></div>
                     </div>
                 </div>
                 <div class="building-label">
@@ -1739,7 +2159,7 @@
                         </div>
                         <div class="notif">
                             <div class="notif-header">
-                                <div class="notif-app-icon blue">
+                                <div class="notif-app-icon silver">
                                     <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
                                 </div>
                                 <span class="notif-app-name">RivalEye</span>
@@ -1747,7 +2167,7 @@
                             </div>
                             <div class="notif-title">Post viral détecté</div>
                             <div class="notif-body">
-                                <span class="notif-highlight blue">WooCommerce</span> a un post avec 2500 likes sur LinkedIn.
+                                <span class="notif-highlight silver">WooCommerce</span> a un post avec 2500 likes sur LinkedIn.
                             </div>
                         </div>
                         <div class="notif">
@@ -1907,7 +2327,7 @@
                 </div>
             </div>
             <div class="prediction-card reveal">
-                <div class="prediction-icon blue">
+                <div class="prediction-icon silver">
                     <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
                 </div>
                 <h3>Tendances marché</h3>
