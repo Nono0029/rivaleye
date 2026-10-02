@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RivalEye - Intelligence concurrentielle</title>
+    <title>RivalEye - La concurrence en temps réel</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * {
@@ -13,21 +13,25 @@
         }
 
         :root {
-            --red: #E63946;
-            --red-light: #FF6B6B;
-            --red-dark: #C1121F;
-            --red-glow: rgba(230, 57, 70, 0.2);
-            --blue: #457B9D;
-            --blue-light: #A8DADC;
-            --green: #2A9D8F;
+            --red: #FF3B3B;
+            --red-dark: #E62E2E;
+            --red-glow: rgba(255, 59, 59, 0.4);
+            --blue: #3B82F6;
+            --blue-dark: #2563EB;
+            --blue-glow: rgba(59, 130, 246, 0.4);
+            --green: #10B981;
+            --green-glow: rgba(16, 185, 129, 0.4);
+            --orange: #F59E0B;
+            --purple: #8B5CF6;
             --white: #FFFFFF;
-            --gray-1: #F0F0F0;
-            --gray-2: #C8C8C8;
-            --gray-3: #9A9A9A;
-            --gray-4: #6B6B6B;
-            --gray-5: #3D3D3D;
-            --gray-6: #2A2A2A;
-            --gray-7: #1E1E1E;
+            --gray-1: #F8FAFC;
+            --gray-2: #E2E8F0;
+            --gray-3: #94A3B8;
+            --gray-4: #64748B;
+            --gray-5: #475569;
+            --gray-6: #334155;
+            --gray-7: #1E293B;
+            --gray-8: #0F172A;
         }
 
         html {
@@ -36,68 +40,71 @@
 
         body {
             font-family: 'Inter', sans-serif;
+            background: var(--gray-8);
             color: var(--white);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
-            background: linear-gradient(180deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
         }
 
-        /* ========== BACKGROUNDS ========== */
-        .bg-layer {
+        /* ========== BACKGROUND ========== */
+        .bg-canvas {
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: -1;
-            pointer-events: none;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
         }
 
         .bg-gradient {
+            position: absolute;
+            width: 100%;
+            height: 100%;
             background: 
-                radial-gradient(ellipse at 20% 20%, rgba(80, 80, 80, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 30%, rgba(60, 60, 60, 0.1) 0%, transparent 40%),
-                radial-gradient(ellipse at 50% 80%, rgba(40, 40, 40, 0.2) 0%, transparent 50%),
-                linear-gradient(180deg, #1f1f1f 0%, #2a2a2a 30%, #252525 70%, #1a1a1a 100%);
+                radial-gradient(ellipse at 20% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 30%, rgba(255, 59, 59, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                linear-gradient(180deg, #0F172A 0%, #1E293B 50%, #0F172A 100%);
         }
 
-        .bg-noise {
-            opacity: 0.03;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        .bg-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridMove 20s linear infinite;
         }
 
-        .bg-glow-1 {
-            position: fixed;
-            top: -200px;
-            left: -200px;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(100, 100, 100, 0.08) 0%, transparent 70%);
-            z-index: -1;
-            pointer-events: none;
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
         }
 
-        .bg-glow-2 {
-            position: fixed;
-            bottom: -300px;
-            right: -200px;
-            width: 700px;
-            height: 700px;
-            background: radial-gradient(circle, rgba(80, 80, 80, 0.06) 0%, transparent 70%);
-            z-index: -1;
-            pointer-events: none;
+        .floating-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--blue);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: floatUp 15s linear infinite;
         }
 
-        .bg-glow-3 {
-            position: fixed;
-            top: 40%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 800px;
-            height: 400px;
-            background: radial-gradient(ellipse, rgba(230, 57, 70, 0.04) 0%, transparent 70%);
-            z-index: -1;
-            pointer-events: none;
+        .floating-particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .floating-particle:nth-child(2) { left: 30%; animation-delay: 3s; background: var(--red); }
+        .floating-particle:nth-child(3) { left: 50%; animation-delay: 6s; }
+        .floating-particle:nth-child(4) { left: 70%; animation-delay: 9s; background: var(--purple); }
+        .floating-particle:nth-child(5) { left: 90%; animation-delay: 12s; background: var(--green); }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100px) scale(1); opacity: 0; }
         }
 
         /* ========== NAVBAR ========== */
@@ -107,19 +114,17 @@
             left: 0;
             right: 0;
             z-index: 1000;
-            padding: 24px 60px;
+            padding: 20px 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
         }
 
         .nav.scrolled {
-            background: rgba(35, 35, 35, 0.85);
-            backdrop-filter: blur(24px);
-            padding: 16px 60px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .nav-logo {
@@ -129,26 +134,29 @@
             text-decoration: none;
         }
 
-        .nav-logo svg {
-            width: 32px;
-            height: 32px;
-            filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.1));
+        .nav-logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--red), var(--red-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px var(--red-glow);
+        }
+
+        .nav-logo-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: white;
         }
 
         .nav-logo-text {
             font-size: 22px;
             font-weight: 700;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #FFFFFF 0%, #E8E8E8 20%, #FFFFFF 40%, #B8B8B8 60%, #FFFFFF 80%, #D0D0D0 100%);
-            background-size: 200% 200%;
+            background: linear-gradient(135deg, #fff, #94A3B8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: silverShine 4s ease-in-out infinite;
-        }
-
-        @keyframes silverShine {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
         }
 
         .nav-links {
@@ -158,7 +166,7 @@
         }
 
         .nav-links a {
-            color: var(--gray-2);
+            color: var(--gray-3);
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
@@ -172,7 +180,6 @@
         .nav-actions {
             display: flex;
             gap: 12px;
-            align-items: center;
         }
 
         .btn {
@@ -197,18 +204,28 @@
 
         .btn-ghost:hover {
             background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
         }
 
         .btn-red {
             background: linear-gradient(135deg, var(--red), var(--red-dark));
             color: white;
-            box-shadow: 0 4px 20px var(--red-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 20px var(--red-glow);
         }
 
         .btn-red:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px var(--red-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 30px var(--red-glow);
+        }
+
+        .btn-blue {
+            background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+            color: white;
+            box-shadow: 0 4px 20px var(--blue-glow);
+        }
+
+        .btn-blue:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px var(--blue-glow);
         }
 
         .btn-large {
@@ -221,17 +238,16 @@
         .hero {
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             position: relative;
-            padding: 160px 24px 100px;
+            z-index: 10;
+            padding: 140px 24px 80px;
         }
 
         .hero-content {
             text-align: center;
-            max-width: 850px;
-            margin-bottom: 80px;
+            max-width: 900px;
         }
 
         .hero-badge {
@@ -239,44 +255,54 @@
             align-items: center;
             gap: 10px;
             padding: 10px 20px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 50px;
             font-size: 14px;
             color: var(--gray-2);
             margin-bottom: 40px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
         }
 
         .hero-badge-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--red);
+            width: 10px;
+            height: 10px;
+            background: var(--green);
             border-radius: 50%;
-            box-shadow: 0 0 12px var(--red-glow);
+            animation: livePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 var(--green-glow); }
+            50% { opacity: 0.8; transform: scale(1.1); box-shadow: 0 0 0 8px transparent; }
         }
 
         .hero h1 {
-            font-size: clamp(52px, 8vw, 100px);
-            font-weight: 800;
-            line-height: 1;
-            margin-bottom: 32px;
-            letter-spacing: -3px;
+            font-size: clamp(48px, 7vw, 88px);
+            font-weight: 900;
+            line-height: 1.05;
+            margin-bottom: 28px;
+            letter-spacing: -2px;
         }
 
-        .hero h1 .text-gradient {
-            background: linear-gradient(135deg, var(--red-light), var(--red), var(--red-dark));
+        .hero h1 .text-blue {
+            background: linear-gradient(135deg, var(--blue), var(--purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 4px 20px var(--red-glow));
+        }
+
+        .hero h1 .text-red {
+            background: linear-gradient(135deg, var(--red), var(--orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .hero-subtitle {
             font-size: clamp(18px, 2vw, 22px);
-            color: var(--gray-2);
+            color: var(--gray-3);
             margin-bottom: 48px;
             line-height: 1.7;
-            max-width: 580px;
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -288,60 +314,321 @@
             flex-wrap: wrap;
         }
 
-        /* ========== PHONE SECTION ========== */
-        .phone-section {
-            padding: 140px 24px;
-            position: relative;
-        }
-
-        .phone-header {
+        /* ========== BUILDINGS SECTION ========== */
+        .buildings-section {
+            padding: 100px 24px;
             position: relative;
             z-index: 10;
+        }
+
+        .buildings-header {
             text-align: center;
             margin-bottom: 80px;
         }
 
-        .phone-header h2 {
-            font-size: clamp(36px, 5vw, 56px);
+        .buildings-header h2 {
+            font-size: clamp(32px, 4vw, 48px);
             font-weight: 800;
             margin-bottom: 16px;
-            letter-spacing: -1.5px;
         }
 
-        .phone-header p {
+        .buildings-header p {
             font-size: 18px;
             color: var(--gray-3);
         }
 
-        .phone-container {
+        .buildings-arena {
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            height: 500px;
+        }
+
+        .building {
+            position: absolute;
+            bottom: 0;
+            transition: all 0.5s ease;
+        }
+
+        .building-mine {
+            left: 10%;
+            animation: buildingBounce 3s ease-in-out infinite;
+        }
+
+        .building-rival {
+            right: 10%;
+            animation: buildingBounce 3s ease-in-out 1.5s infinite;
+        }
+
+        @keyframes buildingBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .building-body {
+            width: 120px;
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .building-mine .building-body {
+            background: linear-gradient(180deg, var(--blue), var(--blue-dark));
+            box-shadow: 0 0 40px var(--blue-glow);
+            height: 280px;
+        }
+
+        .building-rival .building-body {
+            background: linear-gradient(180deg, var(--red), var(--red-dark));
+            box-shadow: 0 0 40px var(--red-glow);
+            height: 240px;
+        }
+
+        .building-windows {
+            position: absolute;
+            top: 20px;
+            left: 15px;
+            right: 15px;
+            bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(6, 1fr);
+            gap: 8px;
+        }
+
+        .window {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            animation: windowFlicker 4s ease-in-out infinite;
+        }
+
+        .window:nth-child(odd) { animation-delay: 0.5s; }
+        .window:nth-child(3n) { animation-delay: 1s; background: rgba(255, 255, 255, 0.4); }
+
+        @keyframes windowFlicker {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        .building-label {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .building-label-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .building-mine .building-label-name { color: var(--blue); }
+        .building-rival .building-label-name { color: var(--red); }
+
+        .building-label-stat {
+            font-size: 13px;
+            color: var(--gray-3);
+        }
+
+        .building-stats {
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px 20px;
+            backdrop-filter: blur(10px);
+            animation: statsFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes statsFloat {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        .building-stats-value {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .building-mine .building-stats-value { color: var(--blue); }
+        .building-rival .building-stats-value { color: var(--red); }
+
+        .building-stats-label {
+            font-size: 12px;
+            color: var(--gray-4);
+        }
+
+        /* VS Badge */
+        .vs-badge {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--gray-7), var(--gray-8));
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 900;
+            z-index: 20;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+            animation: vsPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes vsPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        .vs-text {
+            background: linear-gradient(135deg, var(--red), var(--blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Live ticker */
+        .live-ticker {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--red);
+            border-radius: 50%;
+            animation: liveBlink 1s ease-in-out infinite;
+        }
+
+        @keyframes liveBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .live-text {
+            font-size: 13px;
+            color: var(--gray-2);
+        }
+
+        .live-timer {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--red);
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* ========== PHONE SECTION ========== */
+        .phone-section {
+            padding: 140px 24px;
             position: relative;
             z-index: 10;
-            max-width: 400px;
+        }
+
+        .phone-layout {
+            max-width: 1000px;
             margin: 0 auto;
-            height: 720px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .phone-text h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .phone-text h2 span {
+            background: linear-gradient(135deg, var(--red), var(--orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .phone-text p {
+            font-size: 18px;
+            color: var(--gray-3);
+            margin-bottom: 32px;
+            line-height: 1.7;
+        }
+
+        .phone-features {
+            list-style: none;
+        }
+
+        .phone-features li {
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 16px;
+            color: var(--gray-2);
+        }
+
+        .phone-features li::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--red);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--red-glow);
+        }
+
+        .phone-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
         }
 
         .phone-frame {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
-            border-radius: 48px;
+            width: 320px;
+            height: 640px;
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border-radius: 40px;
             border: 3px solid rgba(255, 255, 255, 0.1);
-            padding: 20px;
+            padding: 16px;
             position: relative;
             overflow: hidden;
             box-shadow: 
-                0 40px 100px rgba(0, 0, 0, 0.5),
+                0 40px 80px rgba(0, 0, 0, 0.5),
                 0 0 0 1px rgba(255, 255, 255, 0.05),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            animation: phoneVibrate 0.5s ease-in-out infinite;
+        }
+
+        @keyframes phoneVibrate {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-1px, 1px) rotate(-0.5deg); }
+            75% { transform: translate(1px, -1px) rotate(0.5deg); }
         }
 
         .phone-notch {
-            width: 120px;
-            height: 28px;
+            width: 100px;
+            height: 24px;
             background: #0a0a0a;
-            border-radius: 0 0 20px 20px;
+            border-radius: 0 0 16px 16px;
             position: absolute;
             top: 0;
             left: 50%;
@@ -353,135 +640,154 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 20px 12px;
-            font-size: 14px;
+            padding: 14px 20px 10px;
+            font-size: 13px;
             font-weight: 600;
         }
 
         .phone-time {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
         }
 
-        .phone-icons {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-        }
-
-        .phone-notifications {
+        .phone-screen {
             padding: 20px;
             display: flex;
             flex-direction: column;
             gap: 12px;
+            height: calc(100% - 50px);
         }
 
-        .notification {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+        .notif {
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
-            border-radius: 20px;
+            border-radius: 18px;
             padding: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-            animation: notifSlide 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            animation: notifUrgent 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            position: relative;
+            overflow: hidden;
         }
 
-        .notification:nth-child(1) { animation-delay: 0.5s; }
-        .notification:nth-child(2) { animation-delay: 1.2s; }
-        .notification:nth-child(3) { animation-delay: 1.9s; }
-        .notification:nth-child(4) { animation-delay: 2.6s; }
+        .notif::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--red), var(--orange));
+            animation: urgentLine 2s ease-in-out infinite;
+        }
 
-        @keyframes notifSlide {
-            from {
+        @keyframes urgentLine {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes notifUrgent {
+            0% {
                 opacity: 0;
-                transform: translateY(-20px) scale(0.95);
+                transform: translateX(100px) scale(0.8);
             }
-            to {
+            60% {
+                transform: translateX(-10px) scale(1.02);
+            }
+            100% {
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: translateX(0) scale(1);
             }
         }
+
+        .notif:nth-child(1) { animation-delay: 0.5s; }
+        .notif:nth-child(2) { animation-delay: 1.2s; }
+        .notif:nth-child(3) { animation-delay: 1.9s; }
+        .notif:nth-child(4) { animation-delay: 2.6s; }
 
         .notif-header {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 10px;
         }
 
-        .notif-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
+        .notif-app-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
-        .notif-icon svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        .notif-icon.red {
+        .notif-app-icon.red {
             background: linear-gradient(135deg, var(--red), var(--red-dark));
         }
 
-        .notif-icon.blue {
-            background: linear-gradient(135deg, var(--blue), #3A6B8A);
+        .notif-app-icon.blue {
+            background: linear-gradient(135deg, var(--blue), var(--blue-dark));
         }
 
-        .notif-icon.green {
-            background: linear-gradient(135deg, var(--green), #1F7A6D);
+        .notif-app-icon.green {
+            background: linear-gradient(135deg, var(--green), #059669);
         }
 
-        .notif-icon.silver {
-            background: linear-gradient(135deg, #E0E0E0, #A0A0A0);
+        .notif-app-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: white;
         }
 
-        .notif-app {
-            font-size: 13px;
+        .notif-app-name {
+            font-size: 12px;
             font-weight: 600;
-            color: var(--gray-1);
         }
 
         .notif-time {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--gray-4);
             margin-left: auto;
         }
 
         .notif-title {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             margin-bottom: 4px;
-            line-height: 1.3;
         }
 
         .notif-body {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--gray-3);
             line-height: 1.4;
         }
 
         .notif-highlight {
-            color: var(--red-light);
             font-weight: 600;
         }
 
-        .notif-highlight.green {
-            color: var(--green);
-        }
+        .notif-highlight.red { color: var(--red); }
+        .notif-highlight.blue { color: var(--blue); }
+        .notif-highlight.green { color: var(--green); }
 
-        .notif-highlight.blue {
-            color: var(--blue-light);
+        .notif-urgent {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            background: rgba(255, 59, 59, 0.2);
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--red);
+            margin-left: 8px;
         }
 
         /* ========== ANALYSIS ========== */
         .analysis {
             padding: 140px 24px;
             position: relative;
+            z-index: 10;
         }
 
         .analysis-header {
@@ -490,60 +796,78 @@
         }
 
         .analysis-header h2 {
-            font-size: clamp(36px, 5vw, 56px);
+            font-size: clamp(32px, 4vw, 48px);
             font-weight: 800;
             margin-bottom: 16px;
-            letter-spacing: -1.5px;
+        }
+
+        .analysis-header h2 span {
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .analysis-header p {
             font-size: 18px;
             color: var(--gray-3);
-            max-width: 500px;
-            margin: 0 auto;
         }
 
         .analysis-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 24px;
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
         .analysis-card {
-            padding: 36px;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+            padding: 32px;
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .analysis-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--blue), var(--purple));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
         }
 
         .analysis-card:hover {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04));
+            background: rgba(255, 255, 255, 0.06);
             border-color: rgba(255, 255, 255, 0.15);
-            transform: translateY(-6px);
-            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .analysis-card:hover::before {
+            transform: scaleX(1);
         }
 
         .analysis-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 16px;
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 24px;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            margin-bottom: 20px;
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
         }
 
         .analysis-icon svg {
-            width: 26px;
-            height: 26px;
-            stroke: var(--gray-1);
+            width: 24px;
+            height: 24px;
+            stroke: var(--blue);
             fill: none;
             stroke-width: 1.5;
         }
@@ -551,7 +875,7 @@
         .analysis-card h3 {
             font-size: 18px;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .analysis-card p {
@@ -563,6 +887,8 @@
         /* ========== PREDICTIONS ========== */
         .predictions {
             padding: 140px 24px;
+            position: relative;
+            z-index: 10;
         }
 
         .predictions-header {
@@ -571,10 +897,15 @@
         }
 
         .predictions-header h2 {
-            font-size: clamp(36px, 5vw, 56px);
+            font-size: clamp(32px, 4vw, 48px);
             font-weight: 800;
             margin-bottom: 16px;
-            letter-spacing: -1.5px;
+        }
+
+        .predictions-header h2 span {
+            background: linear-gradient(135deg, var(--green), var(--blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .predictions-header p {
@@ -593,84 +924,69 @@
         }
 
         .prediction-card {
-            padding: 36px;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+            padding: 32px;
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            transition: all 0.4s ease;
         }
 
         .prediction-card:hover {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04));
+            background: rgba(255, 255, 255, 0.06);
             border-color: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
         }
 
         .prediction-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 16px;
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 24px;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
         }
 
         .prediction-icon svg {
-            width: 26px;
-            height: 26px;
+            width: 24px;
+            height: 24px;
             stroke-width: 1.5;
         }
 
         .prediction-icon.green {
-            background: linear-gradient(145deg, rgba(42, 157, 143, 0.25), rgba(42, 157, 143, 0.1));
-            border: 1px solid rgba(42, 157, 143, 0.3);
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
         }
-
-        .prediction-icon.green svg {
-            stroke: var(--green);
-        }
+        .prediction-icon.green svg { stroke: var(--green); }
 
         .prediction-icon.orange {
-            background: linear-gradient(145deg, rgba(233, 196, 106, 0.25), rgba(233, 196, 106, 0.1));
-            border: 1px solid rgba(233, 196, 106, 0.3);
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.3);
         }
-
-        .prediction-icon.orange svg {
-            stroke: #E9C46A;
-        }
+        .prediction-icon.orange svg { stroke: var(--orange); }
 
         .prediction-icon.red {
-            background: linear-gradient(145deg, rgba(230, 57, 70, 0.25), rgba(230, 57, 70, 0.1));
-            border: 1px solid rgba(230, 57, 70, 0.3);
+            background: rgba(255, 59, 59, 0.15);
+            border: 1px solid rgba(255, 59, 59, 0.3);
         }
-
-        .prediction-icon.red svg {
-            stroke: var(--red-light);
-        }
+        .prediction-icon.red svg { stroke: var(--red); }
 
         .prediction-icon.blue {
-            background: linear-gradient(145deg, rgba(69, 123, 157, 0.25), rgba(69, 123, 157, 0.1));
-            border: 1px solid rgba(69, 123, 157, 0.3);
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
         }
-
-        .prediction-icon.blue svg {
-            stroke: var(--blue-light);
-        }
+        .prediction-icon.blue svg { stroke: var(--blue); }
 
         .prediction-card h3 {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
             margin-bottom: 16px;
         }
 
         .prediction-example {
-            background: linear-gradient(145deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.15));
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 16px;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
@@ -679,12 +995,12 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: var(--gray-4);
         }
 
         .prediction-example-text {
-            font-size: 15px;
+            font-size: 14px;
             color: var(--gray-2);
             line-height: 1.6;
         }
@@ -705,25 +1021,24 @@
             background: rgba(0, 0, 0, 0.3);
             border-radius: 3px;
             overflow: hidden;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
         }
 
         .prediction-accuracy-fill {
             height: 100%;
             border-radius: 3px;
-            background: linear-gradient(90deg, var(--green), var(--blue-light));
-            box-shadow: 0 0 10px rgba(42, 157, 143, 0.3);
+            background: linear-gradient(90deg, var(--green), var(--blue));
         }
 
         .prediction-accuracy-value {
             font-size: 14px;
             font-weight: 600;
-            color: var(--gray-1);
         }
 
         /* ========== FEATURES ========== */
         .features {
             padding: 140px 24px;
+            position: relative;
+            z-index: 10;
         }
 
         .features-header {
@@ -732,10 +1047,9 @@
         }
 
         .features-header h2 {
-            font-size: clamp(36px, 5vw, 56px);
+            font-size: clamp(32px, 4vw, 48px);
             font-weight: 800;
             margin-bottom: 16px;
-            letter-spacing: -1.5px;
         }
 
         .features-header p {
@@ -743,51 +1057,57 @@
             color: var(--gray-3);
         }
 
-        .features-list {
-            max-width: 700px;
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
-        .feature-item {
+        .feature-card {
+            padding: 32px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
             display: flex;
-            gap: 24px;
-            padding: 36px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            gap: 20px;
+            transition: all 0.4s ease;
         }
 
-        .feature-item:last-child {
-            border-bottom: none;
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.15);
         }
 
-        .feature-item-icon {
-            width: 56px;
-            height: 56px;
-            min-width: 56px;
-            border-radius: 16px;
+        .feature-icon {
+            width: 52px;
+            height: 52px;
+            min-width: 52px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
-        .feature-item-icon svg {
+        .feature-icon svg {
             width: 24px;
             height: 24px;
-            stroke: var(--gray-1);
+            stroke: var(--gray-2);
             fill: none;
             stroke-width: 1.5;
         }
 
-        .feature-item-content h3 {
-            font-size: 20px;
+        .feature-content h3 {
+            font-size: 18px;
             font-weight: 600;
             margin-bottom: 8px;
         }
 
-        .feature-item-content p {
-            font-size: 15px;
+        .feature-content p {
+            font-size: 14px;
             color: var(--gray-3);
             line-height: 1.6;
         }
@@ -795,6 +1115,8 @@
         /* ========== PRICING ========== */
         .pricing {
             padding: 140px 24px;
+            position: relative;
+            z-index: 10;
         }
 
         .pricing-header {
@@ -803,10 +1125,9 @@
         }
 
         .pricing-header h2 {
-            font-size: clamp(36px, 5vw, 56px);
+            font-size: clamp(32px, 4vw, 48px);
             font-weight: 800;
             margin-bottom: 16px;
-            letter-spacing: -1.5px;
         }
 
         .pricing-header p {
@@ -818,33 +1139,27 @@
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 20px;
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
         .pricing-card {
             padding: 32px 28px;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
         }
 
         .pricing-card:hover {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04));
-            transform: translateY(-6px);
-            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-4px);
         }
 
         .pricing-card.popular {
-            border-color: rgba(230, 57, 70, 0.4);
-            background: linear-gradient(145deg, rgba(230, 57, 70, 0.12), rgba(230, 57, 70, 0.04));
-            box-shadow: 0 8px 32px rgba(230, 57, 70, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-
-        .pricing-card.popular:hover {
-            box-shadow: 0 16px 48px rgba(230, 57, 70, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            border-color: var(--red);
+            background: linear-gradient(180deg, rgba(255, 59, 59, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%);
+            box-shadow: 0 20px 60px rgba(255, 59, 59, 0.15);
         }
 
         .pricing-badge {
@@ -857,7 +1172,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 16px;
-            box-shadow: 0 4px 12px var(--red-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 12px var(--red-glow);
         }
 
         .pricing-name {
@@ -931,48 +1246,53 @@
         }
 
         .pricing-btn-ghost {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--white);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .pricing-btn-ghost:hover {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05));
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .pricing-btn-red {
             background: linear-gradient(135deg, var(--red), var(--red-dark));
             border: none;
             color: white;
-            box-shadow: 0 4px 16px var(--red-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 16px var(--red-glow);
         }
 
         .pricing-btn-red:hover {
-            box-shadow: 0 6px 24px var(--red-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            box-shadow: 0 6px 24px var(--red-glow);
         }
 
         /* ========== CTA ========== */
         .cta {
             padding: 140px 24px;
-            text-align: center;
+            position: relative;
+            z-index: 10;
         }
 
         .cta-box {
             max-width: 700px;
             margin: 0 auto;
             padding: 80px 40px;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+            background: linear-gradient(135deg, rgba(255, 59, 59, 0.1), rgba(59, 130, 246, 0.1));
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 28px;
-            box-shadow: 0 16px 64px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            text-align: center;
         }
 
         .cta h2 {
-            font-size: clamp(32px, 5vw, 48px);
+            font-size: clamp(32px, 4vw, 48px);
             font-weight: 800;
             margin-bottom: 16px;
-            letter-spacing: -1px;
+        }
+
+        .cta h2 span {
+            background: linear-gradient(135deg, var(--red), var(--blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .cta p {
@@ -991,12 +1311,13 @@
         /* ========== FOOTER ========== */
         .footer {
             padding: 60px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.2) 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            z-index: 10;
         }
 
         .footer-content {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
@@ -1039,10 +1360,10 @@
         }
 
         .footer-bottom {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 40px auto 0;
             padding-top: 24px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -1083,15 +1404,15 @@
         }
 
         .modal {
-            background: linear-gradient(145deg, #2a2a2a, #1e1e1e);
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
             padding: 40px;
             max-width: 440px;
             width: 100%;
             position: relative;
-            animation: modalIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            animation: modalIn 0.3s ease;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
         }
 
         @keyframes modalIn {
@@ -1145,37 +1466,35 @@
             align-items: center;
             gap: 16px;
             padding: 18px;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 14px;
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
             color: var(--white);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .modal-option:hover {
             border-color: rgba(255, 255, 255, 0.15);
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04));
+            background: rgba(255, 255, 255, 0.06);
         }
 
         .modal-option-icon {
             width: 48px;
             height: 48px;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .modal-option-icon svg {
             width: 22px;
             height: 22px;
-            stroke: var(--gray-1);
+            stroke: var(--gray-2);
             fill: none;
             stroke-width: 1.5;
         }
@@ -1194,14 +1513,24 @@
 
         /* ========== RESPONSIVE ========== */
         @media (max-width: 1024px) {
+            .phone-layout {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
             .analysis-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
             .predictions-grid {
                 grid-template-columns: 1fr;
             }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
             .pricing-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            .buildings-arena {
+                height: 400px;
             }
         }
 
@@ -1218,38 +1547,36 @@
             .footer-content {
                 grid-template-columns: 1fr;
             }
+            .building {
+                transform: scale(0.7);
+            }
         }
     </style>
 </head>
 <body>
-    <!-- BACKGROUNDS -->
-    <div class="bg-layer bg-gradient"></div>
-    <div class="bg-layer bg-noise"></div>
-    <div class="bg-glow-1"></div>
-    <div class="bg-glow-2"></div>
-    <div class="bg-glow-3"></div>
+    <!-- BACKGROUND -->
+    <div class="bg-canvas">
+        <div class="bg-gradient"></div>
+        <div class="bg-grid"></div>
+        <div class="floating-particle"></div>
+        <div class="floating-particle"></div>
+        <div class="floating-particle"></div>
+        <div class="floating-particle"></div>
+        <div class="floating-particle"></div>
+    </div>
 
     <!-- NAVBAR -->
     <nav class="nav" id="nav">
         <a href="#" class="nav-logo">
-            <svg viewBox="0 0 32 32" fill="none">
-                <rect width="32" height="32" rx="8" fill="url(#silverGrad)"/>
-                <path d="M8 16C8 11.58 11.58 8 16 8C20.42 8 24 11.58 24 16C24 20.42 20.42 24 16 24" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-                <circle cx="16" cy="16" r="4" fill="#1a1a1a"/>
-                <defs>
-                    <linearGradient id="silverGrad" x1="0" y1="0" x2="32" y2="32">
-                        <stop offset="0%" stop-color="#FFFFFF"/>
-                        <stop offset="50%" stop-color="#D0D0D0"/>
-                        <stop offset="100%" stop-color="#808080"/>
-                    </linearGradient>
-                </defs>
-            </svg>
+            <div class="nav-logo-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            </div>
             <span class="nav-logo-text">RivalEye</span>
         </a>
         <ul class="nav-links">
+            <li><a href="#buildings">Concurrence</a></li>
             <li><a href="#analysis">Analyse</a></li>
             <li><a href="#predictions">Pronostics</a></li>
-            <li><a href="#features">Fonctionnalités</a></li>
             <li><a href="#pricing">Tarifs</a></li>
         </ul>
         <div class="nav-actions">
@@ -1263,112 +1590,194 @@
         <div class="hero-content">
             <div class="hero-badge">
                 <span class="hero-badge-dot"></span>
-                Surveillance concurrentielle intelligente
+                Surveillance en temps réel active
             </div>
             <h1>
-                Voyez ce que<br>
-                <span class="text-gradient">vos concurrents</span> font.
+                Chaque seconde,<br>
+                <span class="text-blue">vos concurrents</span> bougent.<br>
+                <span class="text-red">Restez devant.</span>
             </h1>
             <p class="hero-subtitle">
-                RivalEye analyse leurs publicités, leurs sites, leurs commentaires. 
-                Puis il vous dit quoi faire, avant qu'ils ne le fassent.
+                RivalEye surveille chaque mouvement de vos concurrents en temps réel.
+                Prix, pubs, features, avis. Vous êtes alerté avant tout le monde.
             </p>
             <div class="hero-buttons">
                 <a href="#" class="btn btn-red btn-large" onclick="openModal(event)">
                     Commencer gratuitement
                 </a>
-                <a href="#predictions" class="btn btn-ghost btn-large">
-                    Voir les pronostics
+                <a href="#buildings" class="btn btn-ghost btn-large">
+                    Voir la concurrence
                 </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- BUILDINGS ARENA -->
+    <section class="buildings-section" id="buildings">
+        <div class="buildings-header reveal">
+            <h2>La concurrence, en direct</h2>
+            <p>Chaque bâtiment est une entreprise. Chaque fenêtre s'allume quand ils bougent.</p>
+        </div>
+        <div class="buildings-arena reveal">
+            <div class="live-ticker">
+                <span class="live-dot"></span>
+                <span class="live-text">Surveillance active</span>
+                <span class="live-timer" id="liveTimer">00:00:00</span>
+            </div>
+
+            <div class="building building-mine">
+                <div class="building-stats">
+                    <div class="building-stats-value">+12%</div>
+                    <div class="building-stats-label">Croissance</div>
+                </div>
+                <div class="building-body">
+                    <div class="building-windows">
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                    </div>
+                </div>
+                <div class="building-label">
+                    <div class="building-label-name">MonApp</div>
+                    <div class="building-label-stat">Votre entreprise</div>
+                </div>
+            </div>
+
+            <div class="vs-badge">
+                <span class="vs-text">VS</span>
+            </div>
+
+            <div class="building building-rival">
+                <div class="building-stats">
+                    <div class="building-stats-value">-5%</div>
+                    <div class="building-stats-label">Prix baissé</div>
+                </div>
+                <div class="building-body">
+                    <div class="building-windows">
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                    </div>
+                </div>
+                <div class="building-label">
+                    <div class="building-label-name">Shopify</div>
+                    <div class="building-label-stat">Concurrent surveillé</div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- PHONE NOTIFICATIONS -->
     <section class="phone-section">
-        <div class="phone-header reveal">
-            <h2>Restez informé en temps réel</h2>
-            <p>Des notifications claires dès qu'un concurrent bouge.</p>
-        </div>
-        <div class="phone-container reveal">
-            <div class="phone-frame">
-                <div class="phone-notch"></div>
-                <div class="phone-status">
-                    <span class="phone-time">9:41</span>
-                    <div class="phone-icons">
-                        <svg width="16" height="12" viewBox="0 0 16 12" fill="white">
-                            <rect x="0" y="8" width="3" height="4" rx="1"/>
-                            <rect x="4.5" y="5" width="3" height="7" rx="1"/>
-                            <rect x="9" y="2" width="3" height="10" rx="1"/>
-                            <rect x="13.5" y="0" width="2.5" height="12" rx="1" opacity="0.4"/>
-                        </svg>
-                        <svg width="24" height="12" viewBox="0 0 24 12" fill="white">
-                            <rect x="0" y="1" width="20" height="10" rx="2" stroke="white" stroke-width="1" fill="none"/>
-                            <rect x="2" y="3" width="14" height="6" rx="1" fill="white"/>
-                            <rect x="21" y="4" width="2" height="4" rx="0.5" fill="white" opacity="0.4"/>
-                        </svg>
+        <div class="phone-layout">
+            <div class="phone-text reveal">
+                <h2>Des alertes <span>urgentes</span> sur votre téléphone</h2>
+                <p>
+                    Dès qu'un concurrent bouge, vous êtes notifié instantanément.
+                    Prix baissé, nouveau post viral, promo agressive... Vous ne ratez rien.
+                </p>
+                <ul class="phone-features">
+                    <li>Notifications push instantanées</li>
+                    <li>Alertes prioritaires pour les changements critiques</li>
+                    <li>Resume des actions à prendre</li>
+                    <li>Historique complet des mouvements</li>
+                </ul>
+            </div>
+            <div class="phone-container reveal">
+                <div class="phone-frame">
+                    <div class="phone-notch"></div>
+                    <div class="phone-status">
+                        <span class="phone-time">9:41</span>
+                        <span>5G</span>
                     </div>
-                </div>
-                <div class="phone-notifications">
-                    <div class="notification">
-                        <div class="notif-header">
-                            <div class="notif-icon red">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
-                                </svg>
+                    <div class="phone-screen">
+                        <div class="notif">
+                            <div class="notif-header">
+                                <div class="notif-app-icon red">
+                                    <svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="4"/></svg>
+                                </div>
+                                <span class="notif-app-name">RivalEye</span>
+                                <span class="notif-time">maintenant</span>
                             </div>
-                            <span class="notif-app">RivalEye</span>
-                            <span class="notif-time">maintenant</span>
-                        </div>
-                        <div class="notif-title">Changement de prix détecté</div>
-                        <div class="notif-body">
-                            <span class="notif-highlight">Shopify</span> vient de baisser son plan Starter de 24€ à 19€.
-                        </div>
-                    </div>
-                    <div class="notification">
-                        <div class="notif-header">
-                            <div class="notif-icon blue">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                                    <path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
-                                </svg>
+                            <div class="notif-title">
+                                Prix baissé ! 
+                                <span class="notif-urgent">URGENT</span>
                             </div>
-                            <span class="notif-app">RivalEye</span>
-                            <span class="notif-time">5 min</span>
-                        </div>
-                        <div class="notif-title">Nouveau post viral</div>
-                        <div class="notif-body">
-                            <span class="notif-highlight blue">WooCommerce</span> a publié un post LinkedIn avec 2500 interactions.
-                        </div>
-                    </div>
-                    <div class="notification">
-                        <div class="notif-header">
-                            <div class="notif-icon green">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                                    <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
-                                    <polyline points="22 4 12 14.01 9 11.01"/>
-                                </svg>
+                            <div class="notif-body">
+                                <span class="notif-highlight red">Shopify</span> vient de baisser son plan de 24€ à 19€.
                             </div>
-                            <span class="notif-app">RivalEye</span>
-                            <span class="notif-time">12 min</span>
                         </div>
-                        <div class="notif-title">Opportunité détectée</div>
-                        <div class="notif-body">
-                            32% des avis négatifs de <span class="notif-highlight green">Shopify</span> mentionnent un support lent.
-                        </div>
-                    </div>
-                    <div class="notification">
-                        <div class="notif-header">
-                            <div class="notif-icon silver">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
-                                </svg>
+                        <div class="notif">
+                            <div class="notif-header">
+                                <div class="notif-app-icon blue">
+                                    <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+                                </div>
+                                <span class="notif-app-name">RivalEye</span>
+                                <span class="notif-time">2 min</span>
                             </div>
-                            <span class="notif-app">RivalEye</span>
-                            <span class="notif-time">1h</span>
+                            <div class="notif-title">Post viral détecté</div>
+                            <div class="notif-body">
+                                <span class="notif-highlight blue">WooCommerce</span> a un post avec 2500 likes sur LinkedIn.
+                            </div>
                         </div>
-                        <div class="notif-title">Nouvelle campagne pub</div>
-                        <div class="notif-body">
-                            <span class="notif-highlight">PrestaShop</span> lance une promo -25% sur Facebook.
+                        <div class="notif">
+                            <div class="notif-header">
+                                <div class="notif-app-icon green">
+                                    <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                </div>
+                                <span class="notif-app-name">RivalEye</span>
+                                <span class="notif-time">5 min</span>
+                            </div>
+                            <div class="notif-title">Opportunité détectée</div>
+                            <div class="notif-body">
+                                32% des avis de <span class="notif-highlight green">Shopify</span> se plaignent du support.
+                            </div>
+                        </div>
+                        <div class="notif">
+                            <div class="notif-header">
+                                <div class="notif-app-icon red">
+                                    <svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                                </div>
+                                <span class="notif-app-name">RivalEye</span>
+                                <span class="notif-time">8 min</span>
+                            </div>
+                            <div class="notif-title">
+                                Promo concurrente
+                                <span class="notif-urgent">URGENT</span>
+                            </div>
+                            <div class="notif-body">
+                                <span class="notif-highlight red">PrestaShop</span> lance -25% sur Facebook.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1379,66 +1788,48 @@
     <!-- ANALYSIS -->
     <section class="analysis" id="analysis">
         <div class="analysis-header reveal">
-            <h2>Ce que nous analysons</h2>
+            <h2>Ce que nous <span>analysons</span></h2>
             <p>Chaque signal, chaque mouvement, chaque opportunité.</p>
         </div>
         <div class="analysis-grid">
             <div class="analysis-card reveal">
                 <div class="analysis-icon">
-                    <svg viewBox="0 0 24 24">
-                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                        <line x1="8" y1="21" x2="16" y2="21"/>
-                        <line x1="12" y1="17" x2="12" y2="21"/>
-                    </svg>
+                    <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                 </div>
                 <h3>Sites web</h3>
-                <p>Prix, fonctionnalités, design, vitesse. On suit chaque changement page par page.</p>
+                <p>Prix, fonctionnalités, design. On suit chaque changement page par page.</p>
             </div>
             <div class="analysis-card reveal">
                 <div class="analysis-icon">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
-                    </svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
                 </div>
                 <h3>Publicités</h3>
-                <p>Facebook, Google, TikTok. Budgets, messages, cibles. Rien ne vous échappe.</p>
+                <p>Facebook, Google, TikTok. Budgets, messages, cibles. Tout est surveillé.</p>
             </div>
             <div class="analysis-card reveal">
                 <div class="analysis-icon">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>
-                    </svg>
+                    <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
                 </div>
                 <h3>Commentaires</h3>
                 <p>Avis Trustpilot, G2, Google. Les plaintes révèlent leurs faiblesses.</p>
             </div>
             <div class="analysis-card reveal">
                 <div class="analysis-icon">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
-                    </svg>
+                    <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
                 </div>
                 <h3>Réseaux sociaux</h3>
-                <p>Posts, engagement, stratégie de contenu. On comprend leur plan de communication.</p>
+                <p>Posts, engagement, stratégie. On comprend leur plan de communication.</p>
             </div>
             <div class="analysis-card reveal">
                 <div class="analysis-icon">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-                        <polyline points="14 2 14 8 20 8"/>
-                        <line x1="16" y1="13" x2="8" y2="13"/>
-                        <line x1="16" y1="17" x2="8" y2="17"/>
-                    </svg>
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
                 </div>
                 <h3>Blog & contenu</h3>
                 <p>Articles, guides, newsletters. Leur stratégie éditoriale en clair.</p>
             </div>
             <div class="analysis-card reveal">
                 <div class="analysis-icon">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-                        <circle cx="12" cy="7" r="4"/>
-                    </svg>
+                    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                 </div>
                 <h3>Recrutements</h3>
                 <p>Offres d'emploi, équipes qui grandissent. Leurs signaux de croissance.</p>
@@ -1449,22 +1840,20 @@
     <!-- PREDICTIONS -->
     <section class="predictions" id="predictions">
         <div class="predictions-header reveal">
-            <h2>Des pronostics fiables</h2>
-            <p>Notre IA analyse des millions de points de données pour prédire les prochains mouvements.</p>
+            <h2>Des pronostics <span>fiables</span></h2>
+            <p>Notre IA prédit les prochains mouvements de vos concurrents.</p>
         </div>
         <div class="predictions-grid">
             <div class="prediction-card reveal">
                 <div class="prediction-icon green">
-                    <svg viewBox="0 0 24 24">
-                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                    </svg>
+                    <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
                 </div>
                 <h3>Pronostics prix</h3>
                 <div class="prediction-example">
                     <div class="prediction-example-label">Exemple</div>
                     <div class="prediction-example-text">
-                        Shopify a baissé ses prix 3 fois cette année. 
-                        Notre IA prédit une baisse de <strong>25% en octobre</strong>.
+                        Shopify a baissé 3 fois cette année. 
+                        Prédiction : <strong>baisse de 25% en octobre</strong>.
                         <br><br>
                         Vous gardez votre prix, vous différenciez sur la valeur.
                     </div>
@@ -1478,17 +1867,13 @@
             </div>
             <div class="prediction-card reveal">
                 <div class="prediction-icon orange">
-                    <svg viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10"/>
-                        <line x1="12" y1="8" x2="12" y2="12"/>
-                        <line x1="12" y1="16" x2="12.01" y2="16"/>
-                    </svg>
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                 </div>
                 <h3>Lancements produits</h3>
                 <div class="prediction-example">
                     <div class="prediction-example-label">Exemple</div>
                     <div class="prediction-example-text">
-                        Shopify recrute 8 ingénieurs IA et publie 4 articles sur le sujet.
+                        Shopify recrute 8 ingénieurs IA.
                         <br><br>
                         Lancement prévu dans <strong>3 semaines</strong>.
                         Préparez votre réponse maintenant.
@@ -1503,20 +1888,15 @@
             </div>
             <div class="prediction-card reveal">
                 <div class="prediction-icon red">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
-                        <line x1="12" y1="9" x2="12" y2="13"/>
-                        <line x1="12" y1="17" x2="12.01" y2="17"/>
-                    </svg>
+                    <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                 </div>
                 <h3>Alertes menaces</h3>
                 <div class="prediction-example">
                     <div class="prediction-example-label">Exemple</div>
                     <div class="prediction-example-text">
-                        WooCommerce lance une promo -30% ciblant vos clients.
+                        WooCommerce lance -30% ciblant vos clients.
                         <br><br>
-                        Risque de perte : <strong>25% si vous ne réagissez pas</strong>.
-                        Lancez une contre-offre.
+                        Risque : <strong>25% de perte</strong> si vous ne réagissez pas.
                     </div>
                 </div>
                 <div class="prediction-accuracy">
@@ -1528,19 +1908,15 @@
             </div>
             <div class="prediction-card reveal">
                 <div class="prediction-icon blue">
-                    <svg viewBox="0 0 24 24">
-                        <line x1="18" y1="20" x2="18" y2="10"/>
-                        <line x1="12" y1="20" x2="12" y2="4"/>
-                        <line x1="6" y1="20" x2="6" y2="14"/>
-                    </svg>
+                    <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
                 </div>
                 <h3>Tendances marché</h3>
                 <div class="prediction-example">
                     <div class="prediction-example-label">Exemple</div>
                     <div class="prediction-example-text">
-                        Tous vos concurrents augmentent leurs prix. La demande pour le support 24/7 monte de 40%.
+                        Tout le monde augmente ses prix.
                         <br><br>
-                        Le marché va <strong>premium dans 6 mois</strong>. Positionnez-vous maintenant.
+                        Le marché va <strong>premium dans 6 mois</strong>.
                     </div>
                 </div>
                 <div class="prediction-accuracy">
@@ -1559,40 +1935,41 @@
             <h2>Pourquoi RivalEye</h2>
             <p>Les outils qui font la différence.</p>
         </div>
-        <div class="features-list">
-            <div class="feature-item reveal">
-                <div class="feature-item-icon">
-                    <svg viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10"/>
-                        <polyline points="12 6 12 12 16 14"/>
-                    </svg>
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                 </div>
-                <div class="feature-item-content">
+                <div class="feature-content">
                     <h3>Temps réel</h3>
-                    <p>Vous êtes alerté dès qu'un concurrent bouge. Pas de délai, pas de surprise.</p>
+                    <p>Alerté dès qu'un concurrent bouge. Pas de délai.</p>
                 </div>
             </div>
-            <div class="feature-item reveal">
-                <div class="feature-item-icon">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                    </svg>
+            <div class="feature-card reveal">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                 </div>
-                <div class="feature-item-content">
+                <div class="feature-content">
                     <h3>Analyse complète</h3>
-                    <p>Sites, pubs, commentaires, posts, recrutements. On regarde chaque canal.</p>
+                    <p>Sites, pubs, avis, posts, recrutements. Tout est couvert.</p>
                 </div>
             </div>
-            <div class="feature-item reveal">
-                <div class="feature-item-icon">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
-                        <circle cx="12" cy="12" r="4"/>
-                    </svg>
+            <div class="feature-card reveal">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="4"/></svg>
                 </div>
-                <div class="feature-item-content">
+                <div class="feature-content">
                     <h3>Recommandations IA</h3>
-                    <p>On ne se contente pas de vous dire quoi faire. On vous dit pourquoi et comment.</p>
+                    <p>On vous dit quoi faire, pourquoi, et comment.</p>
+                </div>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+                </div>
+                <div class="feature-content">
+                    <h3>Alertes intelligentes</h3>
+                    <p>Notifications prioritaires pour les changements critiques.</p>
                 </div>
             </div>
         </div>
@@ -1704,7 +2081,7 @@
     <!-- CTA -->
     <section class="cta">
         <div class="cta-box reveal">
-            <h2>Prêt à voir clair ?</h2>
+            <h2>Prêt à voir <span>clairement</span> la concurrence ?</h2>
             <p>Rejoignez des milliers d'entrepreneurs qui prennent l'avantage avec RivalEye.</p>
             <div class="cta-buttons">
                 <a href="#" class="btn btn-red btn-large" onclick="openModal(event)">
@@ -1722,27 +2099,18 @@
         <div class="footer-content">
             <div class="footer-brand">
                 <a href="#" class="nav-logo">
-                    <svg viewBox="0 0 32 32" fill="none">
-                        <rect width="32" height="32" rx="8" fill="url(#silverGradFooter)"/>
-                        <path d="M8 16C8 11.58 11.58 8 16 8C20.42 8 24 11.58 24 16C24 20.42 20.42 24 16 24" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-                        <circle cx="16" cy="16" r="4" fill="#1a1a1a"/>
-                        <defs>
-                            <linearGradient id="silverGradFooter" x1="0" y1="0" x2="32" y2="32">
-                                <stop offset="0%" stop-color="#FFFFFF"/>
-                                <stop offset="50%" stop-color="#D0D0D0"/>
-                                <stop offset="100%" stop-color="#808080"/>
-                            </linearGradient>
-                        </defs>
-                    </svg>
+                    <div class="nav-logo-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    </div>
                     <span class="nav-logo-text">RivalEye</span>
                 </a>
-                <p>L'intelligence qui voit tout sur vos concurrents.</p>
+                <p>La concurrence en temps réel, sous vos yeux.</p>
             </div>
             <div class="footer-col">
                 <h4>Produit</h4>
                 <ul>
+                    <li><a href="#buildings">Concurrence</a></li>
                     <li><a href="#analysis">Analyse</a></li>
-                    <li><a href="#predictions">Pronostics</a></li>
                     <li><a href="#pricing">Tarifs</a></li>
                 </ul>
             </div>
@@ -1778,11 +2146,7 @@
             <div class="modal-options">
                 <a href="#" class="modal-option">
                     <div class="modal-option-icon">
-                        <svg viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="10"/>
-                            <line x1="2" y1="12" x2="22" y2="12"/>
-                            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
                     </div>
                     <div class="modal-option-text">
                         <h4>Utiliser sur le web</h4>
@@ -1791,10 +2155,7 @@
                 </a>
                 <a href="#" class="modal-option">
                     <div class="modal-option-icon">
-                        <svg viewBox="0 0 24 24">
-                            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
-                            <line x1="12" y1="18" x2="12.01" y2="18"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
                     </div>
                     <div class="modal-option-text">
                         <h4>Télécharger l'app</h4>
@@ -1803,9 +2164,7 @@
                 </a>
                 <a href="#" class="modal-option">
                     <div class="modal-option-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
                     </div>
                     <div class="modal-option-text">
                         <h4>Installer le plugin</h4>
@@ -1826,6 +2185,17 @@
                 nav.classList.remove('scrolled');
             }
         });
+
+        // Live timer
+        let seconds = 0;
+        const timerEl = document.getElementById('liveTimer');
+        setInterval(() => {
+            seconds++;
+            const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
+            const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+            const s = String(seconds % 60).padStart(2, '0');
+            timerEl.textContent = `${h}:${m}:${s}`;
+        }, 1000);
 
         // Scroll reveal
         const revealElements = document.querySelectorAll('.reveal');
