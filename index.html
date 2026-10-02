@@ -353,13 +353,176 @@
                 0 40px 80px rgba(0, 0, 0, 0.6);
         }
 
-        .buildings-svg {
+        /* Real photo background */
+        .arena-photo {
             position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
-            display: block;
+            object-fit: cover;
+            object-position: center 30%;
+            filter: brightness(0.35) contrast(1.2) saturate(0.7);
+            z-index: 1;
         }
+
+        /* Night + red color grade overlay */
+        .arena-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            background:
+                radial-gradient(ellipse at 30% 40%, rgba(209, 213, 219, 0.08) 0%, transparent 40%),
+                radial-gradient(ellipse at 70% 40%, rgba(255, 59, 59, 0.15) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 90%, rgba(255, 59, 59, 0.2) 0%, transparent 45%),
+                linear-gradient(180deg,
+                    rgba(2, 3, 10, 0.55) 0%,
+                    rgba(2, 3, 10, 0.25) 40%,
+                    rgba(10, 4, 6, 0.45) 75%,
+                    rgba(5, 2, 3, 0.75) 100%);
+            pointer-events: none;
+        }
+
+        /* Subtle animated light sweep */
+        .arena-light-sweep {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            background: linear-gradient(105deg,
+                transparent 40%,
+                rgba(255, 255, 255, 0.03) 48%,
+                rgba(255, 59, 59, 0.04) 52%,
+                transparent 60%);
+            background-size: 200% 100%;
+            animation: lightSweep 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes lightSweep {
+            0%, 100% { background-position: 100% 0; }
+            50% { background-position: 0% 0; }
+        }
+
+        /* Flickering window lights overlay */
+        .arena-flicker {
+            position: absolute;
+            inset: 0;
+            z-index: 4;
+            pointer-events: none;
+        }
+
+        .arena-flicker .fl {
+            position: absolute;
+            border-radius: 1px;
+        }
+
+        .arena-flicker .fl.warm {
+            background: rgba(255, 220, 160, 0.5);
+            box-shadow: 0 0 8px rgba(255, 200, 120, 0.4);
+            animation: flickWarm 4s ease-in-out infinite;
+        }
+
+        .arena-flicker .fl.red {
+            background: rgba(255, 80, 80, 0.55);
+            box-shadow: 0 0 10px rgba(255, 59, 59, 0.5);
+            animation: flickRed 3s ease-in-out infinite;
+        }
+
+        .arena-flicker .fl.bright {
+            background: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+            animation: flickBright 5s ease-in-out infinite;
+        }
+
+        @keyframes flickWarm {
+            0%, 100% { opacity: 0.6; }
+            30% { opacity: 1; }
+            60% { opacity: 0.4; }
+        }
+
+        @keyframes flickRed {
+            0%, 100% { opacity: 0.7; }
+            40% { opacity: 1; }
+            70% { opacity: 0.35; }
+        }
+
+        @keyframes flickBright {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.9; }
+        }
+
+        /* Logo overlays on buildings */
+        .arena-logo {
+            position: absolute;
+            z-index: 10;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .arena-logo-name {
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            padding: 10px 24px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .arena-logo.mine {
+            left: 18%;
+            top: 12%;
+        }
+
+        .arena-logo.mine .arena-logo-name {
+            font-size: 22px;
+            color: #FFFFFF;
+            background: linear-gradient(180deg, rgba(209, 213, 219, 0.25) 0%, rgba(20, 24, 32, 0.9) 100%);
+            border: 2px solid rgba(209, 213, 219, 0.5);
+            box-shadow:
+                0 0 25px rgba(209, 213, 219, 0.4),
+                0 0 50px rgba(209, 213, 219, 0.15),
+                inset 0 0 15px rgba(209, 213, 219, 0.15);
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.7);
+            animation: logoPulseSilver 3s ease-in-out infinite;
+        }
+
+        @keyframes logoPulseSilver {
+            0%, 100% { box-shadow: 0 0 25px rgba(209, 213, 219, 0.4), 0 0 50px rgba(209, 213, 219, 0.15); }
+            50% { box-shadow: 0 0 40px rgba(209, 213, 219, 0.6), 0 0 80px rgba(209, 213, 219, 0.25); }
+        }
+
+        .arena-logo.rival {
+            right: 16%;
+            top: 10%;
+        }
+
+        .arena-logo.rival .arena-logo-name {
+            font-size: 22px;
+            color: #FFFFFF;
+            background: linear-gradient(180deg, rgba(255, 59, 59, 0.5) 0%, rgba(30, 4, 4, 0.95) 100%);
+            border: 2px solid rgba(255, 59, 59, 0.65);
+            box-shadow:
+                0 0 30px rgba(255, 59, 59, 0.55),
+                0 0 60px rgba(255, 59, 59, 0.25),
+                inset 0 0 18px rgba(255, 59, 59, 0.25);
+            text-shadow: 0 0 14px rgba(255, 80, 80, 0.9);
+            animation: logoPulseRed 2.2s ease-in-out infinite;
+        }
+
+        @keyframes logoPulseRed {
+            0%, 100% { box-shadow: 0 0 30px rgba(255, 59, 59, 0.55), 0 0 60px rgba(255, 59, 59, 0.25); }
+            50% { box-shadow: 0 0 50px rgba(255, 59, 59, 0.75), 0 0 100px rgba(255, 59, 59, 0.35); }
+        }
+
+        .arena-logo-sub {
+            margin-top: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--gray-3);
+        }
+
+        .arena-logo.mine .arena-logo-sub { color: var(--silver); }
+        .arena-logo.rival .arena-logo-sub { color: var(--red); }
 
         /* Live ticker */
         .live-ticker {
@@ -419,15 +582,15 @@
         }
 
         .building-stats.mine {
-            left: 14%;
-            bottom: 18%;
+            left: 12%;
+            bottom: 16%;
             border-color: rgba(209, 213, 219, 0.35);
             box-shadow: 0 0 24px rgba(209, 213, 219, 0.12);
         }
 
         .building-stats.rival {
-            right: 14%;
-            bottom: 18%;
+            right: 12%;
+            bottom: 16%;
             border-color: rgba(255, 59, 59, 0.45);
             box-shadow: 0 0 28px rgba(255, 59, 59, 0.18);
         }
@@ -454,11 +617,11 @@
         .vs-badge {
             position: absolute;
             left: 50%;
-            top: 46%;
+            top: 48%;
             transform: translate(-50%, -50%);
             width: 80px;
             height: 80px;
-            background: radial-gradient(circle at 40% 35%, rgba(30, 20, 20, 0.95), rgba(8, 6, 8, 0.98));
+            background: radial-gradient(circle at 40% 35%, rgba(30, 20, 20, 0.92), rgba(8, 6, 8, 0.96));
             border: 2px solid rgba(255, 59, 59, 0.55);
             border-radius: 50%;
             display: flex;
@@ -471,15 +634,12 @@
                 0 20px 40px rgba(0, 0, 0, 0.6),
                 inset 0 0 20px rgba(255, 59, 59, 0.1);
             animation: vsPulse 3s ease-in-out infinite;
+            backdrop-filter: blur(8px);
         }
 
         @keyframes vsPulse {
-            0%, 100% {
-                transform: translate(-50%, -50%) scale(1);
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.08);
-            }
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.08); }
         }
 
         .vs-text {
@@ -1486,27 +1646,46 @@
                 grid-template-columns: repeat(2, 1fr);
             }
             .buildings-arena {
-                height: 480px;
+                height: 420px;
+            }
+            .arena-logo.mine {
+                left: 8%;
+                top: 10%;
+            }
+            .arena-logo.rival {
+                right: 6%;
+                top: 8%;
+            }
+            .arena-logo-name {
+                font-size: 14px !important;
+                padding: 6px 14px !important;
+                letter-spacing: 3px !important;
+            }
+            .arena-logo-sub {
+                font-size: 11px;
             }
             .building-stats.mine {
-                left: 6%;
-                bottom: 14%;
-                padding: 8px 14px;
+                left: 5%;
+                bottom: 12%;
+                padding: 8px 12px;
             }
             .building-stats.rival {
-                right: 6%;
-                bottom: 14%;
-                padding: 8px 14px;
+                right: 5%;
+                bottom: 12%;
+                padding: 8px 12px;
             }
             .building-stats-value {
                 font-size: 18px;
             }
+            .building-stats-label {
+                font-size: 10px;
+            }
             .vs-badge {
-                width: 60px;
-                height: 60px;
+                width: 56px;
+                height: 56px;
             }
             .vs-text {
-                font-size: 18px;
+                font-size: 16px;
             }
         }
 
@@ -1592,613 +1771,41 @@
             <p>Votre tour et celle de votre concurrent — vues depuis le sol, en direct.</p>
         </div>
         <div class="buildings-arena reveal">
-            <svg class="buildings-svg" viewBox="0 0 1100 640" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <!-- Night sky -->
-                    <linearGradient id="nightSky" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#02030A"/>
-                        <stop offset="40%" stop-color="#060818"/>
-                        <stop offset="75%" stop-color="#0A0C1E"/>
-                        <stop offset="100%" stop-color="#120810"/>
-                    </linearGradient>
-                    <!-- City glow at horizon -->
-                    <radialGradient id="cityGlow" cx="50%" cy="95%" r="60%">
-                        <stop offset="0%" stop-color="#FF3B3B" stop-opacity="0.18"/>
-                        <stop offset="40%" stop-color="#8B1515" stop-opacity="0.08"/>
-                        <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
-                    </radialGradient>
-                    <!-- Moon glow -->
-                    <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
-                        <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.25"/>
-                        <stop offset="40%" stop-color="#C8D0E0" stop-opacity="0.08"/>
-                        <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
-                    </radialGradient>
-                    <!-- YOUR building glass - cool blue-gray night glass -->
-                    <linearGradient id="myGlass" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#2A3548"/>
-                        <stop offset="30%" stop-color="#1A2435"/>
-                        <stop offset="70%" stop-color="#121A28"/>
-                        <stop offset="100%" stop-color="#0A1018"/>
-                    </linearGradient>
-                    <linearGradient id="myGlassSide" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#3A4A60"/>
-                        <stop offset="50%" stop-color="#1A2535"/>
-                        <stop offset="100%" stop-color="#0C121C"/>
-                    </linearGradient>
-                    <!-- SHOPIFY building glass - dark with red tint -->
-                    <linearGradient id="rivalGlass" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#3A1518"/>
-                        <stop offset="30%" stop-color="#281014"/>
-                        <stop offset="70%" stop-color="#180A0C"/>
-                        <stop offset="100%" stop-color="#0C0506"/>
-                    </linearGradient>
-                    <linearGradient id="rivalGlassSide" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#4A181C"/>
-                        <stop offset="50%" stop-color="#2A1014"/>
-                        <stop offset="100%" stop-color="#100608"/>
-                    </linearGradient>
-                    <!-- Silver edge light -->
-                    <linearGradient id="silverEdge" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#D1D5DB" stop-opacity="0.8"/>
-                        <stop offset="50%" stop-color="#9CA3AF" stop-opacity="0.4"/>
-                        <stop offset="100%" stop-color="#6B7280" stop-opacity="0.2"/>
-                    </linearGradient>
-                    <!-- Red edge neon -->
-                    <linearGradient id="redEdge" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#FF3B3B" stop-opacity="0.9"/>
-                        <stop offset="50%" stop-color="#C41E1E" stop-opacity="0.5"/>
-                        <stop offset="100%" stop-color="#8B0F0F" stop-opacity="0.2"/>
-                    </linearGradient>
-                    <!-- Logo backgrounds -->
-                    <linearGradient id="myLogoBg" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#E5E7EB" stop-opacity="0.3"/>
-                        <stop offset="100%" stop-color="#1E2430" stop-opacity="0.95"/>
-                    </linearGradient>
-                    <linearGradient id="rivalLogoBg" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#FF3B3B" stop-opacity="0.55"/>
-                        <stop offset="100%" stop-color="#280606" stop-opacity="0.95"/>
-                    </linearGradient>
-                    <!-- Window lit warm -->
-                    <linearGradient id="winWarm" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#FFE4AA"/>
-                        <stop offset="100%" stop-color="#FFC878"/>
-                    </linearGradient>
-                    <!-- Window lit white -->
-                    <linearGradient id="winWhite" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#FFFFFF"/>
-                        <stop offset="100%" stop-color="#E0E8F0"/>
-                    </linearGradient>
-                    <!-- Window lit red -->
-                    <linearGradient id="winRed" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#FF8282"/>
-                        <stop offset="100%" stop-color="#FF3C3C"/>
-                    </linearGradient>
-                    <!-- Haze -->
-                    <linearGradient id="haze" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#0A0C14" stop-opacity="0"/>
-                        <stop offset="100%" stop-color="#0A0C14" stop-opacity="0.7"/>
-                    </linearGradient>
-                    <linearGradient id="hazeRed" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#140608" stop-opacity="0"/>
-                        <stop offset="100%" stop-color="#140608" stop-opacity="0.75"/>
-                    </linearGradient>
-                    <!-- Filters -->
-                    <filter id="glowSilver" x="-50%" y="-50%" width="200%" height="200%">
-                        <feGaussianBlur stdDeviation="4" result="blur"/>
-                        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                    </filter>
-                    <filter id="glowRed" x="-50%" y="-50%" width="200%" height="200%">
-                        <feGaussianBlur stdDeviation="5" result="blur"/>
-                        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                    </filter>
-                    <filter id="glowSoft" x="-30%" y="-30%" width="160%" height="160%">
-                        <feGaussianBlur stdDeviation="2"/>
-                    </filter>
-                    <filter id="blurBg" x="-5%" y="-5%" width="110%" height="110%">
-                        <feGaussianBlur stdDeviation="1.5"/>
-                    </filter>
-                    <!-- Clip paths for buildings (perspective: wider bottom) -->
-                    <clipPath id="myTowerClip">
-                        <polygon points="310,20 470,20 520,640 260,640"/>
-                    </clipPath>
-                    <clipPath id="rivalTowerClip">
-                        <polygon points="630,30 790,30 840,640 580,640"/>
-                    </clipPath>
-                    <clipPath id="myUpperClip">
-                        <polygon points="340,20 440,20 460,200 320,200"/>
-                    </clipPath>
-                    <clipPath id="rivalUpperClip">
-                        <polygon points="660,30 760,30 780,220 640,220"/>
-                    </clipPath>
-                </defs>
+            <!-- Real night skyscraper photo (looking up from street) -->
+            <img class="arena-photo"
+                 src="https://images.unsplash.com/photo-1545239351-ef35f43d514b?w=1400&q=80&auto=format"
+                 alt="Skyscrapers at night seen from below"
+                 loading="eager">
+            <div class="arena-overlay"></div>
+            <div class="arena-light-sweep"></div>
 
-                <!-- ===== SKY ===== -->
-                <rect width="1100" height="640" fill="url(#nightSky)"/>
-                <ellipse cx="550" cy="600" rx="600" ry="120" fill="url(#cityGlow)"/>
+            <!-- Flickering window lights -->
+            <div class="arena-flicker">
+                <div class="fl warm" style="left:22%;top:35%;width:6px;height:9px;animation-delay:0s"></div>
+                <div class="fl bright" style="left:25%;top:42%;width:5px;height:8px;animation-delay:0.5s"></div>
+                <div class="fl warm" style="left:20%;top:50%;width:6px;height:9px;animation-delay:1s"></div>
+                <div class="fl red" style="left:72%;top:32%;width:6px;height:9px;animation-delay:0.3s"></div>
+                <div class="fl red" style="left:76%;top:40%;width:5px;height:8px;animation-delay:0.8s"></div>
+                <div class="fl warm" style="left:70%;top:48%;width:6px;height:9px;animation-delay:1.2s"></div>
+                <div class="fl red" style="left:78%;top:55%;width:5px;height:8px;animation-delay:1.5s"></div>
+                <div class="fl bright" style="left:24%;top:58%;width:5px;height:8px;animation-delay:2s"></div>
+                <div class="fl warm" style="left:28%;top:65%;width:6px;height:9px;animation-delay:0.7s"></div>
+                <div class="fl red" style="left:74%;top:62%;width:6px;height:9px;animation-delay:1.8s"></div>
+                <div class="fl warm" style="left:18%;top:44%;width:5px;height:8px;animation-delay:2.3s"></div>
+                <div class="fl red" style="left:80%;top:46%;width:5px;height:8px;animation-delay:2.6s"></div>
+                <div class="fl bright" style="left:48%;top:25%;width:4px;height:7px;animation-delay:3s"></div>
+                <div class="fl warm" style="left:52%;top:30%;width:4px;height:7px;animation-delay:1.4s"></div>
+            </div>
 
-                <!-- Stars -->
-                <circle cx="80" cy="40" r="1.2" fill="#fff" opacity="0.6"/>
-                <circle cx="200" cy="80" r="0.8" fill="#fff" opacity="0.4"/>
-                <circle cx="350" cy="30" r="1" fill="#fff" opacity="0.5"/>
-                <circle cx="500" cy="60" r="0.7" fill="#fff" opacity="0.35"/>
-                <circle cx="550" cy="25" r="1.1" fill="#fff" opacity="0.55"/>
-                <circle cx="600" cy="70" r="0.8" fill="#fff" opacity="0.4"/>
-                <circle cx="720" cy="40" r="1" fill="#fff" opacity="0.5"/>
-                <circle cx="850" cy="55" r="0.7" fill="#fff" opacity="0.35"/>
-                <circle cx="950" cy="30" r="1.2" fill="#fff" opacity="0.5"/>
-                <circle cx="1020" cy="80" r="0.8" fill="#fff" opacity="0.4"/>
-                <circle cx="150" cy="120" r="0.6" fill="#fff" opacity="0.3"/>
-                <circle cx="480" cy="100" r="0.7" fill="#fff" opacity="0.3"/>
-                <circle cx="650" cy="110" r="0.6" fill="#fff" opacity="0.35"/>
-                <circle cx="900" cy="100" r="0.9" fill="#fff" opacity="0.4"/>
-
-                <!-- Moon -->
-                <circle cx="550" cy="90" r="50" fill="url(#moonGlow)"/>
-                <circle cx="550" cy="90" r="18" fill="#E8ECF4" opacity="0.9"/>
-                <circle cx="544" cy="86" r="3" fill="#C8D0E0" opacity="0.4"/>
-                <circle cx="556" cy="94" r="2" fill="#C8D0E0" opacity="0.3"/>
-
-                <!-- ===== BACKGROUND BUILDINGS (blurred, distant) ===== -->
-                <g filter="url(#blurBg)" opacity="0.55">
-                    <!-- Far left cluster -->
-                    <rect x="40" y="280" width="50" height="360" fill="#0A0E16"/>
-                    <rect x="45" y="285" width="40" height="350" fill="#0E1420"/>
-                    <rect x="95" y="320" width="40" height="320" fill="#080C14"/>
-                    <!-- Center distant -->
-                    <rect x="520" y="350" width="60" height="290" fill="#0A0E16"/>
-                    <rect x="525" y="355" width="50" height="280" fill="#0C1220"/>
-                    <!-- Far right cluster -->
-                    <rect x="960" y="300" width="55" height="340" fill="#0A0E16"/>
-                    <rect x="1020" y="340" width="45" height="300" fill="#080C14"/>
-                    <rect x="900" y="360" width="40" height="280" fill="#0E1420"/>
-                    <!-- Background windows hint -->
-                    <rect x="50" y="300" width="4" height="6" fill="#FFE4AA" opacity="0.3"/>
-                    <rect x="60" y="320" width="4" height="6" fill="#FFE4AA" opacity="0.2"/>
-                    <rect x="100" y="340" width="4" height="6" fill="#FF8282" opacity="0.25"/>
-                    <rect x="530" y="370" width="4" height="6" fill="#FFE4AA" opacity="0.2"/>
-                    <rect x="540" y="390" width="4" height="6" fill="#FFE4AA" opacity="0.15"/>
-                    <rect x="970" y="320" width="4" height="6" fill="#FF8282" opacity="0.2"/>
-                    <rect x="1030" y="360" width="4" height="6" fill="#FFE4AA" opacity="0.2"/>
-                </g>
-
-                <!-- ===== YOUR TOWER (left) — cool silver/blue glass ===== -->
-                <g>
-                    <!-- Main tower body -->
-                    <polygon points="310,20 470,20 520,640 260,640" fill="url(#myGlass)"/>
-                    <!-- Side face (left, darker) -->
-                    <polygon points="310,20 370,20 350,640 260,640" fill="url(#myGlassSide)"/>
-                    <!-- Right edge silver light -->
-                    <line x1="470" y1="20" x2="520" y2="640" stroke="url(#silverEdge)" stroke-width="2.5" opacity="0.9"/>
-                    <!-- Left edge subtle light -->
-                    <line x1="310" y1="20" x2="260" y2="640" stroke="#6B7280" stroke-width="1" opacity="0.4"/>
-                    <!-- Top crown edge -->
-                    <line x1="310" y1="20" x2="470" y2="20" stroke="#9CA3AF" stroke-width="1.5" opacity="0.6"/>
-
-                    <!-- Horizontal floor lines (perspective) -->
-                    <g stroke="#1A2535" stroke-width="0.8" opacity="0.6">
-                        <line x1="315" y1="60" x2="465" y2="60"/>
-                        <line x1="312" y1="100" x2="468" y2="100"/>
-                        <line x1="310" y1="140" x2="470" y2="140"/>
-                        <line x1="307" y1="180" x2="473" y2="180"/>
-                        <line x1="304" y1="220" x2="476" y2="220"/>
-                        <line x1="301" y1="260" x2="479" y2="260"/>
-                        <line x1="298" y1="300" x2="482" y2="300"/>
-                        <line x1="295" y1="340" x2="485" y2="340"/>
-                        <line x1="292" y1="380" x2="488" y2="380"/>
-                        <line x1="288" y1="420" x2="492" y2="420"/>
-                        <line x1="284" y1="460" x2="496" y2="460"/>
-                        <line x1="280" y1="500" x2="500" y2="500"/>
-                        <line x1="276" y1="540" x2="504" y2="540"/>
-                        <line x1="272" y1="580" x2="508" y2="580"/>
-                        <line x1="268" y1="620" x2="512" y2="620"/>
-                    </g>
-
-                    <!-- Vertical mullions -->
-                    <g stroke="#1E2A3A" stroke-width="0.7" opacity="0.5">
-                        <line x1="340" y1="20" x2="290" y2="640"/>
-                        <line x1="370" y1="20" x2="320" y2="640"/>
-                        <line x1="400" y1="20" x2="350" y2="640"/>
-                        <line x1="430" y1="20" x2="380" y2="640"/>
-                        <line x1="445" y1="20" x2="400" y2="640"/>
-                    </g>
-
-                    <!-- Windows grid — YOUR tower -->
-                    <g clip-path="url(#myTowerClip)">
-                        <!-- Row pattern: some lit warm, some white, some dark -->
-                        <!-- Top section windows -->
-                        <rect x="325" y="40" width="8" height="12" fill="url(#winWarm)" opacity="0.85" filter="url(#glowSoft)"/>
-                        <rect x="345" y="40" width="8" height="12" fill="#1A2535"/>
-                        <rect x="365" y="40" width="8" height="12" fill="url(#winWhite)" opacity="0.7" filter="url(#glowSoft)"/>
-                        <rect x="385" y="40" width="8" height="12" fill="#1A2535"/>
-                        <rect x="405" y="40" width="8" height="12" fill="url(#winWarm)" opacity="0.6"/>
-                        <rect x="425" y="40" width="8" height="12" fill="#1A2535"/>
-                        <rect x="445" y="40" width="8" height="12" fill="url(#winWhite)" opacity="0.5"/>
-
-                        <rect x="322" y="70" width="8" height="12" fill="#1A2535"/>
-                        <rect x="342" y="70" width="8" height="12" fill="url(#winWarm)" opacity="0.75"/>
-                        <rect x="362" y="70" width="8" height="12" fill="#1A2535"/>
-                        <rect x="382" y="70" width="8" height="12" fill="url(#winWhite)" opacity="0.6"/>
-                        <rect x="402" y="70" width="8" height="12" fill="#1A2535"/>
-                        <rect x="422" y="70" width="8" height="12" fill="url(#winWarm)" opacity="0.8"/>
-                        <rect x="442" y="70" width="8" height="12" fill="#1A2535"/>
-
-                        <rect x="318" y="100" width="8" height="12" fill="url(#winWarm)" opacity="0.7"/>
-                        <rect x="338" y="100" width="8" height="12" fill="#1A2535"/>
-                        <rect x="358" y="100" width="8" height="12" fill="#1A2535"/>
-                        <rect x="378" y="100" width="8" height="12" fill="url(#winWhite)" opacity="0.8" filter="url(#glowSoft)"/>
-                        <rect x="398" y="100" width="8" height="12" fill="url(#winWarm)" opacity="0.6"/>
-                        <rect x="418" y="100" width="8" height="12" fill="#1A2535"/>
-                        <rect x="438" y="100" width="8" height="12" fill="url(#winWarm)" opacity="0.7"/>
-
-                        <rect x="315" y="130" width="8" height="12" fill="#1A2535"/>
-                        <rect x="335" y="130" width="8" height="12" fill="url(#winWhite)" opacity="0.55"/>
-                        <rect x="355" y="130" width="8" height="12" fill="url(#winWarm)" opacity="0.8" filter="url(#glowSoft)"/>
-                        <rect x="375" y="130" width="8" height="12" fill="#1A2535"/>
-                        <rect x="395" y="130" width="8" height="12" fill="#1A2535"/>
-                        <rect x="415" y="130" width="8" height="12" fill="url(#winWarm)" opacity="0.65"/>
-                        <rect x="435" y="130" width="8" height="12" fill="#1A2535"/>
-
-                        <rect x="312" y="160" width="8" height="12" fill="url(#winWarm)" opacity="0.6"/>
-                        <rect x="332" y="160" width="8" height="12" fill="#1A2535"/>
-                        <rect x="352" y="160" width="8" height="12" fill="url(#winWhite)" opacity="0.7"/>
-                        <rect x="372" y="160" width="8" height="12" fill="url(#winWarm)" opacity="0.75"/>
-                        <rect x="392" y="160" width="8" height="12" fill="#1A2535"/>
-                        <rect x="412" y="160" width="8" height="12" fill="#1A2535"/>
-                        <rect x="432" y="160" width="8" height="12" fill="url(#winWarm)" opacity="0.55"/>
-
-                        <rect x="308" y="190" width="8" height="12" fill="#1A2535"/>
-                        <rect x="328" y="190" width="8" height="12" fill="url(#winWarm)" opacity="0.7"/>
-                        <rect x="348" y="190" width="8" height="12" fill="#1A2535"/>
-                        <rect x="368" y="190" width="8" height="12" fill="url(#winWhite)" opacity="0.6"/>
-                        <rect x="388" y="190" width="8" height="12" fill="url(#winWarm)" opacity="0.85" filter="url(#glowSoft)"/>
-                        <rect x="408" y="190" width="8" height="12" fill="#1A2535"/>
-                        <rect x="428" y="190" width="8" height="12" fill="url(#winWarm)" opacity="0.6"/>
-
-                        <rect x="305" y="220" width="8" height="12" fill="url(#winWhite)" opacity="0.5"/>
-                        <rect x="325" y="220" width="8" height="12" fill="#1A2535"/>
-                        <rect x="345" y="220" width="8" height="12" fill="url(#winWarm)" opacity="0.7"/>
-                        <rect x="365" y="220" width="8" height="12" fill="#1A2535"/>
-                        <rect x="385" y="220" width="8" height="12" fill="url(#winWarm)" opacity="0.6"/>
-                        <rect x="405" y="220" width="8" height="12" fill="url(#winWhite)" opacity="0.65"/>
-                        <rect x="425" y="220" width="8" height="12" fill="#1A2535"/>
-
-                        <rect x="300" y="250" width="8" height="12" fill="url(#winWarm)" opacity="0.75"/>
-                        <rect x="320" y="250" width="8" height="12" fill="url(#winWarm)" opacity="0.5"/>
-                        <rect x="340" y="250" width="8" height="12" fill="#1A2535"/>
-                        <rect x="360" y="250" width="8" height="12" fill="url(#winWhite)" opacity="0.7"/>
-                        <rect x="380" y="250" width="8" height="12" fill="#1A2535"/>
-                        <rect x="400" y="250" width="8" height="12" fill="url(#winWarm)" opacity="0.8" filter="url(#glowSoft)"/>
-                        <rect x="420" y="250" width="8" height="12" fill="#1A2535"/>
-
-                        <rect x="296" y="280" width="8" height="12" fill="#1A2535"/>
-                        <rect x="316" y="280" width="8" height="12" fill="url(#winWarm)" opacity="0.65"/>
-                        <rect x="336" y="280" width="8" height="12" fill="url(#winWhite)" opacity="0.55"/>
-                        <rect x="356" y="280" width="8" height="12" fill="#1A2535"/>
-                        <rect x="376" y="280" width="8" height="12" fill="url(#winWarm)" opacity="0.7"/>
-                        <rect x="396" y="280" width="8" height="12" fill="#1A2535"/>
-                        <rect x="416" y="280" width="8" height="12" fill="url(#winWarm)" opacity="0.6"/>
-
-                        <rect x="292" y="310" width="8" height="12" fill="url(#winWarm)" opacity="0.7"/>
-                        <rect x="312" y="310" width="8" height="12" fill="#1A2535"/>
-                        <rect x="332" y="310" width="8" height="12" fill="url(#winWhite)" opacity="0.8" filter="url(#glowSoft)"/>
-                        <rect x="352" y="310" width="8" height="12" fill="url(#winWarm)" opacity="0.55"/>
-                        <rect x="372" y="310" width="8" height="12" fill="#1A2535"/>
-                        <rect x="392" y="310" width="8" height="12" fill="url(#winWarm)" opacity="0.75"/>
-                        <rect x="412" y="310" width="8" height="12" fill="#1A2535"/>
-
-                        <rect x="288" y="340" width="8" height="12" fill="#1A2535"/>
-                        <rect x="308" y="340" width="8" height="12" fill="url(#winWarm)" opacity="0.6"/>
-                        <rect x="328" y="340" width="8" height="12" fill="#1A2535"/>
-                        <rect x="348" y="340" width="8" height="12" fill="url(#winWarm)" opacity="0.8" filter="url(#glowSoft)"/>
-                        <rect x="368" y="340" width="8" height="12" fill="url(#winWhite)" opacity="0.6"/>
-                        <rect x="388" y="340" width="8" height="12" fill="#1A2535"/>
-                        <rect x="408" y="340" width="8" height="12" fill="url(#winWarm)" opacity="0.5"/>
-
-                        <rect x="284" y="370" width="8" height="12" fill="url(#winWhite)" opacity="0.55"/>
-                        <rect x="304" y="370" width="8" height="12" fill="url(#winWarm)" opacity="0.7"/>
-                        <rect x="324" y="370" width="8" height="12" fill="#1A2535"/>
-                        <rect x="344" y="370" width="8" height="12" fill="#1A2535"/>
-                        <rect x="364" y="370" width="8" height="12" fill="url(#winWarm)" opacity="0.65"/>
-                        <rect x="384" y="370" width="8" height="12" fill="url(#winWhite)" opacity="0.7"/>
-                        <rect x="404" y="370" width="8" height="12" fill="#1A2535"/>
-
-                        <rect x="280" y="400" width="8" height="12" fill="url(#winWarm)" opacity="0.6"/>
-                        <rect x="300" y="400" width="8" height="12" fill="#1A2535"/>
-                        <rect x="320" y="400" width="8" height="12" fill="url(#winWarm)" opacity="0.75"/>
-                        <rect x="340" y="400" width="8" height="12" fill="url(#winWhite)" opacity="0.5"/>
-                        <rect x="360" y="400" width="8" height="12" fill="#1A2535"/>
-                        <rect x="380" y="400" width="8" height="12" fill="url(#winWarm)" opacity="0.7" filter="url(#glowSoft)"/>
-                        <rect x="400" y="400" width="8" height="12" fill="#1A2535"/>
-
-                        <rect x="275" y="430" width="8" height="12" fill="#1A2535"/>
-                        <rect x="295" y="430" width="8" height="12" fill="url(#winWhite)" opacity="0.6"/>
-                        <rect x="315" y="430" width="8" height="12" fill="url(#winWarm)" opacity="0.7"/>
-                        <rect x="335" y="430" width="8" height="12" fill="#1A2535"/>
-                        <rect x="355" y="430" width="8" height="12" fill="url(#winWarm)" opacity="0.55"/>
-                        <rect x="375" y="430" width="8" height="12" fill="#1A2535"/>
-                        <rect x="395" y="430" width="8" height="12" fill="url(#winWarm)" opacity="0.65"/>
-
-                        <rect x="270" y="460" width="8" height="12" fill="url(#winWarm)" opacity="0.7"/>
-                        <rect x="290" y="460" width="8" height="12" fill="#1A2535"/>
-                        <rect x="310" y="460" width="8" height="12" fill="url(#winWhite)" opacity="0.55"/>
-                        <rect x="330" y="460" width="8" height="12" fill="url(#winWarm)" opacity="0.8" filter="url(#glowSoft)"/>
-                        <rect x="350" y="460" width="8" height="12" fill="#1A2535"/>
-                        <rect x="370" y="460" width="8" height="12" fill="url(#winWarm)" opacity="0.6"/>
-                        <rect x="390" y="460" width="8" height="12" fill="#1A2535"/>
-
-                        <rect x="265" y="490" width="8" height="12" fill="#1A2535"/>
-                        <rect x="285" y="490" width="8" height="12" fill="url(#winWarm)" opacity="0.65"/>
-                        <rect x="305" y="490" width="8" height="12" fill="url(#winWhite)" opacity="0.7"/>
-                        <rect x="325" y="490" width="8" height="12" fill="#1A2535"/>
-                        <rect x="345" y="490" width="8" height="12" fill="url(#winWarm)" opacity="0.7"/>
-                        <rect x="365" y="490" width="8" height="12" fill="#1A2535"/>
-                        <rect x="385" y="490" width="8" height="12" fill="url(#winWarm)" opacity="0.55"/>
-
-                        <rect x="260" y="520" width="8" height="12" fill="url(#winWarm)" opacity="0.6"/>
-                        <rect x="280" y="520" width="8" height="12" fill="#1A2535"/>
-                        <rect x="300" y="520" width="8" height="12" fill="url(#winWarm)" opacity="0.75"/>
-                        <rect x="320" y="520" width="8" height="12" fill="url(#winWhite)" opacity="0.5"/>
-                        <rect x="340" y="520" width="8" height="12" fill="#1A2535"/>
-                        <rect x="360" y="520" width="8" height="12" fill="url(#winWarm)" opacity="0.65"/>
-                        <rect x="380" y="520" width="8" height="12" fill="#1A2535"/>
-
-                        <rect x="255" y="550" width="8" height="12" fill="#1A2535"/>
-                        <rect x="275" y="550" width="8" height="12" fill="url(#winWhite)" opacity="0.55"/>
-                        <rect x="295" y="550" width="8" height="12" fill="url(#winWarm)" opacity="0.7"/>
-                        <rect x="315" y="550" width="8" height="12" fill="#1A2535"/>
-                        <rect x="335" y="550" width="8" height="12" fill="url(#winWarm)" opacity="0.6"/>
-                        <rect x="355" y="550" width="8" height="12" fill="url(#winWhite)" opacity="0.65"/>
-                        <rect x="375" y="550" width="8" height="12" fill="#1A2535"/>
-
-                        <rect x="250" y="580" width="8" height="12" fill="url(#winWarm)" opacity="0.65"/>
-                        <rect x="270" y="580" width="8" height="12" fill="#1A2535"/>
-                        <rect x="290" y="580" width="8" height="12" fill="url(#winWarm)" opacity="0.7"/>
-                        <rect x="310" y="580" width="8" height="12" fill="url(#winWhite)" opacity="0.5"/>
-                        <rect x="330" y="580" width="8" height="12" fill="#1A2535"/>
-                        <rect x="350" y="580" width="8" height="12" fill="url(#winWarm)" opacity="0.55"/>
-                        <rect x="370" y="580" width="8" height="12" fill="#1A2535"/>
-                    </g>
-
-                    <!-- Haze at base -->
-                    <polygon points="260,480 520,480 520,640 260,640" fill="url(#haze)"/>
-
-                    <!-- Antenna -->
-                    <line x1="390" y1="20" x2="390" y2="-10" stroke="#9CA3AF" stroke-width="2"/>
-                    <circle cx="390" cy="-12" r="4" fill="#FFFFFF" filter="url(#glowSilver)"/>
-
-                    <!-- LOGO: MONAPP -->
-                    <g transform="translate(330, 5)">
-                        <rect x="0" y="0" width="120" height="36" rx="4" fill="url(#myLogoBg)" stroke="#D1D5DB" stroke-width="1.5" filter="url(#glowSilver)"/>
-                        <text x="60" y="24" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-weight="900" font-size="16" letter-spacing="4" fill="#FFFFFF" filter="url(#glowSilver)">MONAPP</text>
-                    </g>
-
-                    <!-- Entrance lobby glow -->
-                    <polygon points="360,600 420,600 430,640 350,640" fill="#D1D5DB" opacity="0.12"/>
-                    <polygon points="370,610 410,610 415,640 365,640" fill="#E5E7EB" opacity="0.08"/>
-                </g>
-
-                <!-- ===== SHOPIFY TOWER (right) — dark glass with red neon ===== -->
-                <g>
-                    <!-- Main tower body -->
-                    <polygon points="630,30 790,30 840,640 580,640" fill="url(#rivalGlass)"/>
-                    <!-- Side face (right, darker) -->
-                    <polygon points="790,30 730,30 750,640 840,640" fill="url(#rivalGlassSide)"/>
-                    <!-- Left edge red neon -->
-                    <line x1="630" y1="30" x2="580" y2="640" stroke="url(#redEdge)" stroke-width="3" opacity="0.95"/>
-                    <!-- Right edge subtle red -->
-                    <line x1="790" y1="30" x2="840" y2="640" stroke="#8B0F0F" stroke-width="1.5" opacity="0.5"/>
-                    <!-- Top crown edge -->
-                    <line x1="630" y1="30" x2="790" y2="30" stroke="#C41E1E" stroke-width="2" opacity="0.7"/>
-
-                    <!-- Horizontal floor lines -->
-                    <g stroke="#1A0A0C" stroke-width="0.8" opacity="0.6">
-                        <line x1="635" y1="70" x2="785" y2="70"/>
-                        <line x1="632" y1="110" x2="788" y2="110"/>
-                        <line x1="629" y1="150" x2="791" y2="150"/>
-                        <line x1="626" y1="190" x2="794" y2="190"/>
-                        <line x1="623" y1="230" x2="797" y2="230"/>
-                        <line x1="619" y1="270" x2="801" y2="270"/>
-                        <line x1="615" y1="310" x2="805" y2="310"/>
-                        <line x1="611" y1="350" x2="809" y2="350"/>
-                        <line x1="607" y1="390" x2="813" y2="390"/>
-                        <line x1="603" y1="430" x2="817" y2="430"/>
-                        <line x1="598" y1="470" x2="822" y2="470"/>
-                        <line x1="594" y1="510" x2="826" y2="510"/>
-                        <line x1="590" y1="550" x2="830" y2="550"/>
-                        <line x1="586" y1="590" x2="834" y2="590"/>
-                        <line x1="582" y1="620" x2="838" y2="620"/>
-                    </g>
-
-                    <!-- Vertical mullions -->
-                    <g stroke="#2A1014" stroke-width="0.7" opacity="0.5">
-                        <line x1="660" y1="30" x2="610" y2="640"/>
-                        <line x1="690" y1="30" x2="640" y2="640"/>
-                        <line x1="720" y1="30" x2="670" y2="640"/>
-                        <line x1="750" y1="30" x2="700" y2="640"/>
-                        <line x1="770" y1="30" x2="720" y2="640"/>
-                    </g>
-
-                    <!-- Windows grid — SHOPIFY tower (red-tinted) -->
-                    <g clip-path="url(#rivalTowerClip)">
-                        <!-- Top section -->
-                        <rect x="645" y="50" width="8" height="12" fill="url(#winRed)" opacity="0.8" filter="url(#glowSoft)"/>
-                        <rect x="665" y="50" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="685" y="50" width="8" height="12" fill="url(#winRed)" opacity="0.5"/>
-                        <rect x="705" y="50" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="725" y="50" width="8" height="12" fill="url(#winRed)" opacity="0.7"/>
-                        <rect x="745" y="50" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="765" y="50" width="8" height="12" fill="url(#winRed)" opacity="0.45"/>
-
-                        <rect x="642" y="80" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="662" y="80" width="8" height="12" fill="url(#winRed)" opacity="0.75" filter="url(#glowSoft)"/>
-                        <rect x="682" y="80" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="702" y="80" width="8" height="12" fill="url(#winRed)" opacity="0.55"/>
-                        <rect x="722" y="80" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="742" y="80" width="8" height="12" fill="url(#winRed)" opacity="0.8" filter="url(#glowSoft)"/>
-                        <rect x="762" y="80" width="8" height="12" fill="#1A0A0C"/>
-
-                        <rect x="638" y="110" width="8" height="12" fill="url(#winRed)" opacity="0.65"/>
-                        <rect x="658" y="110" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="678" y="110" width="8" height="12" fill="url(#winRed)" opacity="0.85" filter="url(#glowSoft)"/>
-                        <rect x="698" y="110" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="718" y="110" width="8" height="12" fill="url(#winRed)" opacity="0.5"/>
-                        <rect x="738" y="110" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="758" y="110" width="8" height="12" fill="url(#winRed)" opacity="0.7"/>
-
-                        <rect x="635" y="140" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="655" y="140" width="8" height="12" fill="url(#winRed)" opacity="0.6"/>
-                        <rect x="675" y="140" width="8" height="12" fill="url(#winRed)" opacity="0.75"/>
-                        <rect x="695" y="140" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="715" y="140" width="8" height="12" fill="url(#winRed)" opacity="0.8" filter="url(#glowSoft)"/>
-                        <rect x="735" y="140" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="755" y="140" width="8" height="12" fill="url(#winRed)" opacity="0.5"/>
-
-                        <rect x="631" y="170" width="8" height="12" fill="url(#winRed)" opacity="0.7"/>
-                        <rect x="651" y="170" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="671" y="170" width="8" height="12" fill="url(#winRed)" opacity="0.55"/>
-                        <rect x="691" y="170" width="8" height="12" fill="url(#winRed)" opacity="0.8" filter="url(#glowSoft)"/>
-                        <rect x="711" y="170" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="731" y="170" width="8" height="12" fill="url(#winRed)" opacity="0.65"/>
-                        <rect x="751" y="170" width="8" height="12" fill="#1A0A0C"/>
-
-                        <rect x="627" y="200" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="647" y="200" width="8" height="12" fill="url(#winRed)" opacity="0.75"/>
-                        <rect x="667" y="200" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="687" y="200" width="8" height="12" fill="url(#winRed)" opacity="0.6"/>
-                        <rect x="707" y="200" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="727" y="200" width="8" height="12" fill="url(#winRed)" opacity="0.85" filter="url(#glowSoft)"/>
-                        <rect x="747" y="200" width="8" height="12" fill="#1A0A0C"/>
-
-                        <rect x="623" y="230" width="8" height="12" fill="url(#winRed)" opacity="0.55"/>
-                        <rect x="643" y="230" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="663" y="230" width="8" height="12" fill="url(#winRed)" opacity="0.7"/>
-                        <rect x="683" y="230" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="703" y="230" width="8" height="12" fill="url(#winRed)" opacity="0.8"/>
-                        <rect x="723" y="230" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="743" y="230" width="8" height="12" fill="url(#winRed)" opacity="0.5"/>
-
-                        <rect x="619" y="260" width="8" height="12" fill="url(#winRed)" opacity="0.7"/>
-                        <rect x="639" y="260" width="8" height="12" fill="url(#winRed)" opacity="0.45"/>
-                        <rect x="659" y="260" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="679" y="260" width="8" height="12" fill="url(#winRed)" opacity="0.75" filter="url(#glowSoft)"/>
-                        <rect x="699" y="260" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="719" y="260" width="8" height="12" fill="url(#winRed)" opacity="0.6"/>
-                        <rect x="739" y="260" width="8" height="12" fill="#1A0A0C"/>
-
-                        <rect x="615" y="290" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="635" y="290" width="8" height="12" fill="url(#winRed)" opacity="0.65"/>
-                        <rect x="655" y="290" width="8" height="12" fill="url(#winRed)" opacity="0.5"/>
-                        <rect x="675" y="290" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="695" y="290" width="8" height="12" fill="url(#winRed)" opacity="0.7"/>
-                        <rect x="715" y="290" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="735" y="290" width="8" height="12" fill="url(#winRed)" opacity="0.8" filter="url(#glowSoft)"/>
-
-                        <rect x="611" y="320" width="8" height="12" fill="url(#winRed)" opacity="0.6"/>
-                        <rect x="631" y="320" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="651" y="320" width="8" height="12" fill="url(#winRed)" opacity="0.8" filter="url(#glowSoft)"/>
-                        <rect x="671" y="320" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="691" y="320" width="8" height="12" fill="url(#winRed)" opacity="0.55"/>
-                        <rect x="711" y="320" width="8" height="12" fill="url(#winRed)" opacity="0.7"/>
-                        <rect x="731" y="320" width="8" height="12" fill="#1A0A0C"/>
-
-                        <rect x="607" y="350" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="627" y="350" width="8" height="12" fill="url(#winRed)" opacity="0.7"/>
-                        <rect x="647" y="350" width="8" height="12" fill="url(#winRed)" opacity="0.5"/>
-                        <rect x="667" y="350" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="687" y="350" width="8" height="12" fill="url(#winRed)" opacity="0.75"/>
-                        <rect x="707" y="350" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="727" y="350" width="8" height="12" fill="url(#winRed)" opacity="0.6"/>
-
-                        <rect x="603" y="380" width="8" height="12" fill="url(#winRed)" opacity="0.75" filter="url(#glowSoft)"/>
-                        <rect x="623" y="380" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="643" y="380" width="8" height="12" fill="url(#winRed)" opacity="0.6"/>
-                        <rect x="663" y="380" width="8" height="12" fill="url(#winRed)" opacity="0.5"/>
-                        <rect x="683" y="380" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="703" y="380" width="8" height="12" fill="url(#winRed)" opacity="0.7"/>
-                        <rect x="723" y="380" width="8" height="12" fill="#1A0A0C"/>
-
-                        <rect x="599" y="410" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="619" y="410" width="8" height="12" fill="url(#winRed)" opacity="0.65"/>
-                        <rect x="639" y="410" width="8" height="12" fill="url(#winRed)" opacity="0.8" filter="url(#glowSoft)"/>
-                        <rect x="659" y="410" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="679" y="410" width="8" height="12" fill="url(#winRed)" opacity="0.55"/>
-                        <rect x="699" y="410" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="719" y="410" width="8" height="12" fill="url(#winRed)" opacity="0.7"/>
-
-                        <rect x="595" y="440" width="8" height="12" fill="url(#winRed)" opacity="0.6"/>
-                        <rect x="615" y="440" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="635" y="440" width="8" height="12" fill="url(#winRed)" opacity="0.7"/>
-                        <rect x="655" y="440" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="675" y="440" width="8" height="12" fill="url(#winRed)" opacity="0.85" filter="url(#glowSoft)"/>
-                        <rect x="695" y="440" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="715" y="440" width="8" height="12" fill="url(#winRed)" opacity="0.5"/>
-
-                        <rect x="591" y="470" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="611" y="470" width="8" height="12" fill="url(#winRed)" opacity="0.7"/>
-                        <rect x="631" y="470" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="651" y="470" width="8" height="12" fill="url(#winRed)" opacity="0.55"/>
-                        <rect x="671" y="470" width="8" height="12" fill="url(#winRed)" opacity="0.75"/>
-                        <rect x="691" y="470" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="711" y="470" width="8" height="12" fill="url(#winRed)" opacity="0.6"/>
-
-                        <rect x="587" y="500" width="8" height="12" fill="url(#winRed)" opacity="0.65"/>
-                        <rect x="607" y="500" width="8" height="12" fill="url(#winRed)" opacity="0.45"/>
-                        <rect x="627" y="500" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="647" y="500" width="8" height="12" fill="url(#winRed)" opacity="0.7" filter="url(#glowSoft)"/>
-                        <rect x="667" y="500" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="687" y="500" width="8" height="12" fill="url(#winRed)" opacity="0.8"/>
-                        <rect x="707" y="500" width="8" height="12" fill="#1A0A0C"/>
-
-                        <rect x="583" y="530" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="603" y="530" width="8" height="12" fill="url(#winRed)" opacity="0.7"/>
-                        <rect x="623" y="530" width="8" height="12" fill="url(#winRed)" opacity="0.55"/>
-                        <rect x="643" y="530" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="663" y="530" width="8" height="12" fill="url(#winRed)" opacity="0.75"/>
-                        <rect x="683" y="530" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="703" y="530" width="8" height="12" fill="url(#winRed)" opacity="0.6"/>
-
-                        <rect x="580" y="560" width="8" height="12" fill="url(#winRed)" opacity="0.7" filter="url(#glowSoft)"/>
-                        <rect x="600" y="560" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="620" y="560" width="8" height="12" fill="url(#winRed)" opacity="0.6"/>
-                        <rect x="640" y="560" width="8" height="12" fill="url(#winRed)" opacity="0.5"/>
-                        <rect x="660" y="560" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="680" y="560" width="8" height="12" fill="url(#winRed)" opacity="0.8"/>
-                        <rect x="700" y="560" width="8" height="12" fill="#1A0A0C"/>
-
-                        <rect x="577" y="590" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="597" y="590" width="8" height="12" fill="url(#winRed)" opacity="0.65"/>
-                        <rect x="617" y="590" width="8" height="12" fill="url(#winRed)" opacity="0.7"/>
-                        <rect x="637" y="590" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="657" y="590" width="8" height="12" fill="url(#winRed)" opacity="0.55"/>
-                        <rect x="677" y="590" width="8" height="12" fill="#1A0A0C"/>
-                        <rect x="697" y="590" width="8" height="12" fill="url(#winRed)" opacity="0.7"/>
-                    </g>
-
-                    <!-- Haze at base -->
-                    <polygon points="580,480 840,480 840,640 580,640" fill="url(#hazeRed)"/>
-
-                    <!-- Antenna -->
-                    <line x1="710" y1="30" x2="710" y2="-15" stroke="#C41E1E" stroke-width="2.5"/>
-                    <circle cx="710" cy="-17" r="5" fill="#FF4040" filter="url(#glowRed)"/>
-
-                    <!-- LOGO: SHOPIFY -->
-                    <g transform="translate(650, 15)">
-                        <rect x="0" y="0" width="120" height="36" rx="4" fill="url(#rivalLogoBg)" stroke="#FF3B3B" stroke-width="1.5" filter="url(#glowRed)"/>
-                        <text x="60" y="24" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-weight="900" font-size="14" letter-spacing="3" fill="#FFFFFF" filter="url(#glowRed)">SHOPIFY</text>
-                    </g>
-
-                    <!-- Entrance lobby glow (red) -->
-                    <polygon points="660,600 740,600 750,640 650,640" fill="#FF3B3B" opacity="0.15"/>
-                    <polygon points="675,610 725,610 730,640 670,640" fill="#FF6060" opacity="0.1"/>
-                </g>
-
-                <!-- Red light streaks in sky (city atmosphere) -->
-                <line x1="0" y1="200" x2="1100" y2="180" stroke="#FF3B3B" stroke-width="0.5" opacity="0.06"/>
-                <line x1="0" y1="350" x2="1100" y2="330" stroke="#FF3B3B" stroke-width="0.4" opacity="0.04"/>
-
-                <!-- Bottom vignette -->
-                <rect width="1100" height="80" y="560" fill="url(#haze)" opacity="0.5"/>
-            </svg>
+            <!-- Logos on the buildings -->
+            <div class="arena-logo mine">
+                <div class="arena-logo-name">MONAPP</div>
+                <div class="arena-logo-sub">Votre entreprise</div>
+            </div>
+            <div class="arena-logo rival">
+                <div class="arena-logo-name">SHOPIFY</div>
+                <div class="arena-logo-sub">Concurrent surveillé</div>
+            </div>
 
             <div class="live-ticker">
                 <span class="live-dot"></span>
@@ -2208,7 +1815,7 @@
 
             <div class="building-stats mine">
                 <div class="building-stats-value">+12%</div>
-                <div class="building-stats-label">MonApp — Croissance</div>
+                <div class="building-stats-label">Croissance</div>
             </div>
 
             <div class="vs-badge">
@@ -2217,7 +1824,7 @@
 
             <div class="building-stats rival">
                 <div class="building-stats-value">-5%</div>
-                <div class="building-stats-label">Shopify — Prix baissé</div>
+                <div class="building-stats-label">Prix baissé</div>
             </div>
         </div>
     </section>
