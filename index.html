@@ -2,8 +2,15 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>RivalEye - La concurrence en temps réel</title>
+    <meta name="description" content="Surveillez chaque mouvement de vos concurrents en temps réel : prix, posts, avis, pubs.">
+    <meta name="theme-color" content="#050505">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="RivalEye">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.svg">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * {
@@ -2162,6 +2169,209 @@
             box-shadow: 0 6px 24px var(--red-glow);
         }
 
+        /* ========== CHOOSE MODE ========== */
+        .choose-section {
+            padding: 100px 24px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .choose-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .choose-header h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .choose-header h2 span {
+            background: linear-gradient(135deg, var(--silver), var(--red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .choose-header p {
+            font-size: 18px;
+            color: var(--gray-3);
+        }
+
+        .choose-grid {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .choose-card {
+            background: linear-gradient(145deg, #121214, #0A0A0C);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 40px 32px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .choose-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .choose-card.recommended {
+            border-color: rgba(255, 59, 59, 0.4);
+            box-shadow: 0 0 40px rgba(255, 59, 59, 0.1);
+        }
+
+        .choose-card.recommended:hover {
+            border-color: rgba(255, 59, 59, 0.6);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 40px rgba(255, 59, 59, 0.15);
+        }
+
+        .choose-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            padding: 4px 10px;
+            background: rgba(255, 59, 59, 0.2);
+            border: 1px solid rgba(255, 59, 59, 0.3);
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--red);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .choose-icon {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 24px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .choose-card.install .choose-icon {
+            background: linear-gradient(135deg, rgba(255, 59, 59, 0.2), rgba(255, 59, 59, 0.05));
+            border: 1px solid rgba(255, 59, 59, 0.3);
+        }
+
+        .choose-card.web .choose-icon {
+            background: linear-gradient(135deg, rgba(209, 213, 219, 0.15), rgba(209, 213, 219, 0.05));
+            border: 1px solid rgba(209, 213, 219, 0.25);
+        }
+
+        .choose-icon svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .choose-card.install .choose-icon svg { stroke: var(--red); }
+        .choose-card.web .choose-icon svg { stroke: var(--silver); }
+
+        .choose-card h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .choose-card > p {
+            font-size: 15px;
+            color: var(--gray-4);
+            margin-bottom: 28px;
+            line-height: 1.6;
+        }
+
+        .choose-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 32px;
+        }
+
+        .choose-features li {
+            padding: 10px 0;
+            font-size: 14px;
+            color: var(--gray-2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .choose-features li:last-child {
+            border-bottom: none;
+        }
+
+        .choose-features li svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        .choose-card.install .choose-features li svg { stroke: var(--red); }
+        .choose-card.web .choose-features li svg { stroke: var(--silver); }
+
+        .choose-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .choose-card.install .choose-btn {
+            background: linear-gradient(135deg, var(--red), var(--red-dark));
+            color: white;
+        }
+
+        .choose-card.install .choose-btn:hover {
+            box-shadow: 0 8px 24px rgba(255, 59, 59, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .choose-card.web .choose-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--white);
+        }
+
+        .choose-card.web .choose-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .choose-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .choose-sub {
+            margin-top: 12px;
+            font-size: 12px;
+            color: var(--gray-5);
+        }
+
+        @media (max-width: 768px) {
+            .choose-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         /* ========== CTA ========== */
         .cta {
             padding: 140px 24px;
@@ -2527,6 +2737,7 @@
             <li><a href="#prix">Prix</a></li>
             <li><a href="#posts">Posts</a></li>
             <li><a href="#avis">Avis</a></li>
+            <li><a href="#mode">Installer</a></li>
             <li><a href="#analysis">Analyse</a></li>
             <li><a href="#predictions">Pronostics</a></li>
             <li><a href="#pricing">Tarifs</a></li>
@@ -3052,6 +3263,85 @@
         </div>
     </section>
 
+    <!-- CHOOSE MODE -->
+    <section class="choose-section" id="mode">
+        <div class="choose-header reveal">
+            <h2>Comment voulez-vous <span>l'utiliser</span> ?</h2>
+            <p>Installez l'app ou continuez directement sur le web.</p>
+        </div>
+        <div class="choose-grid">
+            <div class="choose-card install recommended reveal" onclick="installPWA()">
+                <div class="choose-badge">Recommandé</div>
+                <div class="choose-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                        <line x1="12" y1="18" x2="12.01" y2="18"/>
+                    </svg>
+                </div>
+                <h3>Installer l'app</h3>
+                <p>Ajoutez RivalEye à votre écran d'accueil. Notifications push, accès instantané, expérience native.</p>
+                <ul class="choose-features">
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Notifications push instantanées
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Fonctionne hors ligne
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Icône sur l'écran d'accueil
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Expérience plus rapide
+                    </li>
+                </ul>
+                <a href="#" class="choose-btn" onclick="installPWA(event)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Installer gratuitement
+                </a>
+                <div class="choose-sub">iOS · Android · Desktop</div>
+            </div>
+
+            <div class="choose-card web reveal">
+                <div class="choose-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="2" y1="12" x2="22" y2="12"/>
+                        <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+                    </svg>
+                </div>
+                <h3>Rester sur le web</h3>
+                <p>Utilisez RivalEye directement dans votre navigateur. Sans installation, sans espace en plus.</p>
+                <ul class="choose-features">
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Aucune installation requise
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Disponible immédiatement
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Mises à jour automatiques
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Fonctionne sur tous les navigateurs
+                    </li>
+                </ul>
+                <a href="#dashboard" class="choose-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                    Continuer sur le web
+                </a>
+                <div class="choose-sub">Chrome · Safari · Firefox · Edge</div>
+            </div>
+        </div>
+    </section>
+
     <!-- ANALYSIS -->
     <section class="analysis" id="analysis">
         <div class="analysis-header reveal">
@@ -3493,6 +3783,177 @@
             if (e) e.stopPropagation();
             document.getElementById('modal').classList.remove('active');
             document.body.style.overflow = '';
+        }
+
+        // PWA Install
+        let deferredPrompt = null;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+
+        function installPWA(e) {
+            if (e) e.preventDefault();
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choice) => {
+                    if (choice.outcome === 'accepted') {
+                        console.log('RivalEye installé');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                showInstallGuide();
+            }
+        }
+
+        function showInstallGuide() {
+            const guide = document.createElement('div');
+            guide.id = 'install-guide';
+            guide.style.cssText = `
+                position: fixed; inset: 0; z-index: 9999;
+                background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
+                display: flex; align-items: center; justify-content: center;
+                padding: 24px; opacity: 0; transition: opacity 0.3s ease;
+            `;
+            guide.innerHTML = `
+                <div style="
+                    background: linear-gradient(145deg, #141416, #0A0A0C);
+                    border: 1px solid rgba(255,255,255,0.1);
+                    border-radius: 20px; padding: 36px; max-width: 400px; width: 100%;
+                    box-shadow: 0 25px 80px rgba(0,0,0,0.7);
+                ">
+                    <div style="text-align:center;margin-bottom:24px;">
+                        <div style="
+                            width:56px;height:56px;margin:0 auto 16px;border-radius:14px;
+                            background:linear-gradient(135deg,rgba(255,59,59,0.2),rgba(255,59,59,0.05));
+                            border:1px solid rgba(255,59,59,0.3);
+                            display:flex;align-items:center;justify-content:center;
+                        ">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF3B3B" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                        </div>
+                        <h3 style="font-size:20px;font-weight:700;margin-bottom:8px;">Installer RivalEye</h3>
+                        <p style="font-size:14px;color:#9CA3AF;line-height:1.5;">Ajoutez l'app à votre écran d'accueil</p>
+                    </div>
+                    <div id="install-instructions" style="margin-bottom:24px;"></div>
+                    <button onclick="closeInstallGuide()" style="
+                        width:100%;padding:12px;border-radius:10px;border:none;
+                        background:rgba(255,255,255,0.06);color:#fff;font-size:14px;font-weight:600;
+                        cursor:pointer;border:1px solid rgba(255,255,255,0.1);
+                    ">Fermer</button>
+                </div>
+            `;
+            document.body.appendChild(guide);
+            requestAnimationFrame(() => { guide.style.opacity = '1'; });
+
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            const isAndroid = /Android/.test(navigator.userAgent);
+            const instructions = document.getElementById('install-instructions');
+
+            if (isIOS) {
+                instructions.innerHTML = `
+                    <div style="font-size:14px;color:#D1D5DB;line-height:1.7;">
+                        <div style="display:flex;gap:10px;margin-bottom:12px;align-items:flex-start;">
+                            <span style="
+                                background:rgba(255,59,59,0.15);color:#FF3B3B;
+                                width:22px;height:22px;border-radius:6px;
+                                display:flex;align-items:center;justify-content:center;
+                                font-size:12px;font-weight:700;flex-shrink:0;margin-top:2px;
+                            ">1</span>
+                            <span>Touchez le bouton <strong style="color:#fff;">Partager</strong> en bas de Safari</span>
+                        </div>
+                        <div style="display:flex;gap:10px;margin-bottom:12px;align-items:flex-start;">
+                            <span style="
+                                background:rgba(255,59,59,0.15);color:#FF3B3B;
+                                width:22px;height:22px;border-radius:6px;
+                                display:flex;align-items:center;justify-content:center;
+                                font-size:12px;font-weight:700;flex-shrink:0;margin-top:2px;
+                            ">2</span>
+                            <span>Sélectionnez <strong style="color:#fff;">Sur l'écran d'accueil</strong></span>
+                        </div>
+                        <div style="display:flex;gap:10px;align-items:flex-start;">
+                            <span style="
+                                background:rgba(255,59,59,0.15);color:#FF3B3B;
+                                width:22px;height:22px;border-radius:6px;
+                                display:flex;align-items:center;justify-content:center;
+                                font-size:12px;font-weight:700;flex-shrink:0;margin-top:2px;
+                            ">3</span>
+                            <span>Confirmez avec <strong style="color:#fff;">Ajouter</strong></span>
+                        </div>
+                    </div>
+                `;
+            } else if (isAndroid) {
+                instructions.innerHTML = `
+                    <div style="font-size:14px;color:#D1D5DB;line-height:1.7;">
+                        <div style="display:flex;gap:10px;margin-bottom:12px;align-items:flex-start;">
+                            <span style="
+                                background:rgba(255,59,59,0.15);color:#FF3B3B;
+                                width:22px;height:22px;border-radius:6px;
+                                display:flex;align-items:center;justify-content:center;
+                                font-size:12px;font-weight:700;flex-shrink:0;margin-top:2px;
+                            ">1</span>
+                            <span>Ouvrez le menu Chrome (3 points)</span>
+                        </div>
+                        <div style="display:flex;gap:10px;margin-bottom:12px;align-items:flex-start;">
+                            <span style="
+                                background:rgba(255,59,59,0.15);color:#FF3B3B;
+                                width:22px;height:22px;border-radius:6px;
+                                display:flex;align-items:center;justify-content:center;
+                                font-size:12px;font-weight:700;flex-shrink:0;margin-top:2px;
+                            ">2</span>
+                            <span>Touchez <strong style="color:#fff;">Installer l'application</strong> ou <strong style="color:#fff;">Ajouter à l'écran d'accueil</strong></span>
+                        </div>
+                        <div style="display:flex;gap:10px;align-items:flex-start;">
+                            <span style="
+                                background:rgba(255,59,59,0.15);color:#FF3B3B;
+                                width:22px;height:22px;border-radius:6px;
+                                display:flex;align-items:center;justify-content:center;
+                                font-size:12px;font-weight:700;flex-shrink:0;margin-top:2px;
+                            ">3</span>
+                            <span>Confirmez l'installation</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                instructions.innerHTML = `
+                    <div style="font-size:14px;color:#D1D5DB;line-height:1.7;">
+                        <div style="display:flex;gap:10px;margin-bottom:12px;align-items:flex-start;">
+                            <span style="
+                                background:rgba(255,59,59,0.15);color:#FF3B3B;
+                                width:22px;height:22px;border-radius:6px;
+                                display:flex;align-items:center;justify-content:center;
+                                font-size:12px;font-weight:700;flex-shrink:0;margin-top:2px;
+                            ">1</span>
+                            <span>Cliquez sur l'icône d'installation dans la barre d'adresse</span>
+                        </div>
+                        <div style="display:flex;gap:10px;align-items:flex-start;">
+                            <span style="
+                                background:rgba(255,59,59,0.15);color:#FF3B3B;
+                                width:22px;height:22px;border-radius:6px;
+                                display:flex;align-items:center;justify-content:center;
+                                font-size:12px;font-weight:700;flex-shrink:0;margin-top:2px;
+                            ">2</span>
+                            <span>Ou utilisez le menu → <strong style="color:#fff;">Installer RivalEye</strong></span>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function closeInstallGuide() {
+            const guide = document.getElementById('install-guide');
+            if (guide) {
+                guide.style.opacity = '0';
+                setTimeout(() => guide.remove(), 300);
+            }
+        }
+
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').catch(() => {});
+            });
         }
 
         // Smooth scroll
