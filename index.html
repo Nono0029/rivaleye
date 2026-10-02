@@ -322,6 +322,422 @@
             gap: 16px;
             justify-content: center;
             flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .hero-search-wrap {
+            margin: 36px auto 0;
+            max-width: 620px;
+        }
+
+        .hero-search {
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 16px;
+            padding: 6px 6px 6px 20px;
+            backdrop-filter: blur(20px);
+            transition: border-color .3s, box-shadow .3s;
+        }
+
+        .hero-search:focus-within {
+            border-color: rgba(255,59,59,0.5);
+            box-shadow: 0 0 0 4px rgba(255,59,59,0.1);
+        }
+
+        .hero-search svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--gray-4);
+            fill: none;
+            stroke-width: 2;
+            flex-shrink: 0;
+        }
+
+        .hero-search input {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 16px;
+            font-family: inherit;
+            padding: 14px 14px;
+        }
+
+        .hero-search input::placeholder {
+            color: var(--gray-5);
+        }
+
+        .hero-search button {
+            padding: 14px 28px;
+            background: linear-gradient(135deg, var(--red), var(--red-dark));
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all .3s;
+        }
+
+        .hero-search button:hover {
+            box-shadow: 0 8px 24px rgba(255,59,59,0.4);
+        }
+
+        .hero-search-examples {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 14px;
+        }
+
+        .hero-search-examples span {
+            font-size: 12px;
+            color: var(--gray-5);
+        }
+
+        .hero-search-examples button {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 4px 12px;
+            color: var(--gray-4);
+            font-size: 12px;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .hero-search-examples button:hover {
+            border-color: rgba(255,59,59,0.4);
+            color: var(--red);
+        }
+
+        /* FREE ANALYSIS MODAL */
+        .free-modal-bg {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(12px);
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            z-index: 9000;
+            padding: 40px 20px;
+            overflow-y: auto;
+        }
+
+        .free-modal-bg.on {
+            display: flex;
+        }
+
+        .free-modal {
+            background: linear-gradient(145deg, #141416, #0A0A0C);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            max-width: 720px;
+            width: 100%;
+            animation: modalIn .3s ease;
+            margin-bottom: 40px;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .free-modal-head {
+            padding: 32px 36px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        .free-modal-head h2 {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .free-modal-head h2 span {
+            color: var(--red);
+        }
+
+        .free-modal-head p {
+            color: var(--gray-4);
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .free-modal-close {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .free-modal-body {
+            padding: 28px 36px 36px;
+        }
+
+        .free-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            background: rgba(16,185,129,0.12);
+            border: 1px solid rgba(16,185,129,0.25);
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--green);
+            margin-bottom: 20px;
+        }
+
+        .free-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .free-stat {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .free-stat-val {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .free-stat-val.red { color: var(--red); }
+        .free-stat-val.orange { color: var(--orange); }
+        .free-stat-val.silver { color: var(--silver); }
+        .free-stat-val.green { color: var(--green); }
+
+        .free-stat-label {
+            font-size: 11px;
+            color: var(--gray-4);
+            margin-top: 4px;
+        }
+
+        .free-section {
+            margin-bottom: 20px;
+        }
+
+        .free-section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gray-3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .free-section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255,255,255,0.06);
+        }
+
+        .free-card {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 10px;
+        }
+
+        .free-card-h {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .free-tag {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .free-tag.red { background: rgba(255,59,59,0.15); color: var(--red); }
+        .free-tag.silver { background: rgba(209,213,219,0.1); color: var(--silver); }
+        .free-tag.green { background: rgba(16,185,129,0.1); color: var(--green); }
+        .free-tag.orange { background: rgba(245,158,11,0.1); color: var(--orange); }
+        .free-tag.linkedin { background: rgba(10,102,194,0.2); color: #4A9EFF; }
+        .free-tag.facebook { background: rgba(24,119,242,0.15); color: #5B9BD5; }
+        .free-tag.trustpilot { background: rgba(0,195,137,0.15); color: #00C389; }
+
+        .free-card-meta {
+            font-size: 12px;
+            color: var(--gray-5);
+            margin-left: auto;
+        }
+
+        .free-card-text {
+            font-size: 13px;
+            color: var(--gray-2);
+            line-height: 1.5;
+            font-style: italic;
+            padding-left: 12px;
+            border-left: 2px solid rgba(255,59,59,0.3);
+            margin-bottom: 10px;
+        }
+
+        .free-card-stats {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .free-card-stats span {
+            font-size: 12px;
+            color: var(--gray-4);
+        }
+
+        .free-card-stats strong {
+            color: var(--gray-2);
+        }
+
+        .free-advice {
+            padding: 10px 12px;
+            background: rgba(16,185,129,0.06);
+            border: 1px solid rgba(16,185,129,0.15);
+            border-radius: 8px;
+            font-size: 12px;
+            color: var(--gray-2);
+        }
+
+        .free-advice strong {
+            color: var(--green);
+        }
+
+        .free-advice.warn {
+            background: rgba(255,59,59,0.06);
+            border-color: rgba(255,59,59,0.15);
+        }
+
+        .free-advice.warn strong {
+            color: var(--red);
+        }
+
+        .free-price-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .free-price-old {
+            font-size: 18px;
+            color: var(--gray-5);
+            text-decoration: line-through;
+        }
+
+        .free-price-arrow {
+            color: var(--red);
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .free-price-new {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--red);
+        }
+
+        .free-price-drop {
+            margin-left: auto;
+            padding: 4px 10px;
+            background: rgba(255,59,59,0.15);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--red);
+        }
+
+        .free-cta {
+            margin-top: 28px;
+            padding: 24px;
+            background: linear-gradient(135deg, rgba(255,59,59,0.1), rgba(255,59,59,0.02));
+            border: 1px solid rgba(255,59,59,0.2);
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .free-cta h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .free-cta p {
+            font-size: 13px;
+            color: var(--gray-4);
+            margin-bottom: 16px;
+        }
+
+        .free-cta-btns {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .free-loading {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .free-loading .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: var(--red);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .free-loading p {
+            color: var(--gray-4);
+            font-size: 14px;
+        }
+
+        @media(max-width:640px) {
+            .free-stats { grid-template-columns: repeat(2, 1fr); }
+            .hero-search { flex-direction: column; padding: 12px; gap: 10px; }
+            .hero-search input { width: 100%; text-align: center; }
+            .hero-search button { width: 100%; }
         }
 
         /* ========== BUILDINGS SECTION ========== */
@@ -2934,12 +3350,27 @@
                 RivalEye surveille chaque mouvement de vos concurrents en temps réel.
                 Prix, pubs, features, avis. Vous êtes alerté avant tout le monde.
             </p>
+            <div class="hero-search-wrap">
+                <div class="hero-search">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="text" id="heroSearchInput" placeholder="Surveille une société, une app, un logiciel..." onkeydown="if(event.key==='Enter')runFreeAnalysis()">
+                    <button onclick="runFreeAnalysis()">Analyser</button>
+                </div>
+                <div class="hero-search-examples">
+                    <span>Essayez :</span>
+                    <button onclick="searchExample('Shopify')">Shopify</button>
+                    <button onclick="searchExample('Uber')">Uber</button>
+                    <button onclick="searchExample('Notion')">Notion</button>
+                    <button onclick="searchExample('Spotify')">Spotify</button>
+                    <button onclick="searchExample('Canva')">Canva</button>
+                </div>
+            </div>
             <div class="hero-buttons">
                 <a href="#" class="btn btn-red btn-large" onclick="switchAuthTab('signup'); openAuth(event)">
-                    Commencer gratuitement
+                    Créer un compte gratuit
                 </a>
-                <a href="#buildings" class="btn btn-ghost btn-large">
-                    Voir la concurrence
+                <a href="#dashboard" class="btn btn-ghost btn-large">
+                    Voir la démo
                 </a>
             </div>
         </div>
@@ -3656,6 +4087,25 @@
         </div>
     </footer>
 
+    <!-- FREE ANALYSIS MODAL -->
+    <div class="free-modal-bg" id="freeModal" onclick="closeFreeModal(event)">
+        <div class="free-modal" onclick="event.stopPropagation()">
+            <div class="free-modal-head">
+                <div>
+                    <h2>Analyse gratuite — <span id="freeCompName">...</span></h2>
+                    <p id="freeCompSub">Rapport généré automatiquement</p>
+                </div>
+                <button class="free-modal-close" onclick="closeFreeModal()">&times;</button>
+            </div>
+            <div class="free-modal-body" id="freeModalBody">
+                <div class="free-loading">
+                    <div class="spinner"></div>
+                    <p>Analyse en cours...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- AUTH MODAL -->
     <div class="modal-overlay" id="authModal" onclick="closeAuth(event)">
         <div class="modal auth-modal" onclick="event.stopPropagation()">
@@ -4125,6 +4575,119 @@
                 }
             });
         });
+
+        // FREE ANALYSIS
+        function searchExample(name) {
+            document.getElementById('heroSearchInput').value = name;
+            runFreeAnalysis();
+        }
+
+        function closeFreeModal(e) {
+            if (e && e.target !== e.currentTarget) return;
+            document.getElementById('freeModal').classList.remove('on');
+        }
+
+        function hashSeed(str) {
+            let h = 0;
+            for (let i = 0; i < str.length; i++) { h = ((h << 5) - h) + str.charCodeAt(i); h |= 0; }
+            return Math.abs(h);
+        }
+
+        function seededRand(seed, idx) {
+            let x = Math.sin(seed * 9301 + idx * 49297) * 233280;
+            return x - Math.floor(x);
+        }
+
+        function escHtml(s) {
+            return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+
+        function runFreeAnalysis() {
+            const input = document.getElementById('heroSearchInput');
+            const name = input.value.trim();
+            if (!name) {
+                input.focus();
+                input.style.borderColor = 'rgba(255,59,59,0.6)';
+                setTimeout(() => { input.style.borderColor = ''; }, 1500);
+                return;
+            }
+
+            document.getElementById('freeModal').classList.add('on');
+            document.getElementById('freeCompName').textContent = name;
+            document.getElementById('freeCompSub').textContent = 'Rapport généré automatiquement · Analyse gratuite';
+            document.getElementById('freeModalBody').innerHTML = '<div class="free-loading"><div class="spinner"></div><p>Analyse de ' + escHtml(name) + ' en cours...</p></div>';
+
+            setTimeout(() => { generateFreeReport(name); }, 1200);
+        }
+
+        function generateFreeReport(name) {
+            const seed = hashSeed(name);
+            const threat = Math.floor(40 + seededRand(seed, 1) * 55);
+            const priceChanges = Math.floor(1 + seededRand(seed, 2) * 4);
+            const postsWeek = Math.floor(5 + seededRand(seed, 3) * 20);
+            const negReviews = Math.floor(5 + seededRand(seed, 4) * 40);
+            const oldPrice = Math.floor(15 + seededRand(seed, 5) * 40);
+            const dropPct = Math.floor(8 + seededRand(seed, 6) * 20);
+            const newPrice = Math.round(oldPrice * (1 - dropPct / 100));
+
+            let html = '';
+            html += '<div class="free-badge">✓ Analyse gratuite — aucune inscription requise</div>';
+
+            html += '<div class="free-stats">';
+            html += '<div class="free-stat"><div class="free-stat-val red">' + threat + '</div><div class="free-stat-label">Score menace</div></div>';
+            html += '<div class="free-stat"><div class="free-stat-val orange">' + priceChanges + '</div><div class="free-stat-label">Changements prix</div></div>';
+            html += '<div class="free-stat"><div class="free-stat-val silver">' + postsWeek + '</div><div class="free-stat-label">Posts / semaine</div></div>';
+            html += '<div class="free-stat"><div class="free-stat-val orange">' + negReviews + '</div><div class="free-stat-label">Avis négatifs</div></div>';
+            html += '</div>';
+
+            // Price section
+            html += '<div class="free-section"><div class="free-section-title">Changement de prix détecté</div>';
+            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag red">Baisse récente</span><span class="free-card-meta">Il y a ' + Math.floor(1 + seededRand(seed, 7) * 24) + 'h</span></div>';
+            html += '<div class="free-price-box"><div class="free-price-old">' + oldPrice + '€</div><div class="free-price-arrow">→</div><div class="free-price-new">' + newPrice + '€</div><div class="free-price-drop">-' + dropPct + '%</div></div>';
+            html += '<div class="free-advice"><strong>Reaction recommandee :</strong> Ne baissez pas votre prix. Differenciez sur la valeur. Communiquez sur vos avantages exclusifs face a ' + escHtml(name) + '.</div></div></div>';
+
+            // Posts section
+            html += '<div class="free-section"><div class="free-section-title">Derniers posts</div>';
+            const likes1 = Math.floor(500 + seededRand(seed, 8) * 3000);
+            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag linkedin">LinkedIn</span><span class="free-card-meta">Il y a 2h</span></div>';
+            html += '<div class="free-card-text">"Decouvrez nos nouvelles fonctionnalites ! ' + escHtml(name) + ' continue d\'innover pour ses clients. Restez connectes !"</div>';
+            html += '<div class="free-card-stats"><span><strong>' + (likes1/1000).toFixed(1) + 'k</strong> likes</span><span><strong>' + Math.floor(20 + seededRand(seed, 9) * 100) + '</strong> commentaires</span><span><strong style="color:var(--purple)">Eleve</strong> engagement</span></div>';
+            html += '<div class="free-advice"><strong>Comment reagir :</strong> Publiez un contenu similaire dans les 24h. Mettez en avant vos avantages concurrentiels.</div></div>';
+
+            const likes2 = Math.floor(200 + seededRand(seed, 10) * 1500);
+            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag facebook">Facebook</span><span class="free-card-meta">Il y a 5h</span></div>';
+            html += '<div class="free-card-text">"OFFRE LIMITEE : -30% sur nos services pendant 48h ! Ne manquez pas cette opportunite unique."</div>';
+            html += '<div class="free-card-stats"><span><strong>' + (likes2/1000).toFixed(1) + 'k</strong> likes</span><span><strong>' + Math.floor(30 + seededRand(seed, 11) * 200) + '</strong> commentaires</span></div>';
+            html += '<div class="free-advice warn"><strong>Alerte :</strong> Promotion agressive detectee. ' + escHtml(name) + ' tente d\'attirer vos clients.</div></div>';
+            html += '</div>';
+
+            // Reviews section
+            html += '<div class="free-section"><div class="free-section-title">Avis clients</div>';
+            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag trustpilot">Trustpilot</span><span class="free-card-meta">1 etoile · recent</span></div>';
+            html += '<div class="free-card-text">"Le support met 48h a repondre. Quand j\'ai un probleme bloquant, personne ne repond. Franchement deconcu pour le prix."</div>';
+            html += '<div class="free-advice"><strong>Opportunite :</strong> Ciblez les clients mecontents de ' + escHtml(name) + ' avec votre support client.</div></div>';
+
+            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag trustpilot">Trustpilot</span><span class="free-card-meta">2 etoiles · recent</span></div>';
+            html += '<div class="free-card-text">"Les nouvelles fonctionnalites sont buggues. Ca plante toutes les semaines. J\'ai bascule sur une alternative plus stable."</div>';
+            html += '<div class="free-advice"><strong>Opportunite :</strong> Stabilite = avantage concurrentiel. Communiquez sur votre fiabilite.</div></div>';
+            html += '</div>';
+
+            // Hiring section
+            html += '<div class="free-section"><div class="free-section-title">Signaux de croissance</div>';
+            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag red">Recrutement</span><span class="free-card-meta">Recent</span></div>';
+            html += '<div class="free-card-text"><strong>Growth Marketing Manager</strong> — ' + escHtml(name) + ' cherche a accelerer son acquisition client.</div>';
+            html += '<div class="free-advice warn"><strong>Signaux :</strong> Budget acquisition en hausse. Prevoyez une guerre de prix.</div></div></div>';
+
+            // CTA
+            html += '<div class="free-cta"><h3>Voulez-vous comparer ' + escHtml(name) + ' a vos concurrents ?</h3>';
+            html += '<p>Créez un compte gratuit pour : suivre plusieurs concurrents, recevoir des alertes en temps réel, et accéder au dashboard complet.</p>';
+            html += '<div class="free-cta-btns">';
+            html += '<a href="#" class="btn btn-red" onclick="closeFreeModal();switchAuthTab(\'signup\');openAuth(event);return false">Créer un compte gratuit</a>';
+            html += '<a href="#" class="btn btn-ghost" onclick="closeFreeModal();return false">Fermer</a>';
+            html += '</div></div>';
+
+            document.getElementById('freeModalBody').innerHTML = html;
+        }
     </script>
 </body>
 </html>
