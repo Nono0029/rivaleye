@@ -3551,7 +3551,7 @@
             <div class="hero-search-wrap" style="position:relative">
                 <div class="hero-search">
                     <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                    <input type="text" id="heroSearchInput" placeholder="Surveille une société, une app, un logiciel..." onkeydown="handleSearchKey(event)" oninput="handleSearchInput()" onfocus="handleSearchFocus()" onclick="handleSearchFocus()">
+                    <input type="text" id="heroSearchInput" placeholder="Surveille une société, une app, un logiciel..." onkeydown="handleSearchKey(event)" oninput="handleSearchInput()" onfocus="handleSearchFocus()">
                     <button onclick="runFreeAnalysis()">Analyser</button>
                 </div>
                 <div class="hero-search-suggestions" id="searchSuggestions"></div>
@@ -5119,13 +5119,24 @@
                 return;
             }
             const lower = val.toLowerCase();
-            const matches = knownBrands.filter(b =>
+            let matches = knownBrands.filter(b =>
                 b.name.toLowerCase().includes(lower) ||
                 b.type.toLowerCase().includes(lower)
             ).slice(0, 8);
+            // If no exact match, show brands starting with same letter + popular ones
             if (matches.length === 0) {
-                box.classList.remove('on');
-                return;
+                const firstLetter = lower.charAt(0);
+                matches = knownBrands.filter(b =>
+                    b.name.toLowerCase().charAt(0) === firstLetter
+                ).slice(0, 4);
+                // Add some popular brands as fallback
+                const popular = ['Shopify', 'Uber', 'Notion', 'Spotify', 'Canva', 'Slack'];
+                popular.forEach(p => {
+                    if (matches.length < 6 && !matches.find(m => m.name === p)) {
+                        const brand = knownBrands.find(b => b.name === p);
+                        if (brand) matches.push(brand);
+                    }
+                });
             }
             let html = '<div class="sugg-header"><span>Suggestions</span></div>';
             matches.forEach(b => {
@@ -5135,6 +5146,11 @@
                     '<div class="sugg-info"><div class="sugg-name">' + b.name + '</div><div class="sugg-type">' + b.type + '</div></div>' +
                     '<div class="sugg-action">Analyser →</div></div>';
             });
+            // Also add "Analyser [val] directement" option
+            html += '<div class="sugg-item" onclick="selectSuggestion(\'' + val.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '\')">' +
+                '<div class="sugg-icon" style="background:#FF3B3B">' + val.charAt(0).toUpperCase() + '</div>' +
+                '<div class="sugg-info"><div class="sugg-name">Analyser "' + val + '"</div><div class="sugg-type">Recherche libre</div></div>' +
+                '<div class="sugg-action">Lancer →</div></div>';
             box.innerHTML = html;
             box.classList.add('on');
         }
