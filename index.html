@@ -4095,15 +4095,14 @@
                     });
                     if (error) throw error;
                     if (data.user && !data.session) {
-                        successEl.textContent = 'Compte créé ! Vérifiez votre email pour confirmer.';
+                        successEl.textContent = 'Compte cree ! Verifiez votre email pour confirmer.';
                         successEl.classList.add('show');
                     } else if (data.session) {
-                        successEl.textContent = 'Bienvenue sur RivalEye ! Vous êtes connecté.';
+                        successEl.textContent = 'Bienvenue sur RivalEye ! Redirection...';
                         successEl.classList.add('show');
                         setTimeout(() => {
-                            closeAuth();
-                            window.location.hash = '#dashboard';
-                        }, 1200);
+                            window.location.href = 'app.html';
+                        }, 1000);
                     }
                 } else {
                     const { data, error } = await supabaseClient.auth.signInWithPassword({
@@ -4111,11 +4110,10 @@
                         password
                     });
                     if (error) throw error;
-                    successEl.textContent = 'Connexion réussie !';
+                    successEl.textContent = 'Connexion reussie ! Redirection...';
                     successEl.classList.add('show');
                     setTimeout(() => {
-                        closeAuth();
-                        window.location.hash = '#dashboard';
+                        window.location.href = 'app.html';
                     }, 800);
                 }
             } catch (err) {
@@ -4139,19 +4137,20 @@
             }
         }
 
-        // Check auth state on load
+        // Check auth state on load — if logged in, Commencer goes to app
         if (supabaseClient) {
             supabaseClient.auth.getSession().then(({ data: { session } }) => {
                 if (session) {
-                    console.log('Connecté:', session.user.email);
+                    window.__rivaleyeLoggedIn = true;
+                    document.querySelectorAll('a[onclick*="openAuth"], a[onclick*="switchAuthTab"]').forEach(btn => {
+                        btn.setAttribute('onclick', "window.location.href='app.html'");
+                    });
                 }
             }).catch(() => {});
 
             supabaseClient.auth.onAuthStateChange((event, session) => {
-                if (event === 'SIGNED_IN' && session) {
-                    console.log('Connecté:', session.user.email);
-                } else if (event === 'SIGNED_OUT') {
-                    console.log('Déconnecté');
+                if (event === 'SIGNED_OUT') {
+                    window.__rivaleyeLoggedIn = false;
                 }
             });
         }
