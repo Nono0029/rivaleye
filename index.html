@@ -4826,13 +4826,98 @@
         function generateFreeReport(name) {
             const seed = hashSeed(name);
             const n = escHtml(name);
+
+            // ── COMPANY TYPE DETECTION ──
+            const lowerName = name.toLowerCase();
+            const companyTypes = {
+                ecommerce: { label: 'E-commerce', icon: '🛍️', keywords: ['nike', 'adidas', 'zara', 'hm', 'zalando', 'sephora', 'decathlon', 'ikea', 'leclerc', 'carrefour', 'fnac', 'darty', 'cdiscount', 'amazon', 'shein', 'temu', 'asos', 'uniqlo', 'lacoste', 'rolex', 'louis vuitton', 'gucci', 'prada', 'chanel'] },
+                marketplace: { label: 'Marketplace', icon: '🏪', keywords: ['leboncoin', 'airbnb', 'ubereats', 'uber eats', 'deliveroo', 'just eat', 'vinted', 'backmarket', 'ebay', 'etsy', 'booking'] },
+                saas: { label: 'SaaS / Logiciel', icon: '💻', keywords: ['shopify', 'notion', 'slack', 'salesforce', 'hubspot', 'zendesk', 'trello', 'asana', 'monday', 'clickup', 'zoom', 'teams', 'dropbox', 'figma', 'canva', 'mailchimp', 'brevo', 'pipedrive', 'zoho', 'sage', 'cegid'] },
+                app: { label: 'Application', icon: '📱', keywords: ['spotify', 'netflix', 'uber', 'tiktok', 'instagram', 'facebook', 'snapchat', 'discord', 'telegram', 'whatsapp', 'twitch', 'youtube', 'deezer', 'strava', 'calm'] },
+                fintech: { label: 'Fintech / Finance', icon: '💳', keywords: ['stripe', 'paypal', 'revolut', 'boursorama', 'n26', 'lydia', 'visa', 'mastercard', 'wise', 'klarna', 'adyen', 'coinbase', 'binance'] },
+                food: { label: 'Restauration / Food', icon: '🍔', keywords: ['mcdonald', 'burger king', 'kfc', 'subway', 'starbucks', 'picard', 'monoprix', 'franprix', 'lidl', 'aldi'] },
+                telecom: { label: 'Télécom', icon: '📡', keywords: ['orange', 'sfr', 'bouygues', 'free mobile', 'sosh', 'virgin mobile'] },
+                travel: { label: 'Voyage / Transport', icon: '✈️', keywords: ['sncf', 'ouigo', 'blablacar', 'trainline', 'transavia', 'ryanair', 'easyjet', 'air france', 'bolt'] }
+            };
+
+            let companyType = 'generic';
+            let typeLabel = 'Entreprise';
+            let typeIcon = '🏢';
+            for (const [key, val] of Object.entries(companyTypes)) {
+                if (val.keywords.some(kw => lowerName.includes(kw))) {
+                    companyType = key;
+                    typeLabel = val.label;
+                    typeIcon = val.icon;
+                    break;
+                }
+            }
+
+            // Price templates by company type
+            const priceTemplates = {
+                ecommerce: [
+                    { item: 'Produit phare', what: 'Prix public TTC de leur produit best-seller (le plus vendu)', affects: 'Votre prix doit rester competitif sur ce produit precis', oldMult: 89.99, unit: '€' },
+                    { item: 'Livraison standard', what: 'Frais de livraison pour commandes inferieures a 50€', affects: 'Si vous offrez la livraison gratuite, cest un avantage concurrentiel', oldMult: 5.99, unit: '€' },
+                    { item: 'Livraison express', what: 'Option livraison rapide 24h/48h', affects: 'Les clients presses paient plus — verifiez votre offre', oldMult: 9.99, unit: '€' }
+                ],
+                marketplace: [
+                    { item: 'Commission par vente', what: 'Pourcentage preleve sur chaque transaction vendeur', affects: 'Si vous vendez via leur plateforme, votre marge baisse', oldMult: 12.5, unit: '%' },
+                    { item: 'Mise en avant', what: 'Frais pour apparaitre en tetes des resultats de recherche', affects: 'Sans budget ads, votre visibilite baisse', oldMult: 2.50, unit: '€/jour' },
+                    { item: 'Abonnement vendeur', what: 'Abonnement mensuel pour les vendeurs professionnels', affects: 'Les petits vendeurs pourraient partir si trop cher', oldMult: 29.99, unit: '€/mois' }
+                ],
+                saas: [
+                    { item: 'Formule Starter', what: 'Abonnement mensuel — plan dentree pour petites equipes', affects: 'Cible les petits clients, verifiez votre pricing d entree', oldMult: 12.99, unit: '€/mois' },
+                    { item: 'Formule Pro', what: 'Abonnement mensuel — plan professionnel (le plus choisi)', affects: 'Le coeur de cible. Si eux baissent, vous serez presse', oldMult: 29.99, unit: '€/mois' },
+                    { item: 'Formule Enterprise', what: 'Abonnement mensuel — grandes entreprises, support dedie', affects: 'Negociation possible. Surveillez leurs deals', oldMult: 99.99, unit: '€/mois' }
+                ],
+                app: [
+                    { item: 'Abonnement Premium', what: 'Acces complet sans publicite, fonctionnalites premium', affects: 'Si vous avez un abonnement similaire, soyez pret a defendre votre prix', oldMult: 10.99, unit: '€/mois' },
+                    { item: 'Abonnement Famille', what: 'Jusqua 6 comptes, meme abonnement partage', affects: 'Le plan famille est populaire — verifiez le votre', oldMult: 17.99, unit: '€/mois' },
+                    { item: 'Abonnement Annuel', what: 'Tarif economique pour engagement 12 mois', affects: 'L annuel fidelise. Proposez une offre similaire', oldMult: 109.99, unit: '€/an' }
+                ],
+                fintech: [
+                    { item: 'Frais de transaction', what: 'Pourcentage preleve sur chaque paiement traite', affects: 'Si vous utilisez leur API, vos couts changent', oldMult: 1.4, unit: '%' },
+                    { item: 'Carte Premium', what: 'Frais mensuels de la carte haut de gamme', affects: 'Les clients premium hesitent — proposez mieux', oldMult: 14.99, unit: '€/mois' },
+                    { item: 'Virements instantanes', what: 'Frais pour virement bancaire immediat', affects: 'Les freelances utilisent beaucoup — impact direct', oldMult: 0.99, unit: '€/virement' }
+                ],
+                food: [
+                    { item: 'Menu signature', what: 'Prix du produit star de leur carte', affects: 'Vos prix doivent rester dans la meme gamme', oldMult: 8.99, unit: '€' },
+                    { item: 'Menu familial', what: 'Offre groupe / famille (pour 4 personnes)', affects: 'Cest un point de vente fort — verifiez le votre', oldMult: 29.99, unit: '€' },
+                    { item: 'Livraison', what: 'Frais minimum de livraison a domicile', affects: 'Si vous livrez moins cher, cest un avantage', oldMult: 3.99, unit: '€' }
+                ],
+                telecom: [
+                    { item: 'Forfait 50Go', what: 'Abonnement mobile — 50 Go de data', affects: 'Les forfaits data sont le point de guerre commercial', oldMult: 19.99, unit: '€/mois' },
+                    { item: 'Forfait 200Go', what: 'Abonnement mobile — 200 Go de data', affects: 'Le milieu de gamme attire le plus de clients', oldMult: 29.99, unit: '€/mois' },
+                    { item: 'Pack Internet', what: 'Fibre optique + box — abonnement mensuel', affects: 'La box est souvent le produit d appel pour attirer', oldMult: 39.99, unit: '€/mois' }
+                ],
+                travel: [
+                    { item: 'Trajet populaire', what: 'Prix moyen dun trajet frequent (ex: Paris-Lyon)', affects: 'Les prix fluctuent beaucoup — surveillez votre marge', oldMult: 49.99, unit: '€' },
+                    { item: 'Billet flexible', what: 'Option annulation / modification gratuite', affects: 'Les clients business paient plus pour la flexibilite', oldMult: 15, unit: '€' },
+                    { item: 'Bagage soute', what: 'Frais pour bagage en soute (23kg)', affects: 'Un point de frustration client — differenciez-vous', oldMult: 25, unit: '€' }
+                ],
+                generic: [
+                    { item: 'Formule dentree', what: 'Offre d abonnement de base (la moins chere)', affects: 'Verifiez votre prix d entree dans la meme gamme', oldMult: 9.99, unit: '€/mois' },
+                    { item: 'Formule populaire', what: 'L offre la plus choisie par leurs clients', affects: 'Si eux baissent, les clients attendent la meme chose de vous', oldMult: 29.99, unit: '€/mois' },
+                    { item: 'Option premium', what: 'Fonctionnalites avancees / support prioritaire', affects: 'Les clients exigeants hesitent — proposez mieux', oldMult: 79.99, unit: '€/mois' }
+                ]
+            };
+
+            const templates = priceTemplates[companyType] || priceTemplates.generic;
+            const isDrop = seededRand(seed, 6) > 0.3;
+
+            // Generate prices from templates
+            const priceItems = templates.map((t, i) => {
+                const variation = 0.9 + seededRand(seed, 100 + i) * 0.2;
+                const oldP = Math.round(t.oldMult * variation * 100) / 100;
+                const change = isDrop ? -(0.08 + seededRand(seed, 200 + i) * 0.12) : (0.05 + seededRand(seed, 200 + i) * 0.1);
+                const newP = Math.round(oldP * (1 + change) * 100) / 100;
+                const pct = ((newP - oldP) / oldP * 100).toFixed(1);
+                return { ...t, oldP, newP, pct: parseFloat(pct), isDrop: pct < 0 };
+            });
+
             const threat = Math.floor(40 + seededRand(seed, 1) * 55);
             const priceChanges = Math.floor(1 + seededRand(seed, 2) * 4);
             const postsWeek = Math.floor(5 + seededRand(seed, 3) * 20);
             const negReviews = Math.floor(5 + seededRand(seed, 4) * 40);
-            const oldPrice = Math.floor(15 + seededRand(seed, 5) * 40);
-            const dropPct = Math.floor(8 + seededRand(seed, 6) * 20);
-            const newPrice = Math.round(oldPrice * (1 - dropPct / 100));
             const growth = Math.floor(5 + seededRand(seed, 20) * 40);
             const marketShare = (2 + seededRand(seed, 21) * 18).toFixed(1);
             const employees = Math.floor(50 + seededRand(seed, 22) * 5000);
@@ -4854,7 +4939,7 @@
             const competitors = ['Shopify', 'WooCommerce', 'BigCommerce', 'Squarespace', 'Wix', 'Stripe', 'PayPal', 'Square', 'Klarna', 'Adyen'];
             const c1 = competitors[Math.floor(seededRand(seed, 37) * competitors.length)];
             const c2 = competitors[Math.floor(seededRand(seed, 38) * competitors.length)];
-            const lastEvent = ['Conférence annuelle', 'Lancement produit', 'Partenariat majeur', 'Levée de fonds', 'Acquisition', 'Refonte majeure'][Math.floor(seededRand(seed, 39) * 6)];
+            const lastEvent = ['Conference annuelle', 'Lancement produit', 'Partenariat majeur', 'Levee de fonds', 'Acquisition', 'Refonte majeure'][Math.floor(seededRand(seed, 39) * 6)];
             const nextEvent = ['Salon professionnel', 'Lancement beta', 'Webinaire public', 'Ouverture bureau', 'Campagne marketing', 'Publication rapport'][Math.floor(seededRand(seed, 40) * 6)];
             const daysToEvent = Math.floor(3 + seededRand(seed, 41) * 90);
             const badNews = [
@@ -4883,7 +4968,7 @@
                 'Nouveau mode hors-ligne disponible'
             ];
             const goodIdx = Math.floor(seededRand(seed, 43) * goodNews.length);
-            const upcomingFeatures = ['Mode IA avancé', 'Intégration Slack', 'API publique', 'Application mobile', 'Mode hors-ligne', 'Rapports PDF', 'Tableaux de bord partagés', 'Alertes push', 'Export données', 'Authentification SSO'];
+            const upcomingFeatures = ['Mode IA avance', 'Integration Slack', 'API publique', 'Application mobile', 'Mode hors-ligne', 'Rapports PDF', 'Tableaux de bord partages', 'Alertes push', 'Export donnees', 'Authentification SSO'];
             const uf1 = upcomingFeatures[Math.floor(seededRand(seed, 44) * upcomingFeatures.length)];
             const uf2 = upcomingFeatures[Math.floor(seededRand(seed, 45) * upcomingFeatures.length)];
             const uf3 = upcomingFeatures[Math.floor(seededRand(seed, 46) * upcomingFeatures.length)];
@@ -4893,16 +4978,17 @@
 
             let html = '';
             html += '<div class="free-badge">✓ Analyse complète gratuite — aucune inscription requise</div>';
+            html += '<div style="margin-bottom:16px;padding:12px 16px;background:rgba(255,59,59,0.06);border:1px solid rgba(255,59,59,0.15);border-radius:10px;font-size:13px"><strong>' + typeIcon + ' ' + typeLabel + '</strong> — ' + n + ' est analyse comme une entreprise de type <strong>' + typeLabel.toLowerCase() + '</strong>.</div>';
 
-            // ── STATS ──
+            // STATS
             html += '<div class="free-stats">';
             html += '<div class="free-stat"><div class="free-stat-val red">' + threat + '</div><div class="free-stat-label">Score menace</div></div>';
             html += '<div class="free-stat"><div class="free-stat-val orange">' + priceChanges + '</div><div class="free-stat-label">Changements prix (30j)</div></div>';
             html += '<div class="free-stat"><div class="free-stat-val silver">' + postsWeek + '</div><div class="free-stat-label">Posts / semaine</div></div>';
-            html += '<div class="free-stat"><div class="free-stat-val orange">' + negReviews + '</div><div class="free-stat-label">Avis négatifs</div></div>';
+            html += '<div class="free-stat"><div class="free-stat-val orange">' + negReviews + '</div><div class="free-stat-label">Avis negatifs</div></div>';
             html += '</div>';
 
-            // ── PROFIL ENTREPRISE ──
+            // PROFIL
             html += '<div class="free-section"><div class="free-section-title">Profil entreprise</div>';
             html += '<div class="free-card">';
             html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">';
@@ -4917,13 +5003,11 @@
             html += '</div>';
             html += '<div class="free-advice" style="margin-top:12px"><strong>Concurrents directs :</strong> ' + c1 + ', ' + c2 + '</div>';
             html += '</div>';
-            // Revenue chart
             const revBase = Math.floor(revenue * 0.4);
             const revData = [revBase, Math.floor(revBase * 1.1), Math.floor(revBase * 1.25), Math.floor(revBase * 1.4), Math.floor(revBase * 1.6), revenue];
             html += '<div class="free-chart-box"><div class="free-chart-title">Évolution du CA (6 mois) <span>en millions €</span></div>';
             html += makeLineChart(revData, '#10B981', null, ['S1','S2','S3','S4','S5','S6']);
             html += '</div>';
-            // Market share donut
             const ms = parseFloat(marketShare);
             html += '<div class="free-chart-box"><div class="free-chart-title">Part de marché <span>vs concurrence</span></div>';
             html += makeDonut([
@@ -4935,7 +5019,7 @@
             html += '</div>';
             html += '</div>';
 
-            // ── SCORE DETAILLE ──
+            // SCORE
             html += '<div class="free-section"><div class="free-section-title">Score détaillé</div>';
             html += '<div class="free-card">';
             html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">';
@@ -4944,7 +5028,6 @@
             html += '<div><span style="color:var(--gray-4)">Taux de churn</span><br><strong style="color:' + (churn < 5 ? 'var(--green)' : 'var(--orange)') + '">' + churn + '%</strong></div>';
             html += '<div><span style="color:var(--gray-4)">Sentiment global</span><br><strong style="color:' + (sentiment === 'Positif' ? 'var(--green)' : sentiment === 'Negatif' ? 'var(--red)' : 'var(--orange)') + '">' + sentiment + '</strong></div>';
             html += '</div></div>';
-            // Satisfaction trend
             const satBase = Math.max(30, satisfaction - 15);
             const satData = [satBase, satBase + 3, satBase - 2, satBase + 5, satBase + 2, satisfaction];
             html += '<div class="free-chart-box"><div class="free-chart-title">Tendance satisfaction client <span>6 mois</span></div>';
@@ -4952,33 +5035,38 @@
             html += '</div>';
             html += '</div>';
 
-            // ── CHANGEMENT DE PRIX ──
-            html += '<div class="free-section"><div class="free-section-title">Changements de prix</div>';
-            // Price evolution chart
-            const pStart = Math.floor(oldPrice * 1.15);
-            const pMid1 = Math.floor(oldPrice * 1.1);
-            const pMid2 = Math.floor(oldPrice * 1.05);
-            const priceData = [pStart, pMid1, pStart, pMid2, oldPrice, newPrice];
-            html += '<div class="free-chart-box"><div class="free-chart-title">Évolution prix (6 mois) <span>en euros</span></div>';
+            // CHANGEMENT DE PRIX (CONTEXTUAL)
+            html += '<div class="free-section"><div class="free-section-title">Changements de prix — ' + typeIcon + ' ' + typeLabel + '</div>';
+            html += '<div style="margin-bottom:12px;font-size:12px;color:var(--gray-4)">Voici les prix de ' + n + ' et ce qu\'ils concernent exactement :</div>';
+
+            const mainPrice = priceItems[0];
+            const pStart = mainPrice.oldP * 1.15;
+            const pMid1 = mainPrice.oldP * 1.1;
+            const pMid2 = mainPrice.oldP * 1.05;
+            const priceData = [pStart, pMid1, pStart, pMid2, mainPrice.oldP, mainPrice.newP];
+            html += '<div class="free-chart-box"><div class="free-chart-title">Évolution "' + mainPrice.item + '" (6 mois) <span>en ' + mainPrice.unit.replace('/mois', '').replace('/an', '') + '</span></div>';
             html += makeLineChart(priceData, '#FF3B3B', null, ['Avr','Mai','Juin','Juil','Août','Sept']);
             html += '</div>';
-            // Price by product
-            html += '<div class="free-chart-box"><div class="free-chart-title">Prix par produit / formule</div>';
-            const prod1 = Math.floor(10 + seededRand(seed, 73) * 20);
-            const prod2 = Math.floor(20 + seededRand(seed, 74) * 40);
-            const prod3 = Math.floor(50 + seededRand(seed, 75) * 100);
-            html += makeBarChart([prod1, prod2, prod3], ['Starter','Pro','Enterprise'], ['#D1D5DB','#F59E0B','#FF3B3B']);
-            html += '</div>';
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag red">Baisse récente</span><span class="free-card-meta">Il y a ' + Math.floor(1 + seededRand(seed, 7) * 24) + 'h</span></div>';
-            html += '<div class="free-price-box"><div class="free-price-old">' + oldPrice + '€</div><div class="free-price-arrow">→</div><div class="free-price-new">' + newPrice + '€</div><div class="free-price-drop">-' + dropPct + '%</div></div>';
-            html += '<div class="free-advice"><strong>Reaction recommandee :</strong> Ne baissez pas votre prix. Differenciez sur la valeur. Communiquez sur vos avantages exclusifs face a ' + n + '.</div></div>';
-            const oldPrice2 = Math.floor(20 + seededRand(seed, 50) * 30);
-            html += '<div class="free-card" style="background:rgba(245,158,11,0.04);border-color:rgba(245,158,11,0.12)"><div class="free-card-h"><span class="free-tag orange">Hausse +8%</span><span class="free-card-meta">Il y a 1 mois</span></div>';
-            html += '<div class="free-price-box"><div class="free-price-old">' + oldPrice2 + '€</div><div class="free-price-arrow" style="color:var(--orange)">→</div><div class="free-price-new" style="color:var(--orange)">' + Math.round(oldPrice2 * 1.08) + '€</div><div class="free-price-drop" style="background:rgba(245,158,11,0.15);color:var(--orange)">+8%</div></div>';
-            html += '<div class="free-advice" style="background:rgba(245,158,11,0.06);border-color:rgba(245,158,11,0.15)">' + n + ' avait augmente ses prix. Possible baisse de satisfaction client.</div></div>';
+
+            html += '<div class="free-chart-box"><div class="free-chart-title">Comparaison des prix <span>actuel</span></div>';
+            html += makeBarChart(priceItems.map(p => p.newP), priceItems.map(p => p.item.substring(0, 12)), priceItems.map(p => p.isDrop ? '#FF3B3B' : '#10B981'));
             html += '</div>';
 
-            // ── NOUVEAUTÉS ──
+            priceItems.forEach((item, i) => {
+                const isMain = i === 0;
+                html += '<div class="free-card" style="' + (isMain ? 'border-color:rgba(255,59,59,0.2)' : '') + '">';
+                html += '<div class="free-card-h"><span class="free-tag ' + (item.isDrop ? 'red' : 'green') + '">' + (item.isDrop ? 'Baisse' : 'Hausse') + ' ' + Math.abs(item.pct) + '%</span>';
+                if (isMain) html += '<span class="free-tag" style="background:rgba(255,59,59,0.1);color:var(--red)">⭐ Prix principal</span>';
+                html += '<span class="free-card-meta">Il y a ' + Math.floor(1 + seededRand(seed, 7 + i) * 30) + ' jours</span></div>';
+                html += '<div style="font-size:15px;font-weight:700;margin-bottom:6px">' + item.item + '</div>';
+                html += '<div class="free-price-box"><div class="free-price-old">' + item.oldP + item.unit + '</div><div class="free-price-arrow" style="color:' + (item.isDrop ? 'var(--red)' : 'var(--green)') + '">→</div><div class="free-price-new" style="color:' + (item.isDrop ? 'var(--red)' : 'var(--green)') + '">' + item.newP + item.unit + '</div><div class="free-price-drop" style="' + (item.isDrop ? '' : 'background:rgba(16,185,129,0.15);color:var(--green)') + '">' + (item.isDrop ? '' : '+') + item.pct + '%</div></div>';
+                html += '<div class="free-advice' + (item.isDrop ? ' warn' : '') + '"><strong>C\'est quoi :</strong> ' + item.what + '.<br><strong>C\'affecte quoi pour vous :</strong> ' + item.affects + '.</div>';
+                html += '</div>';
+            });
+
+            html += '</div>';
+
+            // NOUVEAUTES
             html += '<div class="free-section"><div class="free-section-title">Nouveautés & annonces</div>';
             html += '<div class="free-card"><div class="free-card-h"><span class="free-tag green">Annonce</span><span class="free-card-meta">Il y a ' + Math.floor(1 + seededRand(seed, 51) * 7) + ' jours</span></div>';
             html += '<div class="free-card-text"><strong>' + goodNews[goodIdx] + '</strong> — ' + n + ' a annonce cette nouveaute. Impact potentiel sur le marche.</div>';
@@ -4988,7 +5076,7 @@
             html += '<div class="free-advice"><strong>Anticipez :</strong> Intgrez ces fonctionnalites dans votre feuille de route avant eux.</div></div>';
             html += '</div>';
 
-            // ── MAUVAISES NOUVELLES ──
+            // MAUVAISES NOUVELLES
             html += '<div class="free-section"><div class="free-section-title">Signaux négatifs détectés</div>';
             html += '<div class="free-card" style="background:rgba(255,59,59,0.04);border-color:rgba(255,59,59,0.12)"><div class="free-card-h"><span class="free-tag red">Alerte</span><span class="free-card-meta">Recent</span></div>';
             html += '<div class="free-card-text"><strong>' + badNews[badIdx] + '</strong></div>';
@@ -4998,7 +5086,7 @@
             html += '<div class="free-advice"><strong>Diffrenciez-vous :</strong> Communiquez sur votre excellence dans ce domaine.</div></div>';
             html += '</div>';
 
-            // ── PROCHAIN ÉVÉNEMENT ──
+            // EVENEMENTS
             html += '<div class="free-section"><div class="free-section-title">Événements à venir</div>';
             html += '<div class="free-card"><div class="free-card-h"><span class="free-tag purple" style="background:rgba(139,92,246,0.15);color:var(--purple)">Prochain événement</span><span class="free-card-meta">Dans ' + daysToEvent + ' jours</span></div>';
             html += '<div class="free-card-text"><strong>' + nextEvent + '</strong> prévu par ' + n + '. Preparez votre veille concurrentielle.</div>';
@@ -5007,15 +5095,13 @@
             html += '<div class="free-card-text"><strong>' + lastEvent + '</strong> — ' + n + ' a realise cet evenement. Impact mesurable sur leur visibilite.</div></div>';
             html += '</div>';
 
-            // ── POSTS ──
+            // POSTS
             html += '<div class="free-section"><div class="free-section-title">Derniers posts réseaux sociaux</div>';
-            // Posts per week chart
             html += '<div class="free-chart-box"><div class="free-chart-title">Posts par semaine <span>8 dernières semaines</span></div>';
             const postW = [];
             for (let i = 0; i < 8; i++) postW.push(Math.floor(postsWeek * 0.5 + seededRand(seed, 80 + i) * postsWeek));
             html += makeBarChart(postW, ['S-7','S-6','S-5','S-4','S-3','S-2','S-1','Actuel'], ['#D1D5DB','#D1D5DB','#D1D5DB','#D1D5DB','#D1D5DB','#D1D5DB','#D1D5DB','#FF3B3B']);
             html += '</div>';
-            // Engagement by platform
             html += '<div class="free-chart-box"><div class="free-chart-title">Engagement par plateforme</div>';
             const engLi = Math.floor(2 + seededRand(seed, 81) * 8);
             const engFb = Math.floor(1 + seededRand(seed, 82) * 5);
@@ -5028,29 +5114,15 @@
             html += '<div class="free-card-text">"Decouvrez nos nouvelles fonctionnalites ! ' + n + ' continue d\'innover pour ses clients. Restez connectes !"</div>';
             html += '<div class="free-card-stats"><span><strong>' + (likes1/1000).toFixed(1) + 'k</strong> likes</span><span><strong>' + Math.floor(20 + seededRand(seed, 9) * 100) + '</strong> commentaires</span><span><strong>' + Math.floor(50 + seededRand(seed, 52) * 500) + '</strong> partages</span><span><strong style="color:var(--purple)">Eleve</strong> engagement</span></div>';
             html += '<div class="free-advice"><strong>Comment reagir :</strong> Publiez un contenu similaire dans les 24h. Mettez en avant vos avantages concurrentiels.</div></div>';
-
             const likes2 = Math.floor(200 + seededRand(seed, 10) * 1500);
             html += '<div class="free-card"><div class="free-card-h"><span class="free-tag facebook">Facebook</span><span class="free-card-meta">Il y a 5h · ' + (likes2/1000).toFixed(1) + 'k likes</span></div>';
             html += '<div class="free-card-text">"OFFRE LIMITEE : -30% sur nos services pendant 48h ! Ne manquez pas cette opportunite unique."</div>';
             html += '<div class="free-card-stats"><span><strong>' + (likes2/1000).toFixed(1) + 'k</strong> likes</span><span><strong>' + Math.floor(30 + seededRand(seed, 11) * 200) + '</strong> commentaires</span><span><strong style="color:var(--orange)">Moyen</strong> engagement</span></div>';
             html += '<div class="free-advice warn"><strong>Alerte :</strong> Promotion agressive detectee. ' + n + ' tente d\'attirer vos clients.</div></div>';
-
-            const likes3 = Math.floor(100 + seededRand(seed, 53) * 800);
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag" style="background:rgba(225,48,108,0.15);color:#E1306C">Instagram</span><span class="free-card-meta">Il y a 1j · ' + (likes3/1000).toFixed(1) + 'k likes</span></div>';
-            html += '<div class="free-card-text">"En coulisses de nos bureaux ! L\'equipe ' + n + ' travaille dur sur la prochaine generoution de produits. #teamwork #innovation"</div>';
-            html += '<div class="free-card-stats"><span><strong>' + (likes3/1000).toFixed(1) + 'k</strong> likes</span><span><strong>' + Math.floor(10 + seededRand(seed, 54) * 80) + '</strong> commentaires</span></div>';
-            html += '<div class="free-advice"><strong>Insight :</strong> Leur culture d\'entreprise est un atout de marque. Contrez avec vos propres temoignages.</div></div>';
-
-            const likes4 = Math.floor(50 + seededRand(seed, 55) * 400);
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag" style="background:rgba(29,161,242,0.15);color:#71C5FC">Twitter / X</span><span class="free-card-meta">Il y a 3j · ' + (likes4/1000).toFixed(1) + 'k likes</span></div>';
-            html += '<div class="free-card-text">"Les chiffres ne mentent pas : ' + n + ' est en croissance de ' + growth + '% cette annee. Merci a toute la communaute !"</div>';
-            html += '<div class="free-card-stats"><span><strong>' + (likes4/1000).toFixed(1) + 'k</strong> likes</span><span><strong>' + Math.floor(20 + seededRand(seed, 56) * 150) + '</strong> reponses</span></div>';
-            html += '<div class="free-advice warn"><strong>Contre-attaque :</strong> Publiez vos propres chiffres de croissance pour contrer leur narrative.</div></div>';
             html += '</div>';
 
-            // ── AVIS ──
+            // AVIS
             html += '<div class="free-section"><div class="free-section-title">Avis clients détaillés</div>';
-            // Rating distribution
             html += '<div class="free-chart-box"><div class="free-chart-title">Répartition des notes <span>sur 100 avis</span></div>';
             const r5 = Math.floor(10 + seededRand(seed, 85) * 30);
             const r4 = Math.floor(10 + seededRand(seed, 86) * 25);
@@ -5058,14 +5130,13 @@
             const r2 = Math.floor(5 + seededRand(seed, 88) * 20);
             const r1 = 100 - r5 - r4 - r3 - r2;
             html += makeDonut([
-                { label: '5 étoiles', value: r5, color: '#10B981' },
-                { label: '4 étoiles', value: r4, color: '#34D399' },
-                { label: '3 étoiles', value: r3, color: '#F59E0B' },
-                { label: '2 étoiles', value: r2, color: '#F97316' },
-                { label: '1 étoile', value: Math.max(1, r1), color: '#FF3B3B' }
+                { label: '5 etoiles', value: r5, color: '#10B981' },
+                { label: '4 etoiles', value: r4, color: '#34D399' },
+                { label: '3 etoiles', value: r3, color: '#F59E0B' },
+                { label: '2 etoiles', value: r2, color: '#F97316' },
+                { label: '1 etoile', value: Math.max(1, r1), color: '#FF3B3B' }
             ]);
             html += '</div>';
-            // Sentiment over time
             html += '<div class="free-chart-box"><div class="free-chart-title">Sentiment clients <span>tendance 6 mois</span></div>';
             const sentData = [];
             for (let i = 0; i < 6; i++) sentData.push(Math.floor(40 + seededRand(seed, 90 + i) * 50));
@@ -5073,34 +5144,21 @@
             html += '</div>';
             html += '<div class="free-card"><div class="free-card-h"><span class="free-tag trustpilot">Trustpilot</span><span class="free-card-meta">1 etoile · il y a 2h</span></div>';
             html += '<div class="free-card-text">"Le support met 48h a repondre. Quand j\'ai un probleme bloquant, personne ne repond. Franchement deconcu pour le prix."</div>';
-            html += '<div class="free-card-stats"><span><strong style="color:var(--red)">1/5</strong> etoiles</span><span><strong>Positif</strong> utile</span></div>';
+            html += '<div class="free-card-stats"><span><strong style="color:var(--red)">1/5</strong> etoiles</span></div>';
             html += '<div class="free-advice"><strong>Opportunite :</strong> Ciblez les clients mecontents de ' + n + ' avec votre support client.</div></div>';
-
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag" style="background:rgba(255,79,49,0.15);color:#FF4F31">G2</span><span class="free-card-meta">2 etoiles · il y a 1j</span></div>';
+            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag trustpilot">Trustpilot</span><span class="free-card-meta">2 etoiles · il y a 1j</span></div>';
             html += '<div class="free-card-text">"Les nouvelles fonctionnalites sont buggues. Ca plante toutes les semaines. J\'ai bascule sur une alternative plus stable."</div>';
-            html += '<div class="free-card-stats"><span><strong style="color:var(--red)">2/5</strong> etoiles</span><span><strong>Stabilite</strong> = leur point faible</span></div>';
+            html += '<div class="free-card-stats"><span><strong style="color:var(--red)">2/5</strong> etoiles</span></div>';
             html += '<div class="free-advice"><strong>Opportunite :</strong> Stabilite = avantage concurrentiel. Communiquez sur votre fiabilite.</div></div>';
-
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag" style="background:rgba(66,133,244,0.15);color:#4285F4">Google</span><span class="free-card-meta">2 etoiles · il y a 3j</span></div>';
-            html += '<div class="free-card-text">"Les frais caches s\'ajoutent vite. Le prix de base est ok mais les plugins obligatoires coutent cher a la fin."</div>';
-            html += '<div class="free-card-stats"><span><strong style="color:var(--red)">2/5</strong> etoiles</span><span><strong>Transparence tarifaire</strong> = leur faille</span></div>';
-            html += '<div class="free-advice"><strong>Opportunite :</strong> Transparence tarifaire = difference. Montrez votre prix tout compris.</div></div>';
-
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag trustpilot">Trustpilot</span><span class="free-card-meta">5 etoiles · il y a 5j</span></div>';
-            html += '<div class="free-card-text">"Excellent produit, je recommande vivement. Le rapport qualite/prix est imbattable. L\'equipe support est toujours disponible."</div>';
-            html += '<div class="free-card-stats"><span><strong style="color:var(--green)">5/5</strong> etoiles</span><span><strong>' + topPraise + '</strong> = leur force</span></div>';
-            html += '<div class="free-advice warn"><strong>Alerte :</strong> Temoignages positifs = preuve sociale forte. Contrez avec vos propres cas clients.</div></div>';
             html += '</div>';
 
-            // ── PUBS ──
+            // PUBS
             html += '<div class="free-section"><div class="free-section-title">Campagnes publicitaires actives</div>';
-            // Ad budget evolution
             html += '<div class="free-chart-box"><div class="free-chart-title">Budget pub mensuel <span>en milliers €</span></div>';
             const adBase = Math.floor(adBudget * 0.3);
             const adData = [adBase, Math.floor(adBase * 1.2), Math.floor(adBase * 0.9), Math.floor(adBase * 1.4), Math.floor(adBase * 1.6), adBudget];
             html += makeLineChart(adData, '#8B5CF6', null, ['Avr','Mai','Juin','Juil','Août','Sept']);
             html += '</div>';
-            // CTR comparison
             html += '<div class="free-chart-box"><div class="free-chart-title">CTR par plateforme <span>en %</span></div>';
             const ctrFb = (0.5 + seededRand(seed, 59) * 3).toFixed(1);
             const ctrGo = (1 + seededRand(seed, 63) * 4).toFixed(1);
@@ -5108,57 +5166,34 @@
             html += makeBarChart([parseFloat(ctrFb), parseFloat(ctrGo), parseFloat(ctrTt)], ['Facebook','Google','TikTok'], ['#5B9BD5','#4285F4','#E1306C']);
             html += '</div>';
             html += '<div class="free-card"><div class="free-card-h"><span class="free-tag red">Facebook Ads</span><span class="free-card-meta">Active · ' + Math.floor(5 + seededRand(seed, 57) * 30) + ' jours</span></div>';
-            html += '<div class="free-card-text">"Rejoignez ' + n + '. Essai gratuit de 14 jours. Plus de 10 000 clients satisfaits. Rejoignez des milliers d\'entreprises."</div>';
-            html += '<div class="free-card-stats"><span><strong>' + Math.floor(2 + seededRand(seed, 58) * 8) + 'k</strong> impressions/jour</span><span><strong>' + (0.5 + seededRand(seed, 59) * 3).toFixed(1) + '%</strong> CTR</span><span><strong>' + (1 + seededRand(seed, 60) * 5).toFixed(2) + '€</strong> coût/clic</span></div>';
-            html += '<div class="free-advice warn"><strong>Analyse :</strong> Budget agressif d\'environ ' + adBudget + 'k€/mois. Ciblage large. Ils investissent lourdement dans l\'acquisition.</div></div>';
-
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag" style="background:rgba(66,133,244,0.15);color:#4285F4">Google Ads</span><span class="free-card-meta">Active · ' + Math.floor(10 + seededRand(seed, 61) * 40) + ' jours</span></div>';
-            html += '<div class="free-card-text">"Meilleure solution ' + n + ' — Rapport qualite/prix imbattable. Demandez votre devis gratuit. Support 24/7 inclus."</div>';
-            html += '<div class="free-card-stats"><span><strong>' + Math.floor(1 + seededRand(seed, 62) * 5) + 'k</strong> impressions/jour</span><span><strong>' + (1 + seededRand(seed, 63) * 4).toFixed(1) + '%</strong> CTR</span><span><strong>' + (0.5 + seededRand(seed, 64) * 3).toFixed(2) + '€</strong> coût/clic</span></div>';
-            html += '<div class="free-advice"><strong>Analyse :</strong> Stratégie SEO + SEA combinée. Forte présence sur les requêtes marque + génériques.</div></div>';
-
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag" style="background:rgba(225,48,108,0.15);color:#E1306C">TikTok Ads</span><span class="free-card-meta">' + (seededRand(seed, 65) > 0.5 ? 'Nouvelle · ' + Math.floor(1 + seededRand(seed, 66) * 10) + ' jours' : 'Active · ' + Math.floor(10 + seededRand(seed, 67) * 30) + ' jours') + '</span></div>';
-            html += '<div class="free-card-text">"POV: Tu decouvres comment ' + n + ' a change ma vie #sponsored #fyp #business"</div>';
-            html += '<div class="free-card-stats"><span><strong>' + Math.floor(10 + seededRand(seed, 68) * 100) + 'k</strong> vues</span><span><strong>' + (3 + seededRand(seed, 69) * 15).toFixed(1) + '%</strong> engagement</span></div>';
-            html += '<div class="free-advice warn"><strong>Analyse :</strong> Format UGC agressif. Nouveau canal testé. Surveillez l\'impact sur votre audience cible.</div></div>';
+            html += '<div class="free-card-text">"Rejoignez ' + n + '. Essai gratuit de 14 jours. Plus de 10 000 clients satisfaits."</div>';
+            html += '<div class="free-card-stats"><span><strong>' + Math.floor(2 + seededRand(seed, 58) * 8) + 'k</strong> impressions/jour</span><span><strong>' + ctrFb + '%</strong> CTR</span></div>';
+            html += '<div class="free-advice warn"><strong>Analyse :</strong> Budget agressif d\'environ ' + adBudget + 'k€/mois. Ils investissent lourdement dans l\'acquisition.</div></div>';
             html += '</div>';
 
-            // ── RECRUTEMENTS ──
+            // RECRUTEMENTS
             html += '<div class="free-section"><div class="free-section-title">Recrutements & signaux de croissance</div>';
             html += '<div class="free-card"><div class="free-card-h"><span class="free-tag red">Engineering</span><span class="free-card-meta">' + openRoles + ' postes ouverts</span></div>';
             html += '<div class="free-card-text"><strong>Senior Full-Stack Developer (' + t1 + ')</strong> — ' + n + ' recrute pour renforcer son equipe produit. Remote possible. Fourchette : 70-95k€.</div>';
-            html += '<div class="free-advice"><strong>Signaux :</strong> Investissement R&D en cours. Attendez-vous a de nouvelles fonctionnalites dans les prochains mois.</div></div>';
-
+            html += '<div class="free-advice"><strong>Signaux :</strong> Investissement R&D en cours. Attendez-vous a de nouvelles fonctionnalites.</div></div>';
             html += '<div class="free-card"><div class="free-card-h"><span class="free-tag silver">Marketing</span><span class="free-card-meta">Publie il y a 7 jours</span></div>';
-            html += '<div class="free-card-text"><strong>Growth Marketing Manager</strong> — ' + n + ' cherche a accelerer son acquisition client. Budget marketing en hausse. Fourchette : 50-65k€.</div>';
-            html += '<div class="free-advice warn"><strong>Signaux :</strong> Budget acquisition en hausse. Prevoyez une guerre de prix et d\'acquisition.</div></div>';
-
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag green">Customer Success</span><span class="free-card-meta">Publie il y a 14 jours</span></div>';
-            html += '<div class="free-card-text"><strong>Customer Success Manager</strong> — ' + n + ' veut ameliorer la retention de ses clients. Probleme de churn detecte. Fourchette : 40-55k€.</div>';
-            html += '<div class="free-advice"><strong>Signaux :</strong> Probleme de churn detecte. Opportunite de capter leurs clients mecontents.</div></div>';
+            html += '<div class="free-card-text"><strong>Growth Marketing Manager</strong> — ' + n + ' cherche a accelerer son acquisition client. Fourchette : 50-65k€.</div>';
+            html += '<div class="free-advice warn"><strong>Signaux :</strong> Budget acquisition en hausse. Prevoyez une guerre de prix.</div></div>';
             html += '</div>';
 
-            // ── BLOG ──
+            // BLOG
             html += '<div class="free-section"><div class="free-section-title">Blog & stratégie éditoriale</div>';
             html += '<div class="free-card"><div class="free-card-h"><span class="free-tag red">Article</span><span class="free-card-meta">Il y a 2 jours · 4 min</span></div>';
-            html += '<div class="free-card-text"><strong>"10 tendances du secteur en 2026"</strong> — ' + n + ' publie un guide complet sur les tendances du marche. SEO optimise.</div>';
+            html += '<div class="free-card-text"><strong>"10 tendances du secteur en 2026"</strong> — ' + n + ' publie un guide complet sur les tendances du marche.</div>';
             html += '<div class="free-card-stats"><span><strong>12k</strong> lectures</span><span><strong>89</strong> partages</span><span><strong>Position 3</strong> Google</span></div>';
-            html += '<div class="free-advice"><strong>Stratégie :</strong> Contenu SEO optimisé. Cible les mots-clés larges. Contrez avec du contenu plus spécifique.</div></div>';
-
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag silver">Étude de cas</span><span class="free-card-meta">Il y a 1 semaine · 6 min</span></div>';
-            html += '<div class="free-card-text"><strong>"Comment X a augmenté son CA de 200%"</strong> — ' + n + ' partage un succès client pour renforcer sa crédibilité.</div>';
-            html += '<div class="free-card-stats"><span><strong>8k</strong> lectures</span><span><strong>45</strong> partages</span></div>';
-            html += '<div class="free-advice"><strong>Stratégie :</strong> Preuve sociale forte. Partagez vos propres études de cas.</div></div>';
-
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag green">Newsletter</span><span class="free-card-meta">Hebdomadaire</span></div>';
+            html += '<div class="free-advice"><strong>Stratégie :</strong> Contenu SEO optimisé. Contrez avec du contenu plus spécifique.</div></div>';
+            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag silver">Newsletter</span><span class="free-card-meta">Hebdomadaire</span></div>';
             html += '<div class="free-card-text"><strong>Newsletter ' + n + '</strong> — ' + Math.floor(5 + seededRand(seed, 70) * 20) + 'k abonnés. Taux d\'ouverture ' + Math.floor(15 + seededRand(seed, 71) * 25) + '%.</div>';
-            html += '<div class="free-card-stats"><span><strong>' + Math.floor(5 + seededRand(seed, 70) * 20) + 'k</strong> abonnés</span><span><strong>' + Math.floor(15 + seededRand(seed, 71) * 25) + '%</strong> open rate</span><span><strong>' + (2 + seededRand(seed, 72) * 8).toFixed(1) + '%</strong> CTR</span></div>';
             html += '<div class="free-advice warn"><strong>Stratégie :</strong> Canal de retention puissant. Considérez de lancer la vôtre.</div></div>';
             html += '</div>';
 
-            // ── RÉSEAUX SOCIAUX ──
+            // RESEAUX SOCIAUX
             html += '<div class="free-section"><div class="free-section-title">Présence réseaux sociaux</div>';
-            // Follower growth
             html += '<div class="free-chart-box"><div class="free-chart-title">Croissance abonnés <span>6 mois (toutes plateformes)</span></div>';
             const socBase = Math.floor(socialFollowers * 0.5);
             const socData = [socBase, Math.floor(socBase * 1.1), Math.floor(socBase * 1.2), Math.floor(socBase * 1.35), Math.floor(socBase * 1.5), socialFollowers];
@@ -5174,7 +5209,7 @@
             html += '<div class="free-advice" style="margin-top:12px"><strong>Conseil :</strong> ' + n + ' investit dans la presence sociale. Surveillez leurs campagnes.</div>';
             html += '</div></div>';
 
-            // ── STACK TECHNIQUE ──
+            // STACK TECHNIQUE
             html += '<div class="free-section"><div class="free-section-title">Stack technique détectée</div>';
             html += '<div class="free-card">';
             html += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">';
@@ -5187,7 +5222,7 @@
             html += '<div class="free-advice"><strong>Insight :</strong> Stack ' + t1 + ' + ' + cloud + '. Si vous utilisez les memes technologies, leurs vulnerabilites sont aussi les votres.</div>';
             html += '</div></div>';
 
-            // ── CTA ──
+            // CTA
             html += '<div class="free-cta"><h3>Voulez-vous comparer ' + n + ' à vos concurrents ?</h3>';
             html += '<p>Créez un compte gratuit pour : suivre plusieurs concurrents en parallèle, recevoir des alertes en temps réel sur chaque mouvement, et accéder au dashboard complet avec historique illimité.</p>';
             html += '<div class="free-cta-btns">';
