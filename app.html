@@ -278,17 +278,19 @@
         <div class="modal">
             <button class="modal-close" onclick="closeModal('upgradeModal')">&times;</button>
             <h2>Passez au niveau superieur</h2>
-            <p>Vous avez atteint la limite de votre plan gratuit.</p>
+            <p>Vous avez atteint la limite de votre plan gratuit (<strong id="upgradeLimit">1</strong> concurrent).</p>
             <div class="plan-card">
                 <h3>Pro</h3>
                 <div class="price">19,99€<span style="font-size:14px;color:var(--gray-4)">/mois</span></div>
+                <p style="font-size:12px;color:var(--gray-4);margin-bottom:8px">Pour les indépendants et petites équipes</p>
                 <ul>
-                    <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>3 concurrents surveilles</li>
-                    <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Alertes prix en temps reel</li>
-                    <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Analyse posts illimitee</li>
-                    <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Export rapports PDF</li>
+                    <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>3 concurrents</strong> — comparez 3 entreprises en parallèle</li>
+                    <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Alertes temps réel</strong> — notification instantanée dès qu'un prix change</li>
+                    <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Pubs + Recrutements</strong> — suivez leurs campagnes pub et offres d'emploi</li>
+                    <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Blog & contenu</strong> — analysez leur stratégie éditoriale</li>
+                    <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Historique 6 mois</strong> — accédez aux données des 6 derniers mois</li>
                 </ul>
-                <button class="btn-primary" onclick="alert('Bientot disponible !')">Passer a Pro</button>
+                <button class="btn-primary" onclick="alert('Bientot disponible !')">Passer a Pro — 19,99€/mois</button>
             </div>
             <button class="btn-secondary" onclick="closeModal('upgradeModal')">Rester en gratuit</button>
         </div>
@@ -659,9 +661,11 @@
                     badge.className = 'badge-plan' + (plan !== 'free' ? ' ' + plan : '');
                 }
                 if (plan === 'free') {
-                    pl.innerHTML = '<div class="plan-card free"><h3>Free</h3><div class="price">0€<span style="font-size:14px;color:var(--gray-4)">/mois</span></div><ul><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>1 concurrent surveille</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Donnees de demonstration</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Alertes basiques</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Dashboard complet</li></ul><button class="btn-primary" onclick="document.getElementById(\'upgradeModal\').classList.add(\'on\')">Passer a Pro — 19,99€/mois</button></div>';
+                    pl.innerHTML = '<div class="plan-card free"><h3>Free</h3><p style="font-size:12px;color:var(--gray-4);margin-bottom:4px">Pour tester et découvrir RivalEye</p><div class="price">0€<span style="font-size:14px;color:var(--gray-4)">/mois · pour toujours</span></div><ul><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>1 concurrent</strong> — vous choisissez UNE entreprise à analyser</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Dashboard complet</strong> — prix, posts, avis, pubs, recrutements</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Analyse prix + posts + avis</strong> — voir les changements et dernières nouvelles</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Alertes basiques</strong> — notification quand un prix change (1×/jour)</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Graphiques détaillés</strong> — évolution prix, CA, satisfaction</li></ul><button class="btn-primary" onclick="document.getElementById(\'upgradeModal\').classList.add(\'on\')">Passer a Pro — 19,99€/mois</button></div>';
+                } else if (plan === 'pro') {
+                    pl.innerHTML = '<div class="plan-card"><h3>Pro</h3><p style="font-size:12px;color:var(--gray-4);margin-bottom:4px">Pour les indépendants et petites équipes</p><div class="price">19,99€<span style="font-size:14px;color:var(--gray-4)">/mois · annulable</span></div><ul><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>3 concurrents</strong> — comparez 3 entreprises en parallèle</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Alertes temps réel</strong> — notification instantanée dès qu\'un concurrent bouge</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Pubs + Recrutements</strong> — suivez leurs campagnes pub et offres d\'emploi</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Blog & contenu</strong> — analysez leur stratégie éditoriale</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Historique 6 mois</strong> — accédez aux données des 6 derniers mois</li></ul></div>';
                 } else {
-                    pl.innerHTML = '<div class="plan-card"><h3>' + plan.charAt(0).toUpperCase() + plan.slice(1) + '</h3><div class="price">' + (plan === 'pro' ? '19,99€' : '49,99€') + '<span style="font-size:14px;color:var(--gray-4)">/mois</span></div><ul><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>' + planLimit() + ' concurrents</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Toutes les fonctionnalites</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Support prioritaire</li></ul></div>';
+                    pl.innerHTML = '<div class="plan-card"><h3>Business</h3><p style="font-size:12px;color:var(--gray-4);margin-bottom:4px">Pour les entreprises qui veulent une veille complète</p><div class="price">49,99€<span style="font-size:14px;color:var(--gray-4)">/mois · annulable</span></div><ul><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>10 concurrents</strong> — suivez tout votre paysage concurrentiel</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Pronostics IA</strong> — l\'IA prédit les prochains mouvements de vos concurrents</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Export rapports PDF</strong> — générez des rapports à partager avec votre équipe</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Historique illimité</strong> — accédez à toutes les données depuis le début</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Support prioritaire</strong> — réponse sous 2h aux heures ouvrées</li></ul></div>';
                 }
             }
             const cc = document.getElementById('setCompCount');
