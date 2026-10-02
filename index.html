@@ -343,48 +343,67 @@
             max-width: 1100px;
             margin: 0 auto;
             position: relative;
-            height: 560px;
-            border-radius: 24px;
+            height: 640px;
+            border-radius: 20px;
             overflow: hidden;
+            /* Night city atmosphere */
             background:
-                linear-gradient(to top, #050505 0%, #050505 6%, transparent 6%),
-                radial-gradient(ellipse at 50% 100%, rgba(255, 59, 59, 0.1) 0%, transparent 45%),
-                radial-gradient(ellipse at 30% 80%, rgba(209, 213, 219, 0.05) 0%, transparent 40%),
-                linear-gradient(180deg, #0A0A0B 0%, #121214 60%, #08080A 100%);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+                /* street wet reflection */
+                linear-gradient(to top,
+                    rgba(255, 59, 59, 0.12) 0%,
+                    rgba(20, 8, 8, 0.9) 8%,
+                    transparent 18%),
+                /* red city glow horizon */
+                radial-gradient(ellipse at 50% 95%, rgba(255, 40, 40, 0.22) 0%, transparent 45%),
+                radial-gradient(ellipse at 20% 90%, rgba(255, 59, 59, 0.08) 0%, transparent 35%),
+                radial-gradient(ellipse at 80% 90%, rgba(180, 20, 20, 0.12) 0%, transparent 35%),
+                /* night sky */
+                radial-gradient(ellipse at 50% 0%, #0C1020 0%, #05060A 55%, #030305 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow:
+                inset 0 0 120px rgba(0, 0, 0, 0.7),
+                0 40px 80px rgba(0, 0, 0, 0.5);
         }
 
+        /* Night sky details */
         .arena-stars {
             position: absolute;
             inset: 0;
             background-image:
-                radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.4), transparent),
-                radial-gradient(1px 1px at 30% 8%, rgba(255,255,255,0.25), transparent),
-                radial-gradient(1px 1px at 55% 20%, rgba(255,255,255,0.3), transparent),
-                radial-gradient(1px 1px at 75% 12%, rgba(255,255,255,0.2), transparent),
-                radial-gradient(1px 1px at 90% 22%, rgba(255,255,255,0.35), transparent),
-                radial-gradient(1px 1px at 45% 5%, rgba(255,255,255,0.2), transparent);
+                radial-gradient(1.5px 1.5px at 8% 10%, rgba(255,255,255,0.5), transparent),
+                radial-gradient(1px 1px at 22% 5%, rgba(255,255,255,0.3), transparent),
+                radial-gradient(1px 1px at 40% 12%, rgba(255,220,200,0.4), transparent),
+                radial-gradient(1.5px 1.5px at 58% 7%, rgba(255,255,255,0.35), transparent),
+                radial-gradient(1px 1px at 75% 14%, rgba(255,255,255,0.25), transparent),
+                radial-gradient(1px 1px at 92% 9%, rgba(255,200,180,0.4), transparent),
+                radial-gradient(1px 1px at 50% 18%, rgba(255,255,255,0.2), transparent),
+                radial-gradient(1px 1px at 15% 22%, rgba(255,255,255,0.2), transparent),
+                radial-gradient(1px 1px at 85% 20%, rgba(255,255,255,0.25), transparent);
             pointer-events: none;
+            z-index: 1;
         }
 
+        /* Distant city silhouette */
         .arena-skyline {
             position: absolute;
-            bottom: 0;
+            bottom: 12%;
             left: 0;
             right: 0;
-            height: 180px;
+            height: 140px;
             display: flex;
             align-items: flex-end;
             justify-content: center;
-            gap: 8px;
-            padding: 0 40px;
-            opacity: 0.45;
+            gap: 6px;
+            padding: 0 20px;
+            opacity: 0.5;
             pointer-events: none;
+            z-index: 2;
+            filter: blur(1px);
         }
 
         .skyline-block {
-            background: linear-gradient(180deg, #141416 0%, #0A0A0B 100%);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: linear-gradient(180deg, #0E1018 0%, #06070A 100%);
+            border: 1px solid rgba(255, 59, 59, 0.04);
             border-bottom: none;
             position: relative;
         }
@@ -392,366 +411,487 @@
         .skyline-block::after {
             content: '';
             position: absolute;
-            inset: 6px 4px;
+            inset: 4px 3px;
             background-image:
-                linear-gradient(rgba(255, 220, 150, 0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 220, 150, 0.06) 1px, transparent 1px);
-            background-size: 6px 8px;
+                linear-gradient(rgba(255, 180, 120, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 120, 80, 0.05) 1px, transparent 1px);
+            background-size: 5px 7px;
         }
 
-        .skyline-block:nth-child(1) { width: 36px; height: 70px; }
-        .skyline-block:nth-child(2) { width: 28px; height: 100px; }
-        .skyline-block:nth-child(3) { width: 44px; height: 55px; }
-        .skyline-block:nth-child(4) { width: 32px; height: 120px; }
-        .skyline-block:nth-child(5) { width: 50px; height: 45px; }
-        .skyline-block:nth-child(6) { width: 30px; height: 90px; }
-        .skyline-block:nth-child(7) { width: 40px; height: 65px; }
-        .skyline-block:nth-child(8) { width: 26px; height: 110px; }
-        .skyline-block:nth-child(9) { width: 48px; height: 50px; }
-        .skyline-block:nth-child(10) { width: 34px; height: 85px; }
+        .skyline-block:nth-child(1) { width: 30px; height: 55px; }
+        .skyline-block:nth-child(2) { width: 22px; height: 80px; }
+        .skyline-block:nth-child(3) { width: 40px; height: 40px; }
+        .skyline-block:nth-child(4) { width: 26px; height: 95px; }
+        .skyline-block:nth-child(5) { width: 48px; height: 35px; }
+        .skyline-block:nth-child(6) { width: 24px; height: 70px; }
+        .skyline-block:nth-child(7) { width: 36px; height: 50px; }
+        .skyline-block:nth-child(8) { width: 20px; height: 85px; }
+        .skyline-block:nth-child(9) { width: 44px; height: 38px; }
+        .skyline-block:nth-child(10) { width: 28px; height: 65px; }
 
+        /* Wet asphalt street */
         .arena-ground {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 6%;
-            background: linear-gradient(180deg, #0D0D0F 0%, #050505 100%);
-            border-top: 1px solid rgba(255, 59, 59, 0.15);
-            z-index: 5;
+            height: 14%;
+            z-index: 8;
+            background:
+                linear-gradient(180deg,
+                    rgba(255, 59, 59, 0.08) 0%,
+                    rgba(15, 6, 6, 0.95) 30%,
+                    #050303 100%);
+            border-top: 1px solid rgba(255, 59, 59, 0.12);
         }
 
         .arena-ground::before {
+            /* wet reflections */
             content: '';
             position: absolute;
-            bottom: 100%;
+            top: 0;
             left: 0;
             right: 0;
-            height: 40px;
-            background: linear-gradient(to top, rgba(255, 59, 59, 0.06), transparent);
+            height: 100%;
+            background:
+                radial-gradient(ellipse 40% 80% at 28% 0%, rgba(209, 213, 219, 0.15) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 80% at 72% 0%, rgba(255, 59, 59, 0.25) 0%, transparent 70%),
+                radial-gradient(ellipse 80% 40% at 50% 100%, rgba(255, 59, 59, 0.08) 0%, transparent 100%);
             pointer-events: none;
+        }
+
+        .arena-ground::after {
+            /* street light streaks */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 15%;
+            right: 15%;
+            height: 2px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255, 200, 150, 0.15) 20%,
+                rgba(255, 255, 255, 0.08) 50%,
+                rgba(255, 80, 80, 0.2) 80%,
+                transparent 100%);
+            filter: blur(0.5px);
         }
 
         .building {
             position: absolute;
-            bottom: 6%;
+            bottom: 10%;
             z-index: 10;
             display: flex;
             flex-direction: column;
             align-items: center;
+            /* worm's-eye perspective feel */
+            transform-origin: bottom center;
         }
 
         .building-mine {
-            left: 14%;
-            animation: buildingBounce 4s ease-in-out infinite;
+            left: 12%;
+            animation: buildingBreathe 5s ease-in-out infinite;
         }
 
         .building-rival {
-            right: 14%;
-            animation: buildingBounce 4s ease-in-out 1.8s infinite;
+            right: 12%;
+            animation: buildingBreathe 5s ease-in-out 2.2s infinite;
         }
 
-        @keyframes buildingBounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+        @keyframes buildingBreathe {
+            0%, 100% { transform: translateY(0) scaleY(1); }
+            50% { transform: translateY(-4px) scaleY(1.003); }
         }
 
-        /* --- REALISTIC SKYSCRAPER --- */
+        /* ===== GIANT SKYSCRAPER — LOOKING UP FROM STREET ===== */
         .building-structure {
             display: flex;
             flex-direction: column;
             align-items: center;
-            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.6));
+            filter: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.8));
         }
 
+        /* Antenna + beacon */
         .building-antenna {
-            width: 2px;
-            background: linear-gradient(180deg, transparent 0%, var(--gray-5) 100%);
+            width: 3px;
             position: relative;
-            margin-bottom: -1px;
+            margin-bottom: -2px;
+            z-index: 5;
         }
 
-        .building-mine .building-antenna { height: 42px; background: linear-gradient(180deg, var(--silver-dark), var(--gray-5)); }
-        .building-rival .building-antenna { height: 56px; background: linear-gradient(180deg, var(--red-dark), var(--gray-5)); }
+        .building-mine .building-antenna {
+            height: 70px;
+            background: linear-gradient(180deg, rgba(209, 213, 219, 0.9), rgba(80, 85, 95, 0.6) 40%, transparent);
+        }
+
+        .building-rival .building-antenna {
+            height: 90px;
+            background: linear-gradient(180deg, rgba(255, 80, 80, 0.95), rgba(140, 20, 20, 0.6) 40%, transparent);
+        }
 
         .building-antenna::before {
             content: '';
             position: absolute;
-            top: -4px;
+            top: -5px;
             left: 50%;
             transform: translateX(-50%);
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
         }
 
         .building-mine .building-antenna::before {
-            background: var(--silver);
-            box-shadow: 0 0 12px var(--silver-glow), 0 0 24px var(--silver-glow);
-            animation: beaconBlink 2s ease-in-out infinite;
+            background: #FFFFFF;
+            box-shadow:
+                0 0 10px #FFFFFF,
+                0 0 25px var(--silver-glow),
+                0 0 50px var(--silver-glow);
+            animation: beaconBlink 2.5s ease-in-out infinite;
         }
 
         .building-rival .building-antenna::before {
-            background: var(--red);
-            box-shadow: 0 0 12px var(--red-glow), 0 0 28px var(--red-glow);
-            animation: beaconBlink 1.2s ease-in-out infinite;
+            background: #FF4040;
+            box-shadow:
+                0 0 12px #FF4040,
+                0 0 30px var(--red-glow),
+                0 0 60px var(--red-glow);
+            animation: beaconBlink 1.1s ease-in-out infinite;
         }
 
         @keyframes beaconBlink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.35; }
+            0%, 100% { opacity: 1; transform: translateX(-50%) scale(1); }
+            50% { opacity: 0.3; transform: translateX(-50%) scale(0.85); }
         }
 
-        /* Rooftop crown / logo */
+        /* Illuminated logo crown */
         .building-crown {
-            width: 72%;
-            height: 18px;
+            width: 78%;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-bottom: none;
             position: relative;
-        }
-
-        .building-mine .building-crown {
-            background: linear-gradient(180deg, #3A3A40 0%, #1A1A1E 100%);
-        }
-
-        .building-rival .building-crown {
-            background: linear-gradient(180deg, #4A1515 0%, #1A0A0A 100%);
+            z-index: 4;
         }
 
         .building-logo {
-            font-size: 9px;
+            font-size: 15px;
             font-weight: 900;
-            letter-spacing: 3px;
+            letter-spacing: 6px;
             text-transform: uppercase;
+            padding: 6px 18px;
+            border-radius: 4px;
         }
 
         .building-mine .building-logo {
-            color: var(--silver);
-            text-shadow: 0 0 10px var(--silver-glow);
+            color: #FFFFFF;
+            background: linear-gradient(180deg, rgba(209, 213, 219, 0.25) 0%, rgba(30, 32, 38, 0.9) 100%);
+            border: 1px solid rgba(209, 213, 219, 0.45);
+            box-shadow:
+                0 0 20px rgba(209, 213, 219, 0.35),
+                0 0 40px rgba(209, 213, 219, 0.15),
+                inset 0 0 12px rgba(209, 213, 219, 0.15);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
         }
 
         .building-rival .building-logo {
-            color: var(--red);
-            text-shadow: 0 0 10px var(--red-glow);
+            color: #FFFFFF;
+            background: linear-gradient(180deg, rgba(255, 59, 59, 0.45) 0%, rgba(40, 6, 6, 0.95) 100%);
+            border: 1px solid rgba(255, 59, 59, 0.6);
+            box-shadow:
+                0 0 25px rgba(255, 59, 59, 0.55),
+                0 0 50px rgba(255, 59, 59, 0.25),
+                inset 0 0 14px rgba(255, 59, 59, 0.25);
+            text-shadow: 0 0 12px rgba(255, 80, 80, 0.8);
         }
 
-        /* Main tower body */
+        /* Crown glow strip under logo */
+        .building-crown::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 10%;
+            right: 10%;
+            height: 3px;
+            border-radius: 2px;
+        }
+
+        .building-mine .building-crown::after {
+            background: linear-gradient(90deg, transparent, var(--silver), transparent);
+            box-shadow: 0 0 16px var(--silver-glow);
+        }
+
+        .building-rival .building-crown::after {
+            background: linear-gradient(90deg, transparent, var(--red), transparent);
+            box-shadow: 0 0 20px var(--red-glow);
+        }
+
+        /* ===== TOWER BODY — perspective trapezoid (wider bottom) ===== */
         .building-body {
-            width: 140px;
             position: relative;
             overflow: hidden;
-            border-left: 1px solid rgba(255, 255, 255, 0.1);
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .building-mine .building-body {
-            height: 300px;
+            width: 170px;
+            height: 380px;
+            /* looking up: wider at base */
+            clip-path: polygon(18% 0%, 82% 0%, 100% 100%, 0% 100%);
             background:
+                /* left edge silver light */
                 linear-gradient(90deg,
-                    rgba(0, 0, 0, 0.35) 0%,
-                    transparent 12%,
+                    rgba(209, 213, 219, 0.25) 0%,
+                    rgba(209, 213, 219, 0.05) 4%,
+                    transparent 10%,
                     transparent 88%,
-                    rgba(0, 0, 0, 0.35) 100%),
+                    rgba(209, 213, 219, 0.08) 96%,
+                    rgba(209, 213, 219, 0.2) 100%),
+                /* horizontal floor slabs */
                 repeating-linear-gradient(180deg,
                     transparent 0px,
-                    transparent 28px,
-                    rgba(0, 0, 0, 0.25) 28px,
-                    rgba(0, 0, 0, 0.25) 30px),
+                    transparent 22px,
+                    rgba(0, 0, 0, 0.45) 22px,
+                    rgba(0, 0, 0, 0.45) 24px),
+                /* vertical glass panels */
+                repeating-linear-gradient(90deg,
+                    transparent 0px,
+                    transparent 14px,
+                    rgba(255, 255, 255, 0.03) 14px,
+                    rgba(255, 255, 255, 0.03) 15px),
+                /* glass base */
                 linear-gradient(180deg,
-                    #4A4A52 0%,
-                    #2A2A30 30%,
-                    #1C1C22 70%,
-                    #141418 100%);
+                    #2A3040 0%,
+                    #1A2030 25%,
+                    #121820 60%,
+                    #0A0E14 100%);
             box-shadow:
-                inset 0 0 40px rgba(209, 213, 219, 0.04),
-                0 0 50px rgba(209, 213, 219, 0.08);
+                inset 0 0 60px rgba(209, 213, 219, 0.06),
+                0 0 40px rgba(209, 213, 219, 0.06);
         }
 
         .building-rival .building-body {
-            height: 260px;
+            width: 160px;
+            height: 340px;
+            clip-path: polygon(16% 0%, 84% 0%, 100% 100%, 0% 100%);
             background:
+                /* red edge neon */
                 linear-gradient(90deg,
-                    rgba(0, 0, 0, 0.4) 0%,
+                    rgba(255, 59, 59, 0.4) 0%,
+                    rgba(255, 59, 59, 0.1) 5%,
                     transparent 12%,
-                    transparent 88%,
-                    rgba(0, 0, 0, 0.4) 100%),
+                    transparent 86%,
+                    rgba(255, 59, 59, 0.12) 94%,
+                    rgba(255, 59, 59, 0.35) 100%),
                 repeating-linear-gradient(180deg,
                     transparent 0px,
-                    transparent 28px,
-                    rgba(0, 0, 0, 0.3) 28px,
-                    rgba(0, 0, 0, 0.3) 30px),
+                    transparent 22px,
+                    rgba(0, 0, 0, 0.5) 22px,
+                    rgba(0, 0, 0, 0.5) 24px),
+                repeating-linear-gradient(90deg,
+                    transparent 0px,
+                    transparent 14px,
+                    rgba(255, 255, 255, 0.025) 14px,
+                    rgba(255, 255, 255, 0.025) 15px),
                 linear-gradient(180deg,
-                    #5A1818 0%,
-                    #3A1010 30%,
-                    #220A0A 70%,
-                    #140606 100%);
+                    #3A1518 0%,
+                    #281014 25%,
+                    #180A0C 60%,
+                    #0C0506 100%);
             box-shadow:
-                inset 0 0 40px rgba(255, 59, 59, 0.05),
+                inset 0 0 60px rgba(255, 59, 59, 0.08),
                 0 0 50px rgba(255, 59, 59, 0.12);
         }
 
-        /* Setback mid-tier (realistic architecture) */
+        /* Atmospheric haze at building base */
         .building-body::before {
             content: '';
             position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
             right: 0;
-            height: 50px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            height: 35%;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .building-mine .building-body::before {
+            background: linear-gradient(to top,
+                rgba(15, 18, 24, 0.7) 0%,
+                rgba(15, 18, 24, 0.25) 40%,
+                transparent 100%);
+        }
+
+        .building-rival .building-body::before {
+            background: linear-gradient(to top,
+                rgba(20, 6, 8, 0.75) 0%,
+                rgba(20, 6, 8, 0.3) 40%,
+                transparent 100%);
+        }
+
+        /* Red reflection wash on rival glass */
+        .building-body::after {
+            content: '';
+            position: absolute;
+            inset: 0;
             pointer-events: none;
             z-index: 2;
         }
 
-        .building-mine .building-body::before {
-            background: linear-gradient(180deg, rgba(209, 213, 219, 0.06), transparent);
+        .building-rival .building-body::after {
+            background:
+                radial-gradient(ellipse 80% 30% at 50% 100%, rgba(255, 59, 59, 0.18) 0%, transparent 70%),
+                radial-gradient(ellipse 30% 20% at 20% 30%, rgba(255, 255, 255, 0.04) 0%, transparent 100%);
         }
 
-        .building-rival .building-body::before {
-            background: linear-gradient(180deg, rgba(255, 59, 59, 0.08), transparent);
+        .building-mine .building-body::after {
+            background:
+                radial-gradient(ellipse 60% 20% at 50% 100%, rgba(209, 213, 219, 0.08) 0%, transparent 70%),
+                radial-gradient(ellipse 20% 15% at 80% 40%, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
         }
 
-        /* Vertical glass mullions */
-        .building-body::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: repeating-linear-gradient(90deg,
-                transparent 0px,
-                transparent 26px,
-                rgba(255, 255, 255, 0.04) 26px,
-                rgba(255, 255, 255, 0.04) 28px);
-            pointer-events: none;
-            z-index: 1;
-        }
-
+        /* ===== WINDOWS — dense grid like real skyscraper ===== */
         .building-windows {
             position: absolute;
-            top: 60px;
-            left: 12px;
-            right: 12px;
-            bottom: 12px;
+            top: 50px;
+            left: 0;
+            right: 0;
+            bottom: 20px;
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-auto-rows: 18px;
-            gap: 6px 5px;
+            grid-template-columns: repeat(6, 1fr);
+            grid-auto-rows: 14px;
+            gap: 5px 4px;
+            padding: 0 28px;
             z-index: 2;
         }
 
         .window {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             border-radius: 1px;
-            animation: windowFlicker 6s ease-in-out infinite;
             position: relative;
+            animation: windowFlicker 8s ease-in-out infinite;
         }
 
         .window.lit {
-            background: linear-gradient(180deg, rgba(255, 230, 170, 0.75), rgba(255, 200, 120, 0.55));
-            border-color: rgba(255, 230, 170, 0.3);
+            background: linear-gradient(180deg, rgba(255, 228, 170, 0.85), rgba(255, 200, 120, 0.6));
+            border-color: rgba(255, 220, 160, 0.25);
             box-shadow:
-                0 0 6px rgba(255, 210, 130, 0.45),
-                inset 0 0 4px rgba(255, 255, 255, 0.2);
-        }
-
-        .window.lit-red {
-            background: linear-gradient(180deg, rgba(255, 140, 140, 0.7), rgba(255, 80, 80, 0.5));
-            border-color: rgba(255, 120, 120, 0.35);
-            box-shadow:
-                0 0 6px rgba(255, 80, 80, 0.45),
-                inset 0 0 4px rgba(255, 255, 255, 0.15);
+                0 0 5px rgba(255, 210, 140, 0.5),
+                0 0 12px rgba(255, 200, 120, 0.2),
+                inset 0 0 3px rgba(255, 255, 255, 0.25);
         }
 
         .window.lit-bright {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(230, 230, 230, 0.7));
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(230, 235, 240, 0.75));
             border-color: rgba(255, 255, 255, 0.4);
             box-shadow:
-                0 0 10px rgba(255, 255, 255, 0.5),
-                inset 0 0 4px rgba(255, 255, 255, 0.3);
+                0 0 8px rgba(255, 255, 255, 0.6),
+                0 0 18px rgba(255, 255, 255, 0.25);
         }
 
-        .window:nth-child(odd) { animation-delay: 0.8s; }
-        .window:nth-child(3n) { animation-delay: 1.6s; }
-        .window:nth-child(5n) { animation-delay: 2.4s; }
+        .window.lit-red {
+            background: linear-gradient(180deg, rgba(255, 130, 130, 0.85), rgba(255, 60, 60, 0.55));
+            border-color: rgba(255, 100, 100, 0.3);
+            box-shadow:
+                0 0 6px rgba(255, 70, 70, 0.55),
+                0 0 14px rgba(255, 59, 59, 0.25),
+                inset 0 0 3px rgba(255, 200, 200, 0.2);
+        }
+
+        .window.lit-dim {
+            background: rgba(255, 200, 140, 0.25);
+            border-color: rgba(255, 200, 140, 0.1);
+        }
+
+        .window:nth-child(odd) { animation-delay: 1.1s; }
+        .window:nth-child(3n) { animation-delay: 2.3s; }
+        .window:nth-child(5n) { animation-delay: 3.7s; }
+        .window:nth-child(7n) { animation-delay: 4.9s; }
 
         @keyframes windowFlicker {
-            0%, 100% { opacity: 0.85; }
-            40% { opacity: 1; }
-            70% { opacity: 0.7; }
+            0%, 100% { opacity: 0.9; }
+            35% { opacity: 1; }
+            65% { opacity: 0.75; }
         }
 
-        /* Mid-tier setback (architecture realism) */
+        /* Mid setback tier */
         .building-tier {
-            width: 80%;
-            height: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-bottom: none;
+            width: 72%;
+            height: 70px;
             position: relative;
             overflow: hidden;
+            z-index: 3;
         }
 
         .building-mine .building-tier {
+            clip-path: polygon(12% 0%, 88% 0%, 100% 100%, 0% 100%);
             background:
+                linear-gradient(90deg,
+                    rgba(209, 213, 219, 0.2) 0%,
+                    transparent 10%,
+                    transparent 90%,
+                    rgba(209, 213, 219, 0.15) 100%),
                 repeating-linear-gradient(180deg,
                     transparent 0px,
-                    transparent 16px,
-                    rgba(0, 0, 0, 0.2) 16px,
-                    rgba(0, 0, 0, 0.2) 18px),
-                linear-gradient(180deg, #3A3A42 0%, #1E1E24 100%);
-            box-shadow: 0 -4px 20px rgba(209, 213, 219, 0.05);
+                    transparent 18px,
+                    rgba(0, 0, 0, 0.4) 18px,
+                    rgba(0, 0, 0, 0.4) 20px),
+                linear-gradient(180deg, #2A3040 0%, #141A24 100%);
+            box-shadow: 0 -6px 24px rgba(209, 213, 219, 0.08);
         }
 
         .building-rival .building-tier {
+            clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
             background:
+                linear-gradient(90deg,
+                    rgba(255, 59, 59, 0.35) 0%,
+                    transparent 10%,
+                    transparent 90%,
+                    rgba(255, 59, 59, 0.3) 100%),
                 repeating-linear-gradient(180deg,
                     transparent 0px,
-                    transparent 16px,
-                    rgba(0, 0, 0, 0.25) 16px,
-                    rgba(0, 0, 0, 0.25) 18px),
-                linear-gradient(180deg, #4A1818 0%, #200C0C 100%);
-            box-shadow: 0 -4px 20px rgba(255, 59, 59, 0.08);
+                    transparent 18px,
+                    rgba(0, 0, 0, 0.45) 18px,
+                    rgba(0, 0, 0, 0.45) 20px),
+                linear-gradient(180deg, #3A1518 0%, #180A0C 100%);
+            box-shadow: 0 -6px 24px rgba(255, 59, 59, 0.12);
         }
 
         .building-tier-windows {
             position: absolute;
-            top: 6px;
-            left: 10px;
-            right: 10px;
-            bottom: 6px;
+            top: 8px;
+            left: 14px;
+            right: 14px;
+            bottom: 8px;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             grid-auto-rows: 1fr;
             gap: 4px;
             z-index: 2;
         }
 
-        .building-tier-windows .window {
-            border-radius: 1px;
-        }
-
-        /* Ground floor entrance */
+        /* Base / lobby entrance */
         .building-base {
-            width: 120%;
-            height: 36px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            width: 100%;
+            height: 50px;
             position: relative;
-            overflow: hidden;
+            z-index: 4;
         }
 
         .building-mine .building-base {
-            background: linear-gradient(180deg, #2A2A32 0%, #121216 100%);
+            clip-path: polygon(4% 0%, 96% 0%, 100% 100%, 0% 100%);
+            background:
+                linear-gradient(180deg, #1E2430 0%, #0C0E14 100%);
+            border-top: 1px solid rgba(209, 213, 219, 0.15);
+            box-shadow: 0 -2px 20px rgba(209, 213, 219, 0.06);
         }
 
         .building-rival .building-base {
-            background: linear-gradient(180deg, #3A1414 0%, #120808 100%);
+            clip-path: polygon(3% 0%, 97% 0%, 100% 100%, 0% 100%);
+            background:
+                linear-gradient(180deg, #2A1012 0%, #0C0506 100%);
+            border-top: 1px solid rgba(255, 59, 59, 0.25);
+            box-shadow: 0 -2px 24px rgba(255, 59, 59, 0.1);
         }
 
         .building-entrance {
@@ -759,21 +899,33 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 32px;
-            height: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-bottom: none;
+            width: 48px;
+            height: 36px;
             overflow: hidden;
         }
 
         .building-mine .building-entrance {
-            background: linear-gradient(180deg, rgba(209, 213, 219, 0.2), rgba(209, 213, 219, 0.05));
-            box-shadow: 0 0 16px rgba(209, 213, 219, 0.15);
+            background:
+                linear-gradient(180deg,
+                    rgba(209, 213, 219, 0.35) 0%,
+                    rgba(209, 213, 219, 0.08) 100%);
+            border: 1px solid rgba(209, 213, 219, 0.3);
+            border-bottom: none;
+            box-shadow:
+                0 0 20px rgba(209, 213, 219, 0.2),
+                0 0 40px rgba(209, 213, 219, 0.08);
         }
 
         .building-rival .building-entrance {
-            background: linear-gradient(180deg, rgba(255, 59, 59, 0.3), rgba(255, 59, 59, 0.08));
-            box-shadow: 0 0 16px rgba(255, 59, 59, 0.2);
+            background:
+                linear-gradient(180deg,
+                    rgba(255, 59, 59, 0.5) 0%,
+                    rgba(255, 59, 59, 0.1) 100%);
+            border: 1px solid rgba(255, 59, 59, 0.45);
+            border-bottom: none;
+            box-shadow:
+                0 0 24px rgba(255, 59, 59, 0.35),
+                0 0 48px rgba(255, 59, 59, 0.12);
         }
 
         .building-entrance::before {
@@ -782,14 +934,15 @@
             inset: 0;
             background: repeating-linear-gradient(90deg,
                 transparent 0px,
-                transparent 7px,
-                rgba(255, 255, 255, 0.08) 7px,
-                rgba(255, 255, 255, 0.08) 8px);
+                transparent 9px,
+                rgba(255, 255, 255, 0.06) 9px,
+                rgba(255, 255, 255, 0.06) 10px);
         }
 
+        /* Labels under buildings */
         .building-label {
             position: absolute;
-            bottom: -48px;
+            bottom: -44px;
             left: 50%;
             transform: translateX(-50%);
             text-align: center;
@@ -811,28 +964,34 @@
             color: var(--gray-4);
         }
 
+        /* Floating stats cards */
         .building-stats {
             position: absolute;
-            top: -70px;
+            top: -20px;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(8, 8, 10, 0.92);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 12px;
             padding: 12px 20px;
-            backdrop-filter: blur(12px);
-            animation: statsFloat 4s ease-in-out infinite;
-            z-index: 20;
+            backdrop-filter: blur(14px);
+            animation: statsFloat 4.5s ease-in-out infinite;
+            z-index: 30;
         }
 
         .building-rival .building-stats {
-            border-color: rgba(255, 59, 59, 0.3);
-            box-shadow: 0 0 20px rgba(255, 59, 59, 0.1);
+            border-color: rgba(255, 59, 59, 0.4);
+            box-shadow: 0 0 24px rgba(255, 59, 59, 0.15);
+        }
+
+        .building-mine .building-stats {
+            border-color: rgba(209, 213, 219, 0.3);
+            box-shadow: 0 0 20px rgba(209, 213, 219, 0.1);
         }
 
         @keyframes statsFloat {
             0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-8px); }
+            50% { transform: translateX(-50%) translateY(-10px); }
         }
 
         .building-stats-value {
@@ -848,37 +1007,44 @@
             color: var(--gray-4);
         }
 
-        /* VS Badge */
+        /* VS Badge — holographic between the giants */
         .vs-badge {
             position: absolute;
             left: 50%;
-            top: 48%;
+            top: 42%;
             transform: translate(-50%, -50%);
-            width: 90px;
-            height: 90px;
-            background: linear-gradient(135deg, #1A1A1E 0%, #0A0A0C 100%);
-            border: 2px solid rgba(255, 59, 59, 0.4);
+            width: 88px;
+            height: 88px;
+            background: radial-gradient(circle at 40% 35%, rgba(30, 20, 20, 0.95), rgba(8, 6, 8, 0.98));
+            border: 2px solid rgba(255, 59, 59, 0.5);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 20;
+            z-index: 25;
             box-shadow:
-                0 0 40px rgba(255, 59, 59, 0.2),
-                0 0 80px rgba(0, 0, 0, 0.6),
+                0 0 30px rgba(255, 59, 59, 0.25),
+                0 0 70px rgba(255, 59, 59, 0.1),
+                0 20px 40px rgba(0, 0, 0, 0.6),
                 inset 0 0 20px rgba(255, 59, 59, 0.08);
-            animation: vsPulse 2.5s ease-in-out infinite;
+            animation: vsPulse 3s ease-in-out infinite;
         }
 
         @keyframes vsPulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 40px rgba(255, 59, 59, 0.2), 0 0 80px rgba(0,0,0,0.6); }
-            50% { transform: translate(-50%, -50%) scale(1.06); box-shadow: 0 0 60px rgba(255, 59, 59, 0.35), 0 0 100px rgba(0,0,0,0.6); }
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 0 0 30px rgba(255, 59, 59, 0.25), 0 0 70px rgba(255, 59, 59, 0.1), 0 20px 40px rgba(0,0,0,0.6);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.07);
+                box-shadow: 0 0 50px rgba(255, 59, 59, 0.4), 0 0 100px rgba(255, 59, 59, 0.18), 0 20px 40px rgba(0,0,0,0.6);
+            }
         }
 
         .vs-text {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 900;
-            background: linear-gradient(135deg, var(--red), #FFFFFF);
+            background: linear-gradient(135deg, var(--red), #FFFFFF 60%, var(--silver));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: 1px;
@@ -887,18 +1053,19 @@
         /* Live ticker */
         .live-ticker {
             position: absolute;
-            top: 20px;
+            top: 18px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(8, 8, 10, 0.92);
+            background: rgba(8, 8, 10, 0.9);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 50px;
-            padding: 10px 24px;
+            padding: 10px 22px;
             display: flex;
             align-items: center;
             gap: 12px;
-            backdrop-filter: blur(12px);
-            z-index: 30;
+            backdrop-filter: blur(14px);
+            z-index: 40;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
         }
 
         .live-dot {
@@ -907,11 +1074,12 @@
             background: var(--red);
             border-radius: 50%;
             animation: liveBlink 1s ease-in-out infinite;
+            box-shadow: 0 0 8px var(--red-glow);
         }
 
         @keyframes liveBlink {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+            50% { opacity: 0.25; }
         }
 
         .live-text {
@@ -1921,7 +2089,7 @@
                 grid-template-columns: repeat(2, 1fr);
             }
             .buildings-arena {
-                height: 460px;
+                height: 520px;
             }
         }
 
@@ -1939,11 +2107,11 @@
                 grid-template-columns: 1fr;
             }
             .building {
-                transform: scale(0.62);
+                transform: scale(0.55);
                 transform-origin: bottom center;
             }
             .vs-badge {
-                transform: translate(-50%, -50%) scale(0.75);
+                transform: translate(-50%, -50%) scale(0.7);
             }
         }
     </style>
@@ -2010,8 +2178,8 @@
     <!-- BUILDINGS ARENA -->
     <section class="buildings-section" id="buildings">
         <div class="buildings-header reveal">
-            <h2>La concurrence, en direct</h2>
-            <p>Chaque bâtiment est une entreprise. Chaque fenêtre s'allume quand ils bougent.</p>
+            <h2>Deux géants. Une nuit. Votre avantage.</h2>
+            <p>Votre tour et celle de votre concurrent — vues depuis le sol, en direct.</p>
         </div>
         <div class="buildings-arena reveal">
             <div class="arena-stars"></div>
@@ -2042,26 +2210,29 @@
                 </div>
                 <div class="building-structure">
                     <div class="building-antenna"></div>
-                    <div class="building-crown"><span class="building-logo">YOU</span></div>
+                    <div class="building-crown"><span class="building-logo">MONAPP</span></div>
                     <div class="building-tier">
                         <div class="building-tier-windows">
                             <div class="window lit"></div>
-                            <div class="window"></div>
                             <div class="window lit-bright"></div>
+                            <div class="window lit"></div>
+                            <div class="window lit-dim"></div>
                         </div>
                     </div>
                     <div class="building-body">
                         <div class="building-windows">
-                            <div class="window lit"></div><div class="window"></div><div class="window"></div><div class="window lit-bright"></div>
-                            <div class="window"></div><div class="window lit"></div><div class="window"></div><div class="window"></div>
-                            <div class="window"></div><div class="window"></div><div class="window lit"></div><div class="window"></div>
-                            <div class="window lit-bright"></div><div class="window"></div><div class="window"></div><div class="window lit"></div>
-                            <div class="window"></div><div class="window lit"></div><div class="window"></div><div class="window"></div>
-                            <div class="window"></div><div class="window"></div><div class="window lit-bright"></div><div class="window"></div>
-                            <div class="window lit"></div><div class="window"></div><div class="window"></div><div class="window lit"></div>
-                            <div class="window"></div><div class="window lit"></div><div class="window"></div><div class="window"></div>
-                            <div class="window lit-bright"></div><div class="window"></div><div class="window lit"></div><div class="window"></div>
-                            <div class="window"></div><div class="window"></div><div class="window"></div><div class="window lit"></div>
+                            <div class="window lit"></div><div class="window"></div><div class="window lit-bright"></div><div class="window"></div><div class="window lit"></div><div class="window"></div>
+                            <div class="window"></div><div class="window lit"></div><div class="window"></div><div class="window lit-dim"></div><div class="window"></div><div class="window lit-bright"></div>
+                            <div class="window lit-bright"></div><div class="window"></div><div class="window lit"></div><div class="window"></div><div class="window lit-dim"></div><div class="window"></div>
+                            <div class="window"></div><div class="window lit"></div><div class="window"></div><div class="window lit-bright"></div><div class="window"></div><div class="window lit"></div>
+                            <div class="window lit"></div><div class="window"></div><div class="window lit-dim"></div><div class="window"></div><div class="window lit-bright"></div><div class="window"></div>
+                            <div class="window"></div><div class="window lit-bright"></div><div class="window"></div><div class="window lit"></div><div class="window"></div><div class="window lit-dim"></div>
+                            <div class="window lit-dim"></div><div class="window"></div><div class="window lit"></div><div class="window"></div><div class="window lit-bright"></div><div class="window"></div>
+                            <div class="window"></div><div class="window lit"></div><div class="window lit-bright"></div><div class="window"></div><div class="window"></div><div class="window lit"></div>
+                            <div class="window lit"></div><div class="window lit-dim"></div><div class="window"></div><div class="window lit-bright"></div><div class="window"></div><div class="window"></div>
+                            <div class="window"></div><div class="window"></div><div class="window lit"></div><div class="window"></div><div class="window lit-dim"></div><div class="window lit-bright"></div>
+                            <div class="window lit-bright"></div><div class="window"></div><div class="window"></div><div class="window lit"></div><div class="window"></div><div class="window lit-dim"></div>
+                            <div class="window"></div><div class="window lit"></div><div class="window lit-bright"></div><div class="window"></div><div class="window lit"></div><div class="window"></div>
                         </div>
                     </div>
                     <div class="building-base">
@@ -2085,24 +2256,29 @@
                 </div>
                 <div class="building-structure">
                     <div class="building-antenna"></div>
-                    <div class="building-crown"><span class="building-logo">RIVAL</span></div>
+                    <div class="building-crown"><span class="building-logo">SHOPIFY</span></div>
                     <div class="building-tier">
                         <div class="building-tier-windows">
-                            <div class="window lit-red"></div><div class="window lit"></div><div class="window"></div>
+                            <div class="window lit-red"></div>
+                            <div class="window lit"></div>
+                            <div class="window lit-red"></div>
+                            <div class="window"></div>
                         </div>
                     </div>
                     <div class="building-body">
                         <div class="building-windows">
-                            <div class="window lit-red"></div><div class="window"></div><div class="window lit"></div><div class="window"></div>
-                            <div class="window"></div><div class="window lit-red"></div><div class="window"></div><div class="window"></div>
-                            <div class="window lit"></div><div class="window"></div><div class="window lit-red"></div><div class="window"></div>
-                            <div class="window"></div><div class="window"></div><div class="window"></div><div class="window lit"></div>
-                            <div class="window lit-red"></div><div class="window"></div><div class="window"></div><div class="window lit-red"></div>
-                            <div class="window"></div><div class="window lit"></div><div class="window"></div><div class="window"></div>
-                            <div class="window lit-red"></div><div class="window"></div><div class="window lit"></div><div class="window"></div>
-                            <div class="window"></div><div class="window lit-red"></div><div class="window"></div><div class="window"></div>
-                            <div class="window lit"></div><div class="window"></div><div class="window lit-red"></div><div class="window"></div>
-                            <div class="window"></div><div class="window"></div><div class="window"></div><div class="window lit-red"></div>
+                            <div class="window lit-red"></div><div class="window"></div><div class="window lit"></div><div class="window lit-red"></div><div class="window"></div><div class="window"></div>
+                            <div class="window"></div><div class="window lit-red"></div><div class="window"></div><div class="window lit"></div><div class="window lit-red"></div><div class="window"></div>
+                            <div class="window lit"></div><div class="window"></div><div class="window lit-red"></div><div class="window"></div><div class="window"></div><div class="window lit-red"></div>
+                            <div class="window lit-red"></div><div class="window"></div><div class="window"></div><div class="window lit"></div><div class="window"></div><div class="window"></div>
+                            <div class="window"></div><div class="window lit-red"></div><div class="window lit"></div><div class="window"></div><div class="window lit-red"></div><div class="window"></div>
+                            <div class="window lit"></div><div class="window"></div><div class="window lit-red"></div><div class="window"></div><div class="window"></div><div class="window lit-red"></div>
+                            <div class="window lit-red"></div><div class="window lit"></div><div class="window"></div><div class="window lit-red"></div><div class="window"></div><div class="window"></div>
+                            <div class="window"></div><div class="window lit-red"></div><div class="window"></div><div class="window"></div><div class="window lit"></div><div class="window lit-red"></div>
+                            <div class="window lit"></div><div class="window"></div><div class="window lit-red"></div><div class="window"></div><div class="window lit-red"></div><div class="window"></div>
+                            <div class="window"></div><div class="window lit-red"></div><div class="window"></div><div class="window lit"></div><div class="window"></div><div class="window lit-red"></div>
+                            <div class="window lit-red"></div><div class="window"></div><div class="window"></div><div class="window lit-red"></div><div class="window"></div><div class="window"></div>
+                            <div class="window"></div><div class="window lit"></div><div class="window lit-red"></div><div class="window"></div><div class="window lit-red"></div><div class="window"></div>
                         </div>
                     </div>
                     <div class="building-base">
