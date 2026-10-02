@@ -12,6 +12,7 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192.svg">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * {
             margin: 0;
@@ -2619,6 +2620,177 @@
             margin: 0;
         }
 
+        /* ========== AUTH MODAL ========== */
+        .auth-modal {
+            max-width: 420px;
+            padding: 36px;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .auth-logo-icon {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 16px;
+            background: linear-gradient(135deg, rgba(255, 59, 59, 0.2), rgba(255, 59, 59, 0.05));
+            border: 1px solid rgba(255, 59, 59, 0.3);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-logo-icon svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--red);
+        }
+
+        .auth-header h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .auth-header p {
+            font-size: 14px;
+            color: var(--gray-4);
+            margin: 0;
+        }
+
+        .auth-tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            padding: 4px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .auth-tab {
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--gray-4);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .auth-tab.active {
+            background: rgba(255, 59, 59, 0.15);
+            color: var(--red);
+        }
+
+        .auth-field {
+            margin-bottom: 16px;
+        }
+
+        .auth-field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gray-2);
+            margin-bottom: 6px;
+        }
+
+        .auth-field input {
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--white);
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .auth-field input:focus {
+            border-color: rgba(255, 59, 59, 0.5);
+        }
+
+        .auth-field input::placeholder {
+            color: var(--gray-5);
+        }
+
+        .auth-error {
+            display: none;
+            padding: 10px 12px;
+            background: rgba(255, 59, 59, 0.1);
+            border: 1px solid rgba(255, 59, 59, 0.25);
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--red);
+            margin-bottom: 16px;
+        }
+
+        .auth-error.show { display: block; }
+
+        .auth-success {
+            display: none;
+            padding: 10px 12px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--green);
+            margin-bottom: 16px;
+        }
+
+        .auth-success.show { display: block; }
+
+        .auth-submit {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(135deg, var(--red), var(--red-dark));
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 4px;
+        }
+
+        .auth-submit:hover {
+            box-shadow: 0 8px 24px rgba(255, 59, 59, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .auth-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: var(--gray-4);
+        }
+
+        .auth-footer a {
+            color: var(--red);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
         /* ========== RESPONSIVE ========== */
         @media (max-width: 1024px) {
             .phone-layout {
@@ -2743,8 +2915,8 @@
             <li><a href="#pricing">Tarifs</a></li>
         </ul>
         <div class="nav-actions">
-            <a href="#" class="btn btn-ghost">Connexion</a>
-            <a href="#" class="btn btn-red" onclick="openModal(event)">Commencer</a>
+            <a href="#" class="btn btn-ghost" onclick="switchAuthTab('login'); openAuth(event)">Connexion</a>
+            <a href="#" class="btn btn-red" onclick="switchAuthTab('signup'); openAuth(event)">Commencer</a>
         </div>
     </nav>
 
@@ -2765,7 +2937,7 @@
                 Prix, pubs, features, avis. Vous êtes alerté avant tout le monde.
             </p>
             <div class="hero-buttons">
-                <a href="#" class="btn btn-red btn-large" onclick="openModal(event)">
+                <a href="#" class="btn btn-red btn-large" onclick="switchAuthTab('signup'); openAuth(event)">
                     Commencer gratuitement
                 </a>
                 <a href="#buildings" class="btn btn-ghost btn-large">
@@ -3333,7 +3505,7 @@
                         Fonctionne sur tous les navigateurs
                     </li>
                 </ul>
-                <a href="#dashboard" class="choose-btn">
+                <a href="#" class="choose-btn" onclick="openAuth(event)">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
                     Continuer sur le web
                 </a>
@@ -3558,7 +3730,7 @@
                         1 alerte / semaine
                     </li>
                 </ul>
-                <a href="#" class="pricing-btn pricing-btn-ghost" onclick="openModal(event)">Commencer</a>
+                <a href="#" class="pricing-btn pricing-btn-ghost" onclick="switchAuthTab('signup'); openAuth(event)">Commencer</a>
             </div>
             <div class="pricing-card popular reveal">
                 <div class="pricing-badge">Populaire</div>
@@ -3584,7 +3756,7 @@
                         Pronostics IA
                     </li>
                 </ul>
-                <a href="#" class="pricing-btn pricing-btn-red" onclick="openModal(event)">Essayer Pro</a>
+                <a href="#" class="pricing-btn pricing-btn-red" onclick="switchAuthTab('signup'); openAuth(event)">Essayer Pro</a>
             </div>
             <div class="pricing-card reveal">
                 <div class="pricing-name">Business</div>
@@ -3609,7 +3781,7 @@
                         Intégration Slack
                     </li>
                 </ul>
-                <a href="#" class="pricing-btn pricing-btn-ghost" onclick="openModal(event)">Essayer Business</a>
+                <a href="#" class="pricing-btn pricing-btn-ghost" onclick="switchAuthTab('signup'); openAuth(event)">Essayer Business</a>
             </div>
             <div class="pricing-card reveal">
                 <div class="pricing-name">Enterprise</div>
@@ -3641,7 +3813,7 @@
             <h2>Prêt à voir <span>clairement</span> la concurrence ?</h2>
             <p>Rejoignez des milliers d'entrepreneurs qui prennent l'avantage avec RivalEye.</p>
             <div class="cta-buttons">
-                <a href="#" class="btn btn-red btn-large" onclick="openModal(event)">
+                <a href="#" class="btn btn-red btn-large" onclick="switchAuthTab('signup'); openAuth(event)">
                     Commencer gratuitement
                 </a>
                 <a href="#pricing" class="btn btn-ghost btn-large">
@@ -3697,6 +3869,48 @@
             <span>Tous droits réservés</span>
         </div>
     </footer>
+
+    <!-- AUTH MODAL -->
+    <div class="modal-overlay" id="authModal" onclick="closeAuth(event)">
+        <div class="modal auth-modal" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeAuth()">✕</button>
+            <div class="auth-header">
+                <div class="auth-logo-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                </div>
+                <h3>Créer un compte</h3>
+                <p>Rejoignez RivalEye et surveillez vos concurrents.</p>
+            </div>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tabSignup" onclick="switchAuthTab('signup')">S'inscrire</button>
+                <button class="auth-tab" id="tabLogin" onclick="switchAuthTab('login')">Se connecter</button>
+            </div>
+
+            <form id="authForm" onsubmit="handleAuth(event)">
+                <div class="auth-field">
+                    <label for="authEmail">Email</label>
+                    <input type="email" id="authEmail" placeholder="vous@exemple.com" required autocomplete="email">
+                </div>
+                <div class="auth-field">
+                    <label for="authPassword">Mot de passe</label>
+                    <input type="password" id="authPassword" placeholder="••••••••" required minlength="6" autocomplete="current-password">
+                </div>
+                <div class="auth-field" id="authNameField" style="display:none;">
+                    <label for="authName">Nom</label>
+                    <input type="text" id="authName" placeholder="Votre nom" autocomplete="name">
+                </div>
+                <div class="auth-error" id="authError"></div>
+                <div class="auth-success" id="authSuccess"></div>
+                <button type="submit" class="auth-submit" id="authSubmitBtn">Créer mon compte</button>
+            </form>
+
+            <div class="auth-footer">
+                <span id="authSwitchText">Déjà un compte ?</span>
+                <a href="#" id="authSwitchLink" onclick="switchAuthTab('login'); return false;">Se connecter</a>
+            </div>
+        </div>
+    </div>
 
     <!-- MODAL -->
     <div class="modal-overlay" id="modal" onclick="closeModal(event)">
@@ -3784,6 +3998,143 @@
             document.getElementById('modal').classList.remove('active');
             document.body.style.overflow = '';
         }
+
+        // Supabase Auth
+        const SUPABASE_URL = 'https://khcrtpjryjgpybslpbqu.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoY3J0cGpyeWpncHlic2xwYnF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5NTQxNjMsImV4cCI6MjEwNjUzMDE2M30.Dz8-uSPShPT3RvDiXZSxY7hLbhyyGqei60yTLPXy7ac';
+
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let authMode = 'signup';
+
+        function openAuth(e) {
+            if (e) e.preventDefault();
+            document.getElementById('authModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            document.getElementById('authError').classList.remove('show');
+            document.getElementById('authSuccess').classList.remove('show');
+        }
+
+        function closeAuth(e) {
+            if (e) e.stopPropagation();
+            document.getElementById('authModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function switchAuthTab(mode) {
+            authMode = mode;
+            const tabSignup = document.getElementById('tabSignup');
+            const tabLogin = document.getElementById('tabLogin');
+            const nameField = document.getElementById('authNameField');
+            const submitBtn = document.getElementById('authSubmitBtn');
+            const switchText = document.getElementById('authSwitchText');
+            const switchLink = document.getElementById('authSwitchLink');
+
+            document.getElementById('authError').classList.remove('show');
+            document.getElementById('authSuccess').classList.remove('show');
+
+            if (mode === 'signup') {
+                tabSignup.classList.add('active');
+                tabLogin.classList.remove('active');
+                nameField.style.display = 'block';
+                submitBtn.textContent = 'Créer mon compte';
+                switchText.textContent = 'Déjà un compte ?';
+                switchLink.textContent = 'Se connecter';
+                switchLink.onclick = function(e) { e.preventDefault(); switchAuthTab('login'); };
+            } else {
+                tabSignup.classList.remove('active');
+                tabLogin.classList.add('active');
+                nameField.style.display = 'none';
+                submitBtn.textContent = 'Se connecter';
+                switchText.textContent = 'Pas encore de compte ?';
+                switchLink.textContent = "S'inscrire";
+                switchLink.onclick = function(e) { e.preventDefault(); switchAuthTab('signup'); };
+            }
+        }
+
+        async function handleAuth(e) {
+            e.preventDefault();
+            const email = document.getElementById('authEmail').value.trim();
+            const password = document.getElementById('authPassword').value;
+            const name = document.getElementById('authName').value.trim();
+            const errorEl = document.getElementById('authError');
+            const successEl = document.getElementById('authSuccess');
+            const submitBtn = document.getElementById('authSubmitBtn');
+
+            errorEl.classList.remove('show');
+            successEl.classList.remove('show');
+            submitBtn.disabled = true;
+            submitBtn.textContent = authMode === 'signup' ? 'Création...' : 'Connexion...';
+
+            try {
+                if (authMode === 'signup') {
+                    const { data, error } = await supabase.auth.signUp({
+                        email,
+                        password,
+                        options: {
+                            data: {
+                                full_name: name || email.split('@')[0]
+                            }
+                        }
+                    });
+                    if (error) throw error;
+                    if (data.user && !data.session) {
+                        successEl.textContent = 'Compte créé ! Vérifiez votre email pour confirmer.';
+                        successEl.classList.add('show');
+                    } else if (data.session) {
+                        successEl.textContent = 'Bienvenue sur RivalEye ! Vous êtes connecté.';
+                        successEl.classList.add('show');
+                        setTimeout(() => {
+                            closeAuth();
+                            window.location.hash = '#dashboard';
+                        }, 1200);
+                    }
+                } else {
+                    const { data, error } = await supabase.auth.signInWithPassword({
+                        email,
+                        password
+                    });
+                    if (error) throw error;
+                    successEl.textContent = 'Connexion réussie !';
+                    successEl.classList.add('show');
+                    setTimeout(() => {
+                        closeAuth();
+                        window.location.hash = '#dashboard';
+                    }, 800);
+                }
+            } catch (err) {
+                let msg = err.message || 'Une erreur est survenue.';
+                if (msg.includes('Invalid login credentials')) {
+                    msg = 'Email ou mot de passe incorrect.';
+                } else if (msg.includes('already registered')) {
+                    msg = 'Cet email est déjà utilisé. Connectez-vous.';
+                } else if (msg.includes('Password should be')) {
+                    msg = 'Le mot de passe doit contenir au moins 6 caractères.';
+                } else if (msg.includes('Email not confirmed')) {
+                    msg = 'Veuillez confirmer votre email avant de vous connecter.';
+                }
+                errorEl.textContent = msg;
+                errorEl.classList.add('show');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = authMode === 'signup' ? 'Créer mon compte' : 'Se connecter';
+            }
+        }
+
+        // Check auth state on load
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session) {
+                console.log('Connecté:', session.user.email);
+            }
+        });
+
+        supabase.auth.onAuthStateChange((event, session) => {
+            if (event === 'SIGNED_IN') {
+                console.log('Connecté:', session.user.email);
+            } else if (event === 'SIGNED_OUT') {
+                console.log('Déconnecté');
+            }
+        });
 
         // PWA Install
         let deferredPrompt = null;
