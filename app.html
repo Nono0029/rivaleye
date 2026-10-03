@@ -2734,14 +2734,33 @@
 
         function removeComp(e, i) {
             e.stopPropagation();
-            if (comps.length <= 1) { alert('Gardez au moins un concurrent. Vous pouvez en changer en ajoutant un autre d\'abord.'); return; }
             if (!confirm('Retirer "' + comps[i].name + '" ?')) return;
             comps.splice(i, 1);
-            if (curIdx >= comps.length) curIdx = comps.length - 1;
+            if (curIdx >= comps.length) curIdx = Math.max(0, comps.length - 1);
             saveComps();
-            // Show sidebar search to add a new competitor
-            showSbSearch();
-            generateAll();
+            if (comps.length === 0) {
+                showSbSearch();
+                clearOverview();
+            } else {
+                showSbSearch();
+                generateAll();
+            }
+        }
+        
+        function clearOverview() {
+            const curName = document.getElementById('curComp');
+            if (curName) curName.textContent = 'Aucun';
+            const ov = document.getElementById('ovCharts');
+            if (ov) ov.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--gray-4)"><div style="font-size:48px;margin-bottom:16px">🔍</div><h3 style="color:var(--gray-2);margin-bottom:8px">Aucun concurrent sélectionné</h3><p style="font-size:13px;margin-bottom:20px">Utilisez la recherche ci-dessus pour ajouter un concurrent à surveiller.</p></div>';
+            const lf = document.getElementById('liveFeed');
+            if (lf) lf.innerHTML = '<div style="text-align:center;padding:20px;color:var(--gray-5);font-size:12px">En attente d\'un concurrent...</div>';
+            const pa = document.getElementById('priceAlertBox');
+            if (pa) pa.innerHTML = '<div style="text-align:center;padding:20px;color:var(--gray-5);font-size:12px">En attente d\'un concurrent...</div>';
+            setText('sThreat', '—');
+            setText('sPrices', '—');
+            setText('sPosts', '—');
+            setText('sReviews', '—');
+            renderSettings();
         }
         
         function showSbSearch() {
@@ -3031,6 +3050,7 @@
 
         // ========== GENERATE DASHBOARD DATA ==========
         function generateAll() {
+            if (comps.length === 0) { clearOverview(); return; }
             const c = cur();
             const name = c.name;
             const seed = hashSeed(name);
@@ -3038,12 +3058,11 @@
             const curName = document.getElementById('curComp');
             if (curName) curName.textContent = name;
 
-            // Use real data
+            // Metrics
             const threat = Math.floor(35 + (data.marketShare > 15 ? 30 : data.marketShare > 5 ? 20 : 10) + seededRand(seed, 1) * 25);
             const priceChanges = Math.floor(1 + seededRand(seed, 2) * 3);
             const postsW = Math.floor(3 + (data.employees > 50000 ? 25 : data.employees > 5000 ? 15 : 8) + seededRand(seed, 3) * 10);
             const negReviews = Math.floor(5 + (100 - data.satisfaction) * 0.5 + seededRand(seed, 4) * 15);
-
             setText('sThreat', threat);
             setText('sPrices', priceChanges);
             setText('sPosts', postsW);
@@ -3065,174 +3084,226 @@
 
             // Price alert
             const pa = document.getElementById('priceAlertBox');
-            if (pa) pa.innerHTML = '<div class="card"><div class="card-h"><span class="tag red">Baisse détectée</span><span class="card-meta">Il y a 12 min</span></div><div class="price-box"><div class="price-old">29€</div><div class="price-arrow">→</div><div class="price-new">24€</div><div class="price-drop">-17%</div></div><div class="card-advice"><strong>Réaction recommandée :</strong> Ne baissez pas votre prix. Différenciez sur la valeur. Mettez en avant vos avantages exclusifs.</div></div>';
+            if (pa) pa.innerHTML = '<div class="card"><div class="card-h"><span class="tag red">Baisse détectée</span><span class="card-meta">Il y a 12 min</span></div><div class="price-box"><div class="price-old">29€</div><div class="price-arrow">→</div><div class="price-new">24€</div><div class="price-drop">-17%</div></div>' + premiumAdvice('Ne baissez pas votre prix. Différenciez sur la valeur. Mettez en avant vos avantages exclusifs.') + '</div>';
 
-            // ========== ENRICHED OVERVIEW CHARTS ==========
+            // ========== FULL ENRICHED OVERVIEW ==========
             const ov = document.getElementById('ovCharts');
-            if (ov) {
-                const revenue = data.revenue;
-                const marketShare = data.marketShare;
-                const satisfaction = data.satisfaction;
-                const nps = data.nps;
-                const employees = data.employees;
-                const growth = data.growth;
-                const sentiment = data.sentiment;
-                const currency = data.currency || '€';
+            if (!ov) return;
 
-                // Sector-specific data
-                const adBudgets = { food: 50, telecom: 80, luxe: 30, fashion: 40, beauty: 35, gaming: 25, tech: 15, default: 10 };
-                const adBudget = Math.floor((adBudgets[data.sector] || 10) * (0.5 + seededRand(seed, 29) * 1.5));
-                const followerBases = { social: 5000000, streaming: 2000000, gaming: 5000000, luxe: 500000, fashion: 1000000, beauty: 800000, tech: 200000, default: 100000 };
-                const socialFollowers = Math.floor((followerBases[data.sector] || 100000) * (0.5 + seededRand(seed, 30) * 2));
+            const revenue = data.revenue;
+            const marketShare = data.marketShare;
+            const satisfaction = data.satisfaction;
+            const nps = data.nps;
+            const employees = data.employees;
+            const growth = data.growth;
+            const sentiment = data.sentiment;
+            const currency = data.currency || '€';
+            const founded = data.founded;
+            const hq = data.hq;
+            const competitors = data.competitors || ['Concurrent A', 'Concurrent B'];
+            const c1 = competitors[0] || 'Concurrent A';
+            const c2 = competitors[1] || 'Concurrent B';
 
-                // Revenue chart
-                const revBase = Math.floor(revenue * 0.6);
-                const revData = [revBase, Math.floor(revBase * 1.05), Math.floor(revBase * 1.12), Math.floor(revBase * 1.2), Math.floor(revBase * 1.3), revenue];
+            // Sector detection
+            const isTech = ['tech', 'saas', 'design', 'healthtech'].includes(data.sector);
+            const isGaming = data.sector === 'gaming';
+            const isFood = data.sector === 'food';
+            const isTelecom = data.sector === 'telecom';
+            const isLuxe = data.sector === 'luxe' || data.sector === 'fashion';
 
-                // Price evolution
-                const priceBase = 25 + seededRand(seed, 50) * 30;
-                const priceData = [
-                    Math.round(priceBase * 1.05 * 100) / 100,
-                    Math.round(priceBase * 1.02 * 100) / 100,
-                    Math.round(priceBase * 1.08 * 100) / 100,
-                    Math.round(priceBase * 0.95 * 100) / 100,
-                    Math.round(priceBase * 0.92 * 100) / 100,
-                    Math.round(priceBase * 0.88 * 100) / 100
-                ];
+            // Sector-specific data
+            const adBudgets = { food: 50, telecom: 80, luxe: 30, fashion: 40, beauty: 35, gaming: 25, tech: 15, default: 10 };
+            const adBudget = Math.floor((adBudgets[data.sector] || 10) * (0.5 + seededRand(seed, 29) * 1.5));
+            const followerBases = { social: 5000000, streaming: 2000000, gaming: 5000000, luxe: 500000, fashion: 1000000, beauty: 800000, tech: 200000, default: 100000 };
+            const socialFollowers = Math.floor((followerBases[data.sector] || 100000) * (0.5 + seededRand(seed, 30) * 2));
+            const openRoles = Math.floor(5 + seededRand(seed, 31) * 20);
+            const churn = data.sector === 'saas' ? (2 + seededRand(seed, 35) * 5).toFixed(1) : (5 + seededRand(seed, 35) * 10).toFixed(1);
 
-                // Satisfaction trend
-                const satBase = Math.floor(satisfaction * 0.85);
-                const satData = [satBase, Math.floor(satBase * 1.02), Math.floor(satBase * 1.05), Math.floor(satBase * 0.98), Math.floor(satBase * 1.01), satisfaction];
+            // Chart data
+            const revBase = Math.floor(revenue * 0.6);
+            const revData = [revBase, Math.floor(revBase * 1.05), Math.floor(revBase * 1.12), Math.floor(revBase * 1.2), Math.floor(revBase * 1.3), revenue];
+            const priceBase = 25 + seededRand(seed, 50) * 30;
+            const priceData = [Math.round(priceBase * 1.05 * 100) / 100, Math.round(priceBase * 1.02 * 100) / 100, Math.round(priceBase * 1.08 * 100) / 100, Math.round(priceBase * 0.95 * 100) / 100, Math.round(priceBase * 0.92 * 100) / 100, Math.round(priceBase * 0.88 * 100) / 100];
+            const satBase = Math.floor(satisfaction * 0.85);
+            const satData = [satBase, Math.floor(satBase * 1.02), Math.floor(satBase * 1.05), Math.floor(satBase * 0.98), Math.floor(satBase * 1.01), satisfaction];
+            const adData = [Math.floor(adBudget * 0.7), Math.floor(adBudget * 0.8), Math.floor(adBudget * 0.9), Math.floor(adBudget * 0.85), Math.floor(adBudget * 0.95), adBudget];
+            const socBase = Math.floor(socialFollowers * 0.6);
+            const socData = [socBase, Math.floor(socBase * 1.05), Math.floor(socBase * 1.1), Math.floor(socBase * 1.18), Math.floor(socBase * 1.25), socialFollowers];
+            const sentBase = 50 + (satisfaction - 70) * 0.5;
+            const sentData = [sentBase - 5, sentBase - 3, sentBase - 1, sentBase + 2, sentBase - 2, sentBase];
 
-                // Ad budget trend
-                const adData = [Math.floor(adBudget * 0.7), Math.floor(adBudget * 0.8), Math.floor(adBudget * 0.9), Math.floor(adBudget * 0.85), Math.floor(adBudget * 0.95), adBudget];
+            // Build HTML
+            let html = '';
 
-                // Social growth
-                const socBase = Math.floor(socialFollowers * 0.6);
-                const socData = [socBase, Math.floor(socBase * 1.05), Math.floor(socBase * 1.1), Math.floor(socBase * 1.18), Math.floor(socBase * 1.25), socialFollowers];
+            // === 1. PROFIL ENTREPRISE ===
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">🏢</span> Profil entreprise</div><div class="ov-card">';
+            html += '<div class="ov-grid4">';
+            html += '<div class="ov-stat-box" style="background:rgba(255,59,59,0.06)"><div class="ov-stat-val" style="color:var(--red)">' + founded + '</div><div class="ov-stat-label">Fondée en</div></div>';
+            html += '<div class="ov-stat-box" style="background:rgba(209,213,219,0.06)"><div class="ov-stat-val" style="color:var(--silver)">' + employees.toLocaleString('fr-FR') + '</div><div class="ov-stat-label">Employés</div></div>';
+            html += '<div class="ov-stat-box" style="background:rgba(16,185,129,0.06)"><div class="ov-stat-val" style="color:var(--green)">' + (growth > 0 ? '+' : '') + growth + '%</div><div class="ov-stat-label">Croissance</div></div>';
+            html += '<div class="ov-stat-box" style="background:rgba(139,92,246,0.06)"><div class="ov-stat-val" style="color:var(--purple)">' + marketShare + '%</div><div class="ov-stat-label">Part de marché</div></div>';
+            html += '</div>';
+            html += '<div style="margin-top:12px;font-size:13px;color:var(--gray-3)"><span style="color:var(--gray-4)">Siège :</span> <strong>' + hq + '</strong> · <span style="color:var(--gray-4)">CA :</span> <strong>' + revenue.toLocaleString('fr-FR') + currency + '</strong> · <span style="color:var(--gray-4)">Valorisation :</span> <strong>' + (data.valuation > 0 ? data.valuation.toLocaleString('fr-FR') + currency : 'N/A') + '</strong></div>';
+            html += '<div class="ov-chart-box"><div class="ov-chart-title">Évolution du CA <span>6 mois (' + currency + ')</span></div>' + makeLineChart(revData, '#10B981', null, ['Avr','Mai','Juin','Juil','Août','Sept'], currency) + '</div>';
+            html += '<div class="ov-chart-box"><div class="ov-chart-title">Part de marché <span>vs concurrence</span></div>' + makeDonut([
+                { label: name, value: marketShare, color: '#FF3B3B' },
+                { label: c1, value: Math.max(1, Math.round(marketShare * 0.7 * 10) / 10), color: '#D1D5DB' },
+                { label: c2, value: Math.max(1, Math.round(marketShare * 0.5 * 10) / 10), color: '#6B7280' },
+                { label: 'Autres', value: Math.max(1, 100 - marketShare - Math.round(marketShare * 0.7 * 10) / 10 - Math.round(marketShare * 0.5 * 10) / 10), color: '#374151' }
+            ]) + '</div>';
+            html += '</div></div>';
 
-                // Sentiment trend
-                const sentBase = 50 + (satisfaction - 70) * 0.5;
-                const sentData = [sentBase - 5, sentBase - 3, sentBase - 1, sentBase + 2, sentBase - 2, sentBase];
+            // === 2. SCORE DÉTAILLÉ ===
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📊</span> Score détaillé</div><div class="ov-card">';
+            html += '<div class="ov-grid4">';
+            html += '<div class="ov-stat-box" style="background:rgba(255,59,59,0.06)"><div class="ov-stat-val" style="color:var(--red)">' + threat + '/100</div><div class="ov-stat-label">Score menace</div></div>';
+            html += '<div class="ov-stat-box" style="background:rgba(16,185,129,0.06)"><div class="ov-stat-val" style="color:var(--green)">' + satisfaction + '/100</div><div class="ov-stat-label">Satisfaction</div></div>';
+            html += '<div class="ov-stat-box" style="background:rgba(139,92,246,0.06)"><div class="ov-stat-val" style="color:var(--purple)">' + nps + '</div><div class="ov-stat-label">NPS</div></div>';
+            html += '<div class="ov-stat-box" style="background:rgba(245,158,11,0.06)"><div class="ov-stat-val" style="color:var(--orange)">' + sentiment + '</div><div class="ov-stat-label">Sentiment</div></div>';
+            html += '</div>';
+            html += '<div style="margin-top:12px;font-size:13px;color:var(--gray-3)"><span style="color:var(--gray-4)">Taux de churn :</span> <strong>' + churn + '%</strong></div>';
+            html += '<div class="ov-chart-box"><div class="ov-chart-title">Tendance satisfaction <span>6 mois</span></div>' + makeBarChart(satData, ['Avr','Mai','Juin','Juil','Août','Actuel'], ['#10B981','#10B981','#10B981','#10B981','#10B981','#10B981'], '/100') + '</div>';
+            html += '<div class="ov-chart-box"><div class="ov-chart-title">Tendance du sentiment <span>6 mois (%)</span></div>' + makeLineChart(sentData, sentiment === 'Positif' ? '#10B981' : sentiment === 'Negatif' ? '#FF3B3B' : '#F59E0B', null, ['Avr','Mai','Juin','Juil','Août','Sept'], '%') + '</div>';
+            html += '</div></div>';
 
-                // Build enriched overview HTML
-                let html = '';
+            // === 3. ANALYSE DES PRIX ===
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">💰</span> Analyse des prix</div><div class="ov-card">';
+            html += '<div class="ov-chart-box" style="margin-top:0"><div class="ov-chart-title">Évolution des prix <span>6 mois</span></div>' + makeLineChart(priceData, '#FF3B3B', null, ['Avr','Mai','Juin','Juil','Août','Sept'], '€') + '</div>';
+            html += '<div style="margin-top:10px;font-size:13px;color:var(--gray-3)">Prix moyen actuel : <strong style="color:var(--red)">' + priceData[5] + '€</strong> · Variation 6 mois : <strong style="color:' + (priceData[5] < priceData[0] ? 'var(--green)' : 'var(--red)') + '">' + ((priceData[5] - priceData[0]) / priceData[0] * 100).toFixed(1) + '%</strong></div>';
+            html += premiumAdvice('Ne baissez pas votre prix. Différenciez sur la valeur. Mettez en avant vos avantages exclusifs face à ' + name + '.');
+            html += '</div></div>';
 
-                // Section: Profile
-                html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">🏢</span> Profil entreprise</div>';
-                html += '<div class="ov-card">';
-                html += '<div class="ov-grid4">';
-                html += '<div class="ov-stat-box" style="background:rgba(255,59,59,0.06)"><div class="ov-stat-val" style="color:var(--red)">' + data.founded + '</div><div class="ov-stat-label">Fondée en</div></div>';
-                html += '<div class="ov-stat-box" style="background:rgba(209,213,219,0.06)"><div class="ov-stat-val" style="color:var(--silver)">' + employees.toLocaleString('fr-FR') + '</div><div class="ov-stat-label">Employés</div></div>';
-                html += '<div class="ov-stat-box" style="background:rgba(16,185,129,0.06)"><div class="ov-stat-val" style="color:var(--green)">' + (growth > 0 ? '+' : '') + growth + '%</div><div class="ov-stat-label">Croissance</div></div>';
-                html += '<div class="ov-stat-box" style="background:rgba(139,92,246,0.06)"><div class="ov-stat-val" style="color:var(--purple)">' + marketShare + '%</div><div class="ov-stat-label">Part de marché</div></div>';
+            // === 4. NOUVEAUTÉS & ROADMAP ===
+            const goodNews = isTech ? ['Nouvelle fonctionnalité IA lancée', 'Intégration populaire ajoutée', 'Certification sécurité obtenue'] : isGaming ? ['Mise à jour appréciée', 'Nouveau contenu gratuit', 'Tournoi record'] : ['Lancement produit apprécié', 'Partenariat stratégique', 'Expansion géographique'];
+            const upcomingFeatures = isTech ? ['Mode IA avancé', 'API publique', 'Application mobile'] : isGaming ? ['Nouveau mode de jeu', 'Cross-play', 'Création de contenu'] : ['Mode IA', 'Application mobile', 'Export données'];
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">🚀</span> Nouveautés & roadmap</div><div class="ov-card">';
+            html += '<div style="margin-bottom:10px"><span class="ov-tag green">✅ Dernière nouveauté</span></div>';
+            html += '<div style="font-size:13px;margin-bottom:12px"><strong>' + goodNews[Math.floor(seededRand(seed, 43) * goodNews.length)] + '</strong></div>';
+            html += '<div style="margin-bottom:6px"><span class="ov-tag silver">🔧 En développement</span></div>';
+            html += '<div style="font-size:13px;color:var(--gray-3)">' + upcomingFeatures[Math.floor(seededRand(seed, 44) * upcomingFeatures.length)] + '</div>';
+            html += '</div></div>';
+
+            // === 5. SIGNAUX NÉGATIFS ===
+            const badNews = isTech ? ['Pannes répétées', 'Fuite de données signalée', 'Bug critique non résolu'] : isGaming ? ['Bug critique mise à jour', 'Joueurs mécontents', 'Problèmes de serveurs'] : ['Retards de livraison', 'Service client dégradé', 'Problèmes qualité'];
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">⚠️</span> Signaux négatifs</div><div class="ov-card">';
+            html += '<div class="ov-advice warn"><strong>⚠️ ' + badNews[Math.floor(seededRand(seed, 42) * badNews.length)] + '</strong><br>Plainte récurrente : <strong style="color:var(--red)">Support client lent</strong></div>';
+            html += '<div style="margin-top:8px;font-size:12px;color:var(--gray-4)"><strong style="color:var(--green)">Points forts perçus :</strong> Interface intuitive, prix compétitifs, communauté active.</div>';
+            html += premiumAdvice('Ces faiblesses sont vos armes. Communiquez sur vos avantages concurrentiels face à ' + name + '.');
+            html += '</div></div>';
+
+            // === 6. ÉVÉNEMENTS ===
+            const nextEvents = isTech ? ['Lancement beta', 'Webinaire public', 'Salon professionnel'] : ['Lancement produit', 'Événement', 'Campagne marketing'];
+            const lastEvents = isTech ? ['Lancement nouvelle version', 'Conférence annuelle', 'Levée de fonds'] : ['Ouverture nouveau restaurant', 'Campagne marketing', 'Partenariat'];
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📅</span> Événements</div><div class="ov-card">';
+            html += '<div class="ov-grid2">';
+            html += '<div style="padding:10px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.15);border-radius:8px"><div style="color:var(--green);font-weight:700;margin-bottom:4px">📅 Prochain événement</div><div><strong>' + nextEvents[Math.floor(seededRand(seed, 40) * nextEvents.length)] + '</strong></div><div style="color:var(--gray-4);font-size:12px">Dans ' + Math.floor(5 + seededRand(seed, 41) * 60) + ' jours</div></div>';
+            html += '<div style="padding:10px;background:rgba(209,213,219,0.06);border:1px solid rgba(209,213,219,0.15);border-radius:8px"><div style="color:var(--gray-3);font-weight:700;margin-bottom:4px">📌 Dernier événement</div><div><strong>' + lastEvents[Math.floor(seededRand(seed, 39) * lastEvents.length)] + '</strong></div><div style="color:var(--gray-4);font-size:12px">Il y a ' + Math.floor(30 + seededRand(seed, 38) * 60) + ' jours</div></div>';
+            html += '</div></div></div>';
+
+            // === 7. POSTS RÉCENTS ===
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📝</span> Posts récents</div><div class="ov-card">';
+            const posts = [
+                { platform: 'LinkedIn', text: 'Découvrez nos nouvelles fonctionnalités ! ' + name + ' continue d\'innover.', likes: Math.floor(100 + seededRand(seed, 60) * 500) },
+                { platform: 'Twitter/X', text: 'Merci pour vos retours ! Notre équipe travaille sur vos suggestions.', likes: Math.floor(50 + seededRand(seed, 61) * 200) },
+                { platform: 'Facebook', text: 'Offre spéciale ce weekend ! Rejoignez notre communauté.', likes: Math.floor(80 + seededRand(seed, 62) * 300) }
+            ];
+            posts.forEach(p => {
+                html += '<div style="padding:10px;border:1px solid rgba(255,255,255,0.06);border-radius:8px;margin-bottom:8px">';
+                html += '<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="ov-tag silver">' + p.platform + '</span><span style="font-size:11px;color:var(--gray-5)">' + p.likes + ' likes</span></div>';
+                html += '<div style="font-size:13px;color:var(--gray-3)">"' + p.text + '"</div>';
                 html += '</div>';
-                html += '<div style="margin-top:12px;font-size:13px;color:var(--gray-3)"><span style="color:var(--gray-4)">Siège :</span> <strong>' + data.hq + '</strong> · <span style="color:var(--gray-4)">CA :</span> <strong>' + revenue.toLocaleString('fr-FR') + currency + '</strong></div>';
-                html += '<div class="ov-chart-box"><div class="ov-chart-title">Évolution du CA <span>6 mois (' + currency + ')</span></div>';
-                html += makeLineChart(revData, '#10B981', null, ['Avr','Mai','Juin','Juil','Août','Sept'], currency);
+            });
+            html += premiumAdvice('Publiez un contenu similaire dans les 24h. Mettez en avant vos avantages concurrentiels face à ' + name + '.');
+            html += '</div></div>';
+
+            // === 8. AVIS CLIENTS ===
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">⭐</span> Avis clients</div><div class="ov-card">';
+            const reviews = [
+                { platform: 'Trustpilot', stars: Math.max(1, Math.min(5, Math.round(satisfaction / 20))), text: satisfaction > 75 ? 'Excellent service, je recommande !' : 'Service correct mais peut mieux faire.', color: '#00B67A' },
+                { platform: 'Google', stars: Math.max(1, Math.min(5, Math.round(satisfaction / 20 + 0.5))), text: satisfaction > 70 ? 'Très satisfaite de mon expérience' : 'Expérience moyenne, rien de spécial', color: '#4285F4' },
+                { platform: 'G2', stars: Math.max(1, Math.min(5, Math.round(satisfaction / 22))), text: isTech ? 'Bon outil mais le support pourrait être plus réactif' : 'Produit correct, rapport qualité/prix acceptable', color: '#FF492C' }
+            ];
+            reviews.forEach(r => {
+                const starsHtml = '★'.repeat(r.stars) + '☆'.repeat(5 - r.stars);
+                html += '<div style="padding:10px;border:1px solid rgba(255,255,255,0.06);border-radius:8px;margin-bottom:8px">';
+                html += '<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="ov-tag silver">' + r.platform + '</span><span style="color:' + r.color + ';font-size:14px">' + starsHtml + '</span></div>';
+                html += '<div style="font-size:13px;color:var(--gray-3)">"' + r.text + '"</div>';
                 html += '</div>';
-                html += '<div class="ov-chart-box"><div class="ov-chart-title">Part de marché <span>vs concurrence</span></div>';
-                html += makeDonut([
-                    { label: name, value: marketShare, color: '#FF3B3B' },
-                    { label: data.competitors?.[0] || 'Concurrent A', value: Math.max(1, Math.round(marketShare * 0.7 * 10) / 10), color: '#D1D5DB' },
-                    { label: data.competitors?.[1] || 'Concurrent B', value: Math.max(1, Math.round(marketShare * 0.5 * 10) / 10), color: '#6B7280' },
-                    { label: 'Autres', value: Math.max(1, 100 - marketShare - Math.round(marketShare * 0.7 * 10) / 10 - Math.round(marketShare * 0.5 * 10) / 10), color: '#374151' }
-                ]);
+            });
+            html += premiumAdvice('Ciblez les clients mécontents de ' + name + ' avec votre support client supérieur.');
+            html += '</div></div>';
+
+            // === 9. PUBLICITÉS DÉTECTÉES ===
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📢</span> Publicités détectées</div><div class="ov-card">';
+            html += '<div class="ov-grid3">';
+            html += '<div class="ov-stat-box" style="background:rgba(91,155,213,0.08)"><div class="ov-stat-val" style="color:#5B9BD5">' + Math.floor(adBudget * 0.4) + 'k€</div><div class="ov-stat-label">Facebook</div></div>';
+            html += '<div class="ov-stat-box" style="background:rgba(66,133,244,0.08)"><div class="ov-stat-val" style="color:#4285F4">' + Math.floor(adBudget * 0.35) + 'k€</div><div class="ov-stat-label">Google</div></div>';
+            html += '<div class="ov-stat-box" style="background:rgba(225,48,108,0.08)"><div class="ov-stat-val" style="color:#E1306C">' + Math.floor(adBudget * 0.25) + 'k€</div><div class="ov-stat-label">TikTok</div></div>';
+            html += '</div>';
+            html += '<div class="ov-chart-box"><div class="ov-chart-title">Budget publicitaire <span>6 mois (k€)</span></div>' + makeLineChart(adData, '#8B5CF6', null, ['Avr','Mai','Juin','Juil','Août','Sept'], 'k€') + '</div>';
+            html += '<div style="margin-top:10px;font-size:13px;color:var(--gray-3)">Budget total : <strong style="color:var(--purple)">' + adBudget + 'k€/mois</strong></div>';
+            html += premiumAdvice('Ils investissent ' + adBudget + 'k€/mois en pub. ' + (adBudget > 30 ? 'Budget agressif — préparez votre réponse marketing.' : 'Budget modéré — opportunité de les dépasser.'));
+            html += '</div></div>';
+
+            // === 10. RECRUTEMENTS ===
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">👥</span> Recrutements</div><div class="ov-card">';
+            html += '<div style="font-size:13px;margin-bottom:10px"><strong>' + openRoles + '</strong> postes ouverts actuellement</div>';
+            html += '<div class="ov-grid3">';
+            html += '<div class="ov-stat-box" style="background:rgba(16,185,129,0.06)"><div class="ov-stat-val" style="color:var(--green);font-size:14px">Engineering</div><div class="ov-stat-label">Développeurs</div></div>';
+            html += '<div class="ov-stat-box" style="background:rgba(139,92,246,0.06)"><div class="ov-stat-val" style="color:var(--purple);font-size:14px">Marketing</div><div class="ov-stat-label">Growth</div></div>';
+            html += '<div class="ov-stat-box" style="background:rgba(59,130,246,0.06)"><div class="ov-stat-val" style="color:var(--blue);font-size:14px">Sales</div><div class="ov-stat-label">Commercial</div></div>';
+            html += '</div>';
+            html += premiumAdvice('Investissement R&D en cours chez ' + name + '. Attendez-vous à de nouvelles fonctionnalités. Renforcez votre propre équipe.');
+            html += '</div></div>';
+
+            // === 11. BLOG & CONTENU ===
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📝</span> Blog & contenu</div><div class="ov-card">';
+            html += '<div style="margin-bottom:10px"><span class="ov-tag silver">Article récent</span></div>';
+            html += '<div style="font-size:13px;margin-bottom:4px"><strong>"Comment ' + esc(name) + ' innove dans son secteur"</strong></div>';
+            html += '<div style="font-size:11px;color:var(--gray-5);margin-bottom:12px">Il y a 5 jours · 6 min de lecture</div>';
+            html += '<div style="margin-bottom:8px"><span class="ov-tag silver">Newsletter</span></div>';
+            html += '<div style="font-size:12px;color:var(--gray-4)">' + Math.floor(socialFollowers * 0.1).toLocaleString('fr-FR') + ' abonnés · Taux d\'ouverture ' + Math.floor(18 + seededRand(seed, 71) * 22) + '%</div>';
+            html += premiumAdvice('Contenu SEO optimisé par ' + name + '. Contrez avec du contenu plus spécifique et ciblé.');
+            html += '</div></div>';
+
+            // === 12. RÉSEAUX SOCIAUX ===
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📱</span> Présence réseaux sociaux</div><div class="ov-card">';
+            html += '<div class="ov-grid4">';
+            html += '<div class="ov-stat-box" style="background:rgba(74,158,255,0.08)"><div class="ov-stat-val" style="color:#4A9EFF">' + Math.floor(socialFollowers * 0.35 / 1000) + 'M</div><div class="ov-stat-label">LinkedIn</div></div>';
+            html += '<div class="ov-stat-box" style="background:rgba(91,155,213,0.08)"><div class="ov-stat-val" style="color:#5B9BD5">' + Math.floor(socialFollowers * 0.25 / 1000) + 'M</div><div class="ov-stat-label">Facebook</div></div>';
+            html += '<div class="ov-stat-box" style="background:rgba(225,48,108,0.08)"><div class="ov-stat-val" style="color:#E1306C">' + Math.floor(socialFollowers * 0.28 / 1000) + 'M</div><div class="ov-stat-label">Instagram</div></div>';
+            html += '<div class="ov-stat-box" style="background:rgba(113,197,252,0.08)"><div class="ov-stat-val" style="color:#71C5FC">' + Math.floor(socialFollowers * 0.12 / 1000) + 'M</div><div class="ov-stat-label">Twitter/X</div></div>';
+            html += '</div>';
+            html += '<div class="ov-chart-box"><div class="ov-chart-title">Croissance abonnés <span>6 mois (toutes plateformes)</span></div>' + makeLineChart(socData, '#D1D5DB', null, ['Avr','Mai','Juin','Juil','Août','Sept'], 'k') + '</div>';
+            html += '</div></div>';
+
+            // === 13. STACK TECHNIQUE (tech only) ===
+            if (isTech) {
+                const techStacks = { tech: ['React', 'Vue', 'Node.js', 'Python'], saas: ['React', 'Node.js', 'PostgreSQL', 'AWS'], design: ['Figma', 'React', 'Canvas API'], default: ['React', 'Vue', 'Node.js', 'PHP'] };
+                const stack = techStacks[data.sector] || techStacks.default;
+                const t1 = stack[Math.floor(seededRand(seed, 32) * stack.length)];
+                const t2 = stack[Math.floor(seededRand(seed, 33) * stack.length)];
+                const clouds = ['AWS', 'GCP', 'Azure', 'OVH'];
+                const cloud = clouds[Math.floor(seededRand(seed, 34) * clouds.length)];
+                html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">⚙️</span> Stack technique détectée</div><div class="ov-card">';
+                html += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">';
+                html += '<span class="ov-tag silver">' + t1 + '</span><span class="ov-tag silver">' + t2 + '</span><span class="ov-tag silver">' + cloud + '</span><span class="ov-tag silver">CDN</span>';
                 html += '</div>';
+                html += '<div style="font-size:12px;color:var(--gray-4)">Stack ' + t1 + ' + ' + cloud + '. Si vous utilisez les mêmes technologies, leurs vulnérabilités sont aussi les vôtres.</div>';
                 html += '</div></div>';
-
-                // Section: Score
-                html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📊</span> Score détaillé</div>';
-                html += '<div class="ov-card">';
-                html += '<div class="ov-grid4">';
-                html += '<div class="ov-stat-box" style="background:rgba(255,59,59,0.06)"><div class="ov-stat-val" style="color:var(--red)">' + threat + '/100</div><div class="ov-stat-label">Score menace</div></div>';
-                html += '<div class="ov-stat-box" style="background:rgba(16,185,129,0.06)"><div class="ov-stat-val" style="color:var(--green)">' + satisfaction + '/100</div><div class="ov-stat-label">Satisfaction</div></div>';
-                html += '<div class="ov-stat-box" style="background:rgba(139,92,246,0.06)"><div class="ov-stat-val" style="color:var(--purple)">' + nps + '</div><div class="ov-stat-label">NPS</div></div>';
-                html += '<div class="ov-stat-box" style="background:rgba(245,158,11,0.06)"><div class="ov-stat-val" style="color:var(--orange)">' + sentiment + '</div><div class="ov-stat-label">Sentiment</div></div>';
-                html += '</div>';
-                html += '<div class="ov-chart-box"><div class="ov-chart-title">Tendance satisfaction <span>6 mois</span></div>';
-                html += makeBarChart(satData, ['Avr','Mai','Juin','Juil','Août','Actuel'], ['#10B981','#10B981','#10B981','#10B981','#10B981','#10B981'], '/100');
-                html += '</div>';
-                html += '<div class="ov-chart-box"><div class="ov-chart-title">Tendance du sentiment <span>6 mois (%)</span></div>';
-                html += makeLineChart(sentData, sentiment === 'Positif' ? '#10B981' : sentiment === 'Negatif' ? '#FF3B3B' : '#F59E0B', null, ['Avr','Mai','Juin','Juil','Août','Sept'], '%');
-                html += '</div>';
-                html += '</div></div>';
-
-                // Section: Pricing
-                html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">💰</span> Analyse des prix</div>';
-                html += '<div class="ov-card">';
-                html += '<div class="ov-chart-box" style="margin-top:0"><div class="ov-chart-title">Évolution des prix <span>6 mois</span></div>';
-                html += makeLineChart(priceData, '#FF3B3B', null, ['Avr','Mai','Juin','Juil','Août','Sept'], '€');
-                html += '</div>';
-                html += '<div class="ov-advice"><strong>Analyse :</strong> Prix moyen ' + priceData[5] + '€, en baisse de ' + Math.abs(((priceData[5] - priceData[0]) / priceData[0] * 100).toFixed(1)) + '% sur 6 mois. ' + (priceData[5] < priceData[0] ? 'Le concurrent cherche à capturer des parts de marché.' : 'Le concurrent augmente ses prix.');
-                html += '</div>';
-                html += '</div></div>';
-
-                // Section: Ads
-                html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📢</span> Publicités détectées</div>';
-                html += '<div class="ov-card">';
-                html += '<div class="ov-grid3">';
-                html += '<div class="ov-stat-box" style="background:rgba(91,155,213,0.08)"><div class="ov-stat-val" style="color:#5B9BD5">' + Math.floor(adBudget * 0.4) + 'k€</div><div class="ov-stat-label">Facebook</div></div>';
-                html += '<div class="ov-stat-box" style="background:rgba(66,133,244,0.08)"><div class="ov-stat-val" style="color:#4285F4">' + Math.floor(adBudget * 0.35) + 'k€</div><div class="ov-stat-label">Google</div></div>';
-                html += '<div class="ov-stat-box" style="background:rgba(225,48,108,0.08)"><div class="ov-stat-val" style="color:#E1306C">' + Math.floor(adBudget * 0.25) + 'k€</div><div class="ov-stat-label">TikTok</div></div>';
-                html += '</div>';
-                html += '<div class="ov-chart-box"><div class="ov-chart-title">Budget publicitaire <span>6 mois (k€)</span></div>';
-                html += makeLineChart(adData, '#8B5CF6', null, ['Avr','Mai','Juin','Juil','Août','Sept'], 'k€');
-                html += '</div>';
-                html += '<div class="ov-advice warn"><strong>Insight :</strong> Budget total ' + adBudget + 'k€/mois. ' + (adBudget > 30 ? 'Ils investissent agressivement dans l\'acquisition.' : 'Budget modéré — possible opportunité de les dépasser.');
-                html += '</div>';
-                html += '</div></div>';
-
-                // Section: Social media
-                html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📱</span> Présence réseaux sociaux</div>';
-                html += '<div class="ov-card">';
-                html += '<div class="ov-grid4">';
-                html += '<div class="ov-stat-box" style="background:rgba(74,158,255,0.08)"><div class="ov-stat-val" style="color:#4A9EFF">' + Math.floor(socialFollowers * 0.35 / 1000) + 'M</div><div class="ov-stat-label">LinkedIn</div></div>';
-                html += '<div class="ov-stat-box" style="background:rgba(91,155,213,0.08)"><div class="ov-stat-val" style="color:#5B9BD5">' + Math.floor(socialFollowers * 0.25 / 1000) + 'M</div><div class="ov-stat-label">Facebook</div></div>';
-                html += '<div class="ov-stat-box" style="background:rgba(225,48,108,0.08)"><div class="ov-stat-val" style="color:#E1306C">' + Math.floor(socialFollowers * 0.28 / 1000) + 'M</div><div class="ov-stat-label">Instagram</div></div>';
-                html += '<div class="ov-stat-box" style="background:rgba(113,197,252,0.08)"><div class="ov-stat-val" style="color:#71C5FC">' + Math.floor(socialFollowers * 0.12 / 1000) + 'M</div><div class="ov-stat-label">Twitter/X</div></div>';
-                html += '</div>';
-                html += '<div class="ov-chart-box"><div class="ov-chart-title">Croissance abonnés <span>6 mois (toutes plateformes)</span></div>';
-                html += makeLineChart(socData, '#D1D5DB', null, ['Avr','Mai','Juin','Juil','Août','Sept'], 'k');
-                html += '</div>';
-                html += '</div></div>';
-
-                // Section: Negative signals
-                html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">⚠️</span> Signaux négatifs</div>';
-                html += '<div class="ov-card">';
-                html += '<div class="ov-advice warn"><strong>⚠️ Signaux détectés :</strong> Avis négatifs en hausse (+' + negReviews + ' cette semaine). ' + (satisfaction < 70 ? 'Satisfaction en dessous de 70/100 — les clients mécontents sont vos opportunités.' : 'Satisfaction correcte mais surveillez les tendances.');
-                html += '</div>';
-                html += '<div style="margin-top:10px;font-size:12px;color:var(--gray-4)"><strong style="color:var(--green)">Points forts perçus :</strong> Support client réactif, interface intuitive, prix compétitifs.</div>';
-                html += '</div></div>';
-
-                // Section: Recruitment
-                html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">👥</span> Recrutements</div>';
-                html += '<div class="ov-card">';
-                html += '<div style="font-size:13px;margin-bottom:10px"><strong>' + Math.floor(5 + seededRand(seed, 31) * 20) + '</strong> postes ouverts actuellement</div>';
-                html += '<div class="ov-grid3">';
-                html += '<div class="ov-stat-box" style="background:rgba(16,185,129,0.06)"><div class="ov-stat-val" style="color:var(--green);font-size:14px">Engineering</div><div class="ov-stat-label">Développeurs</div></div>';
-                html += '<div class="ov-stat-box" style="background:rgba(139,92,246,0.06)"><div class="ov-stat-val" style="color:var(--purple);font-size:14px">Marketing</div><div class="ov-stat-label">Growth</div></div>';
-                html += '<div class="ov-stat-box" style="background:rgba(59,130,246,0.06)"><div class="ov-stat-val" style="color:var(--blue);font-size:14px">Sales</div><div class="ov-stat-label">Commercial</div></div>';
-                html += '</div>';
-                html += '<div class="ov-advice info"><strong>Signaux :</strong> Investissement R&D en cours. Attendez-vous à de nouvelles fonctionnalités et améliorations produit.';
-                html += '</div>';
-                html += '</div></div>';
-
-                // Section: Blog
-                html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📝</span> Blog & contenu</div>';
-                html += '<div class="ov-card">';
-                html += '<div style="margin-bottom:10px"><span class="ov-tag silver">Article récent</span></div>';
-                html += '<div style="font-size:13px;margin-bottom:4px"><strong>"Comment ' + esc(name) + ' innove dans son secteur"</strong></div>';
-                html += '<div style="font-size:11px;color:var(--gray-5);margin-bottom:12px">Il y a 5 jours · 6 min de lecture</div>';
-                html += '<div style="margin-bottom:8px"><span class="ov-tag silver">Newsletter</span></div>';
-                html += '<div style="font-size:12px;color:var(--gray-4)">' + Math.floor(socialFollowers * 0.1).toLocaleString('fr-FR') + ' abonnés · Taux d\'ouverture ' + Math.floor(18 + seededRand(seed, 71) * 22) + '%</div>';
-                html += '</div></div>';
-
-                ov.innerHTML = html;
             }
+
+            ov.innerHTML = html;
 
             renderSettings();
             updateTabLocks();
+        }
+        
+        function premiumAdvice(text) {
+            if (plan === 'free') {
+                return '<div class="ov-advice" style="background:rgba(255,59,59,0.06);border-color:rgba(255,59,59,0.2);position:relative;overflow:hidden"><div style="filter:blur(4px);opacity:0.4;pointer-events:none;user-select:none">' + text + '</div><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,10,11,0.6);border-radius:8px"><button onclick="showUpgradeModal(\'pro\')" style="background:var(--red);color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer">🔒 Débloquer les conseils — Pro</button></div></div>';
+            }
+            return '<div class="ov-advice"><strong>💡 Conseil :</strong> ' + text + '</div>';
         }
 
         function renderSettings() {
