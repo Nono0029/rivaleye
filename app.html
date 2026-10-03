@@ -3049,24 +3049,195 @@
         }
 
         // ========== GENERATE DASHBOARD DATA ==========
-        function generateAll() {
-            if (comps.length === 0) { clearOverview(); return; }
-            const c = cur();
-            const name = c.name;
+        function getOverviewData(name) {
             const seed = hashSeed(name);
             const data = getCompanyData(name);
-            const curName = document.getElementById('curComp');
-            if (curName) curName.textContent = name;
-
-            // Metrics
+            
+            const isTech = ['tech', 'saas', 'design', 'healthtech'].includes(data.sector);
+            const isGaming = data.sector === 'gaming';
+            const isFood = data.sector === 'food';
+            const isTelecom = data.sector === 'telecom';
+            const isLuxe = data.sector === 'luxe' || data.sector === 'fashion';
+            
+            // Price templates by sector (same as landing)
+            const priceTemplates = {
+                ecommerce: [
+                    { item: 'Produit phare', what: 'Prix public TTC de leur produit best-seller', affects: 'Votre prix doit rester competitif sur ce produit', oldMult: 89.99, unit: '€' },
+                    { item: 'Livraison standard', what: 'Frais de livraison pour commandes inferieures a 50€', affects: 'Si vous offrez la livraison gratuite, cest un avantage', oldMult: 5.99, unit: '€' },
+                    { item: 'Livraison express', what: 'Option livraison rapide 24h/48h', affects: 'Les clients presses paient plus — verifiez votre offre', oldMult: 9.99, unit: '€' }
+                ],
+                marketplace: [
+                    { item: 'Commission par vente', what: 'Pourcentage preleve sur chaque transaction vendeur', affects: 'Si vous vendez via leur plateforme, votre marge baisse', oldMult: 12.5, unit: '%' },
+                    { item: 'Mise en avant', what: 'Frais pour apparaitre en tetes des resultats', affects: 'Sans budget ads, votre visibilite baisse', oldMult: 2.50, unit: '€/jour' },
+                    { item: 'Abonnement vendeur', what: 'Abonnement mensuel pour les vendeurs pro', affects: 'Les petits vendeurs pourraient partir si trop cher', oldMult: 29.99, unit: '€/mois' }
+                ],
+                saas: [
+                    { item: 'Formule Starter', what: 'Abonnement mensuel — plan dentree', affects: 'Cible les petits clients, verifiez votre pricing', oldMult: 12.99, unit: '€/mois' },
+                    { item: 'Formule Pro', what: 'Abonnement mensuel — plan professionnel', affects: 'Le coeur de cible. Si eux baissent, vous serez presse', oldMult: 29.99, unit: '€/mois' },
+                    { item: 'Formule Enterprise', what: 'Abonnement mensuel — grandes entreprises', affects: 'Negociation possible. Surveillez leurs deals', oldMult: 99.99, unit: '€/mois' }
+                ],
+                app: [
+                    { item: 'Abonnement Premium', what: 'Acces complet sans publicite', affects: 'Si vous etes gratuit, votre concurrent gagne des revenus', oldMult: 9.99, unit: '€/mois' },
+                    { item: 'Achat in-app', what: 'Achats integres dans l\'application', affects: 'Les utilisateurs paient pour des fonctionnalites', oldMult: 4.99, unit: '€' },
+                    { item: 'Formule Famille', what: 'Abonnement partage plusieurs utilisateurs', affects: 'Les familles pourraient partir si trop cher', oldMult: 14.99, unit: '€/mois' }
+                ],
+                gaming: [
+                    { item: 'V-Bucks / Coins', what: 'Monnaie virtuelle du jeu', affects: 'Les joueurs achetent des skins et passes', oldMult: 9.99, unit: '€' },
+                    { item: 'Battle Pass', what: 'Passe saisonnier avec recompenses', affects: 'Engagement fort des joueurs actifs', oldMult: 9.50, unit: '€' },
+                    { item: 'Edition Deluxe', what: 'Edition premium du jeu', affects: 'Premium pricing pour early adopters', oldMult: 69.99, unit: '€' }
+                ],
+                luxe: [
+                    { item: 'Piece signature', what: 'Produit iconique de la maison', affects: 'Positionnement premium — ne baissez pas', oldMult: 2400, unit: '€' },
+                    { item: 'Accessoire', what: 'Petit accessoire (ceinture, carnet)', affects: 'Porte d\'entree de la marque', oldMult: 450, unit: '€' },
+                    { item: 'Parfum / Beauté', what: 'Ligne beauté de la maison', affects: 'Volume plus important, marge differente', oldMult: 145, unit: '€' }
+                ],
+                fashion: [
+                    { item: 'Pièce phare', what: 'Vêtement tendance de la saison', affects: 'Vos prix doivent rester competitifs', oldMult: 89.99, unit: '€' },
+                    { item: 'Basique', what: 'Vêtement de base (t-shirt, jean)', affects: 'Volume important, faible marge', oldMult: 29.99, unit: '€' },
+                    { item: 'Chaussures', what: 'Paire de sneakers ou chaussures', affects: 'Segment a forte concurrence', oldMult: 119.99, unit: '€' }
+                ],
+                food: [
+                    { item: 'Plat principal', what: 'Meal principal du menu', affects: 'Prix moyen du restaurant', oldMult: 14.90, unit: '€' },
+                    { item: 'Menu complet', what: 'Formule entree+plat+dessert', affects: 'Valeur percue par le client', oldMult: 19.90, unit: '€' },
+                    { item: 'Boisson', what: 'Boisson accompagnee du repas', affects: 'Marge importante sur les boissons', oldMult: 3.50, unit: '€' }
+                ],
+                telecom: [
+                    { item: 'Forfait mobile', what: 'Abonnement mensuel forfait', affects: 'Segment tres concurrentiel en France', oldMult: 24.99, unit: '€/mois' },
+                    { item: 'Forfait premium', what: 'Forfait avec plus de data', affects: 'Clients haut de gamme', oldMult: 39.99, unit: '€/mois' },
+                    { item: 'Fibre', what: 'Abonnement internet fibre', affects: 'Comparaison avec les concurrents', oldMult: 29.99, unit: '€/mois' }
+                ],
+                travel: [
+                    { item: 'Trajet', what: 'Prix moyen d\'un trajet', affects: 'Prix base du service', oldMult: 22, unit: '€' },
+                    { item: 'Frais de service', what: 'Commission prelevee sur chaque booking', affects: 'Impact direct sur vos marges', oldMult: 2.99, unit: '€' },
+                    { item: 'Assurance', what: 'Option assurance voyage', affects: 'Supplement que les clients paient', oldMult: 12, unit: '€' }
+                ],
+                default: [
+                    { item: 'Produit principal', what: 'Offre principale de la marque', affects: 'Prix de reference du marche', oldMult: 49.99, unit: '€' },
+                    { item: 'Formule premium', what: 'Version amelioree du produit', affects: 'Upsell vers les clients existants', oldMult: 99.99, unit: '€' },
+                    { item: 'Abonnement', what: 'Offre recurrente mensuelle', affects: 'Revenue recurring de la marque', oldMult: 19.99, unit: '€/mois' }
+                ]
+            };
+            
+            const templates = priceTemplates[data.sector] || priceTemplates.default;
+            
+            // Use REAL prices if available, otherwise estimate from templates
+            let priceItems;
+            let hasRealPrices = false;
+            if (data.realPrices && data.realPrices.length > 0) {
+                hasRealPrices = true;
+                priceItems = data.realPrices.map((p, i) => {
+                    const t = templates[i] || templates[0];
+                    return {
+                        item: p.item,
+                        what: t.what,
+                        affects: t.affects,
+                        oldP: p.old,
+                        newP: p.price,
+                        pct: p.old > 0 ? parseFloat(((p.price - p.old) / p.old * 100).toFixed(1)) : 0,
+                        isDrop: p.price < p.old,
+                        unit: t.unit
+                    };
+                });
+            } else {
+                const isDrop = seededRand(seed, 6) > 0.4;
+                priceItems = templates.map((t, i) => {
+                    const variation = 0.85 + seededRand(seed, 100 + i) * 0.3;
+                    const oldP = Math.round(t.oldMult * variation * 100) / 100;
+                    const change = isDrop ? -(0.05 + seededRand(seed, 200 + i) * 0.15) : (0.03 + seededRand(seed, 200 + i) * 0.12);
+                    const newP = Math.round(oldP * (1 + change) * 100) / 100;
+                    const pct = ((newP - oldP) / oldP * 100).toFixed(1);
+                    return { ...t, oldP, newP, pct: parseFloat(pct), isDrop: pct < 0 };
+                });
+            }
+            
+            // Price chart data (6 months) - based on real current price
+            const mainPrice = priceItems[0];
+            const currentPrice = mainPrice.newP;
+            const priceData = [
+                Math.round(currentPrice * (1 + (mainPrice.isDrop ? 0.08 : -0.05)) * 100) / 100,
+                Math.round(currentPrice * (1 + (mainPrice.isDrop ? 0.05 : -0.03)) * 100) / 100,
+                Math.round(currentPrice * (1 + (mainPrice.isDrop ? 0.06 : -0.04)) * 100) / 100,
+                Math.round(currentPrice * (1 + (mainPrice.isDrop ? 0.03 : -0.02)) * 100) / 100,
+                Math.round(currentPrice * (1 + (mainPrice.isDrop ? 0.01 : -0.01)) * 100) / 100,
+                currentPrice
+            ];
+            
+            // Metrics from REAL data
             const threat = Math.floor(35 + (data.marketShare > 15 ? 30 : data.marketShare > 5 ? 20 : 10) + seededRand(seed, 1) * 25);
             const priceChanges = Math.floor(1 + seededRand(seed, 2) * 3);
             const postsW = Math.floor(3 + (data.employees > 50000 ? 25 : data.employees > 5000 ? 15 : 8) + seededRand(seed, 3) * 10);
             const negReviews = Math.floor(5 + (100 - data.satisfaction) * 0.5 + seededRand(seed, 4) * 15);
-            setText('sThreat', threat);
-            setText('sPrices', priceChanges);
-            setText('sPosts', postsW);
-            setText('sReviews', negReviews);
+            
+            // Sector-specific estimated data (marked as estimates)
+            const adBudgets = { food: 50, telecom: 80, luxe: 30, fashion: 40, beauty: 35, gaming: 25, tech: 15, default: 10 };
+            const adBudget = Math.floor((adBudgets[data.sector] || 10) * (0.5 + seededRand(seed, 29) * 1.5));
+            const followerBases = { social: 5000000, streaming: 2000000, gaming: 5000000, luxe: 500000, fashion: 1000000, beauty: 800000, tech: 200000, default: 100000 };
+            const socialFollowers = Math.floor((followerBases[data.sector] || 100000) * (0.5 + seededRand(seed, 30) * 2));
+            const openRoles = Math.floor(5 + seededRand(seed, 31) * 20);
+            const churn = data.sector === 'saas' ? (2 + seededRand(seed, 35) * 5).toFixed(1) : (5 + seededRand(seed, 35) * 10).toFixed(1);
+            
+            // Chart data based on REAL metrics
+            const revenue = data.revenue;
+            const revBase = Math.floor(revenue * 0.6);
+            const revData = [revBase, Math.floor(revBase * 1.05), Math.floor(revBase * 1.12), Math.floor(revBase * 1.2), Math.floor(revBase * 1.3), revenue];
+            
+            const satisfaction = data.satisfaction;
+            const satBase = Math.floor(satisfaction * 0.85);
+            const satData = [satBase, Math.floor(satBase * 1.02), Math.floor(satBase * 1.05), Math.floor(satBase * 0.98), Math.floor(satBase * 1.01), satisfaction];
+            
+            const adData = [Math.floor(adBudget * 0.7), Math.floor(adBudget * 0.8), Math.floor(adBudget * 0.9), Math.floor(adBudget * 0.85), Math.floor(adBudget * 0.95), adBudget];
+            
+            const socBase = Math.floor(socialFollowers * 0.6);
+            const socData = [socBase, Math.floor(socBase * 1.05), Math.floor(socBase * 1.1), Math.floor(socBase * 1.18), Math.floor(socBase * 1.25), socialFollowers];
+            
+            const sentiment = data.sentiment;
+            const sentBase = 50 + (satisfaction - 70) * 0.5;
+            const sentData = [sentBase - 5, sentBase - 3, sentBase - 1, sentBase + 2, sentBase - 2, sentBase];
+            
+            // Sector-specific content
+            const goodNews = isTech ? ['Nouvelle fonctionnalite IA lancee', 'Integration populaire ajoutee', 'Certification securite obtenue'] : isGaming ? ['Mise a jour appreciee', 'Nouveau contenu gratuit', 'Tournoi record'] : isFood ? ['Nouveau menu saisonnier', 'Partenariat plateforme', 'Ouverture nouvelle ville'] : ['Lancement produit apprecie', 'Partenariat strategique', 'Expansion geographique'];
+            const badNews = isTech ? ['Pannes repetees', 'Fuite de donnees signalee', 'Bug critique non resolu'] : isGaming ? ['Bug critique mise a jour', 'Joueurs mecontents', 'Problemes de serveurs'] : ['Retards livraison', 'Service client degrade', 'Problemes qualite'];
+            const upcomingFeatures = isTech ? ['Mode IA avance', 'API publique', 'Application mobile'] : isGaming ? ['Nouveau mode de jeu', 'Cross-play', 'Creation de contenu'] : ['Mode IA', 'Application mobile', 'Export donnees'];
+            const nextEvents = isTech ? ['Lancement beta', 'Webinaire public', 'Salon professionnel'] : ['Lancement produit', 'Evenement', 'Campagne marketing'];
+            const lastEvents = isTech ? ['Lancement nouvelle version', 'Conference annuelle', 'Levee de fonds'] : ['Ouverture restaurant', 'Campagne marketing', 'Partenariat'];
+            
+            // Tech stack
+            const techStacks = { tech: ['React', 'Vue', 'Node.js', 'Python'], saas: ['React', 'Node.js', 'PostgreSQL', 'AWS'], design: ['Figma', 'React', 'Canvas API'], default: ['React', 'Vue', 'Node.js', 'PHP'] };
+            const stack = techStacks[data.sector] || techStacks.default;
+            const t1 = stack[Math.floor(seededRand(seed, 32) * stack.length)];
+            const t2 = stack[Math.floor(seededRand(seed, 33) * stack.length)];
+            const clouds = ['AWS', 'GCP', 'Azure', 'OVH'];
+            const cloud = clouds[Math.floor(seededRand(seed, 34) * clouds.length)];
+            
+            return {
+                data, seed, name,
+                isTech, isGaming, isFood, isTelecom, isLuxe,
+                priceItems, hasRealPrices, priceData, mainPrice,
+                threat, priceChanges, postsW, negReviews,
+                adBudget, socialFollowers, openRoles, churn,
+                revData, satData, adData, socData, sentData,
+                goodNews, badNews, upcomingFeatures, nextEvents, lastEvents,
+                techStacks, stack, t1, t2, cloud,
+                revenue, marketShare: data.marketShare, employees: data.employees,
+                growth: data.growth, satisfaction: data.satisfaction, nps: data.nps,
+                sentiment: data.sentiment, currency: data.currency || '€',
+                founded: data.founded, hq: data.hq,
+                competitors: data.competitors || ['Concurrent A', 'Concurrent B']
+            };
+        }
+
+        function generateAll() {
+            if (comps.length === 0) { clearOverview(); return; }
+            const c = cur();
+            const name = c.name;
+            const d = getOverviewData(name);
+            const curName = document.getElementById('curComp');
+            if (curName) curName.textContent = name;
+
+            setText('sThreat', d.threat);
+            setText('sPrices', d.priceChanges);
+            setText('sPosts', d.postsW);
+            setText('sReviews', d.negReviews);
 
             // Live feed
             const feed = [
@@ -3084,59 +3255,41 @@
 
             // Price alert
             const pa = document.getElementById('priceAlertBox');
-            if (pa) pa.innerHTML = '<div class="card"><div class="card-h"><span class="tag red">Baisse détectée</span><span class="card-meta">Il y a 12 min</span></div><div class="price-box"><div class="price-old">29€</div><div class="price-arrow">→</div><div class="price-new">24€</div><div class="price-drop">-17%</div></div>' + premiumAdvice('Ne baissez pas votre prix. Différenciez sur la valeur. Mettez en avant vos avantages exclusifs.') + '</div>';
+            if (pa) {
+                const mainP = d.mainPrice;
+                const alertText = mainP.isDrop
+                    ? 'Baissé de ' + Math.abs(mainP.pct) + '% : ' + mainP.oldP + mainP.unit + ' → ' + mainP.newP + mainP.unit
+                    : 'Augmenté de ' + mainP.pct + '% : ' + mainP.oldP + mainP.unit + ' → ' + mainP.newP + mainP.unit;
+                pa.innerHTML = '<div class="card"><div class="card-h"><span class="tag ' + (mainP.isDrop ? 'green' : 'red') + '">' + (mainP.isDrop ? 'Baisse' : 'Hausse') + ' ' + Math.abs(mainP.pct) + '%</span><span class="card-meta">' + (d.hasRealPrices ? 'Données réelles' : 'Estimation') + '</span></div><div class="price-box"><div class="price-old">' + mainP.oldP + mainP.unit + '</div><div class="price-arrow">→</div><div class="price-new">' + mainP.newP + mainP.unit + '</div><div class="price-drop" style="' + (mainP.isDrop ? '' : 'background:rgba(255,59,59,0.15);color:var(--red)') + '">' + (mainP.isDrop ? '' : '+') + mainP.pct + '%</div></div><div style="font-size:12px;color:var(--gray-4);margin-top:8px">' + esc(mainP.item) + ' — ' + esc(alertText) + '</div>' + premiumAdvice('Ne baissez pas votre prix. Différenciez sur la valeur. Mettez en avant vos avantages exclusifs face à ' + name + '.') + '</div>';
+            }
 
             // ========== FULL ENRICHED OVERVIEW ==========
             const ov = document.getElementById('ovCharts');
             if (!ov) return;
 
-            const revenue = data.revenue;
-            const marketShare = data.marketShare;
-            const satisfaction = data.satisfaction;
-            const nps = data.nps;
-            const employees = data.employees;
-            const growth = data.growth;
-            const sentiment = data.sentiment;
-            const currency = data.currency || '€';
-            const founded = data.founded;
-            const hq = data.hq;
-            const competitors = data.competitors || ['Concurrent A', 'Concurrent B'];
-            const c1 = competitors[0] || 'Concurrent A';
-            const c2 = competitors[1] || 'Concurrent B';
-
-            // Sector detection
-            const isTech = ['tech', 'saas', 'design', 'healthtech'].includes(data.sector);
-            const isGaming = data.sector === 'gaming';
-            const isFood = data.sector === 'food';
-            const isTelecom = data.sector === 'telecom';
-            const isLuxe = data.sector === 'luxe' || data.sector === 'fashion';
-
-            // Sector-specific data
-            const adBudgets = { food: 50, telecom: 80, luxe: 30, fashion: 40, beauty: 35, gaming: 25, tech: 15, default: 10 };
-            const adBudget = Math.floor((adBudgets[data.sector] || 10) * (0.5 + seededRand(seed, 29) * 1.5));
-            const followerBases = { social: 5000000, streaming: 2000000, gaming: 5000000, luxe: 500000, fashion: 1000000, beauty: 800000, tech: 200000, default: 100000 };
-            const socialFollowers = Math.floor((followerBases[data.sector] || 100000) * (0.5 + seededRand(seed, 30) * 2));
-            const openRoles = Math.floor(5 + seededRand(seed, 31) * 20);
-            const churn = data.sector === 'saas' ? (2 + seededRand(seed, 35) * 5).toFixed(1) : (5 + seededRand(seed, 35) * 10).toFixed(1);
-
-            // Chart data
-            const revBase = Math.floor(revenue * 0.6);
-            const revData = [revBase, Math.floor(revBase * 1.05), Math.floor(revBase * 1.12), Math.floor(revBase * 1.2), Math.floor(revBase * 1.3), revenue];
-            const priceBase = 25 + seededRand(seed, 50) * 30;
-            const priceData = [Math.round(priceBase * 1.05 * 100) / 100, Math.round(priceBase * 1.02 * 100) / 100, Math.round(priceBase * 1.08 * 100) / 100, Math.round(priceBase * 0.95 * 100) / 100, Math.round(priceBase * 0.92 * 100) / 100, Math.round(priceBase * 0.88 * 100) / 100];
-            const satBase = Math.floor(satisfaction * 0.85);
-            const satData = [satBase, Math.floor(satBase * 1.02), Math.floor(satBase * 1.05), Math.floor(satBase * 0.98), Math.floor(satBase * 1.01), satisfaction];
-            const adData = [Math.floor(adBudget * 0.7), Math.floor(adBudget * 0.8), Math.floor(adBudget * 0.9), Math.floor(adBudget * 0.85), Math.floor(adBudget * 0.95), adBudget];
-            const socBase = Math.floor(socialFollowers * 0.6);
-            const socData = [socBase, Math.floor(socBase * 1.05), Math.floor(socBase * 1.1), Math.floor(socBase * 1.18), Math.floor(socBase * 1.25), socialFollowers];
-            const sentBase = 50 + (satisfaction - 70) * 0.5;
-            const sentData = [sentBase - 5, sentBase - 3, sentBase - 1, sentBase + 2, sentBase - 2, sentBase];
+            const data = d.data;
+            const revenue = d.revenue;
+            const marketShare = d.marketShare;
+            const employees = d.employees;
+            const growth = d.growth;
+            const satisfaction = d.satisfaction;
+            const nps = d.nps;
+            const sentiment = d.sentiment;
+            const currency = d.currency;
+            const founded = d.founded;
+            const hq = d.hq;
+            const competitors = d.competitors;
+            const c1 = competitors[0];
+            const c2 = competitors[1];
+            const priceItems = d.priceItems;
+            const hasRealPrices = d.hasRealPrices;
 
             // Build HTML
             let html = '';
+            const priceLabel = hasRealPrices ? 'Données réelles' : 'Estimation sectorielle';
 
             // === 1. PROFIL ENTREPRISE ===
-            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">🏢</span> Profil entreprise</div><div class="ov-card">';
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">🏢</span> Profil entreprise <span class="ov-tag green" style="margin-left:auto;font-size:9px">Données réelles</span></div><div class="ov-card">';
             html += '<div class="ov-grid4">';
             html += '<div class="ov-stat-box" style="background:rgba(255,59,59,0.06)"><div class="ov-stat-val" style="color:var(--red)">' + founded + '</div><div class="ov-stat-label">Fondée en</div></div>';
             html += '<div class="ov-stat-box" style="background:rgba(209,213,219,0.06)"><div class="ov-stat-val" style="color:var(--silver)">' + employees.toLocaleString('fr-FR') + '</div><div class="ov-stat-label">Employés</div></div>';
@@ -3144,8 +3297,8 @@
             html += '<div class="ov-stat-box" style="background:rgba(139,92,246,0.06)"><div class="ov-stat-val" style="color:var(--purple)">' + marketShare + '%</div><div class="ov-stat-label">Part de marché</div></div>';
             html += '</div>';
             html += '<div style="margin-top:12px;font-size:13px;color:var(--gray-3)"><span style="color:var(--gray-4)">Siège :</span> <strong>' + hq + '</strong> · <span style="color:var(--gray-4)">CA :</span> <strong>' + revenue.toLocaleString('fr-FR') + currency + '</strong> · <span style="color:var(--gray-4)">Valorisation :</span> <strong>' + (data.valuation > 0 ? data.valuation.toLocaleString('fr-FR') + currency : 'N/A') + '</strong></div>';
-            html += '<div class="ov-chart-box"><div class="ov-chart-title">Évolution du CA <span>6 mois (' + currency + ')</span></div>' + makeLineChart(revData, '#10B981', null, ['Avr','Mai','Juin','Juil','Août','Sept'], currency) + '</div>';
-            html += '<div class="ov-chart-box"><div class="ov-chart-title">Part de marché <span>vs concurrence</span></div>' + makeDonut([
+            html += '<div class="ov-chart-box"><div class="ov-chart-title">Évolution du CA <span>6 mois (' + currency + ') — estimation à partir du CA réel</span></div>' + makeLineChart(d.revData, '#10B981', null, ['Avr','Mai','Juin','Juil','Août','Sept'], currency) + '</div>';
+            html += '<div class="ov-chart-box"><div class="ov-chart-title">Part de marché <span>vs concurrence — données réelles</span></div>' + makeDonut([
                 { label: name, value: marketShare, color: '#FF3B3B' },
                 { label: c1, value: Math.max(1, Math.round(marketShare * 0.7 * 10) / 10), color: '#D1D5DB' },
                 { label: c2, value: Math.max(1, Math.round(marketShare * 0.5 * 10) / 10), color: '#6B7280' },
@@ -3154,60 +3307,69 @@
             html += '</div></div>';
 
             // === 2. SCORE DÉTAILLÉ ===
-            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📊</span> Score détaillé</div><div class="ov-card">';
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📊</span> Score détaillé <span class="ov-tag green" style="margin-left:auto;font-size:9px">Données réelles</span></div><div class="ov-card">';
             html += '<div class="ov-grid4">';
-            html += '<div class="ov-stat-box" style="background:rgba(255,59,59,0.06)"><div class="ov-stat-val" style="color:var(--red)">' + threat + '/100</div><div class="ov-stat-label">Score menace</div></div>';
+            html += '<div class="ov-stat-box" style="background:rgba(255,59,59,0.06)"><div class="ov-stat-val" style="color:var(--red)">' + d.threat + '/100</div><div class="ov-stat-label">Score menace</div></div>';
             html += '<div class="ov-stat-box" style="background:rgba(16,185,129,0.06)"><div class="ov-stat-val" style="color:var(--green)">' + satisfaction + '/100</div><div class="ov-stat-label">Satisfaction</div></div>';
             html += '<div class="ov-stat-box" style="background:rgba(139,92,246,0.06)"><div class="ov-stat-val" style="color:var(--purple)">' + nps + '</div><div class="ov-stat-label">NPS</div></div>';
             html += '<div class="ov-stat-box" style="background:rgba(245,158,11,0.06)"><div class="ov-stat-val" style="color:var(--orange)">' + sentiment + '</div><div class="ov-stat-label">Sentiment</div></div>';
             html += '</div>';
-            html += '<div style="margin-top:12px;font-size:13px;color:var(--gray-3)"><span style="color:var(--gray-4)">Taux de churn :</span> <strong>' + churn + '%</strong></div>';
-            html += '<div class="ov-chart-box"><div class="ov-chart-title">Tendance satisfaction <span>6 mois</span></div>' + makeBarChart(satData, ['Avr','Mai','Juin','Juil','Août','Actuel'], ['#10B981','#10B981','#10B981','#10B981','#10B981','#10B981'], '/100') + '</div>';
-            html += '<div class="ov-chart-box"><div class="ov-chart-title">Tendance du sentiment <span>6 mois (%)</span></div>' + makeLineChart(sentData, sentiment === 'Positif' ? '#10B981' : sentiment === 'Negatif' ? '#FF3B3B' : '#F59E0B', null, ['Avr','Mai','Juin','Juil','Août','Sept'], '%') + '</div>';
+            html += '<div style="margin-top:12px;font-size:13px;color:var(--gray-3)"><span style="color:var(--gray-4)">Taux de churn :</span> <strong>' + d.churn + '%</strong> <span style="color:var(--gray-5);font-size:11px">(estimation sectorielle)</span></div>';
+            html += '<div class="ov-chart-box"><div class="ov-chart-title">Tendance satisfaction <span>6 mois — basé sur satisfaction réelle</span></div>' + makeBarChart(d.satData, ['Avr','Mai','Juin','Juil','Août','Actuel'], ['#10B981','#10B981','#10B981','#10B981','#10B981','#10B981'], '/100') + '</div>';
+            html += '<div class="ov-chart-box"><div class="ov-chart-title">Tendance du sentiment <span>6 mois (%)</span></div>' + makeLineChart(d.sentData, sentiment === 'Positif' ? '#10B981' : sentiment === 'Negatif' ? '#FF3B3B' : '#F59E0B', null, ['Avr','Mai','Juin','Juil','Août','Sept'], '%') + '</div>';
             html += '</div></div>';
 
             // === 3. ANALYSE DES PRIX ===
-            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">💰</span> Analyse des prix</div><div class="ov-card">';
-            html += '<div class="ov-chart-box" style="margin-top:0"><div class="ov-chart-title">Évolution des prix <span>6 mois</span></div>' + makeLineChart(priceData, '#FF3B3B', null, ['Avr','Mai','Juin','Juil','Août','Sept'], '€') + '</div>';
-            html += '<div style="margin-top:10px;font-size:13px;color:var(--gray-3)">Prix moyen actuel : <strong style="color:var(--red)">' + priceData[5] + '€</strong> · Variation 6 mois : <strong style="color:' + (priceData[5] < priceData[0] ? 'var(--green)' : 'var(--red)') + '">' + ((priceData[5] - priceData[0]) / priceData[0] * 100).toFixed(1) + '%</strong></div>';
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">💰</span> Analyse des prix <span class="ov-tag ' + (hasRealPrices ? 'green' : 'orange') + '" style="margin-left:auto;font-size:9px">' + priceLabel + '</span></div><div class="ov-card">';
+            // Show each price item
+            priceItems.forEach(function(p) {
+                html += '<div style="padding:10px;border:1px solid rgba(255,255,255,0.06);border-radius:8px;margin-bottom:8px">';
+                html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">';
+                html += '<strong style="font-size:13px">' + esc(p.item) + '</strong>';
+                html += '<span style="font-size:14px;font-weight:700;color:' + (p.isDrop ? 'var(--green)' : 'var(--red)') + '">' + (p.isDrop ? '▼' : '▲') + ' ' + Math.abs(p.pct) + '%</span>';
+                html += '</div>';
+                html += '<div style="display:flex;gap:12px;font-size:12px;color:var(--gray-4);margin-bottom:4px">';
+                html += '<span>Ancien : <strong>' + p.oldP + p.unit + '</strong></span>';
+                html += '<span>Nouveau : <strong style="color:' + (p.isDrop ? 'var(--green)' : 'var(--red)') + '">' + p.newP + p.unit + '</strong></span>';
+                html += '</div>';
+                html += '<div style="font-size:11px;color:var(--gray-5)"><strong>C\'est quoi :</strong> ' + p.what + '</div>';
+                html += '<div style="font-size:11px;color:var(--gray-5)"><strong>C\'affecte quoi pour vous :</strong> ' + p.affects + '</div>';
+                html += '</div>';
+            });
+            html += '<div class="ov-chart-box"><div class="ov-chart-title">Évolution des prix <span>6 mois — basé sur les prix ' + (hasRealPrices ? 'réels' : 'estimés') + '</span></div>' + makeLineChart(d.priceData, '#FF3B3B', null, ['Avr','Mai','Juin','Juil','Août','Sept'], d.mainPrice.unit) + '</div>';
             html += premiumAdvice('Ne baissez pas votre prix. Différenciez sur la valeur. Mettez en avant vos avantages exclusifs face à ' + name + '.');
             html += '</div></div>';
 
             // === 4. NOUVEAUTÉS & ROADMAP ===
-            const goodNews = isTech ? ['Nouvelle fonctionnalité IA lancée', 'Intégration populaire ajoutée', 'Certification sécurité obtenue'] : isGaming ? ['Mise à jour appréciée', 'Nouveau contenu gratuit', 'Tournoi record'] : ['Lancement produit apprécié', 'Partenariat stratégique', 'Expansion géographique'];
-            const upcomingFeatures = isTech ? ['Mode IA avancé', 'API publique', 'Application mobile'] : isGaming ? ['Nouveau mode de jeu', 'Cross-play', 'Création de contenu'] : ['Mode IA', 'Application mobile', 'Export données'];
-            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">🚀</span> Nouveautés & roadmap</div><div class="ov-card">';
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">🚀</span> Nouveautés & roadmap <span class="ov-tag silver" style="margin-left:auto;font-size:9px">Estimation</span></div><div class="ov-card">';
             html += '<div style="margin-bottom:10px"><span class="ov-tag green">✅ Dernière nouveauté</span></div>';
-            html += '<div style="font-size:13px;margin-bottom:12px"><strong>' + goodNews[Math.floor(seededRand(seed, 43) * goodNews.length)] + '</strong></div>';
+            html += '<div style="font-size:13px;margin-bottom:12px"><strong>' + d.goodNews[Math.floor(d.seed * 0 + seededRand(d.seed, 43) * d.goodNews.length)] + '</strong></div>';
             html += '<div style="margin-bottom:6px"><span class="ov-tag silver">🔧 En développement</span></div>';
-            html += '<div style="font-size:13px;color:var(--gray-3)">' + upcomingFeatures[Math.floor(seededRand(seed, 44) * upcomingFeatures.length)] + '</div>';
+            html += '<div style="font-size:13px;color:var(--gray-3)">' + d.upcomingFeatures[Math.floor(seededRand(d.seed, 44) * d.upcomingFeatures.length)] + '</div>';
             html += '</div></div>';
 
             // === 5. SIGNAUX NÉGATIFS ===
-            const badNews = isTech ? ['Pannes répétées', 'Fuite de données signalée', 'Bug critique non résolu'] : isGaming ? ['Bug critique mise à jour', 'Joueurs mécontents', 'Problèmes de serveurs'] : ['Retards de livraison', 'Service client dégradé', 'Problèmes qualité'];
-            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">⚠️</span> Signaux négatifs</div><div class="ov-card">';
-            html += '<div class="ov-advice warn"><strong>⚠️ ' + badNews[Math.floor(seededRand(seed, 42) * badNews.length)] + '</strong><br>Plainte récurrente : <strong style="color:var(--red)">Support client lent</strong></div>';
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">⚠️</span> Signaux négatifs <span class="ov-tag orange" style="margin-left:auto;font-size:9px">Estimation</span></div><div class="ov-card">';
+            html += '<div class="ov-advice warn"><strong>⚠️ ' + d.badNews[Math.floor(seededRand(d.seed, 42) * d.badNews.length)] + '</strong><br>Plainte récurrente : <strong style="color:var(--red)">Support client lent</strong></div>';
             html += '<div style="margin-top:8px;font-size:12px;color:var(--gray-4)"><strong style="color:var(--green)">Points forts perçus :</strong> Interface intuitive, prix compétitifs, communauté active.</div>';
             html += premiumAdvice('Ces faiblesses sont vos armes. Communiquez sur vos avantages concurrentiels face à ' + name + '.');
             html += '</div></div>';
 
             // === 6. ÉVÉNEMENTS ===
-            const nextEvents = isTech ? ['Lancement beta', 'Webinaire public', 'Salon professionnel'] : ['Lancement produit', 'Événement', 'Campagne marketing'];
-            const lastEvents = isTech ? ['Lancement nouvelle version', 'Conférence annuelle', 'Levée de fonds'] : ['Ouverture nouveau restaurant', 'Campagne marketing', 'Partenariat'];
-            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📅</span> Événements</div><div class="ov-card">';
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📅</span> Événements <span class="ov-tag silver" style="margin-left:auto;font-size:9px">Estimation</span></div><div class="ov-card">';
             html += '<div class="ov-grid2">';
-            html += '<div style="padding:10px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.15);border-radius:8px"><div style="color:var(--green);font-weight:700;margin-bottom:4px">📅 Prochain événement</div><div><strong>' + nextEvents[Math.floor(seededRand(seed, 40) * nextEvents.length)] + '</strong></div><div style="color:var(--gray-4);font-size:12px">Dans ' + Math.floor(5 + seededRand(seed, 41) * 60) + ' jours</div></div>';
-            html += '<div style="padding:10px;background:rgba(209,213,219,0.06);border:1px solid rgba(209,213,219,0.15);border-radius:8px"><div style="color:var(--gray-3);font-weight:700;margin-bottom:4px">📌 Dernier événement</div><div><strong>' + lastEvents[Math.floor(seededRand(seed, 39) * lastEvents.length)] + '</strong></div><div style="color:var(--gray-4);font-size:12px">Il y a ' + Math.floor(30 + seededRand(seed, 38) * 60) + ' jours</div></div>';
+            html += '<div style="padding:10px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.15);border-radius:8px"><div style="color:var(--green);font-weight:700;margin-bottom:4px">📅 Prochain événement</div><div><strong>' + d.nextEvents[Math.floor(seededRand(d.seed, 40) * d.nextEvents.length)] + '</strong></div><div style="color:var(--gray-4);font-size:12px">Dans ' + Math.floor(5 + seededRand(d.seed, 41) * 60) + ' jours</div></div>';
+            html += '<div style="padding:10px;background:rgba(209,213,219,0.06);border:1px solid rgba(209,213,219,0.15);border-radius:8px"><div style="color:var(--gray-3);font-weight:700;margin-bottom:4px">📌 Dernier événement</div><div><strong>' + d.lastEvents[Math.floor(seededRand(d.seed, 39) * d.lastEvents.length)] + '</strong></div><div style="color:var(--gray-4);font-size:12px">Il y a ' + Math.floor(30 + seededRand(d.seed, 38) * 60) + ' jours</div></div>';
             html += '</div></div></div>';
 
             // === 7. POSTS RÉCENTS ===
-            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📝</span> Posts récents</div><div class="ov-card">';
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📝</span> Posts récents <span class="ov-tag silver" style="margin-left:auto;font-size:9px">Estimation</span></div><div class="ov-card">';
             const posts = [
-                { platform: 'LinkedIn', text: 'Découvrez nos nouvelles fonctionnalités ! ' + name + ' continue d\'innover.', likes: Math.floor(100 + seededRand(seed, 60) * 500) },
-                { platform: 'Twitter/X', text: 'Merci pour vos retours ! Notre équipe travaille sur vos suggestions.', likes: Math.floor(50 + seededRand(seed, 61) * 200) },
-                { platform: 'Facebook', text: 'Offre spéciale ce weekend ! Rejoignez notre communauté.', likes: Math.floor(80 + seededRand(seed, 62) * 300) }
+                { platform: 'LinkedIn', text: 'Découvrez nos nouvelles fonctionnalités ! ' + name + ' continue d\'innover.', likes: Math.floor(100 + seededRand(d.seed, 60) * 500) },
+                { platform: 'Twitter/X', text: 'Merci pour vos retours ! Notre équipe travaille sur vos suggestions.', likes: Math.floor(50 + seededRand(d.seed, 61) * 200) },
+                { platform: 'Facebook', text: 'Offre spéciale ce weekend ! Rejoignez notre communauté.', likes: Math.floor(80 + seededRand(d.seed, 62) * 300) }
             ];
-            posts.forEach(p => {
+            posts.forEach(function(p) {
                 html += '<div style="padding:10px;border:1px solid rgba(255,255,255,0.06);border-radius:8px;margin-bottom:8px">';
                 html += '<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="ov-tag silver">' + p.platform + '</span><span style="font-size:11px;color:var(--gray-5)">' + p.likes + ' likes</span></div>';
                 html += '<div style="font-size:13px;color:var(--gray-3)">"' + p.text + '"</div>';
@@ -3217,13 +3379,13 @@
             html += '</div></div>';
 
             // === 8. AVIS CLIENTS ===
-            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">⭐</span> Avis clients</div><div class="ov-card">';
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">⭐</span> Avis clients <span class="ov-tag green" style="margin-left:auto;font-size:9px">Basé sur satisfaction réelle</span></div><div class="ov-card">';
             const reviews = [
                 { platform: 'Trustpilot', stars: Math.max(1, Math.min(5, Math.round(satisfaction / 20))), text: satisfaction > 75 ? 'Excellent service, je recommande !' : 'Service correct mais peut mieux faire.', color: '#00B67A' },
                 { platform: 'Google', stars: Math.max(1, Math.min(5, Math.round(satisfaction / 20 + 0.5))), text: satisfaction > 70 ? 'Très satisfaite de mon expérience' : 'Expérience moyenne, rien de spécial', color: '#4285F4' },
-                { platform: 'G2', stars: Math.max(1, Math.min(5, Math.round(satisfaction / 22))), text: isTech ? 'Bon outil mais le support pourrait être plus réactif' : 'Produit correct, rapport qualité/prix acceptable', color: '#FF492C' }
+                { platform: 'G2', stars: Math.max(1, Math.min(5, Math.round(satisfaction / 22))), text: d.isTech ? 'Bon outil mais le support pourrait être plus réactif' : 'Produit correct, rapport qualité/prix acceptable', color: '#FF492C' }
             ];
-            reviews.forEach(r => {
+            reviews.forEach(function(r) {
                 const starsHtml = '★'.repeat(r.stars) + '☆'.repeat(5 - r.stars);
                 html += '<div style="padding:10px;border:1px solid rgba(255,255,255,0.06);border-radius:8px;margin-bottom:8px">';
                 html += '<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="ov-tag silver">' + r.platform + '</span><span style="color:' + r.color + ';font-size:14px">' + starsHtml + '</span></div>';
@@ -3234,20 +3396,20 @@
             html += '</div></div>';
 
             // === 9. PUBLICITÉS DÉTECTÉES ===
-            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📢</span> Publicités détectées</div><div class="ov-card">';
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📢</span> Publicités détectées <span class="ov-tag orange" style="margin-left:auto;font-size:9px">Estimation sectorielle</span></div><div class="ov-card">';
             html += '<div class="ov-grid3">';
-            html += '<div class="ov-stat-box" style="background:rgba(91,155,213,0.08)"><div class="ov-stat-val" style="color:#5B9BD5">' + Math.floor(adBudget * 0.4) + 'k€</div><div class="ov-stat-label">Facebook</div></div>';
-            html += '<div class="ov-stat-box" style="background:rgba(66,133,244,0.08)"><div class="ov-stat-val" style="color:#4285F4">' + Math.floor(adBudget * 0.35) + 'k€</div><div class="ov-stat-label">Google</div></div>';
-            html += '<div class="ov-stat-box" style="background:rgba(225,48,108,0.08)"><div class="ov-stat-val" style="color:#E1306C">' + Math.floor(adBudget * 0.25) + 'k€</div><div class="ov-stat-label">TikTok</div></div>';
+            html += '<div class="ov-stat-box" style="background:rgba(91,155,213,0.08)"><div class="ov-stat-val" style="color:#5B9BD5">' + Math.floor(d.adBudget * 0.4) + 'k€</div><div class="ov-stat-label">Facebook</div></div>';
+            html += '<div class="ov-stat-box" style="background:rgba(66,133,244,0.08)"><div class="ov-stat-val" style="color:#4285F4">' + Math.floor(d.adBudget * 0.35) + 'k€</div><div class="ov-stat-label">Google</div></div>';
+            html += '<div class="ov-stat-box" style="background:rgba(225,48,108,0.08)"><div class="ov-stat-val" style="color:#E1306C">' + Math.floor(d.adBudget * 0.25) + 'k€</div><div class="ov-stat-label">TikTok</div></div>';
             html += '</div>';
-            html += '<div class="ov-chart-box"><div class="ov-chart-title">Budget publicitaire <span>6 mois (k€)</span></div>' + makeLineChart(adData, '#8B5CF6', null, ['Avr','Mai','Juin','Juil','Août','Sept'], 'k€') + '</div>';
-            html += '<div style="margin-top:10px;font-size:13px;color:var(--gray-3)">Budget total : <strong style="color:var(--purple)">' + adBudget + 'k€/mois</strong></div>';
-            html += premiumAdvice('Ils investissent ' + adBudget + 'k€/mois en pub. ' + (adBudget > 30 ? 'Budget agressif — préparez votre réponse marketing.' : 'Budget modéré — opportunité de les dépasser.'));
+            html += '<div class="ov-chart-box"><div class="ov-chart-title">Budget publicitaire <span>6 mois (k€) — estimation</span></div>' + makeLineChart(d.adData, '#8B5CF6', null, ['Avr','Mai','Juin','Juil','Août','Sept'], 'k€') + '</div>';
+            html += '<div style="margin-top:10px;font-size:13px;color:var(--gray-3)">Budget total estimé : <strong style="color:var(--purple)">' + d.adBudget + 'k€/mois</strong></div>';
+            html += premiumAdvice('Ils investissent ' + d.adBudget + 'k€/mois en pub. ' + (d.adBudget > 30 ? 'Budget agressif — préparez votre réponse marketing.' : 'Budget modéré — opportunité de les dépasser.'));
             html += '</div></div>';
 
             // === 10. RECRUTEMENTS ===
-            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">👥</span> Recrutements</div><div class="ov-card">';
-            html += '<div style="font-size:13px;margin-bottom:10px"><strong>' + openRoles + '</strong> postes ouverts actuellement</div>';
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">👥</span> Recrutements <span class="ov-tag orange" style="margin-left:auto;font-size:9px">Estimation</span></div><div class="ov-card">';
+            html += '<div style="font-size:13px;margin-bottom:10px"><strong>' + d.openRoles + '</strong> postes ouverts actuellement <span style="color:var(--gray-5);font-size:11px">(estimation)</span></div>';
             html += '<div class="ov-grid3">';
             html += '<div class="ov-stat-box" style="background:rgba(16,185,129,0.06)"><div class="ov-stat-val" style="color:var(--green);font-size:14px">Engineering</div><div class="ov-stat-label">Développeurs</div></div>';
             html += '<div class="ov-stat-box" style="background:rgba(139,92,246,0.06)"><div class="ov-stat-val" style="color:var(--purple);font-size:14px">Marketing</div><div class="ov-stat-label">Growth</div></div>';
@@ -3257,39 +3419,33 @@
             html += '</div></div>';
 
             // === 11. BLOG & CONTENU ===
-            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📝</span> Blog & contenu</div><div class="ov-card">';
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📝</span> Blog & contenu <span class="ov-tag silver" style="margin-left:auto;font-size:9px">Estimation</span></div><div class="ov-card">';
             html += '<div style="margin-bottom:10px"><span class="ov-tag silver">Article récent</span></div>';
             html += '<div style="font-size:13px;margin-bottom:4px"><strong>"Comment ' + esc(name) + ' innove dans son secteur"</strong></div>';
             html += '<div style="font-size:11px;color:var(--gray-5);margin-bottom:12px">Il y a 5 jours · 6 min de lecture</div>';
             html += '<div style="margin-bottom:8px"><span class="ov-tag silver">Newsletter</span></div>';
-            html += '<div style="font-size:12px;color:var(--gray-4)">' + Math.floor(socialFollowers * 0.1).toLocaleString('fr-FR') + ' abonnés · Taux d\'ouverture ' + Math.floor(18 + seededRand(seed, 71) * 22) + '%</div>';
+            html += '<div style="font-size:12px;color:var(--gray-4)">' + Math.floor(d.socialFollowers * 0.1).toLocaleString('fr-FR') + ' abonnés · Taux d\'ouverture ' + Math.floor(18 + seededRand(d.seed, 71) * 22) + '%</div>';
             html += premiumAdvice('Contenu SEO optimisé par ' + name + '. Contrez avec du contenu plus spécifique et ciblé.');
             html += '</div></div>';
 
             // === 12. RÉSEAUX SOCIAUX ===
-            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📱</span> Présence réseaux sociaux</div><div class="ov-card">';
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📱</span> Présence réseaux sociaux <span class="ov-tag orange" style="margin-left:auto;font-size:9px">Estimation</span></div><div class="ov-card">';
             html += '<div class="ov-grid4">';
-            html += '<div class="ov-stat-box" style="background:rgba(74,158,255,0.08)"><div class="ov-stat-val" style="color:#4A9EFF">' + Math.floor(socialFollowers * 0.35 / 1000) + 'M</div><div class="ov-stat-label">LinkedIn</div></div>';
-            html += '<div class="ov-stat-box" style="background:rgba(91,155,213,0.08)"><div class="ov-stat-val" style="color:#5B9BD5">' + Math.floor(socialFollowers * 0.25 / 1000) + 'M</div><div class="ov-stat-label">Facebook</div></div>';
-            html += '<div class="ov-stat-box" style="background:rgba(225,48,108,0.08)"><div class="ov-stat-val" style="color:#E1306C">' + Math.floor(socialFollowers * 0.28 / 1000) + 'M</div><div class="ov-stat-label">Instagram</div></div>';
-            html += '<div class="ov-stat-box" style="background:rgba(113,197,252,0.08)"><div class="ov-stat-val" style="color:#71C5FC">' + Math.floor(socialFollowers * 0.12 / 1000) + 'M</div><div class="ov-stat-label">Twitter/X</div></div>';
+            html += '<div class="ov-stat-box" style="background:rgba(74,158,255,0.08)"><div class="ov-stat-val" style="color:#4A9EFF">' + Math.floor(d.socialFollowers * 0.35 / 1000) + 'M</div><div class="ov-stat-label">LinkedIn</div></div>';
+            html += '<div class="ov-stat-box" style="background:rgba(91,155,213,0.08)"><div class="ov-stat-val" style="color:#5B9BD5">' + Math.floor(d.socialFollowers * 0.25 / 1000) + 'M</div><div class="ov-stat-label">Facebook</div></div>';
+            html += '<div class="ov-stat-box" style="background:rgba(225,48,108,0.08)"><div class="ov-stat-val" style="color:#E1306C">' + Math.floor(d.socialFollowers * 0.28 / 1000) + 'M</div><div class="ov-stat-label">Instagram</div></div>';
+            html += '<div class="ov-stat-box" style="background:rgba(113,197,252,0.08)"><div class="ov-stat-val" style="color:#71C5FC">' + Math.floor(d.socialFollowers * 0.12 / 1000) + 'M</div><div class="ov-stat-label">Twitter/X</div></div>';
             html += '</div>';
-            html += '<div class="ov-chart-box"><div class="ov-chart-title">Croissance abonnés <span>6 mois (toutes plateformes)</span></div>' + makeLineChart(socData, '#D1D5DB', null, ['Avr','Mai','Juin','Juil','Août','Sept'], 'k') + '</div>';
+            html += '<div class="ov-chart-box"><div class="ov-chart-title">Croissance abonnés <span>6 mois (toutes plateformes) — estimation</span></div>' + makeLineChart(d.socData, '#D1D5DB', null, ['Avr','Mai','Juin','Juil','Août','Sept'], 'k') + '</div>';
             html += '</div></div>';
 
             // === 13. STACK TECHNIQUE (tech only) ===
-            if (isTech) {
-                const techStacks = { tech: ['React', 'Vue', 'Node.js', 'Python'], saas: ['React', 'Node.js', 'PostgreSQL', 'AWS'], design: ['Figma', 'React', 'Canvas API'], default: ['React', 'Vue', 'Node.js', 'PHP'] };
-                const stack = techStacks[data.sector] || techStacks.default;
-                const t1 = stack[Math.floor(seededRand(seed, 32) * stack.length)];
-                const t2 = stack[Math.floor(seededRand(seed, 33) * stack.length)];
-                const clouds = ['AWS', 'GCP', 'Azure', 'OVH'];
-                const cloud = clouds[Math.floor(seededRand(seed, 34) * clouds.length)];
-                html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">⚙️</span> Stack technique détectée</div><div class="ov-card">';
+            if (d.isTech) {
+                html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">⚙️</span> Stack technique détectée <span class="ov-tag orange" style="margin-left:auto;font-size:9px">Estimation</span></div><div class="ov-card">';
                 html += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">';
-                html += '<span class="ov-tag silver">' + t1 + '</span><span class="ov-tag silver">' + t2 + '</span><span class="ov-tag silver">' + cloud + '</span><span class="ov-tag silver">CDN</span>';
+                html += '<span class="ov-tag silver">' + d.t1 + '</span><span class="ov-tag silver">' + d.t2 + '</span><span class="ov-tag silver">' + d.cloud + '</span><span class="ov-tag silver">CDN</span>';
                 html += '</div>';
-                html += '<div style="font-size:12px;color:var(--gray-4)">Stack ' + t1 + ' + ' + cloud + '. Si vous utilisez les mêmes technologies, leurs vulnérabilités sont aussi les vôtres.</div>';
+                html += '<div style="font-size:12px;color:var(--gray-4)">Stack ' + d.t1 + ' + ' + d.cloud + '. Si vous utilisez les mêmes technologies, leurs vulnérabilités sont aussi les vôtres.</div>';
                 html += '</div></div>';
             }
 
