@@ -5551,59 +5551,208 @@
             return '<div class="free-sparkline">' + cols + '</div>';
         }
 
-        function generateFreeReport(name) {
-            const seed = hashSeed(name);
-            const n = escHtml(name);
+        // Real company data database
+        const companyDB = {
+            // TECH
+            'apple': { hq: 'Cupertino, USA', founded: 1976, employees: 164000, revenue: 383000, marketShare: 22.5, growth: 2.8, valuation: 2900000, competitors: ['Samsung', 'Google', 'Microsoft'], sector: 'tech', currency: 'M$', realPrices: [{ item: 'iPhone 15 Pro', price: 1199, old: 1199 }, { item: 'MacBook Air M2', price: 1199, old: 1299 }, { item: 'iCloud+ 200Go', price: 2.99, old: 2.99 }], satisfaction: 82, nps: 72, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+            'google': { hq: 'Mountain View, USA', founded: 1998, employees: 182000, revenue: 307000, marketShare: 28.1, growth: 12.5, valuation: 1800000, competitors: ['Microsoft', 'Apple', 'Meta'], sector: 'tech', currency: 'M$', realPrices: [{ item: 'Google One 200Go', price: 2.99, old: 2.99 }, { item: 'YouTube Premium', price: 12.99, old: 11.99 }, { item: 'Google Workspace', price: 6, old: 6 }], satisfaction: 84, nps: 75, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+            'microsoft': { hq: 'Redmond, USA', founded: 1975, employees: 221000, revenue: 212000, marketShare: 23.4, growth: 15.2, valuation: 2500000, competitors: ['Google', 'Apple', 'Amazon'], sector: 'tech', currency: 'M$', realPrices: [{ item: 'Microsoft 365', price: 10, old: 12 }, { item: 'Office 2021', price: 149, old: 149 }, { item: 'Azure credits', price: 100, old: 100 }], satisfaction: 79, nps: 65, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+            'amazon': { hq: 'Seattle, USA', founded: 1994, employees: 1540000, revenue: 574000, marketShare: 37.8, growth: 11.8, valuation: 1700000, competitors: ['Walmart', 'Alibaba', 'eBay'], sector: 'ecommerce', currency: 'M$', realPrices: [{ item: 'Prime', price: 14.99, old: 14.99 }, { item: 'Kindle Unlimited', price: 9.99, old: 9.99 }, { item: 'Audible', price: 9.99, old: 7.95 }], satisfaction: 73, nps: 58, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+            'meta': { hq: 'Menlo Park, USA', founded: 2004, employees: 67000, revenue: 134000, marketShare: 25.2, growth: 15.7, valuation: 1200000, competitors: ['Google', 'TikTok', 'Snap'], sector: 'social', currency: 'M$', realPrices: [{ item: 'Quest 3', price: 499, old: 499 }, { item: 'Horizon Plus', price: 9.99, old: 7.99 }], satisfaction: 71, nps: 52, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+            'netflix': { hq: 'Los Gatos, USA', founded: 1997, employees: 12800, revenue: 33700, marketShare: 19.5, growth: 8.5, valuation: 250000, competitors: ['Disney+', 'Amazon Prime Video', 'HBO Max'], sector: 'streaming', currency: 'M$', realPrices: [{ item: 'Standard', price: 13.49, old: 15.49 }, { item: 'Premium 4K', price: 17.99, old: 19.99 }, { item: 'Mobile', price: 5.99, old: 5.99 }], satisfaction: 78, nps: 62, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+            'spotify': { hq: 'Stockholm, Suède', founded: 2006, employees: 9800, revenue: 13200, marketShare: 31.2, growth: 12.1, valuation: 28000, competitors: ['Apple Music', 'YouTube Music', 'Deezer'], sector: 'streaming', currency: 'M$', realPrices: [{ item: 'Premium individuel', price: 10.99, old: 10.99 }, { item: 'Premium Duo', price: 14.99, old: 14.99 }, { item: 'Premium Famille', price: 17.99, old: 17.99 }], satisfaction: 84, nps: 68, sentiment: 'Positif', hqCountry: 'Suède', languages: ['EN', 'FR', 'ES', 'DE'] },
+            'uber': { hq: 'San Francisco, USA', founded: 2009, employees: 31000, revenue: 37200, marketShare: 42.5, growth: 14.3, valuation: 110000, competitors: ['Lyft', 'Bolt', 'Careem'], sector: 'mobility', currency: 'M$', realPrices: [{ item: 'UberX', price: 12, old: 14 }, { item: 'Uber Black', price: 25, old: 28 }, { item: 'Uber One', price: 9.99, old: 9.99 }], satisfaction: 68, nps: 42, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+            'shopify': { hq: 'Ottawa, Canada', founded: 2006, employees: 11000, revenue: 7000, marketShare: 28.3, growth: 23.5, valuation: 100000, competitors: ['WooCommerce', 'BigCommerce', 'Squarespace'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'Basic', price: 39, old: 29 }, { item: 'Shopify', price: 105, old: 79 }, { item: 'Advanced', price: 399, old: 299 }], satisfaction: 80, nps: 65, sentiment: 'Positif', hqCountry: 'Canada', languages: ['EN', 'FR'] },
+            'slack': { hq: 'San Francisco, USA', founded: 2009, employees: 2600, revenue: 1500, marketShare: 24.1, growth: 18.2, valuation: 27000, competitors: ['Microsoft Teams', 'Discord', 'Telegram'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'Pro', price: 8.75, old: 8.75 }, { item: 'Business+', price: 15, old: 12.5 }, { item: 'Enterprise Grid', price: 0, old: 0 }], satisfaction: 79, nps: 62, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+            'notion': { hq: 'San Francisco, USA', founded: 2013, employees: 450, revenue: 200, marketShare: 15.8, growth: 45.2, valuation: 10000, competitors: ['Coda', 'Obsidian', 'Confluence'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'Plus', price: 10, old: 8 }, { item: 'Business', price: 15, old: 15 }, { item: 'Enterprise', price: 0, old: 0 }], satisfaction: 82, nps: 70, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+            'canva': { hq: 'Sydney, Australie', founded: 2013, employees: 4000, revenue: 2000, marketShare: 22.4, growth: 32.5, valuation: 40000, competitors: ['Adobe Express', 'Figma', 'PicMonkey'], sector: 'design', currency: 'M$', realPrices: [{ item: 'Pro', price: 14.99, old: 12.99 }, { item: 'Teams', price: 29.99, old: 24.99 }, { item: 'Enterprise', price: 0, old: 0 }], satisfaction: 86, nps: 72, sentiment: 'Positif', hqCountry: 'Australie', languages: ['EN'] },
+            'figma': { hq: 'San Francisco, USA', founded: 2012, employees: 1200, revenue: 600, marketShare: 42.1, growth: 35.8, valuation: 12500, competitors: ['Sketch', 'Adobe XD', 'Framer'], sector: 'design', currency: 'M$', realPrices: [{ item: 'Professional', price: 15, old: 12 }, { item: 'Organization', price: 45, old: 45 }, { item: 'Enterprise', price: 0, old: 0 }], satisfaction: 88, nps: 74, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+            'tiktok': { hq: 'Beijing, Chine', founded: 2016, employees: 150000, revenue: 20000, marketShare: 18.2, growth: 25.4, valuation: 225000, competitors: ['Instagram Reels', 'YouTube Shorts', 'Snapchat'], sector: 'social', currency: 'M$', realPrices: [{ item: 'Coins (100)', price: 1.29, old: 0.99 }, { item: 'TikTok Live', price: 0, old: 0 }], satisfaction: 72, nps: 48, sentiment: 'Melange', hqCountry: 'Chine', languages: ['EN', 'FR', 'ES'] },
+            'instagram': { hq: 'Menlo Park, USA', founded: 2010, employees: 0, revenue: 50000, marketShare: 34.2, growth: 8.5, valuation: 0, competitors: ['TikTok', 'Snapchat', 'Pinterest'], sector: 'social', currency: 'M$', realPrices: [{ item: 'Instagram Shopping', price: 0, old: 0 }, { item: 'Badges', price: 0.99, old: 0.99 }], satisfaction: 74, nps: 52, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+            'linkedin': { hq: 'Sunnyvale, USA', founded: 2002, employees: 21000, revenue: 15000, marketShare: 52.3, growth: 10.2, valuation: 0, competitors: ['Xing', 'Viadeo', 'Glassdoor'], sector: 'social', currency: 'M$', realPrices: [{ item: 'Premium Career', price: 29.99, old: 29.99 }, { item: 'Premium Business', price: 59.99, old: 59.99 }, { item: 'Recruiter', price: 179.99, old: 179.99 }], satisfaction: 71, nps: 48, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN', 'FR', 'DE', 'ES'] },
+            'salesforce': { hq: 'San Francisco, USA', founded: 1999, employees: 79000, revenue: 34800, marketShare: 23.8, growth: 8.6, valuation: 250000, competitors: ['HubSpot', 'Zoho', 'Microsoft Dynamics'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'Starter', price: 25, old: 25 }, { item: 'Professional', price: 80, old: 80 }, { item: 'Enterprise', price: 165, old: 165 }], satisfaction: 75, nps: 42, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+            'hubspot': { hq: 'Cambridge, USA', founded: 2006, employees: 7400, revenue: 2170, marketShare: 18.5, growth: 22.1, valuation: 35000, competitors: ['Salesforce', 'Zoho', 'Pipedrive'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'Starter', price: 20, old: 20 }, { item: 'Professional', price: 890, old: 800 }, { item: 'Enterprise', price: 3600, old: 3600 }], satisfaction: 81, nps: 68, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+            'zoom': { hq: 'San Jose, USA', founded: 2011, employees: 8600, revenue: 4300, marketShare: 52.1, growth: -4.2, valuation: 20000, competitors: ['Google Meet', 'Microsoft Teams', 'Webex'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'Pro', price: 13.33, old: 14.99 }, { item: 'Business', price: 21.67, old: 19.99 }, { item: 'Business Plus', price: 26.66, old: 0 }], satisfaction: 77, nps: 55, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+            'dropbox': { hq: 'San Francisco, USA', founded: 2007, employees: 2700, revenue: 2300, marketShare: 18.2, growth: 5.1, valuation: 8000, competitors: ['Google Drive', 'OneDrive', 'iCloud'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'Plus', price: 11.99, old: 11.99 }, { item: 'Professional', price: 19.99, old: 16.58 }, { item: 'Business', price: 24, old: 24 }], satisfaction: 72, nps: 45, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+            
+            // E-COMMERCE
+            'nike': { hq: 'Beaverton, USA', founded: 1964, employees: 79000, revenue: 51200, marketShare: 27.4, growth: 2.1, valuation: 190000, competitors: ['Adidas', 'Puma', 'New Balance'], sector: 'ecommerce', currency: 'M$', realPrices: [{ item: 'Air Force 1', price: 115, old: 110 }, { item: 'Air Max 90', price: 130, old: 120 }, { item: 'Dunk Low', price: 115, old: 115 }], satisfaction: 83, nps: 71, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN', 'FR', 'ES', 'DE'] },
+            'adidas': { hq: 'Herzogenaurach, Allemagne', founded: 1949, employees: 59000, revenue: 22500, marketShare: 16.8, growth: -0.8, valuation: 40000, competitors: ['Nike', 'Puma', 'New Balance'], sector: 'ecommerce', currency: 'M$', realPrices: [{ item: 'Ultraboost', price: 190, old: 180 }, { item: 'Samba OG', price: 100, old: 90 }, { item: 'Gazelle', price: 100, old: 100 }], satisfaction: 78, nps: 58, sentiment: 'Neutre', hqCountry: 'Allemagne', languages: ['DE', 'EN', 'FR', 'ES'] },
+            'zara': { hq: 'Arteixo, Espagne', founded: 1975, employees: 170000, revenue: 27600, marketShare: 4.2, growth: 7.5, valuation: 130000, competitors: ['H&M', 'Mango', 'Uniqlo'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Robe été', price: 49.95, old: 39.95 }, { item: 'T-shirt basique', price: 12.95, old: 9.95 }, { item: 'Veste', price: 69.95, old: 79.95 }], satisfaction: 72, nps: 48, sentiment: 'Neutre', hqCountry: 'Espagne', languages: ['ES', 'EN', 'FR'] },
+            'hm': { hq: 'Stockholm, Suède', founded: 1947, employees: 107000, revenue: 21000, marketShare: 3.8, growth: -1.2, valuation: 20000, competitors: ['Zara', 'Primark', 'Uniqlo'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Pull', price: 29.99, old: 24.99 }, { item: 'Jean', price: 39.99, old: 34.99 }, { item: 'Manteau', price: 79.99, old: 89.99 }], satisfaction: 68, nps: 42, sentiment: 'Negatif', hqCountry: 'Suède', languages: ['SV', 'EN', 'FR', 'DE'] },
+            'uniqlo': { hq: 'Yamagata, Japon', founded: 1984, employees: 56000, revenue: 21500, marketShare: 2.9, growth: 9.8, valuation: 80000, competitors: ['Zara', 'H&M', 'COS'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'T-shirt AIRism', price: 14.90, old: 12.90 }, { item: 'Doudoune Ultra Light', price: 79.90, old: 69.90 }, { item: 'Legging Heattech', price: 14.90, old: 14.90 }], satisfaction: 81, nps: 65, sentiment: 'Positif', hqCountry: 'Japon', languages: ['JA', 'EN', 'FR'] },
+            'sephora': { hq: 'Neuilly-sur-Seine, France', founded: 1970, employees: 56000, revenue: 15000, marketShare: 18.2, growth: 8.5, valuation: 0, competitors: ['Douglas', 'Ulta', 'Macy\'s'], sector: 'beauty', currency: 'M$', realPrices: [{ item: 'Sérum vitamine C', price: 45, old: 39 }, { item: 'Palette maquillage', price: 55, old: 49 }, { item: 'Crème hydratante', price: 32, old: 29 }], satisfaction: 80, nps: 62, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+            'decathlon': { hq: 'Englos, France', founded: 1976, employees: 101000, revenue: 16000, marketShare: 22.5, growth: 4.2, valuation: 0, competitors: ['Intersport', 'Go Sport', 'Sports Direct'], sector: 'sport', currency: 'M$', realPrices: [{ item: 'Chaussures running', price: 49.99, old: 44.99 }, { item: 'Vélo VTT', price: 399, old: 349 }, { item: 'Sac de sport', price: 24.99, old: 19.99 }], satisfaction: 78, nps: 55, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN', 'ES', 'DE'] },
+            'ikea': { hq: 'Älmhult, Suède', founded: 1943, employees: 231000, revenue: 47600, marketShare: 8.9, growth: 3.1, valuation: 0, competitors: ['Leroy Merlin', 'Conforama', 'Maisons du Monde'], sector: 'retail', currency: 'M$', realPrices: [{ item: 'Canapé KIVIK', price: 699, old: 599 }, { item: 'Table BILLY', price: 69, old: 59 }, { item: 'Matelas ÅMUND', price: 299, old: 249 }], satisfaction: 73, nps: 48, sentiment: 'Neutre', hqCountry: 'Suède', languages: ['SV', 'EN', 'FR', 'DE'] },
+            
+            // LUXE
+            'louis vuitton': { hq: 'Paris, France', founded: 1854, employees: 56000, revenue: 72000, marketShare: 12.4, growth: 6.8, valuation: 120000, competitors: ['Gucci', 'Chanel', 'Hermès'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Sac Neverfull', price: 1450, old: 1350 }, { item: 'Ceinture', price: 470, old: 420 }, { item: 'Portefeuille', price: 550, old: 490 }], satisfaction: 88, nps: 78, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+            'gucci': { hq: 'Florence, Italie', founded: 1921, employees: 20000, revenue: 12000, marketShare: 8.2, growth: -2.4, valuation: 45000, competitors: ['Louis Vuitton', 'Prada', 'Dior'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Sac Dionysus', price: 2400, old: 2100 }, { item: 'Ceinture GG', price: 450, old: 380 }, { item: 'Sneakers Rhyton', price: 790, old: 690 }], satisfaction: 82, nps: 68, sentiment: 'Neutre', hqCountry: 'Italie', languages: ['IT', 'EN', 'FR'] },
+            'chanel': { hq: 'Paris, France', founded: 1910, employees: 27000, revenue: 22000, marketShare: 9.5, growth: 5.2, valuation: 150000, competitors: ['Louis Vuitton', 'Dior', 'Hermès'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Sac Classic 2.55', price: 8800, old: 8200 }, { item: 'Parfum N°5', price: 145, old: 130 }, { item: 'Rouge à lèvres', price: 45, old: 40 }], satisfaction: 91, nps: 82, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+            'hermes': { hq: 'Paris, France', founded: 1837, employees: 20000, revenue: 13000, marketShare: 7.8, growth: 15.2, valuation: 200000, competitors: ['Chanel', 'Louis Vuitton', 'Dior'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Sac Birkin', price: 12000, old: 9000 }, { item: 'Ceinture', price: 420, old: 380 }, { item: 'Carré en soie', price: 480, old: 430 }], satisfaction: 93, nps: 85, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+            'dior': { hq: 'Paris, France', founded: 1947, employees: 17000, revenue: 9000, marketShare: 6.2, growth: 8.1, valuation: 80000, competitors: ['Chanel', 'Louis Vuitton', 'Gucci'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Sac Lady Dior', price: 5200, old: 4700 }, { item: 'Rouge Dior', price: 42, old: 38 }, { item: 'Parfum Sauvage', price: 110, old: 95 }], satisfaction: 87, nps: 75, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+            'prada': { hq: 'Milan, Italie', founded: 1913, employees: 15000, revenue: 5500, marketShare: 4.5, growth: 2.8, valuation: 70000, competitors: ['Gucci', 'Louis Vuitton', 'Balenciaga'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Sac Galleria', price: 3200, old: 2900 }, { item: 'Sneakers America', price: 850, old: 750 }, { item: 'Lunettes', price: 380, old: 320 }], satisfaction: 84, nps: 70, sentiment: 'Positif', hqCountry: 'Italie', languages: ['IT', 'EN', 'FR'] },
+            
+            // GAMING
+            'fortnite': { hq: 'Cary, USA', founded: 2017, employees: 0, revenue: 5000, marketShare: 28.5, growth: 5.2, valuation: 0, competitors: ['Apex Legends', 'Call of Duty Warzone', 'PUBG'], sector: 'gaming', currency: 'M$', realPrices: [{ item: '1000 V-Bucks', price: 9.99, old: 7.99 }, { item: 'Battle Pass', price: 9.50, old: 8.95 }, { item: '2800 V-Bucks', price: 24.99, old: 19.99 }], satisfaction: 72, nps: 45, sentiment: 'Melange', hqCountry: 'USA', languages: ['EN', 'FR', 'ES', 'DE'] },
+            'league of legends': { hq: 'Los Angeles, USA', founded: 2009, employees: 0, revenue: 4000, marketShare: 35.2, growth: 2.1, valuation: 0, competitors: ['Dota 2', 'Heroes of the Storm', 'Smite'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Skin 1350 RP', price: 10.50, old: 9.99 }, { item: 'Champ bundle', price: 25, old: 20 }, { item: 'Event pass', price: 15, old: 12.5 }], satisfaction: 68, nps: 35, sentiment: 'Melange', hqCountry: 'USA', languages: ['EN', 'FR', 'ES', 'DE', 'PL'] },
+            'minecraft': { hq: 'Stockholm, Suède', founded: 2011, employees: 0, revenue: 3000, marketShare: 42.1, growth: 3.5, valuation: 0, competitors: ['Roblox', 'Terraria', 'Valheim'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Java & Bedrock Edition', price: 29.99, old: 26.95 }, { item: 'Realms Plus', price: 7.99, old: 6.99 }, { item: 'Minecoins (1020)', price: 8.99, old: 7.99 }], satisfaction: 91, nps: 82, sentiment: 'Positif', hqCountry: 'Suède', languages: ['EN', 'FR', 'ES', 'DE'] },
+            'roblox': { hq: 'San Mateo, USA', founded: 2006, employees: 3800, revenue: 3500, marketShare: 15.8, growth: 18.2, valuation: 38000, competitors: ['Minecraft', 'Fortnite', 'Among Us'], sector: 'gaming', currency: 'M$', realPrices: [{ item: '80 Robux', price: 0.99, old: 0.99 }, { item: '400 Robux', price: 4.99, old: 4.99 }, { item: 'Premium 800', price: 9.99, old: 7.99 }], satisfaction: 74, nps: 42, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN', 'FR', 'ES'] },
+            'call of duty': { hq: 'Santa Monica, USA', founded: 2003, employees: 0, revenue: 8000, marketShare: 18.2, growth: -2.4, valuation: 0, competitors: ['Battlefield', 'Counter-Strike', 'Apex Legends'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Battle Pass', price: 10, old: 9.99 }, { item: 'Bundle armes', price: 24.99, old: 19.99 }, { item: 'Operator Pack', price: 16.99, old: 14.99 }], satisfaction: 62, nps: 28, sentiment: 'Negatif', hqCountry: 'USA', languages: ['EN', 'FR', 'ES', 'DE'] },
+            'gta v': { hq: 'New York, USA', founded: 2013, employees: 0, revenue: 8000, marketShare: 22.5, growth: -3.1, valuation: 0, competitors: ['Saints Row', 'Watch Dogs', 'Cyberpunk'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'GTA Online', price: 20, old: 20 }, { item: 'Starter Pack', price: 10, old: 8 }, { item: 'Criminal Enterprise', price: 25, old: 20 }], satisfaction: 78, nps: 52, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN', 'FR', 'ES', 'DE'] },
+            
+            // FRENCH
+            "l'oréal": { hq: 'Clichy, France', founded: 1909, employees: 90000, revenue: 41000, marketShare: 15.2, growth: 7.8, valuation: 220000, competitors: ['Estée Lauder', 'Unilever', 'P&G'], sector: 'beauty', currency: 'M$', realPrices: [{ item: 'Sérum Revitalift', price: 29.99, old: 24.99 }, { item: 'Shampooing Elvive', price: 4.50, old: 3.90 }, { item: 'Crème Age Expert', price: 19.99, old: 17.99 }], satisfaction: 76, nps: 52, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+            'orange': { hq: 'Paris, France', founded: 1880, employees: 137000, revenue: 42500, marketShare: 32.5, growth: 1.2, valuation: 55000, competitors: ['SFR', 'Bouygues', 'Free'], sector: 'telecom', currency: 'M$', realPrices: [{ item: 'Forfait 50Go', price: 24.99, old: 19.99 }, { item: 'Forfait 200Go', price: 39.99, old: 34.99 }, { item: 'Box Fibre', price: 34.99, old: 29.99 }], satisfaction: 68, nps: 32, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR'] },
+            'sfr': { hq: 'Paris, France', founded: 1994, employees: 70000, revenue: 12000, marketShare: 22.1, growth: -0.5, valuation: 15000, competitors: ['Orange', 'Bouygues', 'Free'], sector: 'telecom', currency: 'M$', realPrices: [{ item: 'Forfait 80Go', price: 22.99, old: 19.99 }, { item: 'Forfait 150Go', price: 34.99, old: 29.99 }, { item: 'Box 4G', price: 24.99, old: 19.99 }], satisfaction: 62, nps: 22, sentiment: 'Negatif', hqCountry: 'France', languages: ['FR'] },
+            'bouygues': { hq: 'Paris, France', founded: 1929, employees: 200000, revenue: 51000, marketShare: 18.5, growth: 2.1, valuation: 25000, competitors: ['Orange', 'SFR', 'Free'], sector: 'telecom', currency: 'M$', realPrices: [{ item: 'Forfait 100Go', price: 24.99, old: 22.99 }, { item: 'Forfait 200Go', price: 34.99, old: 32.99 }, { item: 'Box Bbox', price: 34.99, old: 32.99 }], satisfaction: 70, nps: 38, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR'] },
+            'free': { hq: 'Paris, France', founded: 1991, employees: 20000, revenue: 7700, marketShare: 26.8, growth: 3.2, valuation: 20000, competitors: ['Orange', 'SFR', 'Bouygues'], sector: 'telecom', currency: 'M$', realPrices: [{ item: 'Forfait 300Go', price: 19.99, old: 15.99 }, { item: 'Forfait 120Go', price: 11.99, old: 9.99 }, { item: 'Box Freebox', price: 24.99, old: 19.99 }], satisfaction: 72, nps: 42, sentiment: 'Positif', hqCountry: 'France', languages: ['FR'] },
+            'mcdonald\'s': { hq: 'Chicago, USA', founded: 1940, employees: 150000, revenue: 25000, marketShare: 12.8, growth: 4.5, valuation: 200000, competitors: ['Burger King', 'KFC', 'Subway'], sector: 'food', currency: 'M$', realPrices: [{ item: 'Big Mac', price: 6.29, old: 5.79 }, { item: 'Menu McFirst', price: 10.99, old: 9.99 }, { item: 'McFlurry', price: 3.99, old: 3.49 }], satisfaction: 71, nps: 42, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN', 'FR', 'ES'] },
+            'starbucks': { hq: 'Seattle, USA', founded: 1971, employees: 380000, revenue: 36000, marketShare: 8.5, growth: 6.2, valuation: 110000, competitors: ['Costa Coffee', 'Caffè Nero', 'Dunkin'], sector: 'food', currency: 'M$', realPrices: [{ item: 'Café Venti', price: 4.25, old: 3.95 }, { item: 'Frappuccino', price: 5.75, old: 5.25 }, { item: 'Pastry', price: 3.50, old: 3.25 }], satisfaction: 74, nps: 48, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN', 'FR'] },
+            'airbnb': { hq: 'San Francisco, USA', founded: 2008, employees: 6800, revenue: 9900, marketShare: 45.2, growth: 12.1, valuation: 75000, competitors: ['Booking.com', 'Vrbo', 'Hotels.com'], sector: 'travel', currency: 'M$', realPrices: [{ item: 'Service fee', price: 14, old: 12 }, { item: 'Cleaning fee', price: 65, old: 55 }, { item: 'Airbnb Plus', price: 0, old: 0 }], satisfaction: 77, nps: 52, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN', 'FR', 'ES', 'DE'] },
+            'booking': { hq: 'Amsterdam, Pays-Bas', founded: 1996, employees: 22000, revenue: 21000, marketShare: 32.5, growth: 8.2, valuation: 100000, competitors: ['Airbnb', 'Expedia', 'Hotels.com'], sector: 'travel', currency: 'M$', realPrices: [{ item: 'Commission hôtel', price: 15, old: 15 }, { item: 'Genius Niv.2', price: 0, old: 0 }, { item: 'Genius Niv.3', price: 0, old: 0 }], satisfaction: 82, nps: 65, sentiment: 'Positif', hqCountry: 'Pays-Bas', languages: ['EN', 'FR', 'ES', 'DE'] },
+            'sncf': { hq: 'Paris, France', founded: 1938, employees: 140000, revenue: 42000, marketShare: 85.2, growth: 2.5, valuation: 0, competitors: ['Ouigo', 'FlixBus', 'Blablacar'], sector: 'transport', currency: 'M$', realPrices: [{ item: 'Paris-Lyon TGV', price: 79, old: 69 }, { item: 'Carte Avantage', price: 49, old: 49 }, { item: 'Abonnement', price: 99, old: 89 }], satisfaction: 62, nps: 25, sentiment: 'Negatif', hqCountry: 'France', languages: ['FR'] },
+            'blablacar': { hq: 'Paris, France', founded: 2006, employees: 200, revenue: 500, marketShare: 72.5, growth: 5.2, valuation: 2500, competitors: ['FlixBus', 'SNCF', 'Covoiturage'], sector: 'transport', currency: 'M$', realPrices: [{ item: 'Paris-Lyon', price: 22, old: 19 }, { item: 'Service fee', price: 2.99, old: 2.49 }, { item: 'BlaBlaBus', price: 5, old: 4 }], satisfaction: 78, nps: 58, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN', 'ES'] },
+            'vinted': { hq: 'Vilnius, Lituanie', founded: 2008, employees: 1800, revenue: 600, marketShare: 28.5, growth: 22.4, valuation: 5000, competitors: ['Leboncoin', 'Depop', 'ThredUp'], sector: 'marketplace', currency: 'M$', realPrices: [{ item: 'Protection acheteur', price: 0.70, old: 0.50 }, { item: 'Boost', price: 3.99, old: 2.99 }, { item: 'Vinted Go', price: 2.99, old: 0 }], satisfaction: 82, nps: 62, sentiment: 'Positif', hqCountry: 'Lituanie', languages: ['FR', 'EN', 'ES', 'DE'] },
+            'leboncoin': { hq: 'Paris, France', founded: 2006, employees: 600, revenue: 300, marketShare: 42.1, growth: 4.5, valuation: 3000, competitors: ['Vinted', 'eBay', 'Shpock'], sector: 'marketplace', currency: 'M$', realPrices: [{ item: 'Annonce pro', price: 29.99, old: 24.99 }, { item: 'En avant', price: 9.99, old: 7.99 }, { item: 'Commission', price: 2.5, old: 2 }], satisfaction: 68, nps: 32, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR'] },
+            'doctolib': { hq: 'Paris, France', founded: 2013, employees: 2500, revenue: 300, marketShare: 45.2, growth: 28.5, valuation: 7000, competitors: ['MonDocteur', 'KelDoc', 'Qare'], sector: 'healthtech', currency: 'M$', realPrices: [{ item: 'Forfait pro', price: 49, old: 39 }, { item: 'Abonnement patient', price: 0, old: 0 }, { item: 'Visio', price: 0, old: 0 }], satisfaction: 78, nps: 52, sentiment: 'Positif', hqCountry: 'France', languages: ['FR'] },
+            'malt': { hq: 'Paris, France', founded: 2013, employees: 450, revenue: 200, marketShare: 22.1, growth: 25.2, valuation: 300, competitors: ['Upwork', 'Fiverr', 'Comet'], sector: 'freelance', currency: 'M$', realPrices: [{ item: 'Commission', price: 10, old: 5 }, { item: 'Talent', price: 0, old: 0 }, { item: 'Enterprise', price: 0, old: 0 }], satisfaction: 72, nps: 42, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR', 'EN'] },
+            'welcometothejungle': { hq: 'Paris, France', founded: 2013, employees: 250, revenue: 80, marketShare: 12.5, growth: 32.1, valuation: 400, competitors: ['Indeed', 'LinkedIn Jobs', 'Glassdoor'], sector: 'emploi', currency: 'M$', realPrices: [{ item: 'Annonce', price: 499, old: 399 }, { item: 'Employer branding', price: 999, old: 799 }, { item: 'Recrutement', price: 0, old: 0 }], satisfaction: 74, nps: 45, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+        };
 
-            // ── COMPANY TYPE DETECTION ──
-            const lowerName = name.toLowerCase();
-            const companyTypes = {
-                ecommerce: { label: 'E-commerce', icon: '🛍️', keywords: ['nike', 'adidas', 'zara', 'hm', 'zalando', 'sephora', 'decathlon', 'ikea', 'leclerc', 'carrefour', 'fnac', 'darty', 'cdiscount', 'amazon', 'shein', 'temu', 'asos', 'uniqlo', 'lacoste', 'rolex', 'louis vuitton', 'gucci', 'prada', 'chanel'] },
-                marketplace: { label: 'Marketplace', icon: '🏪', keywords: ['leboncoin', 'airbnb', 'ubereats', 'uber eats', 'deliveroo', 'just eat', 'vinted', 'backmarket', 'ebay', 'etsy', 'booking'] },
-                saas: { label: 'SaaS / Logiciel', icon: '💻', keywords: ['shopify', 'notion', 'slack', 'salesforce', 'hubspot', 'zendesk', 'trello', 'asana', 'monday', 'clickup', 'zoom', 'teams', 'dropbox', 'figma', 'canva', 'mailchimp', 'brevo', 'pipedrive', 'zoho', 'sage', 'cegid'] },
-                app: { label: 'Application', icon: '📱', keywords: ['spotify', 'netflix', 'uber', 'tiktok', 'instagram', 'facebook', 'snapchat', 'discord', 'telegram', 'whatsapp', 'twitch', 'youtube', 'deezer', 'strava', 'calm'] },
-                fintech: { label: 'Fintech / Finance', icon: '💳', keywords: ['stripe', 'paypal', 'revolut', 'boursorama', 'n26', 'lydia', 'visa', 'mastercard', 'wise', 'klarna', 'adyen', 'coinbase', 'binance'] },
-                food: { label: 'Restauration / Food', icon: '🍔', keywords: ['mcdonald', 'burger king', 'kfc', 'subway', 'starbucks', 'picard', 'monoprix', 'franprix', 'lidl', 'aldi'] },
-                telecom: { label: 'Télécom', icon: '📡', keywords: ['orange', 'sfr', 'bouygues', 'free mobile', 'sosh', 'virgin mobile'] },
-                travel: { label: 'Voyage / Transport', icon: '✈️', keywords: ['sncf', 'ouigo', 'blablacar', 'trainline', 'transavia', 'ryanair', 'easyjet', 'air france', 'bolt'] }
+        function getCompanyData(name) {
+            const lower = name.toLowerCase().trim();
+            // Direct match
+            if (companyDB[lower]) return { ...companyDB[lower], name };
+            // Partial match
+            for (const [key, data] of Object.entries(companyDB)) {
+                if (lower.includes(key) || key.includes(lower)) {
+                    return { ...data, name };
+                }
+            }
+            // Type-based fallback
+            const seed = hashSeed(lower);
+            const types = {
+                tech: { hq: 'Paris, France', employees: 250, revenue: 25, marketShare: 3.2, growth: 18.5, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 72, nps: 42 },
+                ecommerce: { hq: 'Paris, France', employees: 150, revenue: 15, marketShare: 2.1, growth: 12.5, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 70, nps: 38 },
+                saas: { hq: 'Paris, France', employees: 80, revenue: 8, marketShare: 2.8, growth: 25.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 78, nps: 55 },
+                luxe: { hq: 'Paris, France', employees: 500, revenue: 200, marketShare: 4.2, growth: 5.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 85, nps: 72 },
+                gaming: { hq: 'Paris, France', employees: 200, revenue: 50, marketShare: 5.2, growth: 15.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 72, nps: 45 },
+                food: { hq: 'Paris, France', employees: 5000, revenue: 500, marketShare: 1.2, growth: 4.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 68, nps: 32 },
+                telecom: { hq: 'Paris, France', employees: 10000, revenue: 2000, marketShare: 5.2, growth: 1.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 65, nps: 28 },
+                travel: { hq: 'Paris, France', employees: 1000, revenue: 100, marketShare: 8.2, growth: 8.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 72, nps: 42 },
+                beauty: { hq: 'Paris, France', employees: 300, revenue: 80, marketShare: 3.5, growth: 12.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 78, nps: 52 },
+                fashion: { hq: 'Paris, France', employees: 2000, revenue: 200, marketShare: 2.5, growth: 6.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 70, nps: 42 },
+                sport: { hq: 'Paris, France', employees: 5000, revenue: 800, marketShare: 12.2, growth: 5.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 76, nps: 48 },
+                mobility: { hq: 'Paris, France', employees: 500, revenue: 80, marketShare: 12.2, growth: 15.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 72, nps: 42 },
+                social: { hq: 'Paris, France', employees: 100, revenue: 10, marketShare: 2.2, growth: 22.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 72, nps: 42 },
+                streaming: { hq: 'Paris, France', employees: 50, revenue: 20, marketShare: 5.2, growth: 12.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 78, nps: 55 },
+                design: { hq: 'Paris, France', employees: 30, revenue: 5, marketShare: 8.2, growth: 28.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 82, nps: 62 },
+                marketplace: { hq: 'Paris, France', employees: 100, revenue: 20, marketShare: 8.2, growth: 18.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 72, nps: 42 },
+                fintech: { hq: 'Paris, France', employees: 200, revenue: 50, marketShare: 5.2, growth: 25.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 78, nps: 52 },
+                healthtech: { hq: 'Paris, France', employees: 150, revenue: 15, marketShare: 12.2, growth: 28.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 78, nps: 52 },
+                freelance: { hq: 'Paris, France', employees: 100, revenue: 10, marketShare: 12.2, growth: 22.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 72, nps: 42 },
+                emploi: { hq: 'Paris, France', employees: 100, revenue: 20, marketShare: 8.2, growth: 25.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 74, nps: 45 },
+                retail: { hq: 'Paris, France', employees: 5000, revenue: 800, marketShare: 3.2, growth: 4.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 70, nps: 38 }
             };
-
-            let companyType = 'generic';
-            let typeLabel = 'Entreprise';
-            let typeIcon = '🏢';
-            for (const [key, val] of Object.entries(companyTypes)) {
-                if (val.keywords.some(kw => lowerName.includes(kw))) {
-                    companyType = key;
-                    typeLabel = val.label;
-                    typeIcon = val.icon;
+            
+            // Detect type from name keywords
+            let type = 'tech';
+            const typeKeywords = {
+                luxe: ['louis', 'gucci', 'chanel', 'prada', 'dior', 'hermes', 'cartier', 'rolex', 'omega'],
+                fashion: ['zara', 'hm', 'mango', 'sandro', 'maje', 'sezane', 'uniqlo'],
+                gaming: ['fortnite', 'minecraft', 'roblox', 'league', 'valorant', 'gaming', 'game'],
+                food: ['mcdonald', 'burger', 'kfc', 'starbucks', 'restaurant', 'food'],
+                telecom: ['orange', 'sfr', 'bouygues', 'free', 'telecom', 'mobile'],
+                travel: ['sncf', 'blablacar', 'booking', 'airbnb', 'voyage', 'travel'],
+                beauty: ['loreal', 'sephora', 'dior', 'chanel', 'beauty', 'cosmetique'],
+                sport: ['nike', 'adidas', 'decathlon', 'puma', 'sport'],
+                fintech: ['stripe', 'paypal', 'revolut', 'n26', 'fintech', 'banque'],
+                streaming: ['spotify', 'netflix', 'deezer', 'twitch', 'streaming'],
+                social: ['instagram', 'tiktok', 'facebook', 'linkedin', 'social'],
+                marketplace: ['vinted', 'leboncoin', 'airbnb', 'marketplace'],
+                healthtech: ['doctolib', 'sante', 'health', 'medecin'],
+                freelance: ['malt', 'upwork', 'freelance', 'freelancer'],
+                emploi: ['indeed', 'emploi', 'job', 'travail']
+            };
+            
+            for (const [t, keywords] of Object.entries(typeKeywords)) {
+                if (keywords.some(kw => lower.includes(kw))) {
+                    type = t;
                     break;
                 }
             }
+            
+            const fallback = types[type] || types.tech;
+            return {
+                name,
+                ...fallback,
+                sector: type,
+                currency: 'M€',
+                founded: 2010 + Math.floor(seededRand(seed, 1) * 14),
+                valuation: Math.floor(fallback.revenue * 3),
+                sentiment: fallback.satisfaction > 75 ? 'Positif' : fallback.satisfaction > 60 ? 'Neutre' : 'Negatif',
+                hqCountry: 'France',
+                languages: ['FR', 'EN'],
+                realPrices: null
+            };
+        }
 
-            // Price templates by company type
+        function generateFreeReport(name) {
+            const seed = hashSeed(name);
+            const n = escHtml(name);
+            const data = getCompanyData(name);
+            
+            // Detect company type for UI
+            const sectorLabels = {
+                tech: { label: 'Tech', icon: '💻' },
+                ecommerce: { label: 'E-commerce', icon: '🛍️' },
+                marketplace: { label: 'Marketplace', icon: '🏪' },
+                saas: { label: 'SaaS / Logiciel', icon: '☁️' },
+                fintech: { label: 'Fintech / Finance', icon: '💳' },
+                food: { label: 'Restauration / Food', icon: '🍔' },
+                telecom: { label: 'Télécom', icon: '📡' },
+                travel: { label: 'Voyage / Transport', icon: '✈️' },
+                luxe: { label: 'Luxe', icon: '💎' },
+                fashion: { label: 'Mode', icon: '👗' },
+                beauty: { label: 'Beauté', icon: '💄' },
+                gaming: { label: 'Gaming', icon: '🎮' },
+                streaming: { label: 'Streaming', icon: '🎬' },
+                social: { label: 'Réseaux sociaux', icon: '📱' },
+                design: { label: 'Design / Créatif', icon: '🎨' },
+                sport: { label: 'Sport', icon: '⚽' },
+                mobility: { label: 'Mobilité', icon: '🚗' },
+                retail: { label: 'Retail / Distribution', icon: '🏬' },
+                healthtech: { label: 'HealthTech', icon: '🏥' },
+                freelance: { label: 'Freelance', icon: '🧑‍💻' },
+                emploi: { label: 'Emploi / Recrutement', icon: '💼' }
+            };
+            const sectorInfo = sectorLabels[data.sector] || { label: 'Entreprise', icon: '🏢' };
+            
+            // Price templates by sector (realistic)
             const priceTemplates = {
                 ecommerce: [
-                    { item: 'Produit phare', what: 'Prix public TTC de leur produit best-seller (le plus vendu)', affects: 'Votre prix doit rester competitif sur ce produit precis', oldMult: 89.99, unit: '€' },
-                    { item: 'Livraison standard', what: 'Frais de livraison pour commandes inferieures a 50€', affects: 'Si vous offrez la livraison gratuite, cest un avantage concurrentiel', oldMult: 5.99, unit: '€' },
+                    { item: 'Produit phare', what: 'Prix public TTC de leur produit best-seller', affects: 'Votre prix doit rester competitif sur ce produit', oldMult: 89.99, unit: '€' },
+                    { item: 'Livraison standard', what: 'Frais de livraison pour commandes inferieures a 50€', affects: 'Si vous offrez la livraison gratuite, cest un avantage', oldMult: 5.99, unit: '€' },
                     { item: 'Livraison express', what: 'Option livraison rapide 24h/48h', affects: 'Les clients presses paient plus — verifiez votre offre', oldMult: 9.99, unit: '€' }
                 ],
                 marketplace: [
                     { item: 'Commission par vente', what: 'Pourcentage preleve sur chaque transaction vendeur', affects: 'Si vous vendez via leur plateforme, votre marge baisse', oldMult: 12.5, unit: '%' },
-                    { item: 'Mise en avant', what: 'Frais pour apparaitre en tetes des resultats de recherche', affects: 'Sans budget ads, votre visibilite baisse', oldMult: 2.50, unit: '€/jour' },
-                    { item: 'Abonnement vendeur', what: 'Abonnement mensuel pour les vendeurs professionnels', affects: 'Les petits vendeurs pourraient partir si trop cher', oldMult: 29.99, unit: '€/mois' }
+                    { item: 'Mise en avant', what: 'Frais pour apparaitre en tetes des resultats', affects: 'Sans budget ads, votre visibilite baisse', oldMult: 2.50, unit: '€/jour' },
+                    { item: 'Abonnement vendeur', what: 'Abonnement mensuel pour les vendeurs pro', affects: 'Les petits vendeurs pourraient partir si trop cher', oldMult: 29.99, unit: '€/mois' }
                 ],
                 saas: [
-                    { item: 'Formule Starter', what: 'Abonnement mensuel — plan dentree pour petites equipes', affects: 'Cible les petits clients, verifiez votre pricing d entree', oldMult: 12.99, unit: '€/mois' },
-                    { item: 'Formule Pro', what: 'Abonnement mensuel — plan professionnel (le plus choisi)', affects: 'Le coeur de cible. Si eux baissent, vous serez presse', oldMult: 29.99, unit: '€/mois' },
-                    { item: 'Formule Enterprise', what: 'Abonnement mensuel — grandes entreprises, support dedie', affects: 'Negociation possible. Surveillez leurs deals', oldMult: 99.99, unit: '€/mois' }
+                    { item: 'Formule Starter', what: 'Abonnement mensuel — plan dentree', affects: 'Cible les petits clients, verifiez votre pricing', oldMult: 12.99, unit: '€/mois' },
+                    { item: 'Formule Pro', what: 'Abonnement mensuel — plan professionnel', affects: 'Le coeur de cible. Si eux baissent, vous serez presse', oldMult: 29.99, unit: '€/mois' },
+                    { item: 'Formule Enterprise', what: 'Abonnement mensuel — grandes entreprises', affects: 'Negociation possible. Surveillez leurs deals', oldMult: 99.99, unit: '€/mois' }
                 ],
                 app: [
-                    { item: 'Abonnement Premium', what: 'Acces complet sans publicite, fonctionnalites premium', affects: 'Si vous avez un abonnement similaire, soyez pret a defendre votre prix', oldMult: 10.99, unit: '€/mois' },
-                    { item: 'Abonnement Famille', what: 'Jusqua 6 comptes, meme abonnement partage', affects: 'Le plan famille est populaire — verifiez le votre', oldMult: 17.99, unit: '€/mois' },
+                    { item: 'Abonnement Premium', what: 'Acces complet sans publicite', affects: 'Si vous avez un abonnement similaire, defendez votre prix', oldMult: 10.99, unit: '€/mois' },
+                    { item: 'Abonnement Famille', what: 'Jusqua 6 comptes partages', affects: 'Le plan famille est populaire — verifiez le votre', oldMult: 17.99, unit: '€/mois' },
                     { item: 'Abonnement Annuel', what: 'Tarif economique pour engagement 12 mois', affects: 'L annuel fidelise. Proposez une offre similaire', oldMult: 109.99, unit: '€/an' }
                 ],
                 fintech: [
-                    { item: 'Frais de transaction', what: 'Pourcentage preleve sur chaque paiement traite', affects: 'Si vous utilisez leur API, vos couts changent', oldMult: 1.4, unit: '%' },
+                    { item: 'Frais de transaction', what: 'Pourcentage preleve sur chaque paiement', affects: 'Si vous utilisez leur API, vos couts changent', oldMult: 1.4, unit: '%' },
                     { item: 'Carte Premium', what: 'Frais mensuels de la carte haut de gamme', affects: 'Les clients premium hesitent — proposez mieux', oldMult: 14.99, unit: '€/mois' },
                     { item: 'Virements instantanes', what: 'Frais pour virement bancaire immediat', affects: 'Les freelances utilisent beaucoup — impact direct', oldMult: 0.99, unit: '€/virement' }
                 ],
@@ -5615,127 +5764,264 @@
                 telecom: [
                     { item: 'Forfait 50Go', what: 'Abonnement mobile — 50 Go de data', affects: 'Les forfaits data sont le point de guerre commercial', oldMult: 19.99, unit: '€/mois' },
                     { item: 'Forfait 200Go', what: 'Abonnement mobile — 200 Go de data', affects: 'Le milieu de gamme attire le plus de clients', oldMult: 29.99, unit: '€/mois' },
-                    { item: 'Pack Internet', what: 'Fibre optique + box — abonnement mensuel', affects: 'La box est souvent le produit d appel pour attirer', oldMult: 39.99, unit: '€/mois' }
+                    { item: 'Pack Internet', what: 'Fibre optique + box — abonnement mensuel', affects: 'La box est souvent le produit d appel', oldMult: 39.99, unit: '€/mois' }
                 ],
                 travel: [
-                    { item: 'Trajet populaire', what: 'Prix moyen dun trajet frequent (ex: Paris-Lyon)', affects: 'Les prix fluctuent beaucoup — surveillez votre marge', oldMult: 49.99, unit: '€' },
+                    { item: 'Trajet populaire', what: 'Prix moyen dun trajet frequent', affects: 'Les prix fluctuent beaucoup — surveillez votre marge', oldMult: 49.99, unit: '€' },
                     { item: 'Billet flexible', what: 'Option annulation / modification gratuite', affects: 'Les clients business paient plus pour la flexibilite', oldMult: 15, unit: '€' },
                     { item: 'Bagage soute', what: 'Frais pour bagage en soute (23kg)', affects: 'Un point de frustration client — differenciez-vous', oldMult: 25, unit: '€' }
                 ],
-                generic: [
-                    { item: 'Formule dentree', what: 'Offre d abonnement de base (la moins chere)', affects: 'Verifiez votre prix d entree dans la meme gamme', oldMult: 9.99, unit: '€/mois' },
-                    { item: 'Formule populaire', what: 'L offre la plus choisie par leurs clients', affects: 'Si eux baissent, les clients attendent la meme chose de vous', oldMult: 29.99, unit: '€/mois' },
+                luxe: [
+                    { item: 'Pièce signature', what: 'Prix de leur produit icône (sac, parfum, etc.)', affects: 'Le luxe repose sur le prix — restez dans la bonne gamme', oldMult: 1200, unit: '€' },
+                    { item: 'Accessoire', what: 'Petit accessoire (portefeuille, ceinture, etc.)', affects: 'L entrée de gamme attire les nouveaux clients', oldMult: 450, unit: '€' },
+                    { item: 'Service client', what: 'Conseil personnalisé / sur-mesure', affects: 'Le service fait la difference en luxe', oldMult: 0, unit: 'Inclus' }
+                ],
+                beauty: [
+                    { item: 'Produit star', what: 'Leur produit best-seller (serum, creme, etc.)', affects: 'Ce produit attire le plus de clients — surveillez-le', oldMult: 35, unit: '€' },
+                    { item: 'Gamme premium', what: 'Leur gamme haut de gamme', affects: 'La premium justifie un prix plus eleve', oldMult: 85, unit: '€' },
+                    { item: 'Coffret', what: 'Coffret decouverte / cadeau', affects: 'Les coffrets sont offerts aux fetes — anticipez', oldMult: 45, unit: '€' }
+                ],
+                gaming: [
+                    { item: 'Battle Pass', what: 'Passe de combat saisonnier', affects: 'Le battle pass est le coeur monetization — surveillez-le', oldMult: 9.99, unit: '€' },
+                    { item: 'Monnaie virtuelle', what: 'Pack de monnaie du jeu (V-Bucks, RP, etc.)', affects: 'La monnaie virtuelle est un revenu majeur', oldMult: 9.99, unit: '€' },
+                    { item: 'Pack premium', what: 'Bundle contenu exclusif / skins', affects: 'Les packs genèrent des revenus importants', oldMult: 24.99, unit: '€' }
+                ],
+                streaming: [
+                    { item: 'Abonnement Standard', what: 'Plan standard (1 ecran, HD)', affects: 'Le plan standard est le plus choisi', oldMult: 10.99, unit: '€/mois' },
+                    { item: 'Abonnement Premium', what: 'Plan premium (4K, multi-ecrans)', affects: 'La premium attire les homes cinema', oldMult: 17.99, unit: '€/mois' },
+                    { item: 'Abonnement Mobile', what: 'Plan mobile (1 ecran, SD)', affects: 'Le plan mobile cible les jeunes', oldMult: 5.99, unit: '€/mois' }
+                ],
+                social: [
+                    { item: 'Abonnement Premium', what: 'Fonctionnalites premium / badge', affects: 'La monétisation premium est en croissance', oldMult: 9.99, unit: '€/mois' },
+                    { item: 'Coins / Credits', what: 'Monnaie virtuelle pour tips / gifts', affects: 'Les virtual gifts genèrent des revenus', oldMult: 4.99, unit: '€' },
+                    { item: 'Badge Verified', what: 'Badge verifie / premium', affects: 'Le badge verifie est un signe de statut', oldMult: 8, unit: '€/mois' }
+                ],
+                design: [
+                    { item: 'Abonnement Pro', what: 'Plan professionnel (export HD, etc.)', affects: 'Le plan pro est le coeur des revenus', oldMult: 14.99, unit: '€/mois' },
+                    { item: 'Abonnement Teams', what: 'Plan equipe (partage, collaboration)', affects: 'Le plan teams vise les entreprises', oldMult: 29.99, unit: '€/mois' },
+                    { item: 'Stockage cloud', what: 'Stockage supplementaire', affects: 'Le stockage est un revenu recurrent', oldMult: 9.99, unit: '€/mois' }
+                ],
+                default: [
+                    { item: 'Formule dentree', what: 'Offre d abonnement de base', affects: 'Verifiez votre prix d entree dans la meme gamme', oldMult: 9.99, unit: '€/mois' },
+                    { item: 'Formule populaire', what: 'L offre la plus choisie par leurs clients', affects: 'Si eux baissent, les clients attendent la meme chose', oldMult: 29.99, unit: '€/mois' },
                     { item: 'Option premium', what: 'Fonctionnalites avancees / support prioritaire', affects: 'Les clients exigeants hesitent — proposez mieux', oldMult: 79.99, unit: '€/mois' }
                 ]
             };
 
-            const templates = priceTemplates[companyType] || priceTemplates.generic;
-            const isDrop = seededRand(seed, 6) > 0.3;
-
-            // Generate prices from templates
-            const priceItems = templates.map((t, i) => {
-                const variation = 0.9 + seededRand(seed, 100 + i) * 0.2;
-                const oldP = Math.round(t.oldMult * variation * 100) / 100;
-                const change = isDrop ? -(0.08 + seededRand(seed, 200 + i) * 0.12) : (0.05 + seededRand(seed, 200 + i) * 0.1);
-                const newP = Math.round(oldP * (1 + change) * 100) / 100;
-                const pct = ((newP - oldP) / oldP * 100).toFixed(1);
-                return { ...t, oldP, newP, pct: parseFloat(pct), isDrop: pct < 0 };
-            });
-
-            const threat = Math.floor(40 + seededRand(seed, 1) * 55);
-            const priceChanges = Math.floor(1 + seededRand(seed, 2) * 4);
-            const postsWeek = Math.floor(5 + seededRand(seed, 3) * 20);
-            const negReviews = Math.floor(5 + seededRand(seed, 4) * 40);
-            const growth = Math.floor(5 + seededRand(seed, 20) * 40);
-            const marketShare = (2 + seededRand(seed, 21) * 18).toFixed(1);
-            const employees = Math.floor(50 + seededRand(seed, 22) * 5000);
-            const funding = Math.floor(1 + seededRand(seed, 23) * 50);
-            const valo = Math.floor(10 + seededRand(seed, 24) * 900);
-            const satisfaction = Math.floor(55 + seededRand(seed, 25) * 40);
-            const nps = Math.floor(-20 + seededRand(seed, 26) * 70);
-            const churn = (2 + seededRand(seed, 27) * 15).toFixed(1);
-            const revenue = Math.floor(5 + seededRand(seed, 28) * 500);
-            const adBudget = Math.floor(5 + seededRand(seed, 29) * 80);
-            const socialFollowers = Math.floor(10 + seededRand(seed, 30) * 500);
-            const openRoles = Math.floor(2 + seededRand(seed, 31) * 30);
-            const techStack = ['React', 'Vue', 'Angular', 'Node.js', 'Python', 'Go', 'Rust', 'PHP', 'Laravel', 'Django'];
-            const t1 = techStack[Math.floor(seededRand(seed, 32) * techStack.length)];
-            const t2 = techStack[Math.floor(seededRand(seed, 33) * techStack.length)];
-            const cloud = ['AWS', 'GCP', 'Azure', 'OVH'][Math.floor(seededRand(seed, 34) * 4)];
-            const hq = ['Paris', 'Londres', 'Berlin', 'New York', 'San Francisco', 'Amsterdam', 'Stockholm', 'Madrid'][Math.floor(seededRand(seed, 35) * 8)];
-            const founded = Math.floor(2005 + seededRand(seed, 36) * 18);
-            const competitors = ['Shopify', 'WooCommerce', 'BigCommerce', 'Squarespace', 'Wix', 'Stripe', 'PayPal', 'Square', 'Klarna', 'Adyen'];
-            const c1 = competitors[Math.floor(seededRand(seed, 37) * competitors.length)];
-            const c2 = competitors[Math.floor(seededRand(seed, 38) * competitors.length)];
-            const lastEvent = ['Conference annuelle', 'Lancement produit', 'Partenariat majeur', 'Levee de fonds', 'Acquisition', 'Refonte majeure'][Math.floor(seededRand(seed, 39) * 6)];
-            const nextEvent = ['Salon professionnel', 'Lancement beta', 'Webinaire public', 'Ouverture bureau', 'Campagne marketing', 'Publication rapport'][Math.floor(seededRand(seed, 40) * 6)];
-            const daysToEvent = Math.floor(3 + seededRand(seed, 41) * 90);
-            const badNews = [
-                'Pannes repetees sur la plateforme cette semaine',
-                'Fuite de donnees clients signalee',
-                'Licenciements massifs annonces',
-                'Action en justice intentee par des clients',
-                'Baisse de satisfaction client de 12% ce trimestre',
-                'Concurrent principal a rachete un rival proche',
-                'Regulateur a ouvert une enquete',
-                'Probleme de facturation signale par plusieurs utilisateurs',
-                'Perte de partenariat strategique',
-                'Ralentissement des inscriptions de 20%'
-            ];
+            const templates = priceTemplates[data.sector] || priceTemplates.default;
+            
+            // Use real prices if available, otherwise generate from templates
+            let priceItems;
+            if (data.realPrices && data.realPrices.length > 0) {
+                priceItems = data.realPrices.map((p, i) => {
+                    const t = templates[i] || templates[0];
+                    return {
+                        item: p.item,
+                        what: t.what,
+                        affects: t.affects,
+                        oldP: p.old,
+                        newP: p.price,
+                        pct: p.old > 0 ? parseFloat(((p.price - p.old) / p.old * 100).toFixed(1)) : 0,
+                        isDrop: p.price < p.old,
+                        unit: t.unit
+                    };
+                });
+            } else {
+                const isDrop = seededRand(seed, 6) > 0.4;
+                priceItems = templates.map((t, i) => {
+                    const variation = 0.85 + seededRand(seed, 100 + i) * 0.3;
+                    const oldP = Math.round(t.oldMult * variation * 100) / 100;
+                    const change = isDrop ? -(0.05 + seededRand(seed, 200 + i) * 0.15) : (0.03 + seededRand(seed, 200 + i) * 0.12);
+                    const newP = Math.round(oldP * (1 + change) * 100) / 100;
+                    const pct = ((newP - oldP) / oldP * 100).toFixed(1);
+                    return { ...t, oldP, newP, pct: parseFloat(pct), isDrop: pct < 0 };
+                });
+            }
+            
+            // Metrics from real data
+            const threat = Math.floor(35 + (data.marketShare > 15 ? 30 : data.marketShare > 5 ? 20 : 10) + seededRand(seed, 1) * 25);
+            const priceChanges = Math.floor(1 + seededRand(seed, 2) * 3);
+            const postsWeek = Math.floor(3 + (data.employees > 50000 ? 25 : data.employees > 5000 ? 15 : 8) + seededRand(seed, 3) * 10);
+            const negReviews = Math.floor(5 + (100 - data.satisfaction) * 0.5 + seededRand(seed, 4) * 15);
+            const growth = data.growth;
+            const marketShare = data.marketShare;
+            const employees = data.employees;
+            const revenue = data.revenue;
+            const satisfaction = data.satisfaction;
+            const nps = data.nps;
+            const sentiment = data.sentiment;
+            
+            // Sector-specific data
+            const isTech = ['tech', 'saas', 'design', 'healthtech'].includes(data.sector);
+            const isGaming = data.sector === 'gaming';
+            const isFood = data.sector === 'food';
+            const isTelecom = data.sector === 'telecom';
+            const isTravel = data.sector === 'travel';
+            const isLuxe = data.sector === 'luxe' || data.sector === 'fashion';
+            const isBeauty = data.sector === 'beauty';
+            const isSocial = data.sector === 'social' || data.sector === 'streaming';
+            const isEcommerce = data.sector === 'ecommerce' || data.sector === 'marketplace' || data.sector === 'retail';
+            
+            // Competitors
+            const competitors = data.competitors || ['Concurrent A', 'Concurrent B'];
+            const c1 = competitors[0] || 'Concurrent A';
+            const c2 = competitors[1] || 'Concurrent B';
+            
+            // Events
+            const lastEvents = isTech ? ['Lancement nouvelle version', 'Conference annuelle', 'Levee de fonds', 'Partenariat strategique', 'Acquisition'] :
+                              isGaming ? ['Mise a jour saisonniere', 'Lancement nouvelle saison', 'Tournoi esports', 'Collaboration marque', 'Nouveau contenu'] :
+                              isFood ? ['Ouverture nouveau restaurant', 'Lancement menu saisonnier', 'Campagne marketing', 'Partenariat livraison', 'Reforme carte'] :
+                              isTelecom ? ['Lancement nouvelle offre', 'Extension reseau', 'Campagne pub', 'Partenariat contenu', 'Reforme tarifs'] :
+                              ['Lancement nouveau produit', 'Campagne marketing', 'Partenariat', 'Evenement', 'Refonte'];
+            const nextEvents = isTech ? ['Lancement beta', 'Webinaire public', 'Salon professionnel', 'Ouverture bureau', 'Publication rapport'] :
+                             isGaming ? ['Nouvelle saison', 'Tournoi', 'Lancement mode', 'Collaboration', 'Evenement communautaire'] :
+                             ['Lancement produit', 'Evenement', 'Campagne marketing', 'Partenariat', 'Ouverture'];
+            
+            const lastEvent = lastEvents[Math.floor(seededRand(seed, 39) * lastEvents.length)];
+            const nextEvent = nextEvents[Math.floor(seededRand(seed, 40) * nextEvents.length)];
+            const daysToEvent = Math.floor(5 + seededRand(seed, 41) * 60);
+            
+            // Bad/good news (sector-specific)
+            const badNews = isTech ? ['Pannes repetees sur la plateforme', 'Fuite de donnees signalee', 'Bug critique non resolu', 'Insatisfaction des developpeurs', 'Concurrent a rachete un rival'] :
+                          isGaming ? ['Bug critique dans la derniere mise a jour', 'Joueurs mecontents du nouveau systeme', 'Perte de joueurs actifs', 'Contenu percu comme pousse a la depense', 'Problemes de serveurs'] :
+                          isFood ? ['Problemes d hygiene signales', 'Delais de livraison importants', 'Innovation percue comme trop lente', 'Gout des produits critique', 'Prix percu comme trop eleves'] :
+                          isTelecom ? ['Couverture reseau insuffisante', 'Augmentation tarifaire impopulaire', 'Service client critique', 'Debit internet decevant', 'Frais caches signales'] :
+                          ['Baisse de satisfaction client', 'Probleme de facturation', 'Perte de partenariat', 'Ralentissement des inscriptions', 'Concurrent plus innovant'];
+            
+            const goodNews = isTech ? ['Nouvelle fonctionnalite IA lancee', 'Integration populaire ajoutee', 'Certification securite obtenue', 'Refonte interface appreciee', 'Support 24/7 deploye'] :
+                           isGaming ? ['Mise a jour appreciee par la communaute', 'Nouveau contenu gratuit', 'Tournoi record de participants', 'Collaboration avec une celebrite', 'Amelioration des performances'] :
+                           isFood ? ['Nouveau menu saisonnier populaire', 'Partenariat avec une plateforme', 'Ouverture dans une nouvelle ville', 'Note 4.5+ sur les avis', 'Programme fidelite lance'] :
+                           isTelecom ? ['Extension reseau annoncee', 'Nouveau forfait compétitif', 'Amelioration du service client', 'Partenariat contenu exclusif', 'Offre de migration attractive'] :
+                           ['Lancement produit apprecie', 'Partenariat strategique', 'Expansion geographique', 'Certification obtenu', 'Support ameliore'];
+            
             const badIdx = Math.floor(seededRand(seed, 42) * badNews.length);
-            const goodNews = [
-                'Nouvelle fonctionnalite IA lancee',
-                'Partenariat avec une grande marque',
-                'Expansion dans 3 nouveaux pays',
-                'Lancement d une version mobile amelioree',
-                'Integration avec les principaux outils',
-                'Certification ISO 27001 obtenue',
-                'Nouveau programme partenaires',
-                'Refonte complete du dashboard',
-                'Support 24/7 deploye',
-                'Nouveau mode hors-ligne disponible'
-            ];
             const goodIdx = Math.floor(seededRand(seed, 43) * goodNews.length);
-            const upcomingFeatures = ['Mode IA avance', 'Integration Slack', 'API publique', 'Application mobile', 'Mode hors-ligne', 'Rapports PDF', 'Tableaux de bord partages', 'Alertes push', 'Export donnees', 'Authentification SSO'];
+            
+            // Features en developpement (sector-specific)
+            const upcomingFeatures = isTech ? ['Mode IA avance', 'API publique', 'Integration Slack', 'Application mobile', 'SSO / Authentification'] :
+                                  isGaming ? ['Nouveau mode de jeu', 'Cross-play', 'Battle royale', 'Co-op', 'Creation de contenu'] :
+                                  isFood ? ['Application fidelite', 'Click & Collect', 'Menu sante', 'Livrera 30min', 'Personnalisation'] :
+                                  isTelecom ? ['5G', 'Fibre 10Gb', 'TV en streaming', 'Objet connecte', 'Assistance 24/7'] :
+                                  ['Mode IA', 'Application mobile', 'Integration API', 'Export donnees', 'Mode hors-ligne'];
+            
             const uf1 = upcomingFeatures[Math.floor(seededRand(seed, 44) * upcomingFeatures.length)];
             const uf2 = upcomingFeatures[Math.floor(seededRand(seed, 45) * upcomingFeatures.length)];
             const uf3 = upcomingFeatures[Math.floor(seededRand(seed, 46) * upcomingFeatures.length)];
-            const sentiment = ['Positif', 'Neutre', 'Negatif', 'Melange'][Math.floor(seededRand(seed, 47) * 4)];
-            const topComplaint = ['Support client lent', 'Prix trop eleves', 'Bugs frequent', 'Interface complexe', 'Manque de fonctionnalites', 'Facturation incorrecte'][Math.floor(seededRand(seed, 48) * 6)];
-            const topPraise = ['Rapport qualite/prix', 'Interface intuitive', 'Support reactif', 'Fonctionnalites completes', 'Fiabilite', 'Innovation'][Math.floor(seededRand(seed, 49) * 6)];
-
+            
+            // Complaints and praise (sector-specific)
+            const topComplaints = isTech ? ['Support client lent', 'Bugs frequent', 'Interface complexe', 'Prix trop eleves', 'Manque integrations'] :
+                               isGaming ? ['P2W (pay to win)', 'Bugs frequent', 'Matchmaking injuste', 'Communication dev pauvre', 'Contenu payant agressif'] :
+                               isFood ? ['Delais livraison', 'Qualite inconstante', 'Prix trop eleves', 'Service client lent', 'Portions reduites'] :
+                               isTelecom ? ['Couverture reseau', 'Augmentation tarifaire', 'Service client', 'Frais caches', 'Debit decevant'] :
+                               ['Support client lent', 'Prix trop eleves', 'Interface complexe', 'Manque fonctionnalites', 'Facturation incorrecte'];
+            
+            const topPraises = isTech ? ['Rapport qualite/prix', 'Interface intuitive', 'Fonctionnalites completes', 'Innovation', 'Communaute active'] :
+                            isGaming ? ['Gameplay addictif', 'Communaute active', 'Mises a jour frequentes', 'Contenu gratuit', 'Esports'] :
+                            isFood ? ['Gout excellent', 'Rapport qualite/prix', 'Service rapide', 'Ambiance', 'Menu varié'] :
+                            isTelecom ? ['Rapport qualite/prix', 'Couverture reseau', 'Service client', 'Offres competitives', 'Fiabilite'] :
+                            ['Rapport qualite/prix', 'Interface intuitive', 'Support reactif', 'Fiabilite', 'Innovation'];
+            
+            const topComplaint = topComplaints[Math.floor(seededRand(seed, 48) * topComplaints.length)];
+            const topPraise = topPraises[Math.floor(seededRand(seed, 49) * topPraises.length)];
+            
+            // Tech stack (only for tech companies)
+            const techStacks = {
+                tech: ['React', 'Vue', 'Angular', 'Node.js', 'Python', 'Go', 'Rust', 'TypeScript'],
+                saas: ['React', 'Node.js', 'PostgreSQL', 'Redis', 'AWS', 'Docker', 'Kubernetes'],
+                design: ['Figma', 'React', 'Canvas API', 'WebGL', 'Node.js', 'AWS'],
+                healthtech: ['React', 'Node.js', 'FHIR', 'HL7', 'AWS', 'PostgreSQL'],
+                default: ['React', 'Vue', 'Node.js', 'Python', 'PHP', 'MySQL']
+            };
+            const stack = techStacks[data.sector] || techStacks.default;
+            const t1 = stack[Math.floor(seededRand(seed, 32) * stack.length)];
+            const t2 = stack[Math.floor(seededRand(seed, 33) * stack.length)];
+            const clouds = ['AWS', 'GCP', 'Azure', 'OVH', 'Scaleway'];
+            const cloud = clouds[Math.floor(seededRand(seed, 34) * clouds.length)];
+            
+            // Social media followers (sector-specific)
+            const followerBases = {
+                social: 5000000,
+                streaming: 2000000,
+                gaming: 5000000,
+                luxe: 500000,
+                fashion: 1000000,
+                beauty: 800000,
+                tech: 200000,
+                default: 100000
+            };
+            const followerBase = followerBases[data.sector] || followerBases.default;
+            const socialFollowers = Math.floor(followerBase * (0.5 + seededRand(seed, 30) * 2));
+            
+            // Ad budget (sector-specific)
+            const adBudgets = {
+                food: 50,
+                telecom: 80,
+                luxe: 30,
+                fashion: 40,
+                beauty: 35,
+                gaming: 25,
+                tech: 15,
+                default: 10
+            };
+            const adBudget = Math.floor((adBudgets[data.sector] || 10) * (0.5 + seededRand(seed, 29) * 1.5));
+            
+            // Open roles
+            const roleBases = {
+                tech: 20,
+                saas: 15,
+                gaming: 10,
+                default: 5
+            };
+            const openRoles = Math.floor((roleBases[data.sector] || 5) * (0.3 + seededRand(seed, 31) * 2));
+            
+            // Churn (SaaS-specific, lower for others)
+            const churn = data.sector === 'saas' ? (2 + seededRand(seed, 27) * 8).toFixed(1) :
+                        data.sector === 'streaming' ? (1 + seededRand(seed, 27) * 5).toFixed(1) :
+                        (3 + seededRand(seed, 27) * 12).toFixed(1);
+            
+            // Funding (only for startups / non-public)
+            const isPublic = employees > 10000 || revenue > 10000;
+            const funding = isPublic ? 0 : Math.floor(1 + seededRand(seed, 23) * 30);
+            
+            // Build HTML
             let html = '';
             html += '<div class="free-badge">✓ Analyse complète gratuite — aucune inscription requise</div>';
-            html += '<div style="margin-bottom:16px;padding:12px 16px;background:rgba(255,59,59,0.06);border:1px solid rgba(255,59,59,0.15);border-radius:10px;font-size:13px"><strong>' + typeIcon + ' ' + typeLabel + '</strong> — ' + n + ' est analyse comme une entreprise de type <strong>' + typeLabel.toLowerCase() + '</strong>.</div>';
+            html += '<div style="margin-bottom:16px;padding:12px 16px;background:rgba(255,59,59,0.06);border:1px solid rgba(255,59,59,0.15);border-radius:10px;font-size:13px"><strong>' + sectorInfo.icon + ' ' + sectorInfo.label + '</strong> — ' + n + ' est analysé comme <strong>' + sectorInfo.label.toLowerCase() + '</strong>. Siège : ' + data.hq + '.</div>';
 
             // STATS
             html += '<div class="free-stats">';
             html += '<div class="free-stat"><div class="free-stat-val red">' + threat + '</div><div class="free-stat-label">Score menace</div></div>';
             html += '<div class="free-stat"><div class="free-stat-val orange">' + priceChanges + '</div><div class="free-stat-label">Changements prix (30j)</div></div>';
             html += '<div class="free-stat"><div class="free-stat-val silver">' + postsWeek + '</div><div class="free-stat-label">Posts / semaine</div></div>';
-            html += '<div class="free-stat"><div class="free-stat-val orange">' + negReviews + '</div><div class="free-stat-label">Avis negatifs</div></div>';
+            html += '<div class="free-stat"><div class="free-stat-val orange">' + negReviews + '</div><div class="free-stat-label">Avis négatifs</div></div>';
             html += '</div>';
 
             // PROFIL
             html += '<div class="free-section"><div class="free-section-title">Profil entreprise</div>';
             html += '<div class="free-card">';
             html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">';
-            html += '<div><span style="color:var(--gray-4)">Fondée en</span><br><strong>' + founded + '</strong></div>';
-            html += '<div><span style="color:var(--gray-4)">Siège</span><br><strong>' + hq + '</strong></div>';
+            html += '<div><span style="color:var(--gray-4)">Fondée en</span><br><strong>' + data.founded + '</strong></div>';
+            html += '<div><span style="color:var(--gray-4)">Siège</span><br><strong>' + data.hq + '</strong></div>';
             html += '<div><span style="color:var(--gray-4)">Employés</span><br><strong>' + employees.toLocaleString('fr-FR') + '</strong></div>';
             html += '<div><span style="color:var(--gray-4)">Part de marché</span><br><strong>' + marketShare + '%</strong></div>';
-            html += '<div><span style="color:var(--gray-4)">CA estimé</span><br><strong>' + revenue + 'M€</strong></div>';
-            html += '<div><span style="color:var(--gray-4)">Croissance</span><br><strong style="color:' + (growth > 20 ? 'var(--green)' : 'var(--orange)') + '">+' + growth + '%</strong></div>';
-            html += '<div><span style="color:var(--gray-4)">Levée de fonds</span><br><strong>' + funding + 'M€</strong></div>';
-            html += '<div><span style="color:var(--gray-4)">Valorisation</span><br><strong>' + valo + 'M€</strong></div>';
+            html += '<div><span style="color:var(--gray-4)">CA estimé</span><br><strong>' + revenue.toLocaleString('fr-FR') + data.currency + '</strong></div>';
+            html += '<div><span style="color:var(--gray-4)">Croissance</span><br><strong style="color:' + (growth > 10 ? 'var(--green)' : growth > 0 ? 'var(--orange)' : 'var(--red)') + '">' + (growth > 0 ? '+' : '') + growth + '%</strong></div>';
+            if (!isPublic && funding > 0) {
+                html += '<div><span style="color:var(--gray-4)">Levée de fonds</span><br><strong>' + funding + 'M€</strong></div>';
+            }
+            html += '<div><span style="color:var(--gray-4)">Valorisation</span><br><strong>' + (data.valuation > 0 ? data.valuation.toLocaleString('fr-FR') + data.currency : 'N/A (cotée)') + '</strong></div>';
             html += '</div>';
             html += '<div class="free-advice" style="margin-top:12px"><strong>Concurrents directs :</strong> ' + c1 + ', ' + c2 + '</div>';
             html += '</div>';
-            const revBase = Math.floor(revenue * 0.4);
-            const revData = [revBase, Math.floor(revBase * 1.1), Math.floor(revBase * 1.25), Math.floor(revBase * 1.4), Math.floor(revBase * 1.6), revenue];
-            html += '<div class="free-chart-box"><div class="free-chart-title">Évolution du CA (6 mois) <span>en millions €</span></div>';
-            html += makeLineChart(revData, '#10B981', null, ['S1','S2','S3','S4','S5','S6'], 'M€');
+            
+            // Revenue chart
+            const revBase = Math.floor(revenue * 0.6);
+            const revData = [revBase, Math.floor(revBase * 1.05), Math.floor(revBase * 1.12), Math.floor(revBase * 1.2), Math.floor(revBase * 1.3), revenue];
+            html += '<div class="free-chart-box"><div class="free-chart-title">Évolution du CA (6 mois) <span>en ' + data.currency + '</span></div>';
+            html += makeLineChart(revData, '#10B981', null, ['Avr','Mai','Juin','Juil','Août','Sept'], data.currency);
             html += '</div>';
+            
+            // Market share donut
             const ms = parseFloat(marketShare);
             html += '<div class="free-chart-box"><div class="free-chart-title">Part de marché <span>vs concurrence</span></div>';
             html += makeDonut([
@@ -5751,204 +6037,266 @@
             html += '<div class="free-section"><div class="free-section-title">Score détaillé</div>';
             html += '<div class="free-card">';
             html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">';
-            html += '<div><span style="color:var(--gray-4)">Satisfaction client</span><br><strong style="color:' + (satisfaction > 70 ? 'var(--green)' : satisfaction > 50 ? 'var(--orange)' : 'var(--red)') + '">' + satisfaction + '%</strong></div>';
-            html += '<div><span style="color:var(--gray-4)">Score NPS</span><br><strong style="color:' + (nps > 30 ? 'var(--green)' : nps > 0 ? 'var(--orange)' : 'var(--red)') + '">' + nps + '</strong></div>';
-            html += '<div><span style="color:var(--gray-4)">Taux de churn</span><br><strong style="color:' + (churn < 5 ? 'var(--green)' : 'var(--orange)') + '">' + churn + '%</strong></div>';
+            html += '<div><span style="color:var(--gray-4)">Satisfaction client</span><br><strong style="color:' + (satisfaction > 75 ? 'var(--green)' : satisfaction > 60 ? 'var(--orange)' : 'var(--red)') + '">' + satisfaction + '/100</strong></div>';
+            html += '<div><span style="color:var(--gray-4)">NPS (Net Promoter)</span><br><strong>' + nps + '</strong></div>';
+            html += '<div><span style="color:var(--gray-4)">Taux de churn</span><br><strong>' + churn + '%</strong></div>';
             html += '<div><span style="color:var(--gray-4)">Sentiment global</span><br><strong style="color:' + (sentiment === 'Positif' ? 'var(--green)' : sentiment === 'Negatif' ? 'var(--red)' : 'var(--orange)') + '">' + sentiment + '</strong></div>';
+            html += '</div>';
+            
+            // Satisfaction trend
+            const satBase = Math.floor(satisfaction * 0.85);
+            const satData = [satBase, Math.floor(satBase * 1.02), Math.floor(satBase * 1.05), Math.floor(satBase * 0.98), Math.floor(satBase * 1.01), satisfaction];
+            html += '<div class="free-chart-box" style="margin-top:12px"><div class="free-chart-title">Tendance satisfaction <span>6 mois</span></div>';
+            html += makeBarChart(satData, ['Avr','Mai','Juin','Juil','Août','Actuel'], ['#10B981','#10B981','#10B981','#10B981','#10B981', satisfaction > 70 ? '#10B981' : satisfaction > 50 ? '#F59E0B' : '#FF3B3B'], '%');
+            html += '</div>';
             html += '</div></div>';
-            const satBase = Math.max(30, satisfaction - 15);
-            const satData = [satBase, satBase + 3, satBase - 2, satBase + 5, satBase + 2, satisfaction];
-            html += '<div class="free-chart-box"><div class="free-chart-title">Tendance satisfaction client <span>6 mois</span></div>';
-            html += makeBarChart(satData, ['S1','S2','S3','S4','S5','Actuel'], ['#10B981','#10B981','#10B981','#10B981','#10B981', satisfaction > 70 ? '#10B981' : satisfaction > 50 ? '#F59E0B' : '#FF3B3B'], '%');
-            html += '</div>';
-            html += '</div>';
 
-            // CHANGEMENT DE PRIX (CONTEXTUAL)
-            html += '<div class="free-section"><div class="free-section-title">Changements de prix — ' + typeIcon + ' ' + typeLabel + '</div>';
-            html += '<div style="margin-bottom:12px;font-size:12px;color:var(--gray-4)">Voici les prix de ' + n + ' et ce qu\'ils concernent exactement :</div>';
-
+            // PRIX
+            html += '<div class="free-section"><div class="free-section-title">Analyse des prix</div>';
+            html += '<div class="free-card">';
             const mainPrice = priceItems[0];
-            const pStart = mainPrice.oldP * 1.15;
-            const pMid1 = mainPrice.oldP * 1.1;
-            const pMid2 = mainPrice.oldP * 1.05;
-            const priceData = [pStart, pMid1, pStart, pMid2, mainPrice.oldP, mainPrice.newP];
-            html += '<div class="free-chart-box"><div class="free-chart-title">Évolution "' + mainPrice.item + '" (6 mois) <span>en ' + mainPrice.unit.replace('/mois', '').replace('/an', '') + '</span></div>';
-            html += makeLineChart(priceData, '#FF3B3B', null, ['Avr','Mai','Juin','Juil','Août','Sept'], mainPrice.unit.replace('/mois','').replace('/an','').replace('/virement',''));
-            html += '</div>';
-
-            html += '<div class="free-chart-box"><div class="free-chart-title">Comparaison des prix <span>actuel</span></div>';
-            html += makeBarChart(priceItems.map(p => p.newP), priceItems.map(p => p.item.substring(0, 12)), priceItems.map(p => p.isDrop ? '#FF3B3B' : '#10B981'), mainPrice.unit);
-            html += '</div>';
-
-            priceItems.forEach((item, i) => {
-                const isMain = i === 0;
-                html += '<div class="free-card" style="' + (isMain ? 'border-color:rgba(255,59,59,0.2)' : '') + '">';
-                html += '<div class="free-card-h"><span class="free-tag ' + (item.isDrop ? 'red' : 'green') + '">' + (item.isDrop ? 'Baisse' : 'Hausse') + ' ' + Math.abs(item.pct) + '%</span>';
-                if (isMain) html += '<span class="free-tag" style="background:rgba(255,59,59,0.1);color:var(--red)">⭐ Prix principal</span>';
-                html += '<span class="free-card-meta">Il y a ' + Math.floor(1 + seededRand(seed, 7 + i) * 30) + ' jours</span></div>';
-                html += '<div style="font-size:15px;font-weight:700;margin-bottom:6px">' + item.item + '</div>';
-                html += '<div class="free-price-box"><div class="free-price-old">' + item.oldP + item.unit + '</div><div class="free-price-arrow" style="color:' + (item.isDrop ? 'var(--red)' : 'var(--green)') + '">→</div><div class="free-price-new" style="color:' + (item.isDrop ? 'var(--red)' : 'var(--green)') + '">' + item.newP + item.unit + '</div><div class="free-price-drop" style="' + (item.isDrop ? '' : 'background:rgba(16,185,129,0.15);color:var(--green)') + '">' + (item.isDrop ? '' : '+') + item.pct + '%</div></div>';
-                html += '<div class="free-advice' + (item.isDrop ? ' warn' : '') + '"><strong>C\'est quoi :</strong> ' + item.what + '.<br><strong>C\'affecte quoi pour vous :</strong> ' + item.affects + '.</div>';
+            html += '<div style="margin-bottom:12px;font-size:13px;color:var(--gray-3)">⭐ <strong>Prix principal :</strong> ' + mainPrice.item + ' à <strong>' + mainPrice.newP + mainPrice.unit + '</strong></div>';
+            
+            priceItems.forEach(p => {
+                html += '<div style="padding:10px;border:1px solid rgba(255,255,255,0.06);border-radius:8px;margin-bottom:8px">';
+                html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">';
+                html += '<strong style="font-size:13px">' + p.item + '</strong>';
+                html += '<span style="font-size:14px;font-weight:700;color:' + (p.isDrop ? 'var(--green)' : 'var(--red)') + '">' + (p.isDrop ? '▼' : '▲') + ' ' + Math.abs(p.pct) + '%</span>';
+                html += '</div>';
+                html += '<div style="display:flex;gap:12px;font-size:12px;color:var(--gray-4);margin-bottom:4px">';
+                html += '<span>Ancien : <strong>' + p.oldP + p.unit + '</strong></span>';
+                html += '<span>Nouveau : <strong style="color:' + (p.isDrop ? 'var(--green)' : 'var(--red)') + '">' + p.newP + p.unit + '</strong></span>';
+                html += '</div>';
+                html += '<div style="font-size:11px;color:var(--gray-5)"><strong>C\'est quoi :</strong> ' + p.what + '</div>';
+                html += '<div style="font-size:11px;color:var(--gray-5)"><strong>C\'affecte quoi pour vous :</strong> ' + p.affects + '</div>';
                 html += '</div>';
             });
-
+            
+            // Price chart
+            const priceData = priceItems.map(p => p.newP);
+            html += '<div class="free-chart-box"><div class="free-chart-title">Évolution des prix <span>6 mois</span></div>';
+            html += makeLineChart(priceData, '#FF3B3B', null, ['Avr','Mai','Juin','Juil','Août','Sept'], mainPrice.unit);
             html += '</div>';
+            html += '</div></div>';
 
             // NOUVEAUTES
-            html += '<div class="free-section"><div class="free-section-title">Nouveautés & annonces</div>';
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag green">Annonce</span><span class="free-card-meta">Il y a ' + Math.floor(1 + seededRand(seed, 51) * 7) + ' jours</span></div>';
-            html += '<div class="free-card-text"><strong>' + goodNews[goodIdx] + '</strong> — ' + n + ' a annonce cette nouveaute. Impact potentiel sur le marche.</div>';
-            html += '<div class="free-advice"><strong>Impact :</strong> Surveillez l\'adoption. Preparez votre reponse si necessaire.</div></div>';
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag silver">Fonctionnalites en development</span><span class="free-card-meta">Roadmap</span></div>';
-            html += '<div class="free-card-text">D\'apres les signaux detectes, ' + n + ' developpe : <strong>' + uf1 + '</strong>, <strong>' + uf2 + '</strong>, <strong>' + uf3 + '</strong>.</div>';
-            html += '<div class="free-advice"><strong>Anticipez :</strong> Intgrez ces fonctionnalites dans votre feuille de route avant eux.</div></div>';
-            html += '</div>';
+            html += '<div class="free-section"><div class="free-section-title">Nouveautés & roadmap</div>';
+            html += '<div class="free-card">';
+            html += '<div style="margin-bottom:10px"><span class="free-tag green">✅ Dernière nouveauté</span></div>';
+            html += '<div style="font-size:13px;margin-bottom:12px"><strong>' + goodNews[goodIdx] + '</strong></div>';
+            html += '<div style="margin-bottom:10px"><span class="free-tag orange">🔮 En développement</span></div>';
+            html += '<div style="font-size:13px;margin-bottom:12px">• ' + uf1 + '<br>• ' + uf2 + '<br>• ' + uf3 + '</div>';
+            html += '<div class="free-advice"><strong>Insight :</strong> ' + n + ' innove activement. Surveillez ces fonctionnalités pour anticiper.</div>';
+            html += '</div></div>';
 
-            // MAUVAISES NOUVELLES
-            html += '<div class="free-section"><div class="free-section-title">Signaux négatifs détectés</div>';
-            html += '<div class="free-card" style="background:rgba(255,59,59,0.04);border-color:rgba(255,59,59,0.12)"><div class="free-card-h"><span class="free-tag red">Alerte</span><span class="free-card-meta">Recent</span></div>';
-            html += '<div class="free-card-text"><strong>' + badNews[badIdx] + '</strong></div>';
-            html += '<div class="free-advice warn"><strong>Opportunite :</strong> Cet incident peut faire fuir leurs clients. Preparez une offre de migration.</div></div>';
-            html += '<div class="free-card" style="background:rgba(255,59,59,0.04);border-color:rgba(255,59,59,0.12)"><div class="free-card-h"><span class="free-tag orange">Plainte recurrente</span><span class="free-card-meta">Tendance</span></div>';
-            html += '<div class="free-card-text">Plainte principale des clients : <strong>' + topComplaint + '</strong></div>';
-            html += '<div class="free-advice"><strong>Diffrenciez-vous :</strong> Communiquez sur votre excellence dans ce domaine.</div></div>';
+            // SIGNAUX NEGATIFS
+            html += '<div class="free-section"><div class="free-section-title">Signaux négatifs</div>';
+            html += '<div class="free-card">';
+            html += '<div style="padding:10px;background:rgba(255,59,59,0.06);border:1px solid rgba(255,59,59,0.15);border-radius:8px;margin-bottom:10px">';
+            html += '<div style="font-size:13px;margin-bottom:6px"><strong>⚠️ ' + badNews[badIdx] + '</strong></div>';
+            html += '<div style="font-size:12px;color:var(--gray-4)">Plainte récurrente : <strong style="color:var(--red)">' + topComplaint + '</strong></div>';
             html += '</div>';
+            html += '<div style="font-size:12px;color:var(--gray-4);margin-bottom:8px">Points forts perçus : <strong style="color:var(--green)">' + topPraise + '</strong></div>';
+            html += '<div class="free-advice warn"><strong>Opportunité :</strong> Ces faiblesses sont vos armes. Communiquez sur vos avantages concurrentiels.</div>';
+            html += '</div></div>';
 
             // EVENEMENTS
-            html += '<div class="free-section"><div class="free-section-title">Événements à venir</div>';
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag purple" style="background:rgba(139,92,246,0.15);color:var(--purple)">Prochain événement</span><span class="free-card-meta">Dans ' + daysToEvent + ' jours</span></div>';
-            html += '<div class="free-card-text"><strong>' + nextEvent + '</strong> prévu par ' + n + '. Preparez votre veille concurrentielle.</div>';
-            html += '<div class="free-advice"><strong>Recommandation :</strong> Analysez leur historique d\'evenements pour anticiper les annonces.</div></div>';
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag silver">Dernier événement</span><span class="free-card-meta">Recent</span></div>';
-            html += '<div class="free-card-text"><strong>' + lastEvent + '</strong> — ' + n + ' a realise cet evenement. Impact mesurable sur leur visibilite.</div></div>';
+            html += '<div class="free-section"><div class="free-section-title">Événements</div>';
+            html += '<div class="free-card">';
+            html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">';
+            html += '<div style="padding:10px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.15);border-radius:8px">';
+            html += '<div style="color:var(--green);font-weight:700;margin-bottom:4px">📅 Prochain événement</div>';
+            html += '<div><strong>' + nextEvent + '</strong></div>';
+            html += '<div style="color:var(--gray-4);font-size:12px">Dans ' + daysToEvent + ' jours</div>';
             html += '</div>';
+            html += '<div style="padding:10px;background:rgba(209,213,219,0.06);border:1px solid rgba(209,213,219,0.15);border-radius:8px">';
+            html += '<div style="color:var(--gray-3);font-weight:700;margin-bottom:4px">📌 Dernier événement</div>';
+            html += '<div><strong>' + lastEvent + '</strong></div>';
+            html += '<div style="color:var(--gray-4);font-size:12px">Il y a ' + Math.floor(daysToEvent + 30) + ' jours</div>';
+            html += '</div>';
+            html += '</div>';
+            html += '</div></div>';
 
             // POSTS
-            html += '<div class="free-section"><div class="free-section-title">Derniers posts réseaux sociaux</div>';
-            html += '<div class="free-chart-box"><div class="free-chart-title">Posts par semaine <span>8 dernières semaines</span></div>';
-            const postW = [];
-            for (let i = 0; i < 8; i++) postW.push(Math.floor(postsWeek * 0.5 + seededRand(seed, 80 + i) * postsWeek));
+            html += '<div class="free-section"><div class="free-section-title">Posts récents</div>';
+            html += '<div class="free-card">';
+            
+            const postTemplates = isGaming ? [
+                { platform: 'Twitter/X', text: 'Nouvelle saison disponible dès maintenant ! Rejoignez la communaute 🎮', likes: Math.floor(5000 + seededRand(seed, 60) * 20000) },
+                { platform: 'Instagram', text: 'Teaser de la prochaine mise a jour. Vous etes prets ?', likes: Math.floor(3000 + seededRand(seed, 61) * 15000) },
+                { platform: 'YouTube', text: 'Trailer officiel de la nouvelle expansion !', likes: Math.floor(10000 + seededRand(seed, 62) * 50000) }
+            ] : isFood ? [
+                { platform: 'Instagram', text: 'Nouveau menu de saison arrive dans tous nos restaurants ! 🍔', likes: Math.floor(500 + seededRand(seed, 60) * 2000) },
+                { platform: 'Facebook', text: 'Offre speciale ce weekend : -20% sur votre commande en ligne', likes: Math.floor(200 + seededRand(seed, 61) * 800) },
+                { platform: 'TikTok', text: 'Recette secrete du chef en video !', likes: Math.floor(1000 + seededRand(seed, 62) * 5000) }
+            ] : isTelecom ? [
+                { platform: 'Twitter/X', text: 'Nouveau forfait disponible ! Plus de data, moins cher.', likes: Math.floor(100 + seededRand(seed, 60) * 500) },
+                { platform: 'Facebook', text: 'Partenariat exclusif avec nos clients fideles', likes: Math.floor(50 + seededRand(seed, 61) * 300) },
+                { platform: 'LinkedIn', text: 'Notre reseau 5G s etend dans 3 nouvelles villes', likes: Math.floor(30 + seededRand(seed, 62) * 150) }
+            ] : [
+                { platform: 'LinkedIn', text: 'Decouvrez nos nouvelles fonctionnalites ! ' + n + ' continue d innover.', likes: Math.floor(100 + seededRand(seed, 60) * 500) },
+                { platform: 'Twitter/X', text: 'Merci pour vos retours ! Notre equipe travaille sur vos suggestions.', likes: Math.floor(50 + seededRand(seed, 61) * 200) },
+                { platform: 'Instagram', text: 'En coulisses de notre derniere campagne', likes: Math.floor(200 + seededRand(seed, 62) * 1000) }
+            ];
+            
+            postTemplates.forEach(post => {
+                html += '<div style="padding:10px;border:1px solid rgba(255,255,255,0.06);border-radius:8px;margin-bottom:8px">';
+                html += '<div style="display:flex;justify-content:space-between;margin-bottom:6px">';
+                html += '<span class="free-tag silver">' + post.platform + '</span>';
+                html += '<span style="font-size:11px;color:var(--gray-5)">' + post.likes.toLocaleString('fr-FR') + ' likes</span>';
+                html += '</div>';
+                html += '<div style="font-size:13px;color:var(--gray-3)">' + post.text + '</div>';
+                html += '</div>';
+            });
+            
+            // Posts chart
+            const postW = [Math.floor(postsWeek * 0.7), Math.floor(postsWeek * 0.8), Math.floor(postsWeek * 0.9), Math.floor(postsWeek * 0.85), Math.floor(postsWeek * 0.95), Math.floor(postsWeek * 0.9), Math.floor(postsWeek * 0.95), postsWeek];
+            html += '<div class="free-chart-box"><div class="free-chart-title">Fréquence de publication <span>8 semaines</span></div>';
             html += makeBarChart(postW, ['S-7','S-6','S-5','S-4','S-3','S-2','S-1','Actuel'], ['#D1D5DB','#D1D5DB','#D1D5DB','#D1D5DB','#D1D5DB','#D1D5DB','#D1D5DB','#FF3B3B']);
             html += '</div>';
-            html += '<div class="free-chart-box"><div class="free-chart-title">Engagement par plateforme</div>';
-            const engLi = Math.floor(2 + seededRand(seed, 81) * 8);
-            const engFb = Math.floor(1 + seededRand(seed, 82) * 5);
-            const engIg = Math.floor(1 + seededRand(seed, 83) * 6);
-            const engTw = Math.floor(0.5 + seededRand(seed, 84) * 3);
-            html += makeBarChart([engLi, engFb, engIg, engTw], ['LinkedIn','Facebook','Instagram','Twitter'], ['#4A9EFF','#5B9BD5','#E1306C','#71C5FC'], 'k');
-            html += '</div>';
-            const likes1 = Math.floor(500 + seededRand(seed, 8) * 3000);
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag linkedin">LinkedIn</span><span class="free-card-meta">Il y a 2h · ' + (likes1/1000).toFixed(1) + 'k likes</span></div>';
-            html += '<div class="free-card-text">"Decouvrez nos nouvelles fonctionnalites ! ' + n + ' continue d\'innover pour ses clients. Restez connectes !"</div>';
-            html += '<div class="free-card-stats"><span><strong>' + (likes1/1000).toFixed(1) + 'k</strong> likes</span><span><strong>' + Math.floor(20 + seededRand(seed, 9) * 100) + '</strong> commentaires</span><span><strong>' + Math.floor(50 + seededRand(seed, 52) * 500) + '</strong> partages</span><span><strong style="color:var(--purple)">Eleve</strong> engagement</span></div>';
-            html += '<div class="free-advice"><strong>Comment reagir :</strong> Publiez un contenu similaire dans les 24h. Mettez en avant vos avantages concurrentiels.</div></div>';
-            const likes2 = Math.floor(200 + seededRand(seed, 10) * 1500);
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag facebook">Facebook</span><span class="free-card-meta">Il y a 5h · ' + (likes2/1000).toFixed(1) + 'k likes</span></div>';
-            html += '<div class="free-card-text">"OFFRE LIMITEE : -30% sur nos services pendant 48h ! Ne manquez pas cette opportunite unique."</div>';
-            html += '<div class="free-card-stats"><span><strong>' + (likes2/1000).toFixed(1) + 'k</strong> likes</span><span><strong>' + Math.floor(30 + seededRand(seed, 11) * 200) + '</strong> commentaires</span><span><strong style="color:var(--orange)">Moyen</strong> engagement</span></div>';
-            html += '<div class="free-advice warn"><strong>Alerte :</strong> Promotion agressive detectee. ' + n + ' tente d\'attirer vos clients.</div></div>';
-            html += '</div>';
+            html += '</div></div>';
 
             // AVIS
-            html += '<div class="free-section"><div class="free-section-title">Avis clients détaillés</div>';
-            html += '<div class="free-chart-box"><div class="free-chart-title">Répartition des notes <span>sur 100 avis</span></div>';
-            const r5 = Math.floor(10 + seededRand(seed, 85) * 30);
-            const r4 = Math.floor(10 + seededRand(seed, 86) * 25);
-            const r3 = Math.floor(5 + seededRand(seed, 87) * 15);
-            const r2 = Math.floor(5 + seededRand(seed, 88) * 20);
-            const r1 = 100 - r5 - r4 - r3 - r2;
-            html += makeDonut([
-                { label: '5 etoiles', value: r5, color: '#10B981' },
-                { label: '4 etoiles', value: r4, color: '#34D399' },
-                { label: '3 etoiles', value: r3, color: '#F59E0B' },
-                { label: '2 etoiles', value: r2, color: '#F97316' },
-                { label: '1 etoile', value: Math.max(1, r1), color: '#FF3B3B' }
-            ]);
-            html += '</div>';
-            html += '<div class="free-chart-box"><div class="free-chart-title">Sentiment clients <span>tendance 6 mois</span></div>';
-            const sentData = [];
-            for (let i = 0; i < 6; i++) sentData.push(Math.floor(40 + seededRand(seed, 90 + i) * 50));
+            html += '<div class="free-section"><div class="free-section-title">Avis clients</div>';
+            html += '<div class="free-card">';
+            
+            const reviewTemplates = [
+                { platform: 'Trustpilot', stars: Math.max(1, Math.min(5, Math.round(satisfaction / 20))), text: satisfaction > 75 ? 'Excellent service, je recommande !' : 'Service correct mais peut mieux faire.', color: '#00B67A' },
+                { platform: 'Google', stars: Math.max(1, Math.min(5, Math.round(satisfaction / 20 + 0.5))), text: satisfaction > 70 ? 'Très satisfaite de mon expérience' : 'Expérience moyenne, rien de spécial', color: '#4285F4' },
+                { platform: 'G2', stars: Math.max(1, Math.min(5, Math.round(satisfaction / 22))), text: isTech ? 'Bon outil mais le support pourrait être plus réactif' : 'Produit correct, rapport qualité/prix acceptable', color: '#FF492C' }
+            ];
+            
+            reviewTemplates.forEach(r => {
+                const starsHtml = '★'.repeat(r.stars) + '☆'.repeat(5 - r.stars);
+                html += '<div style="padding:10px;border:1px solid rgba(255,255,255,0.06);border-radius:8px;margin-bottom:8px">';
+                html += '<div style="display:flex;justify-content:space-between;margin-bottom:4px">';
+                html += '<span class="free-tag silver">' + r.platform + '</span>';
+                html += '<span style="color:' + r.color + ';font-size:14px">' + starsHtml + '</span>';
+                html += '</div>';
+                html += '<div style="font-size:13px;color:var(--gray-3)">"' + r.text + '"</div>';
+                html += '</div>';
+            });
+            
+            // Sentiment chart
+            const sentBase = 50 + (satisfaction - 70) * 0.5;
+            const sentData = [sentBase - 5, sentBase - 3, sentBase - 1, sentBase + 2, sentBase - 2, sentBase];
+            html += '<div class="free-chart-box"><div class="free-chart-title">Tendance du sentiment <span>6 mois (%)</span></div>';
             html += makeLineChart(sentData, sentiment === 'Positif' ? '#10B981' : sentiment === 'Negatif' ? '#FF3B3B' : '#F59E0B', null, ['Avr','Mai','Juin','Juil','Août','Sept'], '%');
             html += '</div>';
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag trustpilot">Trustpilot</span><span class="free-card-meta">1 etoile · il y a 2h</span></div>';
-            html += '<div class="free-card-text">"Le support met 48h a repondre. Quand j\'ai un probleme bloquant, personne ne repond. Franchement deconcu pour le prix."</div>';
-            html += '<div class="free-card-stats"><span><strong style="color:var(--red)">1/5</strong> etoiles</span></div>';
-            html += '<div class="free-advice"><strong>Opportunite :</strong> Ciblez les clients mecontents de ' + n + ' avec votre support client.</div></div>';
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag trustpilot">Trustpilot</span><span class="free-card-meta">2 etoiles · il y a 1j</span></div>';
-            html += '<div class="free-card-text">"Les nouvelles fonctionnalites sont buggues. Ca plante toutes les semaines. J\'ai bascule sur une alternative plus stable."</div>';
-            html += '<div class="free-card-stats"><span><strong style="color:var(--red)">2/5</strong> etoiles</span></div>';
-            html += '<div class="free-advice"><strong>Opportunite :</strong> Stabilite = avantage concurrentiel. Communiquez sur votre fiabilite.</div></div>';
-            html += '</div>';
+            html += '</div></div>';
 
             // PUBS
-            html += '<div class="free-section"><div class="free-section-title">Campagnes publicitaires actives</div>';
-            html += '<div class="free-chart-box"><div class="free-chart-title">Budget pub mensuel <span>en milliers €</span></div>';
-            const adBase = Math.floor(adBudget * 0.3);
-            const adData = [adBase, Math.floor(adBase * 1.2), Math.floor(adBase * 0.9), Math.floor(adBase * 1.4), Math.floor(adBase * 1.6), adBudget];
+            html += '<div class="free-section"><div class="free-section-title">Publicités détectées</div>';
+            html += '<div class="free-card">';
+            html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px">';
+            html += '<div style="text-align:center;padding:10px;background:rgba(91,155,213,0.08);border-radius:8px">';
+            html += '<div style="font-size:18px;font-weight:800;color:#5B9BD5">' + Math.floor(adBudget * 0.4) + 'k€</div>';
+            html += '<span style="color:var(--gray-4);font-size:11px">Facebook</span></div>';
+            html += '<div style="text-align:center;padding:10px;background:rgba(66,133,244,0.08);border-radius:8px">';
+            html += '<div style="font-size:18px;font-weight:800;color:#4285F4">' + Math.floor(adBudget * 0.35) + 'k€</div>';
+            html += '<span style="color:var(--gray-4);font-size:11px">Google</span></div>';
+            html += '<div style="text-align:center;padding:10px;background:rgba(225,48,108,0.08);border-radius:8px">';
+            html += '<div style="font-size:18px;font-weight:800;color:#E1306C">' + Math.floor(adBudget * 0.25) + 'k€</div>';
+            html += '<span style="color:var(--gray-4);font-size:11px">TikTok</span></div>';
+            html += '</div>';
+            
+            // Ad chart
+            const adData = [Math.floor(adBudget * 0.7), Math.floor(adBudget * 0.8), Math.floor(adBudget * 0.9), Math.floor(adBudget * 0.85), Math.floor(adBudget * 0.95), adBudget];
+            html += '<div class="free-chart-box"><div class="free-chart-title">Budget publicitaire <span>6 mois (k€)</span></div>';
             html += makeLineChart(adData, '#8B5CF6', null, ['Avr','Mai','Juin','Juil','Août','Sept'], 'k€');
             html += '</div>';
-            html += '<div class="free-chart-box"><div class="free-chart-title">CTR par plateforme <span>en %</span></div>';
-            const ctrFb = (0.5 + seededRand(seed, 59) * 3).toFixed(1);
-            const ctrGo = (1 + seededRand(seed, 63) * 4).toFixed(1);
-            const ctrTt = (3 + seededRand(seed, 69) * 15).toFixed(1);
-            html += makeBarChart([parseFloat(ctrFb), parseFloat(ctrGo), parseFloat(ctrTt)], ['Facebook','Google','TikTok'], ['#5B9BD5','#4285F4','#E1306C'], '%');
-            html += '</div>';
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag red">Facebook Ads</span><span class="free-card-meta">Active · ' + Math.floor(5 + seededRand(seed, 57) * 30) + ' jours</span></div>';
-            html += '<div class="free-card-text">"Rejoignez ' + n + '. Essai gratuit de 14 jours. Plus de 10 000 clients satisfaits."</div>';
-            html += '<div class="free-card-stats"><span><strong>' + Math.floor(2 + seededRand(seed, 58) * 8) + 'k</strong> impressions/jour</span><span><strong>' + ctrFb + '%</strong> CTR</span></div>';
-            html += '<div class="free-advice warn"><strong>Analyse :</strong> Budget agressif d\'environ ' + adBudget + 'k€/mois. Ils investissent lourdement dans l\'acquisition.</div></div>';
-            html += '</div>';
+            html += '</div></div>';
 
             // RECRUTEMENTS
-            html += '<div class="free-section"><div class="free-section-title">Recrutements & signaux de croissance</div>';
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag red">Engineering</span><span class="free-card-meta">' + openRoles + ' postes ouverts</span></div>';
-            html += '<div class="free-card-text"><strong>Senior Full-Stack Developer (' + t1 + ')</strong> — ' + n + ' recrute pour renforcer son equipe produit. Remote possible. Fourchette : 70-95k€.</div>';
-            html += '<div class="free-advice"><strong>Signaux :</strong> Investissement R&D en cours. Attendez-vous a de nouvelles fonctionnalites.</div></div>';
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag silver">Marketing</span><span class="free-card-meta">Publie il y a 7 jours</span></div>';
-            html += '<div class="free-card-text"><strong>Growth Marketing Manager</strong> — ' + n + ' cherche a accelerer son acquisition client. Fourchette : 50-65k€.</div>';
-            html += '<div class="free-advice warn"><strong>Signaux :</strong> Budget acquisition en hausse. Prevoyez une guerre de prix.</div></div>';
-            html += '</div>';
+            html += '<div class="free-section"><div class="free-section-title">Recrutements</div>';
+            html += '<div class="free-card">';
+            html += '<div style="font-size:13px;margin-bottom:10px"><strong>' + openRoles + '</strong> postes ouverts actuellement</div>';
+            
+            const roleTemplates = isTech ? [
+                { title: 'Développeur Full-Stack', dept: 'Engineering', remote: true },
+                { title: 'Product Manager', dept: 'Produit', remote: false },
+                { title: 'Data Scientist', dept: 'Data', remote: true }
+            ] : isFood ? [
+                { title: 'Chef de restaurant', dept: 'Operations', remote: false },
+                { title: 'Responsable marketing', dept: 'Marketing', remote: false },
+                { title: 'Chargé(e) de clientèle', dept: 'Client', remote: false }
+            ] : [
+                { title: 'Chargé(e) de mission', dept: 'Conseil', remote: true },
+                { title: 'Chef de projet', dept: 'Projets', remote: false },
+                { title: 'Responsable commercial', dept: 'Commercial', remote: false }
+            ];
+            
+            roleTemplates.forEach(r => {
+                html += '<div style="padding:8px;border:1px solid rgba(255,255,255,0.06);border-radius:6px;margin-bottom:6px;font-size:13px">';
+                html += '<div style="display:flex;justify-content:space-between">';
+                html += '<strong>' + r.title + '</strong>';
+                html += '<span style="color:var(--gray-4);font-size:11px">' + (r.remote ? '🏠 Remote' : '🏢 Sur site') + '</span>';
+                html += '</div>';
+                html += '<div style="color:var(--gray-5);font-size:12px">' + r.dept + '</div>';
+                html += '</div>';
+            });
+            html += '</div></div>';
 
             // BLOG
-            html += '<div class="free-section"><div class="free-section-title">Blog & stratégie éditoriale</div>';
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag red">Article</span><span class="free-card-meta">Il y a 2 jours · 4 min</span></div>';
-            html += '<div class="free-card-text"><strong>"10 tendances du secteur en 2026"</strong> — ' + n + ' publie un guide complet sur les tendances du marche.</div>';
-            html += '<div class="free-card-stats"><span><strong>12k</strong> lectures</span><span><strong>89</strong> partages</span><span><strong>Position 3</strong> Google</span></div>';
-            html += '<div class="free-advice"><strong>Stratégie :</strong> Contenu SEO optimisé. Contrez avec du contenu plus spécifique.</div></div>';
-            html += '<div class="free-card"><div class="free-card-h"><span class="free-tag silver">Newsletter</span><span class="free-card-meta">Hebdomadaire</span></div>';
-            html += '<div class="free-card-text"><strong>Newsletter ' + n + '</strong> — ' + Math.floor(5 + seededRand(seed, 70) * 20) + 'k abonnés. Taux d\'ouverture ' + Math.floor(15 + seededRand(seed, 71) * 25) + '%.</div>';
-            html += '<div class="free-advice warn"><strong>Stratégie :</strong> Canal de retention puissant. Considérez de lancer la vôtre.</div></div>';
+            html += '<div class="free-section"><div class="free-section-title">Blog & contenu</div>';
+            html += '<div class="free-card">';
+            
+            const blogTemplates = isTech ? [
+                { title: 'Comment nous avons réduit nos coûts de 30%', date: 'Il y a 5 jours', readTime: '6 min' },
+                { title: 'Les tendances IA à surveiller en 2026', date: 'Il y a 12 jours', readTime: '8 min' }
+            ] : isGaming ? [
+                { title: 'Les coulisses de notre prochaine saison', date: 'Il y a 3 jours', readTime: '4 min' },
+                { title: 'Guide des débutants : par où commencer ?', date: 'Il y a 10 jours', readTime: '7 min' }
+            ] : [
+                { title: 'Nos engagements pour 2026', date: 'Il y a 7 jours', readTime: '5 min' },
+                { title: 'Innovation et développement durable', date: 'Il y a 15 jours', readTime: '6 min' }
+            ];
+            
+            blogTemplates.forEach(b => {
+                html += '<div style="padding:10px;border:1px solid rgba(255,255,255,0.06);border-radius:8px;margin-bottom:8px">';
+                html += '<div style="font-size:13px;font-weight:600;margin-bottom:4px">' + b.title + '</div>';
+                html += '<div style="font-size:11px;color:var(--gray-5)">' + b.date + ' · ' + b.readTime + ' de lecture</div>';
+                html += '</div>';
+            });
+            
+            // Newsletter
+            const newsletterSubs = Math.floor(socialFollowers * 0.1);
+            const openRate = Math.floor(18 + seededRand(seed, 71) * 22);
+            html += '<div style="padding:10px;border:1px solid rgba(255,255,255,0.06);border-radius:8px;margin-top:8px">';
+            html += '<div style="font-size:13px;margin-bottom:4px"><strong>Newsletter</strong></div>';
+            html += '<div style="font-size:12px;color:var(--gray-4)">' + newsletterSubs.toLocaleString('fr-FR') + ' abonnés · Taux d\'ouverture ' + openRate + '%</div>';
             html += '</div>';
+            html += '</div></div>';
 
             // RESEAUX SOCIAUX
             html += '<div class="free-section"><div class="free-section-title">Présence réseaux sociaux</div>';
             html += '<div class="free-chart-box"><div class="free-chart-title">Croissance abonnés <span>6 mois (toutes plateformes)</span></div>';
-            const socBase = Math.floor(socialFollowers * 0.5);
-            const socData = [socBase, Math.floor(socBase * 1.1), Math.floor(socBase * 1.2), Math.floor(socBase * 1.35), Math.floor(socBase * 1.5), socialFollowers];
+            const socBase = Math.floor(socialFollowers * 0.6);
+            const socData = [socBase, Math.floor(socBase * 1.05), Math.floor(socBase * 1.1), Math.floor(socBase * 1.18), Math.floor(socBase * 1.25), socialFollowers];
             html += makeLineChart(socData, '#D1D5DB', null, ['Avr','Mai','Juin','Juil','Août','Sept'], 'k');
             html += '</div>';
             html += '<div class="free-card">';
             html += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;font-size:13px;text-align:center">';
-            html += '<div><div style="font-size:18px;font-weight:800;color:#4A9EFF">' + Math.floor(socialFollowers * 0.4) + 'k</div><span style="color:var(--gray-4);font-size:11px">LinkedIn</span></div>';
-            html += '<div><div style="font-size:18px;font-weight:800;color:#5B9BD5">' + Math.floor(socialFollowers * 0.3) + 'k</div><span style="color:var(--gray-4);font-size:11px">Facebook</span></div>';
-            html += '<div><div style="font-size:18px;font-weight:800;color:#E1306C">' + Math.floor(socialFollowers * 0.2) + 'k</div><span style="color:var(--gray-4);font-size:11px">Instagram</span></div>';
-            html += '<div><div style="font-size:18px;font-weight:800;color:#71C5FC">' + Math.floor(socialFollowers * 0.1) + 'k</div><span style="color:var(--gray-4);font-size:11px">Twitter/X</span></div>';
+            html += '<div><div style="font-size:18px;font-weight:800;color:#4A9EFF">' + Math.floor(socialFollowers * 0.35 / 1000) + 'M</div><span style="color:var(--gray-4);font-size:11px">LinkedIn</span></div>';
+            html += '<div><div style="font-size:18px;font-weight:800;color:#5B9BD5">' + Math.floor(socialFollowers * 0.25 / 1000) + 'M</div><span style="color:var(--gray-4);font-size:11px">Facebook</span></div>';
+            html += '<div><div style="font-size:18px;font-weight:800;color:#E1306C">' + Math.floor(socialFollowers * 0.28 / 1000) + 'M</div><span style="color:var(--gray-4);font-size:11px">Instagram</span></div>';
+            html += '<div><div style="font-size:18px;font-weight:800;color:#71C5FC">' + Math.floor(socialFollowers * 0.12 / 1000) + 'M</div><span style="color:var(--gray-4);font-size:11px">Twitter/X</span></div>';
             html += '</div>';
-            html += '<div class="free-advice" style="margin-top:12px"><strong>Conseil :</strong> ' + n + ' investit dans la presence sociale. Surveillez leurs campagnes.</div>';
             html += '</div></div>';
 
-            // STACK TECHNIQUE
-            html += '<div class="free-section"><div class="free-section-title">Stack technique détectée</div>';
-            html += '<div class="free-card">';
-            html += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">';
-            html += '<span class="free-tag silver">' + t1 + '</span>';
-            html += '<span class="free-tag silver">' + t2 + '</span>';
-            html += '<span class="free-tag silver">' + cloud + '</span>';
-            html += '<span class="free-tag silver">CDN</span>';
-            html += '<span class="free-tag silver">Analytics</span>';
-            html += '</div>';
-            html += '<div class="free-advice"><strong>Insight :</strong> Stack ' + t1 + ' + ' + cloud + '. Si vous utilisez les memes technologies, leurs vulnerabilites sont aussi les votres.</div>';
-            html += '</div></div>';
+            // STACK TECHNIQUE (only for tech companies)
+            if (isTech) {
+                html += '<div class="free-section"><div class="free-section-title">Stack technique détectée</div>';
+                html += '<div class="free-card">';
+                html += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">';
+                html += '<span class="free-tag silver">' + t1 + '</span>';
+                html += '<span class="free-tag silver">' + t2 + '</span>';
+                html += '<span class="free-tag silver">' + cloud + '</span>';
+                html += '<span class="free-tag silver">CDN</span>';
+                html += '</div>';
+                html += '<div class="free-advice"><strong>Insight :</strong> Stack ' + t1 + ' + ' + cloud + '. Si vous utilisez les mêmes technologies, leurs vulnérabilités sont aussi les vôtres.</div>';
+                html += '</div></div>';
+            }
 
             // CTA
             html += '<div class="free-cta"><h3>Voulez-vous comparer ' + n + ' à vos concurrents ?</h3>';
@@ -5960,6 +6308,7 @@
 
             document.getElementById('freeModalBody').innerHTML = html;
         }
+
     </script>
 </body>
 </html>
