@@ -240,31 +240,290 @@
             .type-grid{grid-template-columns:repeat(2,1fr)}
         }
     
-        /* LOCKED TABS - Red glow effect */
-        .tab.locked {
+        /* PREMIUM TABS - Red glow + animated gradient */
+        .sb-item.premium {
             position: relative;
-            opacity: 0.6;
         }
-        .tab.locked::after {
-            content: '🔒';
-            font-size: 10px;
-            margin-left: 6px;
+        .sb-item.premium .sb-item-text {
+            background: linear-gradient(90deg, #FF3B3B 0%, #FF6B6B 25%, #FF3B3B 50%, #FF6B6B 75%, #FF3B3B 100%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmerText 3s linear infinite;
         }
-        .tab.locked:hover {
-            opacity: 0.8;
+        @keyframes shimmerText {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
-        .sb-item.locked {
+        .sb-item.premium:hover {
+            background: rgba(255,59,59,0.12);
+            box-shadow: 0 0 20px rgba(255,59,59,0.15), inset 0 0 15px rgba(255,59,59,0.05);
+        }
+        .sb-item.premium::after {
+            content: 'PRO';
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            padding: 2px 5px;
+            border-radius: 4px;
+            background: linear-gradient(135deg, rgba(255,59,59,0.2), rgba(255,59,59,0.05));
+            color: #FF3B3B;
+            border: 1px solid rgba(255,59,59,0.25);
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+        .sb-item.premium.biz::after {
+            content: 'BIZ';
+            background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(139,92,246,0.05));
+            color: #A78BFA;
+            border-color: rgba(139,92,246,0.25);
+        }
+        .sb-item.premium.biz .sb-item-text {
+            background: linear-gradient(90deg, #A78BFA 0%, #C4B5FD 25%, #A78BFA 50%, #C4B5FD 75%, #A78BFA 100%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmerTextPurple 3s linear infinite;
+        }
+        @keyframes shimmerTextPurple {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .sb-item.premium.biz:hover {
+            background: rgba(139,92,246,0.12);
+            box-shadow: 0 0 20px rgba(139,92,246,0.15), inset 0 0 15px rgba(139,92,246,0.05);
+        }
+        
+        /* SIDEBAR SEARCH */
+        .sb-search-wrap {
             position: relative;
-            opacity: 0.5;
+            margin-bottom: 8px;
         }
-        .sb-item.locked::after {
-            content: '🔒';
+        .sb-search-bar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 8px 10px;
+        }
+        .sb-search-bar input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #E5E7EB;
+            font-size: 12px;
+            font-family: inherit;
+            outline: none;
+            min-width: 0;
+        }
+        .sb-search-bar input::placeholder {
+            color: var(--gray-5);
+        }
+        .sb-search-bar button {
+            background: var(--red);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .sb-search-bar button:hover {
+            background: var(--red-dark);
+        }
+        .sb-search-suggestions {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #1a1a1e;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 100;
+            margin-top: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .sb-search-suggestions.on {
+            display: block;
+        }
+        .sb-sugg-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            cursor: pointer;
+            transition: background 0.15s;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .sb-sugg-item:hover, .sb-sugg-item.active {
+            background: rgba(255,59,59,0.1);
+        }
+        .sb-sugg-item:last-child {
+            border-bottom: none;
+        }
+        .sb-sugg-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            color: #fff;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .sb-sugg-icon img {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            object-fit: contain;
+            background: #fff;
+            padding: 1px;
+        }
+        .sb-sugg-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .sb-sugg-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: #E5E7EB;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sb-sugg-type {
             font-size: 10px;
-            margin-left: 6px;
+            color: var(--gray-5);
         }
-        .sb-item.locked:hover {
-            opacity: 0.7;
+        .sb-sugg-header {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--gray-5);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 6px 10px 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
+        .sb-sugg-header button {
+            background: none;
+            border: none;
+            color: var(--red);
+            font-size: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        /* ENRICHED OVERVIEW */
+        .ov-section {
+            margin-bottom: 20px;
+        }
+        .ov-section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gray-2);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .ov-section-title span.icon {
+            font-size: 16px;
+        }
+        .ov-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .ov-chart-box {
+            margin-top: 12px;
+        }
+        .ov-chart-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gray-3);
+            margin-bottom: 8px;
+        }
+        .ov-chart-title span {
+            color: var(--gray-5);
+            font-weight: 400;
+        }
+        .ov-grid2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .ov-grid3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .ov-grid4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .ov-stat-box {
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .ov-stat-val {
+            font-size: 18px;
+            font-weight: 800;
+        }
+        .ov-stat-label {
+            font-size: 11px;
+            color: var(--gray-4);
+            margin-top: 2px;
+        }
+        .ov-advice {
+            background: rgba(255,59,59,0.06);
+            border: 1px solid rgba(255,59,59,0.15);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 12px;
+            color: var(--gray-3);
+            margin-top: 10px;
+        }
+        .ov-advice.warn {
+            background: rgba(245,158,11,0.06);
+            border-color: rgba(245,158,11,0.15);
+        }
+        .ov-advice.info {
+            background: rgba(59,130,246,0.06);
+            border-color: rgba(59,130,246,0.15);
+        }
+        .ov-advice strong {
+            color: var(--gray-2);
+        }
+        .ov-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+        .ov-tag.silver { background: rgba(209,213,219,0.1); color: var(--silver); }
+        .ov-tag.red { background: rgba(255,59,59,0.1); color: var(--red); }
+        .ov-tag.green { background: rgba(16,185,129,0.1); color: var(--green); }
+        .ov-tag.orange { background: rgba(245,158,11,0.1); color: var(--orange); }
+        .ov-tag.purple { background: rgba(139,92,246,0.1); color: var(--purple); }
+        .ov-tag.blue { background: rgba(59,130,246,0.1); color: var(--blue); }
         
         /* FREE ANALYSIS SEARCH */
         .free-search-wrap {
@@ -780,17 +1039,24 @@
             <div class="sb-comp">
                 <div class="sb-comp-label"><span>Concurrents</span><button class="sb-comp-add" onclick="openAddComp()">+</button></div>
                 <div id="compList"></div>
+                <div class="sb-search-wrap" id="sbSearchWrap" style="display:none">
+                    <div class="sb-search-bar">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--gray-5);flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="text" id="sbSearchInput" placeholder="Nouveau concurrent..." onkeydown="handleSbSearchKey(event)" oninput="handleSbSearchInput()" onfocus="handleSbSearchFocus()">
+                    </div>
+                    <div class="sb-search-suggestions" id="sbSearchSuggestions"></div>
+                </div>
                 <div id="compLimit" style="padding:4px 10px;font-size:11px;color:var(--gray-5)"></div>
             </div>
             <nav class="sb-nav">
                 <a class="sb-item on" onclick="go('overview',this)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Vue d'ensemble</a>
-                <a class="sb-item" onclick="go('prices',this)"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Prix</a>
-                <a class="sb-item" onclick="go('posts',this)"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>Posts</a>
-                <a class="sb-item" onclick="go('ads',this)"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Pubs</a>
-                <a class="sb-item" onclick="go('reviews',this)"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Avis</a>
-                <a class="sb-item" onclick="go('hiring',this)"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Recrutements</a>
-                <a class="sb-item" onclick="go('blog',this)"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Blog</a>
-                <a class="sb-item" onclick="go('alerts',this)"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>Alertes</a>
+                <a class="sb-item premium" onclick="go('prices',this)"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg><span class="sb-item-text">Prix</span></a>
+                <a class="sb-item premium" onclick="go('posts',this)"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg><span class="sb-item-text">Posts</span></a>
+                <a class="sb-item premium" onclick="go('ads',this)"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><span class="sb-item-text">Pubs</span></a>
+                <a class="sb-item premium" onclick="go('reviews',this)"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><span class="sb-item-text">Avis</span></a>
+                <a class="sb-item premium" onclick="go('hiring',this)"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span class="sb-item-text">Recrutements</span></a>
+                <a class="sb-item premium" onclick="go('blog',this)"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span class="sb-item-text">Blog</span></a>
+                <a class="sb-item premium" onclick="go('alerts',this)"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><span class="sb-item-text">Alertes</span></a>
                 <a class="sb-item" onclick="go('settings',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Parametres</a>
             </nav>
             <div class="sb-foot">
@@ -816,16 +1082,6 @@
             </div>
 
             <div class="tc on" id="tc-overview">
-                <!-- FREE ANALYSIS SEARCH -->
-                <div class="free-search-wrap">
-                    <div class="free-search-bar">
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                        <input type="text" id="freeSearchInput" placeholder="Analyser une marque, app, jeu, entreprise..." onkeydown="handleFreeSearchKey(event)" oninput="handleFreeSearchInput()" onfocus="handleFreeSearchFocus()">
-                        <button onclick="runFreeAnalysis()">Analyser</button>
-                    </div>
-                    <div class="free-search-suggestions" id="freeSearchSuggestions"></div>
-                </div>
-                
 
                 <div class="stats">
                     <div class="stat"><div class="stat-l">Score menace</div><div class="stat-v red" id="sThreat">72</div><div class="stat-c down">Eleve — action recommandee</div></div>
@@ -2483,8 +2739,192 @@
             comps.splice(i, 1);
             if (curIdx >= comps.length) curIdx = comps.length - 1;
             saveComps();
+            // Show sidebar search to add a new competitor
+            showSbSearch();
             generateAll();
         }
+        
+        function showSbSearch() {
+            const wrap = document.getElementById('sbSearchWrap');
+            const input = document.getElementById('sbSearchInput');
+            if (wrap) {
+                wrap.style.display = 'block';
+                if (input) {
+                    input.value = '';
+                    setTimeout(() => input.focus(), 100);
+                }
+            }
+        }
+        
+        function hideSbSearch() {
+            const wrap = document.getElementById('sbSearchWrap');
+            if (wrap) wrap.style.display = 'none';
+        }
+
+        // ========== SIDEBAR SEARCH ==========
+        function getRecentSearches() {
+            try { return JSON.parse(localStorage.getItem('rivaleye_recent') || '[]'); }
+            catch(e) { return []; }
+        }
+        function saveRecentSearch(name) {
+            let recent = getRecentSearches().filter(r => r.toLowerCase() !== name.toLowerCase());
+            recent.unshift(name);
+            if (recent.length > 8) recent = recent.slice(0, 8);
+            localStorage.setItem('rivaleye_recent', JSON.stringify(recent));
+        }
+        function clearRecentSearches() {
+            localStorage.removeItem('rivaleye_recent');
+            hideSbSuggestions();
+        }
+        function hideSbSuggestions() {
+            const box = document.getElementById('sbSearchSuggestions');
+            if (box) box.classList.remove('on');
+        }
+        function selectSbSuggestion(name) {
+            const input = document.getElementById('sbSearchInput');
+            if (input) input.value = name;
+            hideSbSuggestions();
+            runSbAnalysis();
+        }
+        function getBrandByName(name) {
+            return knownBrands.find(b => b.name.toLowerCase() === name.toLowerCase());
+        }
+        function getBrandLogo(domain, name) {
+            if (domain) return 'https://www.google.com/s2/favicons?domain=' + domain + '&sz=128';
+            return null;
+        }
+        function handleSbSearchFocus() {
+            const input = document.getElementById('sbSearchInput');
+            if (!input) return;
+            const val = input.value.trim();
+            const box = document.getElementById('sbSearchSuggestions');
+            if (!val) {
+                const recent = getRecentSearches();
+                if (recent.length > 0) {
+                    let html = '<div class="sb-sugg-header"><span>Recentes</span><button onclick="event.stopPropagation();clearRecentSearches()">Effacer</button></div>';
+                    recent.forEach(name => {
+                        const brand = getBrandByName(name);
+                        const logo = brand ? getBrandLogo(brand.domain, name) : null;
+                        const type = brand ? brand.type : 'Entreprise';
+                        const iconHtml = logo
+                            ? '<div class="sb-sugg-icon"><img src="' + logo + '" alt="" onerror="this.parentElement.innerHTML=\'<span>' + name.charAt(0).toUpperCase() + '</span>\'"></div>'
+                            : '<div class="sb-sugg-icon" style="background:' + (brand ? brand.color : '#FF3B3B') + '">' + name.charAt(0).toUpperCase() + '</div>';
+                        html += '<div class="sb-sugg-item" onclick="selectSbSuggestion(\'' + name.replace(/'/g, "\\'") + '\')">' +
+                            iconHtml +
+                            '<div class="sb-sugg-info"><div class="sb-sugg-name">' + name + '</div><div class="sb-sugg-type">' + type + '</div></div>' +
+                            '</div>';
+                    });
+                    box.innerHTML = html;
+                    box.classList.add('on');
+                } else {
+                    box.classList.remove('on');
+                }
+            } else {
+                handleSbSearchInput();
+            }
+        }
+        function handleSbSearchInput() {
+            const input = document.getElementById('sbSearchInput');
+            if (!input) return;
+            const val = input.value.trim();
+            const box = document.getElementById('sbSearchSuggestions');
+            if (val.length < 2) {
+                if (!val) { handleSbSearchFocus(); }
+                else { box.classList.remove('on'); }
+                return;
+            }
+            const lower = val.toLowerCase();
+            const words = lower.split(/\s+/).filter(w => w.length > 0);
+            let matches = knownBrands.filter(b => {
+                const name = b.name.toLowerCase();
+                const type = b.type.toLowerCase();
+                return words.every(w => name.includes(w) || type.includes(w));
+            }).slice(0, 8);
+            if (matches.length === 0 && words.length > 1) {
+                matches = knownBrands.filter(b => {
+                    const name = b.name.toLowerCase();
+                    const type = b.type.toLowerCase();
+                    return words.some(w => name.includes(w) || type.includes(w));
+                }).slice(0, 6);
+            }
+            if (matches.length === 0) {
+                const firstLetter = words[0].charAt(0);
+                matches = knownBrands.filter(b => b.name.toLowerCase().charAt(0) === firstLetter).slice(0, 4);
+                const popular = ['Louis Vuitton', 'Shopify', 'Uber', 'Notion', 'Spotify', 'Canva', 'Gucci', 'Chanel', 'Fortnite', 'Minecraft'];
+                popular.forEach(p => {
+                    if (matches.length < 6 && !matches.find(m => m.name === p)) {
+                        const brand = knownBrands.find(b => b.name === p);
+                        if (brand) matches.push(brand);
+                    }
+                });
+            }
+            let html = '<div class="sb-sugg-header"><span>Suggestions</span></div>';
+            matches.forEach(b => {
+                const logo = getBrandLogo(b.domain, b.name);
+                const iconHtml = logo
+                    ? '<div class="sb-sugg-icon"><img src="' + logo + '" alt="" onerror="this.parentElement.innerHTML=\'<span>' + b.name.charAt(0).toUpperCase() + '</span>\'"></div>'
+                    : '<div class="sb-sugg-icon" style="background:' + b.color + '">' + b.name.charAt(0).toUpperCase() + '</div>';
+                html += '<div class="sb-sugg-item" onclick="selectSbSuggestion(\'' + b.name.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '\')">' +
+                    iconHtml +
+                    '<div class="sb-sugg-info"><div class="sb-sugg-name">' + b.name + '</div><div class="sb-sugg-type">' + b.type + '</div></div>' +
+                    '</div>';
+            });
+            html += '<div class="sb-sugg-item" onclick="selectSbSuggestion(\'' + val.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '\')">' +
+                '<div class="sb-sugg-icon" style="background:#FF3B3B">' + val.charAt(0).toUpperCase() + '</div>' +
+                '<div class="sb-sugg-info"><div class="sb-sugg-name">Analyser "' + val + '"</div><div class="sb-sugg-type">Recherche libre</div></div>' +
+                '</div>';
+            box.innerHTML = html;
+            box.classList.add('on');
+        }
+        function handleSbSearchKey(event) {
+            const box = document.getElementById('sbSearchSuggestions');
+            if (!box) return;
+            const items = box.querySelectorAll('.sb-sugg-item');
+            let active = box.querySelector('.sb-sugg-item.active');
+            let idx = Array.from(items).indexOf(active);
+            if (event.key === 'Enter') {
+                if (active) { event.preventDefault(); active.click(); }
+                else { event.preventDefault(); runSbAnalysis(); }
+            } else if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                if (idx < items.length - 1) { items[idx].classList.remove('active'); items[idx+1].classList.add('active'); }
+                else if (idx === -1 && items.length > 0) { items[0].classList.add('active'); }
+            } else if (event.key === 'ArrowUp') {
+                event.preventDefault();
+                if (idx > 0) { items[idx].classList.remove('active'); items[idx-1].classList.add('active'); }
+                else if (idx === 0) { items[0].classList.remove('active'); }
+            } else if (event.key === 'Escape') {
+                hideSbSuggestions();
+            }
+        }
+        function runSbAnalysis() {
+            const input = document.getElementById('sbSearchInput');
+            if (!input) return;
+            const name = input.value.trim();
+            if (!name) {
+                input.focus();
+                return;
+            }
+            saveRecentSearch(name);
+            hideSbSuggestions();
+            hideSbSearch();
+            // Add as new competitor
+            if (comps.length < planLimit()) {
+                const colors = ['red','silver','green','orange'];
+                comps.push({ name: name, type: 'site', url: '', color: colors[comps.length % colors.length] });
+                curIdx = comps.length - 1;
+                saveComps();
+                generateAll();
+            } else {
+                showUpgradeModal('pro');
+            }
+        }
+        
+        // Close sidebar search suggestions on outside click
+        document.addEventListener('click', function(e) {
+            const wrap = document.querySelector('.sb-search-wrap');
+            if (wrap && !wrap.contains(e.target)) hideSbSuggestions();
+        });
 
         function renderComps() {
             const list = document.getElementById('compList');
@@ -2541,16 +2981,20 @@
         }
 
         function updateTabLocks() {
-            // Update sidebar items
+            // Update sidebar items - use premium class instead of locked
             document.querySelectorAll('.sb-item').forEach(function(item) {
                 const onclick = item.getAttribute('onclick') || '';
                 const match = onclick.match(/go\('([^']+)'/);
                 if (match) {
                     const tab = match[1];
-                    if (isTabLocked(tab)) {
-                        item.classList.add('locked');
-                    } else {
+                    if (BIZ_TABS.includes(tab)) {
+                        item.classList.add('premium', 'biz');
                         item.classList.remove('locked');
+                    } else if (PRO_TABS.includes(tab)) {
+                        item.classList.add('premium');
+                        item.classList.remove('locked', 'biz');
+                    } else {
+                        item.classList.remove('premium', 'locked', 'biz');
                     }
                 }
             });
@@ -2561,9 +3005,9 @@
                 if (match) {
                     const tabName = match[1];
                     if (isTabLocked(tabName)) {
-                        tab.classList.add('locked');
+                        tab.classList.add('premium');
                     } else {
-                        tab.classList.remove('locked');
+                        tab.classList.remove('premium');
                     }
                 }
             });
@@ -2623,62 +3067,174 @@
             const pa = document.getElementById('priceAlertBox');
             if (pa) pa.innerHTML = '<div class="card"><div class="card-h"><span class="tag red">Baisse détectée</span><span class="card-meta">Il y a 12 min</span></div><div class="price-box"><div class="price-old">29€</div><div class="price-arrow">→</div><div class="price-new">24€</div><div class="price-drop">-17%</div></div><div class="card-advice"><strong>Réaction recommandée :</strong> Ne baissez pas votre prix. Différenciez sur la valeur. Mettez en avant vos avantages exclusifs.</div></div>';
 
-            // Price history
-            const ph = document.getElementById('priceHist');
-            if (ph) ph.innerHTML =
-                '<div class="card"><div class="card-h"><span class="tag red">Baisse -17%</span><span class="card-meta">Il y a 12 min</span></div><div class="price-box"><div class="price-old">29€</div><div class="price-arrow">→</div><div class="price-new">24€</div><div class="price-drop">-17%</div></div><div class="card-advice"><strong>' + esc(name) + '</strong> a baissé son tarif principal. Votre positionnement premium reste pertinent.</div></div>' +
-                '<div class="card"><div class="card-h"><span class="tag silver">Stable</span><span class="card-meta">Il y a 2 semaines</span></div><div class="card-advice" style="background:rgba(209,213,219,.04);border-color:rgba(209,213,219,.15);">Aucun changement de prix depuis 2 semaines. ' + esc(name) + ' maintient ses tarifs actuels.</div></div>' +
-                '<div class="card"><div class="card-h"><span class="tag orange">Hausse +8%</span><span class="card-meta">Il y a 1 mois</span></div><div class="price-box"><div class="price-old">25€</div><div class="price-arrow" style="color:var(--orange)">→</div><div class="price-new" style="color:var(--orange)">27€</div><div class="price-drop" style="background:rgba(245,158,11,.15);color:var(--orange)">+8%</div></div><div class="card-advice" style="background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.15)">' + esc(name) + ' avait augmenté ses prix. Possible baisse de satisfaction client.</div></div>';
+            // ========== ENRICHED OVERVIEW CHARTS ==========
+            const ov = document.getElementById('ovCharts');
+            if (ov) {
+                const revenue = data.revenue;
+                const marketShare = data.marketShare;
+                const satisfaction = data.satisfaction;
+                const nps = data.nps;
+                const employees = data.employees;
+                const growth = data.growth;
+                const sentiment = data.sentiment;
+                const currency = data.currency || '€';
 
-            // Posts
-            const pb = document.getElementById('postsBox');
-            if (pb) pb.innerHTML =
-                '<div class="card"><div class="card-h"><span class="tag linkedin">LinkedIn</span><span class="card-meta">Il y a 2h · 2,4k likes</span></div><div class="card-text">"Découvrez nos nouvelles fonctionnalités ! ' + esc(name) + ' continue d\'innover pour ses clients."</div><div class="card-stats"><div class="cstat"><strong>2,4k</strong> <span>likes</span></div><div class="cstat"><strong>89</strong> <span>commentaires</span></div><div class="cstat"><strong>312</strong> <span>partages</span></div><div class="cstat"><strong style="color:var(--purple)">Élevé</strong> <span>engagement</span></div></div><div class="card-advice"><strong>Comment réagir :</strong> Publiez un contenu similaire dans les 24h. Mettez en avant vos avantages concurrentiels.</div></div>' +
-                '<div class="card"><div class="card-h"><span class="tag facebook">Facebook</span><span class="card-meta">Il y a 5h · 1,1k likes</span></div><div class="card-text">"OFFRE LIMITÉE : -30% sur nos services pendant 48h ! Ne manquez pas cette opportunité unique."</div><div class="card-stats"><div class="cstat"><strong>1,1k</strong> <span>likes</span></div><div class="cstat"><strong>156</strong> <span>commentaires</span></div><div class="cstat"><strong>89</strong> <span>partages</span></div><div class="cstat"><strong style="color:var(--orange)">Moyen</strong> <span>engagement</span></div></div><div class="card-advice"><strong>Comment réagir :</strong> Répondez avec une offre concurrente avantageuse. Ciblez leurs commentaires.</div></div>' +
-                '<div class="card"><div class="card-h"><span class="tag twitter">Twitter / X</span><span class="card-meta">Il y a 1 jour · 890 likes</span></div><div class="card-text">"Les chiffres ne mentent pas : ' + esc(name) + ' est en croissance de 45% cette année. Merci à toute la communauté !"</div><div class="card-stats"><div class="cstat"><strong>890</strong> <span>likes</span></div><div class="cstat"><strong>234</strong> <span>réponses</span></div><div class="cstat"><strong>67</strong> <span>partages</span></div></div><div class="card-advice"><strong>Comment réagir :</strong> Contrez leur narrative avec vos propres chiffres de croissance.</div></div>';
+                // Sector-specific data
+                const adBudgets = { food: 50, telecom: 80, luxe: 30, fashion: 40, beauty: 35, gaming: 25, tech: 15, default: 10 };
+                const adBudget = Math.floor((adBudgets[data.sector] || 10) * (0.5 + seededRand(seed, 29) * 1.5));
+                const followerBases = { social: 5000000, streaming: 2000000, gaming: 5000000, luxe: 500000, fashion: 1000000, beauty: 800000, tech: 200000, default: 100000 };
+                const socialFollowers = Math.floor((followerBases[data.sector] || 100000) * (0.5 + seededRand(seed, 30) * 2));
 
-            // Ads
-            const ab = document.getElementById('adsBox');
-            if (ab) ab.innerHTML =
-                '<div class="card"><div class="card-h"><span class="tag red">Facebook Ads</span><span class="card-meta">Active · 14 jours</span></div><div class="card-text">"Rejoignez ' + esc(name) + '. Essai gratuit de 14 jours. Plus de 10 000 clients satisfaits."</div><div class="card-stats"><div class="cstat"><strong>2,4k</strong> <span>impressions/jour</span></div><div class="cstat"><strong>1,2%</strong> <span>CTR</span></div><div class="cstat"><strong>3,80€</strong> <span>coût/clic</span></div></div><div class="card-advice warn"><strong>Analyse :</strong> Budget agressif. Ciblage large. Ils investissent dans l\'acquisition.</div></div>' +
-                '<div class="card"><div class="card-h"><span class="tag google">Google Ads</span><span class="card-meta">Active · 30 jours</span></div><div class="card-text">"Solution ' + esc(name) + ' — Meilleur rapport qualité/prix. Demandez votre devis gratuit."</div><div class="card-stats"><div class="cstat"><strong>890</strong> <span>impressions/jour</span></div><div class="cstat"><strong>3,1%</strong> <span>CTR</span></div><div class="cstat"><strong>2,10€</strong> <span>coût/clic</span></div></div><div class="card-advice"><strong>Analyse :</strong> Stratégie SEO + SEA combinée. Forte présence sur les requêtes marque.</div></div>' +
-                '<div class="card"><div class="card-h"><span class="tag instagram">TikTok Ads</span><span class="card-meta">Nouvelle · 3 jours</span></div><div class="card-text">"POV: Tu découvres comment ' + esc(name) + ' a changé ma vie #sponsored"</div><div class="card-stats"><div class="cstat"><strong>45k</strong> <span>vues</span></div><div class="cstat"><strong>8,2%</strong> <span>engagement</span></div></div><div class="card-advice warn"><strong>Analyse :</strong> Nouveau canal testé. Format UGC. Surveillez l\'impact sur votre audience.</div></div>';
+                // Revenue chart
+                const revBase = Math.floor(revenue * 0.6);
+                const revData = [revBase, Math.floor(revBase * 1.05), Math.floor(revBase * 1.12), Math.floor(revBase * 1.2), Math.floor(revBase * 1.3), revenue];
 
-            // Reviews
-            const rb = document.getElementById('reviewsBox');
-            if (rb) rb.innerHTML =
-                '<div class="card"><div class="card-h"><span class="tag trustpilot">Trustpilot</span><span class="card-meta">1 étoile · il y a 2h</span></div><div class="card-text">"Le support met 48h à répondre. Quand j\'ai un problème bloquant, personne ne répond. Franchement déconçu pour le prix."</div><div class="card-advice warn"><strong>Opportunité :</strong> Ciblez les clients mécontents de ' + esc(name) + ' avec votre support client.</div></div>' +
-                '<div class="card"><div class="card-h"><span class="tag g2">G2</span><span class="card-meta">2 étoiles · il y a 1j</span></div><div class="card-text">"Les nouvelles fonctionnalités IA sont buggées. Ça plante toutes les semaines. J\'ai basculé sur une alternative plus stable."</div><div class="card-advice"><strong>Opportunité :</strong> Stabilité = avantage concurrentiel. Communiquez sur votre fiabilité.</div></div>' +
-                '<div class="card"><div class="card-h"><span class="tag google">Google</span><span class="card-meta">2 étoiles · il y a 3j</span></div><div class="card-text">"Les frais cachés s\'ajoutent vite. Le prix de base est ok mais les plugins obligatoires coûtent cher à la fin."</div><div class="card-advice"><strong>Opportunité :</strong> Transparence tarifaire = différence. Montrez votre prix tout compris.</div></div>' +
-                '<div class="card"><div class="card-h"><span class="tag trustpilot">Trustpilot</span><span class="card-meta">5 étoiles · il y a 5j</span></div><div class="card-text">"Excellent produit, je recommande vivement. Le rapport qualité/prix est imbattable."</div><div class="card-advice warn"><strong>Alerte :</strong> Témoignages positifs = preuve sociale. Contrez avec vos propres cas clients.</div></div>';
+                // Price evolution
+                const priceBase = 25 + seededRand(seed, 50) * 30;
+                const priceData = [
+                    Math.round(priceBase * 1.05 * 100) / 100,
+                    Math.round(priceBase * 1.02 * 100) / 100,
+                    Math.round(priceBase * 1.08 * 100) / 100,
+                    Math.round(priceBase * 0.95 * 100) / 100,
+                    Math.round(priceBase * 0.92 * 100) / 100,
+                    Math.round(priceBase * 0.88 * 100) / 100
+                ];
 
-            // Hiring
-            const hb = document.getElementById('hiringBox');
-            if (hb) hb.innerHTML =
-                '<div class="card"><div class="card-h"><span class="tag red">Engineering</span><span class="card-meta">Publié il y a 3 jours</span></div><div class="card-text"><strong>Senior Full-Stack Developer</strong> — ' + esc(name) + ' recrute pour renforcer son équipe produit. Remote possible.</div><div class="card-stats"><div class="cstat"><strong>Remote</strong> <span>Hybride</span></div><div class="cstat"><strong>70-95k€</strong> <span>fourchette</span></div></div><div class="card-advice"><strong>Signaux :</strong> Investissement R&D en cours. Attendez-vous à de nouvelles fonctionnalités.</div></div>' +
-                '<div class="card"><div class="card-h"><span class="tag silver">Marketing</span><span class="card-meta">Publié il y a 7 jours</span></div><div class="card-text"><strong>Growth Marketing Manager</strong> — ' + esc(name) + ' cherche à accélérer son acquisition client.</div><div class="card-stats"><div class="cstat"><strong>Paris</strong> <span>CDI</span></div><div class="cstat"><strong>50-65k€</strong> <span>fourchette</span></div></div><div class="card-advice warn"><strong>Signaux :</strong> Budget acquisition en hausse. Prévoyez une guerre de prix.</div></div>' +
-                '<div class="card"><div class="card-h"><span class="tag green">Customer Success</span><span class="card-meta">Publié il y a 14 jours</span></div><div class="card-text"><strong>Customer Success Manager</strong> — ' + esc(name + ' veut améliorer la rétention de ses clients.') + '</div><div class="card-stats"><div class="cstat"><strong>Remote</strong> <span>Europe</span></div><div class="cstat"><strong>40-55k€</strong> <span>fourchette</span></div></div><div class="card-advice"><strong>Signaux :</strong> Problèmes de churn détectés. Opportunité de capter leurs clients.</div></div>';
+                // Satisfaction trend
+                const satBase = Math.floor(satisfaction * 0.85);
+                const satData = [satBase, Math.floor(satBase * 1.02), Math.floor(satBase * 1.05), Math.floor(satBase * 0.98), Math.floor(satBase * 1.01), satisfaction];
 
-            // Blog
-            const blog = document.getElementById('blogBox');
-            if (blog) blog.innerHTML =
-                '<div class="card"><div class="card-h"><span class="tag red">Article</span><span class="card-meta">Il y a 2 jours · 4 min</span></div><div class="card-text"><strong>"10 tendances du e-commerce en 2026"</strong> — ' + esc(name) + ' publie un guide complet sur les tendances du marché.</div><div class="card-advice"><strong>Stratégie :</strong> Contenu SEO optimisé. Cible les mots-clés larges. Contrez avec du contenu plus spécifique.</div></div>' +
-                '<div class="card"><div class="card-h"><span class="tag silver">Étude de cas</span><span class="card-meta">Il y a 1 semaine · 6 min</span></div><div class="card-text"><strong>"Comment X a augmenté son CA de 200%"</strong> — ' + esc(name) + ' partage un succès client pour renforcer sa crédibilité.</div><div class="card-advice"><strong>Stratégie :</strong> Preuve sociale forte. Partagez vos propres études de cas.</div></div>' +
-                '<div class="card"><div class="card-h"><span class="tag green">Newsletter</span><span class="card-meta">Hebdomadaire</span></div><div class="card-text"><strong>Newsletter ' + esc(name) + ' — #42</strong> — 12k abonnés. Taux d\'ouverture 28%. Contenu technique + offres exclusives.</div><div class="card-advice warn"><strong>Stratégie :</strong> Canal de rétention puissant. Considérez de lancer la vôtre.</div></div>';
+                // Ad budget trend
+                const adData = [Math.floor(adBudget * 0.7), Math.floor(adBudget * 0.8), Math.floor(adBudget * 0.9), Math.floor(adBudget * 0.85), Math.floor(adBudget * 0.95), adBudget];
 
-            // Alerts
-            const al = document.getElementById('alertsBox');
-            if (al) al.innerHTML =
-                '<div class="card"><div class="card-h"><span class="tag red">Urgent</span><span class="card-meta">Il y a 12 min</span></div><div class="card-text"><strong>Baisse de prix détectée</strong> — ' + esc(name) + ' a réduit son tarif principal de 29€ à 24€ (-17%).</div><div class="card-advice warn"><strong>Action :</strong> Répondre dans les 24h avec un argumentaire valeur.</div></div>' +
-                '<div class="card"><div class="card-h"><span class="tag orange">Important</span><span class="card-meta">Il y a 2h</span></div><div class="card-text"><strong>Post viral</strong> — Publication LinkedIn de ' + esc(name) + ' a généré 2,4k likes en 2h.</div><div class="card-advice"><strong>Action :</strong> Analyser le contenu et adapter votre stratégie.</div></div>' +
-                '<div class="card"><div class="card-h"><span class="tag silver">Info</span><span class="card-meta">Il y a 5h</span></div><div class="card-text"><strong>Nouvelle campagne pub</strong> — ' + esc(name) + ' lance une campagne Facebook agressive.</div><div class="card-advice"><strong>Action :</strong> Surveiller l\'impact sur votre trafic.</div></div>' +
-                '<div class="card"><div class="card-h"><span class="tag green">Opportunité</span><span class="card-meta">Il y a 1j</span></div><div class="card-text"><strong>Avis négatifs en hausse</strong> — 15 nouveaux avis 1-2 étoiles sur Trustpilot cette semaine.</div><div class="card-advice"><strong>Action :</strong> Cibler ces clients dans votre prospection.</div></div>';
+                // Social growth
+                const socBase = Math.floor(socialFollowers * 0.6);
+                const socData = [socBase, Math.floor(socBase * 1.05), Math.floor(socBase * 1.1), Math.floor(socBase * 1.18), Math.floor(socBase * 1.25), socialFollowers];
+
+                // Sentiment trend
+                const sentBase = 50 + (satisfaction - 70) * 0.5;
+                const sentData = [sentBase - 5, sentBase - 3, sentBase - 1, sentBase + 2, sentBase - 2, sentBase];
+
+                // Build enriched overview HTML
+                let html = '';
+
+                // Section: Profile
+                html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">🏢</span> Profil entreprise</div>';
+                html += '<div class="ov-card">';
+                html += '<div class="ov-grid4">';
+                html += '<div class="ov-stat-box" style="background:rgba(255,59,59,0.06)"><div class="ov-stat-val" style="color:var(--red)">' + data.founded + '</div><div class="ov-stat-label">Fondée en</div></div>';
+                html += '<div class="ov-stat-box" style="background:rgba(209,213,219,0.06)"><div class="ov-stat-val" style="color:var(--silver)">' + employees.toLocaleString('fr-FR') + '</div><div class="ov-stat-label">Employés</div></div>';
+                html += '<div class="ov-stat-box" style="background:rgba(16,185,129,0.06)"><div class="ov-stat-val" style="color:var(--green)">' + (growth > 0 ? '+' : '') + growth + '%</div><div class="ov-stat-label">Croissance</div></div>';
+                html += '<div class="ov-stat-box" style="background:rgba(139,92,246,0.06)"><div class="ov-stat-val" style="color:var(--purple)">' + marketShare + '%</div><div class="ov-stat-label">Part de marché</div></div>';
+                html += '</div>';
+                html += '<div style="margin-top:12px;font-size:13px;color:var(--gray-3)"><span style="color:var(--gray-4)">Siège :</span> <strong>' + data.hq + '</strong> · <span style="color:var(--gray-4)">CA :</span> <strong>' + revenue.toLocaleString('fr-FR') + currency + '</strong></div>';
+                html += '<div class="ov-chart-box"><div class="ov-chart-title">Évolution du CA <span>6 mois (' + currency + ')</span></div>';
+                html += makeLineChart(revData, '#10B981', null, ['Avr','Mai','Juin','Juil','Août','Sept'], currency);
+                html += '</div>';
+                html += '<div class="ov-chart-box"><div class="ov-chart-title">Part de marché <span>vs concurrence</span></div>';
+                html += makeDonut([
+                    { label: name, value: marketShare, color: '#FF3B3B' },
+                    { label: data.competitors?.[0] || 'Concurrent A', value: Math.max(1, Math.round(marketShare * 0.7 * 10) / 10), color: '#D1D5DB' },
+                    { label: data.competitors?.[1] || 'Concurrent B', value: Math.max(1, Math.round(marketShare * 0.5 * 10) / 10), color: '#6B7280' },
+                    { label: 'Autres', value: Math.max(1, 100 - marketShare - Math.round(marketShare * 0.7 * 10) / 10 - Math.round(marketShare * 0.5 * 10) / 10), color: '#374151' }
+                ]);
+                html += '</div>';
+                html += '</div></div>';
+
+                // Section: Score
+                html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📊</span> Score détaillé</div>';
+                html += '<div class="ov-card">';
+                html += '<div class="ov-grid4">';
+                html += '<div class="ov-stat-box" style="background:rgba(255,59,59,0.06)"><div class="ov-stat-val" style="color:var(--red)">' + threat + '/100</div><div class="ov-stat-label">Score menace</div></div>';
+                html += '<div class="ov-stat-box" style="background:rgba(16,185,129,0.06)"><div class="ov-stat-val" style="color:var(--green)">' + satisfaction + '/100</div><div class="ov-stat-label">Satisfaction</div></div>';
+                html += '<div class="ov-stat-box" style="background:rgba(139,92,246,0.06)"><div class="ov-stat-val" style="color:var(--purple)">' + nps + '</div><div class="ov-stat-label">NPS</div></div>';
+                html += '<div class="ov-stat-box" style="background:rgba(245,158,11,0.06)"><div class="ov-stat-val" style="color:var(--orange)">' + sentiment + '</div><div class="ov-stat-label">Sentiment</div></div>';
+                html += '</div>';
+                html += '<div class="ov-chart-box"><div class="ov-chart-title">Tendance satisfaction <span>6 mois</span></div>';
+                html += makeBarChart(satData, ['Avr','Mai','Juin','Juil','Août','Actuel'], ['#10B981','#10B981','#10B981','#10B981','#10B981','#10B981'], '/100');
+                html += '</div>';
+                html += '<div class="ov-chart-box"><div class="ov-chart-title">Tendance du sentiment <span>6 mois (%)</span></div>';
+                html += makeLineChart(sentData, sentiment === 'Positif' ? '#10B981' : sentiment === 'Negatif' ? '#FF3B3B' : '#F59E0B', null, ['Avr','Mai','Juin','Juil','Août','Sept'], '%');
+                html += '</div>';
+                html += '</div></div>';
+
+                // Section: Pricing
+                html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">💰</span> Analyse des prix</div>';
+                html += '<div class="ov-card">';
+                html += '<div class="ov-chart-box" style="margin-top:0"><div class="ov-chart-title">Évolution des prix <span>6 mois</span></div>';
+                html += makeLineChart(priceData, '#FF3B3B', null, ['Avr','Mai','Juin','Juil','Août','Sept'], '€');
+                html += '</div>';
+                html += '<div class="ov-advice"><strong>Analyse :</strong> Prix moyen ' + priceData[5] + '€, en baisse de ' + Math.abs(((priceData[5] - priceData[0]) / priceData[0] * 100).toFixed(1)) + '% sur 6 mois. ' + (priceData[5] < priceData[0] ? 'Le concurrent cherche à capturer des parts de marché.' : 'Le concurrent augmente ses prix.');
+                html += '</div>';
+                html += '</div></div>';
+
+                // Section: Ads
+                html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📢</span> Publicités détectées</div>';
+                html += '<div class="ov-card">';
+                html += '<div class="ov-grid3">';
+                html += '<div class="ov-stat-box" style="background:rgba(91,155,213,0.08)"><div class="ov-stat-val" style="color:#5B9BD5">' + Math.floor(adBudget * 0.4) + 'k€</div><div class="ov-stat-label">Facebook</div></div>';
+                html += '<div class="ov-stat-box" style="background:rgba(66,133,244,0.08)"><div class="ov-stat-val" style="color:#4285F4">' + Math.floor(adBudget * 0.35) + 'k€</div><div class="ov-stat-label">Google</div></div>';
+                html += '<div class="ov-stat-box" style="background:rgba(225,48,108,0.08)"><div class="ov-stat-val" style="color:#E1306C">' + Math.floor(adBudget * 0.25) + 'k€</div><div class="ov-stat-label">TikTok</div></div>';
+                html += '</div>';
+                html += '<div class="ov-chart-box"><div class="ov-chart-title">Budget publicitaire <span>6 mois (k€)</span></div>';
+                html += makeLineChart(adData, '#8B5CF6', null, ['Avr','Mai','Juin','Juil','Août','Sept'], 'k€');
+                html += '</div>';
+                html += '<div class="ov-advice warn"><strong>Insight :</strong> Budget total ' + adBudget + 'k€/mois. ' + (adBudget > 30 ? 'Ils investissent agressivement dans l\'acquisition.' : 'Budget modéré — possible opportunité de les dépasser.');
+                html += '</div>';
+                html += '</div></div>';
+
+                // Section: Social media
+                html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📱</span> Présence réseaux sociaux</div>';
+                html += '<div class="ov-card">';
+                html += '<div class="ov-grid4">';
+                html += '<div class="ov-stat-box" style="background:rgba(74,158,255,0.08)"><div class="ov-stat-val" style="color:#4A9EFF">' + Math.floor(socialFollowers * 0.35 / 1000) + 'M</div><div class="ov-stat-label">LinkedIn</div></div>';
+                html += '<div class="ov-stat-box" style="background:rgba(91,155,213,0.08)"><div class="ov-stat-val" style="color:#5B9BD5">' + Math.floor(socialFollowers * 0.25 / 1000) + 'M</div><div class="ov-stat-label">Facebook</div></div>';
+                html += '<div class="ov-stat-box" style="background:rgba(225,48,108,0.08)"><div class="ov-stat-val" style="color:#E1306C">' + Math.floor(socialFollowers * 0.28 / 1000) + 'M</div><div class="ov-stat-label">Instagram</div></div>';
+                html += '<div class="ov-stat-box" style="background:rgba(113,197,252,0.08)"><div class="ov-stat-val" style="color:#71C5FC">' + Math.floor(socialFollowers * 0.12 / 1000) + 'M</div><div class="ov-stat-label">Twitter/X</div></div>';
+                html += '</div>';
+                html += '<div class="ov-chart-box"><div class="ov-chart-title">Croissance abonnés <span>6 mois (toutes plateformes)</span></div>';
+                html += makeLineChart(socData, '#D1D5DB', null, ['Avr','Mai','Juin','Juil','Août','Sept'], 'k');
+                html += '</div>';
+                html += '</div></div>';
+
+                // Section: Negative signals
+                html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">⚠️</span> Signaux négatifs</div>';
+                html += '<div class="ov-card">';
+                html += '<div class="ov-advice warn"><strong>⚠️ Signaux détectés :</strong> Avis négatifs en hausse (+' + negReviews + ' cette semaine). ' + (satisfaction < 70 ? 'Satisfaction en dessous de 70/100 — les clients mécontents sont vos opportunités.' : 'Satisfaction correcte mais surveillez les tendances.');
+                html += '</div>';
+                html += '<div style="margin-top:10px;font-size:12px;color:var(--gray-4)"><strong style="color:var(--green)">Points forts perçus :</strong> Support client réactif, interface intuitive, prix compétitifs.</div>';
+                html += '</div></div>';
+
+                // Section: Recruitment
+                html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">👥</span> Recrutements</div>';
+                html += '<div class="ov-card">';
+                html += '<div style="font-size:13px;margin-bottom:10px"><strong>' + Math.floor(5 + seededRand(seed, 31) * 20) + '</strong> postes ouverts actuellement</div>';
+                html += '<div class="ov-grid3">';
+                html += '<div class="ov-stat-box" style="background:rgba(16,185,129,0.06)"><div class="ov-stat-val" style="color:var(--green);font-size:14px">Engineering</div><div class="ov-stat-label">Développeurs</div></div>';
+                html += '<div class="ov-stat-box" style="background:rgba(139,92,246,0.06)"><div class="ov-stat-val" style="color:var(--purple);font-size:14px">Marketing</div><div class="ov-stat-label">Growth</div></div>';
+                html += '<div class="ov-stat-box" style="background:rgba(59,130,246,0.06)"><div class="ov-stat-val" style="color:var(--blue);font-size:14px">Sales</div><div class="ov-stat-label">Commercial</div></div>';
+                html += '</div>';
+                html += '<div class="ov-advice info"><strong>Signaux :</strong> Investissement R&D en cours. Attendez-vous à de nouvelles fonctionnalités et améliorations produit.';
+                html += '</div>';
+                html += '</div></div>';
+
+                // Section: Blog
+                html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📝</span> Blog & contenu</div>';
+                html += '<div class="ov-card">';
+                html += '<div style="margin-bottom:10px"><span class="ov-tag silver">Article récent</span></div>';
+                html += '<div style="font-size:13px;margin-bottom:4px"><strong>"Comment ' + esc(name) + ' innove dans son secteur"</strong></div>';
+                html += '<div style="font-size:11px;color:var(--gray-5);margin-bottom:12px">Il y a 5 jours · 6 min de lecture</div>';
+                html += '<div style="margin-bottom:8px"><span class="ov-tag silver">Newsletter</span></div>';
+                html += '<div style="font-size:12px;color:var(--gray-4)">' + Math.floor(socialFollowers * 0.1).toLocaleString('fr-FR') + ' abonnés · Taux d\'ouverture ' + Math.floor(18 + seededRand(seed, 71) * 22) + '%</div>';
+                html += '</div></div>';
+
+                ov.innerHTML = html;
+            }
 
             renderSettings();
             updateTabLocks();
         }
 
-        // ========== SETTINGS ==========
         function renderSettings() {
             const c = cur();
             const sp = document.getElementById('setProfile');
