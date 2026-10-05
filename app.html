@@ -2993,42 +2993,17 @@
         const BIZ_TABS = ['hiring', 'blog', 'alerts'];
 
         function isTabLocked(tab) {
-            if (FREE_TABS.includes(tab)) return false;
-            if (PRO_TABS.includes(tab)) return plan === 'free';
-            if (BIZ_TABS.includes(tab)) return plan === 'free' || plan === 'pro';
+            // Everything is FREE for testing
             return false;
         }
 
         function updateTabLocks() {
-            // Update sidebar items - use premium class instead of locked
+            // Everything accessible - no premium classes
             document.querySelectorAll('.sb-item').forEach(function(item) {
-                const onclick = item.getAttribute('onclick') || '';
-                const match = onclick.match(/go\('([^']+)'/);
-                if (match) {
-                    const tab = match[1];
-                    if (BIZ_TABS.includes(tab)) {
-                        item.classList.add('premium', 'biz');
-                        item.classList.remove('locked');
-                    } else if (PRO_TABS.includes(tab)) {
-                        item.classList.add('premium');
-                        item.classList.remove('locked', 'biz');
-                    } else {
-                        item.classList.remove('premium', 'locked', 'biz');
-                    }
-                }
+                item.classList.remove('premium', 'locked', 'biz');
             });
-            // Update top tabs
             document.querySelectorAll('.tab').forEach(function(tab) {
-                const onclick = tab.getAttribute('onclick') || '';
-                const match = onclick.match(/go\('([^']+)'/);
-                if (match) {
-                    const tabName = match[1];
-                    if (isTabLocked(tabName)) {
-                        tab.classList.add('premium');
-                    } else {
-                        tab.classList.remove('premium');
-                    }
-                }
+                tab.classList.remove('premium');
             });
         }
 
@@ -3521,8 +3496,7 @@
                 html += '<div style="font-size:11px;color:var(--gray-5)"><strong>C\'affecte quoi pour vous :</strong> ' + p.affects + '</div>';
                 html += '</div>';
             });
-            html += '<div class="ov-chart-box"><div class="ov-chart-title">Évolution des prix <span>6 mois — basé sur les prix ' + (hasRealPrices ? 'réels' : 'estimés') + '</span></div>' + makeLineChart(priceData, '#FF3B3B', null, ['Avr','Mai','Juin','Juil','Août','Sept'], mainPrice.unit) + '</div>';
-            html += '</div></div>';
+            html += '<div class="ov-chart-box"><div class="ov-chart-title">Évolution des prix <span>6 mois — basé sur les prix ' + (hasRealPrices ? 'réels' : 'estimés') + '</span></div>' + (hasRealPrices ? makeLineChart(priceData, '#FF3B3B', null, ['Avr','Mai','Juin','Juil','Août','Sept'], mainPrice.unit) : '<div style="padding:20px;text-align:center;color:var(--gray-5);font-size:12px">Graphique disponible uniquement avec des données réelles de prix</div>') + '</div></div></div>'
             
             // === 4. NOUVEAUTÉS & ROADMAP ===
             html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">🚀</span> Nouveautés & roadmap <span class="ov-tag silver" style="margin-left:auto;font-size:9px">Estimation</span></div><div class="ov-card">';
