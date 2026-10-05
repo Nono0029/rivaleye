@@ -3500,34 +3500,16 @@ function renderComps() {
             }
         }
 
-        async function init() {
+        function hideLoader() {
             const loader = document.getElementById('loader');
+            if (loader) { loader.classList.add('hide'); loader.style.display = 'none'; }
+        }
+        async function init() {
             const gate = document.getElementById('gate');
-            const app = document.getElementById('app');
-
-            if (!supabaseClient) {
-                
-                if (comps.length === 0) {
-                    // Don't add default competitor, show search instead
-                    renderComps();
-                    showSbSearch();
-                    clearOverview();
-                } else {
-                    renderComps();
-                    generateAll();
-                }
-                updateTabLocks();
-                
-                return;
-            }
-
             try {
-                const { data: { session } } = await supabaseClient.auth.getSession();
-                if (session && session.user) {
-                    user = session.user;
-                    
+                if (!supabaseClient) {
+                    hideLoader();
                     if (comps.length === 0) {
-                        // Don't add default competitor, show search instead
                         renderComps();
                         showSbSearch();
                         clearOverview();
@@ -3536,16 +3518,29 @@ function renderComps() {
                         generateAll();
                     }
                     updateTabLocks();
-                    
                     return;
                 }
-            } catch (e) { console.warn(e); }
-
-            
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (session && session.user) {
+                    user = session.user;
+                    hideLoader();
+                    if (comps.length === 0) {
+                        renderComps();
+                        showSbSearch();
+                        clearOverview();
+                    } else {
+                        renderComps();
+                        generateAll();
+                    }
+                    updateTabLocks();
+                    return;
+                }
+            } catch (e) { console.warn('Init error:', e); }
+            hideLoader();
             if (gate) gate.style.display = 'flex';
         }
 
-        document.addEventListener('DOMContentLoaded', init);
+        document.addEventListener('DOMContentLoaded', function() { init().catch(function(e) { console.error(e); hideLoader(); }); });
     
         </script>
 </body>
