@@ -3504,11 +3504,18 @@ function renderComps() {
             const loader = document.getElementById('loader');
             if (loader) { loader.classList.add('hide'); loader.style.display = 'none'; }
         }
+        function showApp() {
+            const app = document.getElementById('app');
+            const gate = document.getElementById('gate');
+            if (app) app.classList.add('on');
+            if (gate) gate.style.display = 'none';
+        }
         async function init() {
             const gate = document.getElementById('gate');
             try {
                 if (!supabaseClient) {
                     hideLoader();
+                    showApp();
                     if (comps.length === 0) {
                         renderComps();
                         showSbSearch();
@@ -3524,6 +3531,7 @@ function renderComps() {
                 if (session && session.user) {
                     user = session.user;
                     hideLoader();
+                    showApp();
                     if (comps.length === 0) {
                         renderComps();
                         showSbSearch();
