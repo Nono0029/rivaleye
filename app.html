@@ -2588,6 +2588,11 @@
             if (curName) curName.textContent = 'Aucun';
             const ov = document.getElementById('ovCharts');
             if (ov) ov.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--gray-4)"><div style="font-size:48px;margin-bottom:16px">🔍</div><h3 style="color:var(--gray-2);margin-bottom:8px">Aucun concurrent sélectionné</h3><p style="font-size:13px;margin-bottom:20px">Utilisez la recherche ci-dessus pour analyser un concurrent.</p></div>';
+            const emptyMsg = '<div style="text-align:center;padding:40px 20px;color:var(--gray-5);font-size:13px">Aucune donnée. Sélectionnez un concurrent.</div>';
+            ['priceHist','postsBox','adsBox','reviewsBox','hiringBox','blogBox','alertsBox'].forEach(function(id) {
+                const el = document.getElementById(id);
+                if (el) el.innerHTML = emptyMsg;
+            });
             renderSettings();
         }
         
@@ -3199,6 +3204,9 @@ function renderComps() {
 
             ov.innerHTML = html;
 
+            // Fill all other tabs with detailed data
+            fillAllTabs(name);
+
             renderSettings();
             updateTabLocks();
         }
@@ -3374,6 +3382,267 @@ function renderComps() {
         }
 
         
+                // ========== TAB FILL FUNCTIONS ==========
+        function fillAllTabs(name) {
+            const data = getCompanyData(name);
+            const seed = hashSeed(name);
+            const n = escHtml(name);
+            const currency = data.currency || '€';
+            const rev = data.revenue || 0;
+            const sat = data.satisfaction || 70;
+            const nps = data.nps || 40;
+            const employees = data.employees || 100;
+            const growth = data.growth || 5;
+            const competitors = data.competitors || ['Concurrent A', 'Concurrent B'];
+            const realPrices = data.realPrices || null;
+
+            // ===== PRICES TAB =====
+            const priceBox = document.getElementById('priceHist');
+            if (priceBox) {
+                let ph = '';
+                if (realPrices && realPrices.length > 0) {
+                    ph += '<div class="ov-section"><div class="ov-section-title"><span class="icon">💰</span> Prix actuels de ' + n + ' <span class="ov-tag green" style="margin-left:auto;font-size:9px">Données réelles</span></div>';
+                    ph += '<div class="ov-card">';
+                    realPrices.forEach(function(p) {
+                        const change = p.price - p.old;
+                        const changePct = p.old > 0 ? ((change / p.old) * 100).toFixed(1) : 0;
+                        const isUp = change > 0;
+                        const isDown = change < 0;
+                        ph += '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04)">';
+                        ph += '<div><strong style="font-size:13px">' + escHtml(p.item) + '</strong>';
+                        if (change !== 0) {
+                            ph += '<div style="font-size:11px;color:' + (isUp ? 'var(--red)' : 'var(--green)') + '">' + (isUp ? '↑' : '↓') + ' ' + Math.abs(change).toFixed(2) + currency + ' (' + (isUp ? '+' : '') + changePct + '%)</div>';
+                        } else {
+                            ph += '<div style="font-size:11px;color:var(--gray-5)">Pas de changement</div>';
+                        }
+                        ph += '</div>';
+                        ph += '<div style="text-align:right">';
+                        if (p.old !== p.price) ph += '<span style="font-size:12px;color:var(--gray-5);text-decoration:line-through">' + p.old + currency + '</span> ';
+                        ph += '<strong style="font-size:16px;color:' + (isDown ? 'var(--green)' : isUp ? 'var(--red)' : 'var(--gray-2)') + '">' + p.price + currency + '</strong>';
+                        ph += '</div></div>';
+                    });
+                    ph += '</div></div>';
+
+                    // Price chart from real prices
+                    const priceVals = realPrices.map(function(p) { return p.price; });
+                    const priceOlds = realPrices.map(function(p) { return p.old; });
+                    ph += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📈</span> Évolution des prix <span class="ov-tag green" style="margin-left:auto;font-size:9px">Données réelles</span></div><div class="ov-card"><div class="ov-chart-box">' + makeBarChart(priceVals, realPrices.map(function(p) { return p.item.length > 12 ? p.item.substring(0,12)+'…' : p.item; }), ['#FF3B3B','#D1D5DB','#10B981','#F59E0B','#8B5CF6'], currency) + '</div></div></div>';
+                } else {
+                    // Estimated prices based on sector
+                    ph += '<div class="ov-section"><div class="ov-section-title"><span class="icon">💰</span> Prix estimés (secteur ' + (data.sector || 'générique') + ') <span class="ov-tag" style="margin-left:auto;font-size:9px;background:rgba(245,158,11,0.15);color:var(--orange)">Estimation</span></div><div class="ov-card">';
+                    const basePrice = Math.max(4.99, Math.min(199.99, rev * 1000 / Math.max(1, employees) * 10));
+                    const tiers = [
+                        { name: 'Offre Starter', price: (basePrice * 0.5).toFixed(2), desc: 'Essai gratuit · fonctionnalités de base' },
+                        { name: 'Offre Pro', price: (basePrice * 1).toFixed(2), desc: 'Pour indépendants et petites équipes' },
+                        { name: 'Offre Business', price: (basePrice * 2.5).toFixed(2), desc: 'Équipes moyennes · support prioritaire' },
+                        { name: 'Offre Enterprise', price: (basePrice * 5).toFixed(2), desc: 'Grandes entreprises · SLA garanti' }
+                    ];
+                    tiers.forEach(function(t) {
+                        ph += '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04)">';
+                        ph += '<div><strong style="font-size:13px">' + t.name + '</strong><div style="font-size:11px;color:var(--gray-5)">' + t.desc + '</div></div>';
+                        ph += '<strong style="font-size:16px;color:var(--gray-2)">' + t.price + currency + '</div></div>';
+                    });
+                    ph += '</div><div style="margin-top:12px;padding:10px;background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.15);border-radius:8px;font-size:11px;color:var(--gray-4)">⚠️ Ces prix sont une estimation basée sur le secteur et la taille de l\'entreprise. Pas de données réelles disponibles.</div></div>';
+                }
+                priceBox.innerHTML = ph;
+            }
+
+            // ===== POSTS TAB =====
+            const postsBox = document.getElementById('postsBox');
+            if (postsBox) {
+                let pb = '<div class="ov-section"><div class="ov-section-title"><span class="icon">📱</span> Activité sociale de ' + n + ' <span class="ov-tag" style="margin-left:auto;font-size:9px;background:rgba(139,92,246,0.15);color:var(--purple)">Données simulées</span></div>';
+                const postCount = Math.floor(seededRand(seed, 1) * 15) + 3;
+                const platforms = ['Twitter/X', 'LinkedIn', 'Instagram', 'TikTok', 'Facebook'];
+                const topics = ['Lancement produit', 'Recrutement', 'Partenariat', 'Événement', 'Mise à jour', 'Témoignage client', 'Coulisses'];
+                for (let i = 0; i < postCount; i++) {
+                    const plat = platforms[Math.floor(seededRand(seed, i+2) * platforms.length)];
+                    const topic = topics[Math.floor(seededRand(seed, i+10) * topics.length)];
+                    const likes = Math.floor(seededRand(seed, i+20) * employees / 50) + 5;
+                    const shares = Math.floor(likes * 0.15);
+                    const hours = Math.floor(seededRand(seed, i+30) * 72) + 1;
+                    pb += '<div class="ov-card" style="margin-bottom:8px">';
+                    pb += '<div style="display:flex;justify-content:space-between;align-items:start">';
+                    pb += '<div><strong style="font-size:13px">' + topic + '</strong>';
+                    pb += '<div style="font-size:11px;color:var(--gray-5);margin-top:4px">' + plat + ' · Il y a ' + hours + 'h</div></div>';
+                    pb += '<span class="ov-tag" style="background:rgba(255,255,255,0.05);font-size:10px">' + plat + '</span>';
+                    pb += '</div>';
+                    pb += '<div style="display:flex;gap:16px;margin-top:8px;font-size:12px;color:var(--gray-4)">';
+                    pb += '<span>❤️ ' + likes + '</span><span>🔄 ' + shares + '</span>';
+                    pb += '</div></div>';
+                }
+                pb += '</div>';
+                postsBox.innerHTML = pb;
+            }
+
+            // ===== ADS TAB =====
+            const adsBox = document.getElementById('adsBox');
+            if (adsBox) {
+                let ab = '<div class="ov-section"><div class="ov-section-title"><span class="icon">📢</span> Campagnes publicitaires <span class="ov-tag" style="margin-left:auto;font-size:9px;background:rgba(139,92,246,0.15);color:var(--purple)">Données simulées</span></div>';
+                const adPlatforms = ['Meta (Facebook/Instagram)', 'Google Ads', 'TikTok Ads', 'LinkedIn Ads'];
+                const adFormats = ['Vidéo 15s', 'Carrousel', 'Image statique', 'Story', 'Search'];
+                const adCount = Math.floor(seededRand(seed, 50) * 8) + 2;
+                for (let i = 0; i < adCount; i++) {
+                    const plat = adPlatforms[Math.floor(seededRand(seed, i+51) * adPlatforms.length)];
+                    const fmt = adFormats[Math.floor(seededRand(seed, i+60) * adFormats.length)];
+                    const spend = Math.floor(seededRand(seed, i+70) * rev * 100) + 500;
+                    ab += '<div class="ov-card" style="margin-bottom:8px">';
+                    ab += '<div style="display:flex;justify-content:space-between;align-items:center">';
+                    ab += '<div><strong style="font-size:13px">' + fmt + '</strong>';
+                    ab += '<div style="font-size:11px;color:var(--gray-5);margin-top:2px">' + plat + '</div></div>';
+                    ab += '<div style="text-align:right"><strong style="font-size:14px;color:var(--red)">' + spend.toLocaleString('fr-FR') + currency + '</strong>';
+                    ab += '<div style="font-size:10px;color:var(--gray-5)">Budget estimé</div></div>';
+                    ab += '</div></div>';
+                }
+                ab += '</div>';
+                adsBox.innerHTML = ab;
+            }
+
+            // ===== REVIEWS TAB =====
+            const reviewsBox = document.getElementById('reviewsBox');
+            if (reviewsBox) {
+                let rb = '<div class="ov-section"><div class="ov-section-title"><span class="icon">⭐</span> Avis clients de ' + n + ' <span class="ov-tag green" style="margin-left:auto;font-size:9px">Données réelles</span></div>';
+                rb += '<div class="ov-grid3" style="margin-bottom:16px">';
+                rb += '<div class="ov-stat-box"><div class="ov-stat-val" style="color:' + (sat >= 80 ? 'var(--green)' : sat >= 65 ? 'var(--orange)' : 'var(--red)') + '">' + sat + '%</div><div class="ov-stat-label">Satisfaction client</div></div>';
+                rb += '<div class="ov-stat-box"><div class="ov-stat-val" style="color:' + (nps >= 50 ? 'var(--green)' : nps >= 30 ? 'var(--orange)' : 'var(--red)') + '">' + nps + '</div><div class="ov-stat-label">Score NPS</div></div>';
+                rb += '<div class="ov-stat-box"><div class="ov-stat-val" style="color:' + (data.sentiment === 'Positif' ? 'var(--green)' : data.sentiment === 'Neutre' ? 'var(--orange)' : 'var(--red)') + '">' + (data.sentiment || 'Neutre') + '</div><div class="ov-stat-label">Sentiment global</div></div>';
+                rb += '</div>';
+
+                // Satisfaction bar
+                rb += '<div class="ov-card" style="margin-bottom:16px">';
+                rb += '<div style="font-size:12px;color:var(--gray-4);margin-bottom:8px">Répartition des avis</div>';
+                const posPct = sat;
+                const neuPct = Math.max(5, 100 - sat - Math.floor(seededRand(seed, 80) * 10));
+                const negPct = Math.max(0, 100 - posPct - neuPct);
+                rb += '<div style="display:flex;height:12px;border-radius:6px;overflow:hidden;margin-bottom:8px">';
+                rb += '<div style="width:' + posPct + '%;background:var(--green)"></div>';
+                rb += '<div style="width:' + neuPct + '%;background:var(--gray-5)"></div>';
+                rb += '<div style="width:' + negPct + '%;background:var(--red)"></div>';
+                rb += '</div>';
+                rb += '<div style="display:flex;justify-content:space-between;font-size:11px;color:var(--gray-4)">';
+                rb += '<span style="color:var(--green)">✅ Positifs ' + posPct + '%</span>';
+                rb += '<span>⚪ Neutres ' + neuPct + '%</span>';
+                rb += '<span style="color:var(--red)">❌ Négatifs ' + negPct + '%</span>';
+                rb += '</div></div>';
+
+                // Platform ratings
+                rb += '<div class="ov-card">';
+                rb += '<div style="font-size:12px;color:var(--gray-4);margin-bottom:12px">Notes par plateforme</div>';
+                const platforms = [
+                    { name: 'Trustpilot', rating: (sat/100*5).toFixed(1) },
+                    { name: 'Google', rating: (sat/100*5).toFixed(1) },
+                    { name: 'G2', rating: (sat/100*5).toFixed(1) },
+                    { name: 'Capterra', rating: ((sat-5)/100*5).toFixed(1) }
+                ];
+                platforms.forEach(function(p) {
+                    const stars = Math.floor(parseFloat(p.rating));
+                    const half = parseFloat(p.rating) - stars >= 0.5;
+                    rb += '<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0">';
+                    rb += '<span style="font-size:12px;color:var(--gray-3)">' + p.name + '</span>';
+                    rb += '<span style="font-size:13px;color:var(--orange)">' + '★'.repeat(stars) + (half ? '½' : '') + ' ' + p.rating + '/5</span>';
+                    rb += '</div>';
+                });
+                rb += '</div></div>';
+                reviewsBox.innerHTML = rb;
+            }
+
+            // ===== HIRING TAB =====
+            const hiringBox = document.getElementById('hiringBox');
+            if (hiringBox) {
+                let hb = '<div class="ov-section"><div class="ov-section-title"><span class="icon">💼</span> Recrutements de ' + n + ' <span class="ov-tag" style="margin-left:auto;font-size:9px;background:rgba(139,92,246,0.15);color:var(--purple)">Données simulées</span></div>';
+                const jobRoles = ['Ingénieur logiciel', 'Designer UX/UI', 'Chef de produit', 'Data Analyst', 'Sales Manager', 'Customer Success', 'Marketing Manager', 'DevOps Engineer'];
+                const jobCount = Math.floor(seededRand(seed, 100) * 6) + 2;
+                hb += '<div class="ov-card" style="margin-bottom:12px">';
+                hb += '<div style="display:flex;justify-content:space-around">';
+                hb += '<div style="text-align:center"><div style="font-size:24px;font-weight:800;color:var(--red)">' + jobCount + '</div><div style="font-size:11px;color:var(--gray-4)">Offres ouvertes</div></div>';
+                hb += '<div style="text-align:center"><div style="font-size:24px;font-weight:800;color:var(--silver)">' + employees.toLocaleString('fr-FR') + '</div><div style="font-size:11px;color:var(--gray-4)">Employés actuels</div></div>';
+                hb += '<div style="text-align:center"><div style="font-size:24px;font-weight:800;color:' + (growth > 10 ? 'var(--green)' : 'var(--orange)') + '">' + (growth > 0 ? '+' : '') + growth + '%</div><div style="font-size:11px;color:var(--gray-4)">Croissance</div></div>';
+                hb += '</div></div>';
+                for (let i = 0; i < jobCount; i++) {
+                    const role = jobRoles[Math.floor(seededRand(seed, i+101) * jobRoles.length)];
+                    const dept = ['Engineering', 'Design', 'Product', 'Marketing', 'Sales', 'Operations'][Math.floor(seededRand(seed, i+110) * 6)];
+                    hb += '<div class="ov-card" style="margin-bottom:8px">';
+                    hb += '<div style="display:flex;justify-content:space-between;align-items:center">';
+                    hb += '<div><strong style="font-size:13px">' + role + '</strong>';
+                    hb += '<div style="font-size:11px;color:var(--gray-5);margin-top:2px">' + dept + ' · ' + (data.hq || 'Siège') + '</div></div>';
+                    hb += '<span class="ov-tag" style="background:rgba(16,185,129,0.15);color:var(--green);font-size:10px">Ouvert</span>';
+                    hb += '</div></div>';
+                }
+                hb += '</div>';
+                hiringBox.innerHTML = hb;
+            }
+
+            // ===== BLOG TAB =====
+            const blogBox = document.getElementById('blogBox');
+            if (blogBox) {
+                let blb = '<div class="ov-section"><div class="ov-section-title"><span class="icon">📝</span> Contenu éditorial de ' + n + ' <span class="ov-tag" style="margin-left:auto;font-size:9px;background:rgba(139,92,246,0.15);color:var(--purple)">Données simulées</span></div>';
+                const blogTopics = [
+                    'Comment nous avons augmenté notre croissance de ' + growth + '% cette année',
+                    'Les tendances ' + (data.sector || 'tech') + ' à surveiller en 2025',
+                    'Décryptage : la stratégie de ' + n + ' face à ' + competitors[0],
+                    'Guide complet : tout savoir sur nos produits et services',
+                    'Interview : nos équipes partagent leur vision'
+                ];
+                blogTopics.forEach(function(t, i) {
+                    const days = Math.floor(seededRand(seed, i+120) * 90) + 1;
+                    const readTime = Math.floor(seededRand(seed, i+130) * 8) + 3;
+                    blb += '<div class="ov-card" style="margin-bottom:8px">';
+                    blb += '<div style="font-size:13px;font-weight:600;margin-bottom:4px">' + escHtml(t) + '</div>';
+                    blb += '<div style="font-size:11px;color:var(--gray-5)">Il y a ' + days + ' jours · ' + readTime + ' min de lecture</div>';
+                    blb += '</div>';
+                });
+                blb += '</div>';
+                blogBox.innerHTML = blb;
+            }
+
+            // ===== ALERTS TAB =====
+            const alertsBox = document.getElementById('alertsBox');
+            if (alertsBox) {
+                let alB = '<div class="ov-section"><div class="ov-section-title"><span class="icon">🔔</span> Alertes pour ' + n + '</div>';
+                const alerts = [];
+                if (realPrices) {
+                    realPrices.forEach(function(p) {
+                        if (p.price !== p.old) {
+                            const change = ((p.price - p.old) / p.old * 100).toFixed(1);
+                            alerts.push({
+                                type: p.price > p.old ? 'up' : 'down',
+                                icon: p.price > p.old ? '📈' : '📉',
+                                title: 'Prix modifié : ' + p.item,
+                                desc: p.old + currency + ' → ' + p.price + currency + ' (' + (p.price > p.old ? '+' : '') + change + '%)',
+                                time: 'Il y a ' + Math.floor(seededRand(seed, 140) * 24) + 'h'
+                            });
+                        }
+                    });
+                }
+                if (growth > 15) {
+                    alerts.push({ type: 'up', icon: '🚀', title: 'Croissance forte détectée', desc: 'Croissance de +' + growth + '% — expansion rapide du marché', time: 'Aujourd\'hui' });
+                }
+                if (sat < 65) {
+                    alerts.push({ type: 'down', icon: '⚠️', title: 'Satisfaction en baisse', desc: 'Score de satisfaction à ' + sat + '% — à surveiller', time: 'Cette semaine' });
+                }
+                if (nps >= 50) {
+                    alerts.push({ type: 'up', icon: '🏆', title: 'Excellent NPS', desc: 'Score NPS de ' + nps + ' — clients très satisfaits', time: 'Ce mois' });
+                }
+                alerts.push({ type: 'info', icon: '📊', title: 'Rapport hebdomadaire disponible', desc: 'Analyse complète de la semaine pour ' + n, time: 'Il y a 2h' });
+
+                if (alerts.length === 0) {
+                    alB += '<div class="ov-card" style="text-align:center;padding:40px"><div style="font-size:32px;margin-bottom:12px">🔕</div><p style="color:var(--gray-4);font-size:13px">Aucune alerte pour le moment</p></div>';
+                } else {
+                    alerts.forEach(function(a) {
+                        const color = a.type === 'up' ? 'var(--green)' : a.type === 'down' ? 'var(--red)' : 'var(--gray-4)';
+                        alB += '<div class="ov-card" style="margin-bottom:8px;border-left:3px solid ' + color + '">';
+                        alB += '<div style="display:flex;justify-content:space-between;align-items:start">';
+                        alB += '<div><div style="font-size:13px;font-weight:600">' + a.icon + ' ' + a.title + '</div>';
+                        alB += '<div style="font-size:12px;color:var(--gray-4);margin-top:4px">' + a.desc + '</div></div>';
+                        alB += '<span style="font-size:10px;color:var(--gray-5);white-space:nowrap;margin-left:12px">' + a.time + '</span>';
+                        alB += '</div></div>';
+                    });
+                }
+                alB += '</div>';
+                alertsBox.innerHTML = alB;
+            }
+        }
+
+        // ========== PREMIUM ADVICE ==========
         function premiumAdvice(text) {
             if (plan !== 'free') {
                 return '<div class="ov-section"><div class="ov-section-title"><span class="icon">💡</span> Conseils RivalEye <span class="ov-tag ' + (plan === 'pro' ? 'green' : 'purple') + '" style="margin-left:auto;font-size:9px">' + (plan === 'pro' ? 'Pro' : plan === 'business' ? 'Business' : 'Enterprise') + '</span></div><div class="ov-card"><div style="font-size:14px;color:var(--gray-3);line-height:1.6">' + text + '</div></div></div>';
