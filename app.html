@@ -1767,7 +1767,7 @@
                 const val = (max - (i * range / 4));
                 const valStr = val >= 1000 ? (val/1000).toFixed(1) + 'k' : val.toFixed(val < 10 ? 1 : 0);
                 grid += '<line x1="' + padL + '" y1="' + y.toFixed(1) + '" x2="' + (w - padR) + '" y2="' + y.toFixed(1) + '" stroke="rgba(255,255,255,0.06)" stroke-dasharray="3,3"/>';
-                grid += '<text x="' + (padL - 6) + '" y="' + (y + 3).toFixed(1) + '" text-anchor="end" fill="#6B7280" font-size="10">' + valStr + unit + '</text>';
+                grid += '<text x="' + (padL - 6) + '" y="' + (y + 3).toFixed(1) + '" text-anchor="end" fill="#6B7280" font-size="9">' + valStr + unit + '</text>';
             }
             let dots = '';
             data.forEach((v, i) => {
@@ -1775,12 +1775,12 @@
                 const y = h - padB - ((v - min) / range) * (h - padT - padB);
                 const vStr = v >= 1000 ? (v/1000).toFixed(1) + 'k' : v.toFixed(v < 10 ? 1 : 0);
                 dots += '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="4" fill="' + color + '" stroke="#0A0A0B" stroke-width="2"/>';
-                dots += '<text x="' + x.toFixed(1) + '" y="' + (y - 10).toFixed(1) + '" text-anchor="middle" fill="' + color + '" font-size="11" font-weight="700">' + vStr + unit + '</text>';
+                dots += '<text x="' + x.toFixed(1) + '" y="' + (y - 10).toFixed(1) + '" text-anchor="middle" fill="' + color + '" font-size="9" font-weight="600">' + vStr + unit + '</text>';
             });
             let lbls = '';
             if (labels) labels.forEach((l, i) => {
                 const x = padL + i * stepX;
-                lbls += '<text x="' + x.toFixed(1) + '" y="' + (h - 8) + '" text-anchor="middle" fill="#6B7280" font-size="10">' + l + '</text>';
+                lbls += '<text x="' + x.toFixed(1) + '" y="' + (h - 8) + '" text-anchor="middle" fill="#6B7280" font-size="9">' + l + '</text>';
             });
             // Stats bar
             const avg = data.reduce((a,b) => a+b, 0) / data.length;
@@ -1795,7 +1795,7 @@
                 '<span>Moyenne: <strong style="color:var(--gray-2)">' + avgStr + unit + '</strong></span>' +
                 '<span>Tendance: <strong style="color:' + (trendPct >= 0 ? 'var(--green)' : 'var(--red)') + '">' + trendPct + '%</strong></span>' +
                 '</div>' +
-                '<svg viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="none" style="width:100%;height:200px">' + grid + '<path d="' + area + '" fill="url(#gLine)" opacity="0.3"/><path d="' + path + '" fill="none" stroke="' + color + '" stroke-width="2.5"/>' + dots + lbls + '<defs><linearGradient id="gLine" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="' + color + '" stop-opacity="0.4"/><stop offset="100%" stop-color="' + color + '" stop-opacity="0"/></linearGradient></defs></svg>';
+                '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%;height:auto;max-height:180px">' + grid + '<path d="' + area + '" fill="url(#gLine)" opacity="0.3"/><path d="' + path + '" fill="none" stroke="' + color + '" stroke-width="2.5"/>' + dots + lbls + '<defs><linearGradient id="gLine" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="' + color + '" stop-opacity="0.4"/><stop offset="100%" stop-color="' + color + '" stop-opacity="0"/></linearGradient></defs></svg>';
         }
 
         function makeBarChart(data, labels, colors, unit) {
@@ -1810,7 +1810,7 @@
                 const isMax = v === Math.max(...data);
                 const isMin = v === Math.min(...data);
                 bars += '<div class="free-bar-col">' +
-                    '<div class="free-bar-val" style="color:' + (isMax ? c : isMin ? '#6B7280' : 'var(--gray-2)') + (isMax ? ';font-weight:800;font-size:13px' : '') + '">' + vStr + unit + '</div>' +
+                    '<div class="free-bar-val" style="color:' + (isMax ? c : isMin ? '#6B7280' : 'var(--gray-2)') + (isMax ? ';font-weight:700;font-size:11px' : '') + '">' + vStr + unit + '</div>' +
                     '<div class="free-bar" style="height:' + pct.toFixed(0) + '%;background:linear-gradient(180deg,' + c + ',' + c + '66)' + (isMax ? ';box-shadow:0 0 12px ' + c + '44' : '') + '"></div>' +
                     '<div class="free-bar-label">' + labels[i] + '</div>' +
                     (isMax ? '<div style="font-size:9px;color:' + c + ';font-weight:700">MAX</div>' : '') +
@@ -1848,7 +1848,7 @@
                 angle += sweep;
             });
             return '<div style="margin-bottom:8px;font-size:11px;color:var(--gray-4)">Total: <strong style="color:var(--gray-2)">' + total + '</strong> · Segments: <strong style="color:var(--gray-2)">' + segments.length + '</strong></div>' +
-                '<div class="free-donut-wrap"><svg viewBox="0 0 120 120" style="width:130px;height:130px;flex-shrink:0">' + paths + '<text x="60" y="58" text-anchor="middle" fill="#E5E7EB" font-size="16" font-weight="800">' + total + '</text><text x="60" y="72" text-anchor="middle" fill="#6B7280" font-size="8">total</text></svg><div class="free-donut-legend">' + legend + '</div></div>';
+                '<div class="free-donut-wrap"><svg viewBox="0 0 120 120" style="width:130px;height:130px;flex-shrink:0">' + paths + '<text x="60" y="58" text-anchor="middle" fill="#E5E7EB" font-size="14" font-weight="700">' + total + '</text><text x="60" y="72" text-anchor="middle" fill="#6B7280" font-size="8">total</text></svg><div class="free-donut-legend">' + legend + '</div></div>';
         }
 
         function makeSparkline(data, color) {
@@ -3400,6 +3400,16 @@ function renderComps() {
             const priceBox = document.getElementById('priceHist');
             if (priceBox) {
                 let ph = '';
+                ph += '<div style="padding:14px 16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:10px;margin-bottom:16px;font-size:12px;color:var(--gray-4);line-height:1.6">';
+                ph += '<strong style="color:var(--gray-2)">À quoi sert cette page ?</strong> Suivez l\'évolution des prix de ' + n + ' pour anticiper ses mouvements stratégiques. ';
+                if (realPrices && realPrices.length > 0) {
+                    ph += 'Les données ci-dessous proviennent de sources vérifiées et montrent les prix publics actuels ainsi que leurs variations récentes. ';
+                    ph += 'Une baisse de prix peut indiquer une stratégie d\'acquisition agressive, tandis qu\'une hausse peut signaler une confiance dans la valeur perçue ou une hausse de coûts.';
+                } else {
+                    ph += 'Les prix ci-dessous sont des estimations basées sur le positionnement sectoriel de ' + n + ' et la taille de son entreprise. ';
+                    ph += 'Pensez à vérifier sur leur site officiel pour des prix exacts.';
+                }
+                ph += '</div>';
                 if (realPrices && realPrices.length > 0) {
                     ph += '<div class="ov-section"><div class="ov-section-title"><span class="icon">💰</span> Prix actuels de ' + n + ' <span class="ov-tag green" style="margin-left:auto;font-size:9px">Données réelles</span></div>';
                     ph += '<div class="ov-card">';
@@ -3451,6 +3461,7 @@ function renderComps() {
             const postsBox = document.getElementById('postsBox');
             if (postsBox) {
                 let pb = '<div class="ov-section"><div class="ov-section-title"><span class="icon">📱</span> Activité sociale de ' + n + ' <span class="ov-tag" style="margin-left:auto;font-size:9px;background:rgba(139,92,246,0.15);color:var(--purple)">Données simulées</span></div>';
+                pb += '<div style="padding:12px 16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:10px;margin-bottom:14px;font-size:12px;color:var(--gray-4);line-height:1.6"><strong style="color:var(--gray-2)">Analyse des publications.</strong> Cette section recense l\'activité sociale de ' + n + ' sur les principales plateformes. Un volume élevé de publications indique une stratégie de visibilité active. Les publications avec beaucoup de likes et de partages montrent un engagement fort de la communauté. Surveillez les sujets récurrents pour identifier leurs axes de communication prioritaires.</div>';
                 const postCount = Math.floor(seededRand(seed, 1) * 15) + 3;
                 const platforms = ['Twitter/X', 'LinkedIn', 'Instagram', 'TikTok', 'Facebook'];
                 const topics = ['Lancement produit', 'Recrutement', 'Partenariat', 'Événement', 'Mise à jour', 'Témoignage client', 'Coulisses'];
@@ -3478,6 +3489,7 @@ function renderComps() {
             const adsBox = document.getElementById('adsBox');
             if (adsBox) {
                 let ab = '<div class="ov-section"><div class="ov-section-title"><span class="icon">📢</span> Campagnes publicitaires <span class="ov-tag" style="margin-left:auto;font-size:9px;background:rgba(139,92,246,0.15);color:var(--purple)">Données simulées</span></div>';
+                ab += '<div style="padding:12px 16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:10px;margin-bottom:14px;font-size:12px;color:var(--gray-4);line-height:1.6"><strong style="color:var(--gray-2)">Campagnes publicitaires détectées.</strong> Découvrez les formats et plateformes que ' + n + ' utilise pour promouvoir ses produits. Un budget élevé sur une plateforme indique un canal d\'acquisition privilégié. Comparez avec vos propres campagnes pour identifier des opportunités de différentiation.</div>';
                 const adPlatforms = ['Meta (Facebook/Instagram)', 'Google Ads', 'TikTok Ads', 'LinkedIn Ads'];
                 const adFormats = ['Vidéo 15s', 'Carrousel', 'Image statique', 'Story', 'Search'];
                 const adCount = Math.floor(seededRand(seed, 50) * 8) + 2;
@@ -3501,6 +3513,7 @@ function renderComps() {
             const reviewsBox = document.getElementById('reviewsBox');
             if (reviewsBox) {
                 let rb = '<div class="ov-section"><div class="ov-section-title"><span class="icon">⭐</span> Avis clients de ' + n + ' <span class="ov-tag green" style="margin-left:auto;font-size:9px">Données réelles</span></div>';
+                rb += '<div style="padding:12px 16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:10px;margin-bottom:14px;font-size:12px;color:var(--gray-4);line-height:1.6"><strong style="color:var(--gray-2)">Satisfaction client de ' + n + '.</strong> Le score NPS mesure la fidélité : au-dessus de 50, c\'est excellent ; en dessous de 30, risque de churn. La satisfaction globale reflète la qualité perçue des produits. Le sentiment agrège les avis pour une vision claire de la réputation. Comparez votre propre performance client avec celle de ' + n + '.</div>';
                 rb += '<div class="ov-grid3" style="margin-bottom:16px">';
                 rb += '<div class="ov-stat-box"><div class="ov-stat-val" style="color:' + (sat >= 80 ? 'var(--green)' : sat >= 65 ? 'var(--orange)' : 'var(--red)') + '">' + sat + '%</div><div class="ov-stat-label">Satisfaction client</div></div>';
                 rb += '<div class="ov-stat-box"><div class="ov-stat-val" style="color:' + (nps >= 50 ? 'var(--green)' : nps >= 30 ? 'var(--orange)' : 'var(--red)') + '">' + nps + '</div><div class="ov-stat-label">Score NPS</div></div>';
@@ -3549,6 +3562,7 @@ function renderComps() {
             const hiringBox = document.getElementById('hiringBox');
             if (hiringBox) {
                 let hb = '<div class="ov-section"><div class="ov-section-title"><span class="icon">💼</span> Recrutements de ' + n + ' <span class="ov-tag" style="margin-left:auto;font-size:9px;background:rgba(139,92,246,0.15);color:var(--purple)">Données simulées</span></div>';
+                hb += '<div style="padding:12px 16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:10px;margin-bottom:14px;font-size:12px;color:var(--gray-4);line-height:1.6"><strong style="color:var(--gray-2)">Signaux de croissance.</strong> Le recrutement est un indicateur clé de la santé financière de ' + n + '. Un nombre élevé d\'offres dans des départements stratégiques (Engineering, Product) indique une phase d\'expansion. La croissance du personnel montre l\'efficacité opérationnelle. Analysez ces données pour anticiper les nouveaux produits ou marchés ciblés.</div>';
                 const jobRoles = ['Ingénieur logiciel', 'Designer UX/UI', 'Chef de produit', 'Data Analyst', 'Sales Manager', 'Customer Success', 'Marketing Manager', 'DevOps Engineer'];
                 const jobCount = Math.floor(seededRand(seed, 100) * 6) + 2;
                 hb += '<div class="ov-card" style="margin-bottom:12px">';
@@ -3575,6 +3589,7 @@ function renderComps() {
             const blogBox = document.getElementById('blogBox');
             if (blogBox) {
                 let blb = '<div class="ov-section"><div class="ov-section-title"><span class="icon">📝</span> Contenu éditorial de ' + n + ' <span class="ov-tag" style="margin-left:auto;font-size:9px;background:rgba(139,92,246,0.15);color:var(--purple)">Données simulées</span></div>';
+                blb += '<div style="padding:12px 16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:10px;margin-bottom:14px;font-size:12px;color:var(--gray-4);line-height:1.6"><strong style="color:var(--gray-2)">Stratégie éditoriale.</strong> Le blog de ' + n + ' reflète ses priorités de communication et son expertise sectorielle. Les sujets abordés montrent comment ils positionnent leur marque. La fréquence de publication indique l\'importance du content marketing. Affinez votre propre stratégie éditoriale en identifiant les sujets à fort potentiel.</div>';
                 const blogTopics = [
                     'Comment nous avons augmenté notre croissance de ' + growth + '% cette année',
                     'Les tendances ' + (data.sector || 'tech') + ' à surveiller en 2025',
@@ -3598,6 +3613,7 @@ function renderComps() {
             const alertsBox = document.getElementById('alertsBox');
             if (alertsBox) {
                 let alB = '<div class="ov-section"><div class="ov-section-title"><span class="icon">🔔</span> Alertes pour ' + n + '</div>';
+                alB += '<div style="padding:12px 16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:10px;margin-bottom:14px;font-size:12px;color:var(--gray-4);line-height:1.6"><strong style="color:var(--gray-2)">Centre d\'alertes intelligent.</strong> RivalEye surveille en continu les mouvements de ' + n + '. Les alertes prix vous préviennent dès qu\'un tarif change. Les alertes de croissance signalent une expansion rapide. Les alertes satisfaction vous avertissent d\'une dégradation de l\'expérience client — une opportunité pour vous.</div>';
                 const alerts = [];
                 if (realPrices) {
                     realPrices.forEach(function(p) {
