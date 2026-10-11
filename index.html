@@ -3495,7 +3495,27 @@
                 gap: 12px;
             }
         }
-    </style>
+    
+        /* ========== NAV ACCOUNT MENU ========== */
+        .nav-account{position:relative}
+        .nav-acc-btn{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:6px 12px;color:var(--gray-2);cursor:pointer;font-family:inherit;font-size:13px;transition:all .2s}
+        .nav-acc-btn:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15)}
+        .nav-acc-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--red),var(--red-dark));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+        .nav-acc-name{font-weight:600;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .nav-acc-menu{position:absolute;top:calc(100% + 8px);right:0;background:linear-gradient(145deg,#141416,#0A0A0C);border:1px solid rgba(255,255,255,.1);border-radius:14px;min-width:240px;box-shadow:0 16px 48px rgba(0,0,0,.5);opacity:0;visibility:hidden;transform:translateY(-8px);transition:all .2s;z-index:10000;padding:8px}
+        .nav-acc-menu.open{opacity:1;visibility:visible;transform:translateY(0)}
+        .nav-acc-header{display:flex;align-items:center;gap:12px;padding:12px}
+        .nav-acc-avatar-lg{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--red),var(--red-dark));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:#fff;flex-shrink:0}
+        .nav-acc-header-name{font-weight:700;font-size:14px;color:var(--gray-2)}
+        .nav-acc-header-email{font-size:12px;color:var(--gray-5);margin-top:2px}
+        .nav-acc-sep{height:1px;background:rgba(255,255,255,.06);margin:4px 0}
+        .nav-acc-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--gray-3);text-decoration:none;font-size:13px;transition:all .15s;cursor:pointer;border:none;background:none;font-family:inherit;width:100%;text-align:left}
+        .nav-acc-item:hover{background:rgba(255,255,255,.05);color:var(--gray-1)}
+        .nav-acc-logout{color:var(--red)}
+        .nav-acc-logout:hover{background:rgba(255,59,59,.1)!important;color:var(--red)!important}
+        .nav-acc-item svg{opacity:.6;flex-shrink:0}
+        .nav-acc-item:hover svg{opacity:1}
+</style>
 </head>
 <body>
     <!-- BACKGROUND -->
@@ -3525,10 +3545,57 @@
             <li><a href="#predictions">Pronostics</a></li>
             <li><a href="#pricing">Tarifs</a></li>
         </ul>
-        <div class="nav-actions">
+        <div class="nav-actions" id="navActions">
             <a href="#" class="btn btn-ghost" onclick="installPWA(event);return false">Installer</a>
             <a href="#" class="btn btn-ghost" onclick="openAuth(event)">Connexion / S'inscrire</a>
             <a href="app.html" class="btn btn-red">Commencer</a>
+        </div>
+        <div class="nav-account" id="navAccount" style="display:none">
+            <button class="nav-acc-btn" onclick="toggleAccMenu(event)">
+                <div class="nav-acc-avatar" id="navAccAvatar">U</div>
+                <span class="nav-acc-name" id="navAccName">Utilisateur</span>
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
+            </button>
+            <div class="nav-acc-menu" id="navAccMenu">
+                <div class="nav-acc-header">
+                    <div class="nav-acc-avatar-lg" id="navAccAvatarLg">U</div>
+                    <div>
+                        <div class="nav-acc-header-name" id="navAccHeaderName">Utilisateur</div>
+                        <div class="nav-acc-header-email" id="navAccHeaderEmail">—</div>
+                    </div>
+                </div>
+                <div class="nav-acc-sep"></div>
+                <a href="app.html" class="nav-acc-item" onclick="return true">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                    Dashboard
+                </a>
+                <a href="app.html#settings" class="nav-acc-item">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.49.49 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6A3.6 3.6 0 1112 8.4a3.6 3.6 0 010 7.2z"/></svg>
+                    Paramètres
+                </a>
+                <a href="app.html#pricing" class="nav-acc-item">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+                    Abonnement
+                </a>
+                <div class="nav-acc-sep"></div>
+                <a href="app.html" class="nav-acc-item">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                    Mes concurrents
+                </a>
+                <a href="app.html#history" class="nav-acc-item">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M13 3a9 9 0 00-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0013 21a9 9 0 000-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+                    Historique
+                </a>
+                <a href="app.html#analyses" class="nav-acc-item">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                    Mes analyses
+                </a>
+                <div class="nav-acc-sep"></div>
+                <button class="nav-acc-item nav-acc-logout" onclick="handleLogout()">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+                    Déconnexion
+                </button>
+            </div>
         </div>
     </nav>
 
@@ -4577,8 +4644,12 @@
                         successEl.textContent = 'Compte cree ! Verifiez votre email pour confirmer.';
                         successEl.classList.add('show');
                     } else if (data.session) {
+                        if (data.session && data.session.user) {
+                            showLoggedIn(data.session.user);
+                        }
                         successEl.textContent = 'Bienvenue sur RivalEye ! Vous pouvez fermer cette fenêtre.';
                         successEl.classList.add('show');
+                        setTimeout(function() { closeAuth(); }, 1500);
                     }
                 } else {
                     const { data, error } = await supabaseClient.auth.signInWithPassword({
@@ -4586,8 +4657,12 @@
                         password
                     });
                     if (error) throw error;
-                    successEl.textContent = 'Connexion réussie ! Vous pouvez fermer cette fenêtre.';
+                    if (data && data.user) {
+                        showLoggedIn(data.user);
+                    }
+                    successEl.textContent = 'Connexion réussie ! Bienvenue.';
                     successEl.classList.add('show');
+                    setTimeout(function() { closeAuth(); }, 1000);
                 }
             } catch (err) {
                 let msg = err.message || 'Une erreur est survenue.';
@@ -4610,22 +4685,66 @@
             }
         }
 
-        // Check auth state on load — if logged in, Commencer goes to app
-        if (supabaseClient) {
-            supabaseClient.auth.getSession().then(({ data: { session } }) => {
-                if (session) {
-                    window.__rivaleyeLoggedIn = true;
-                    document.querySelectorAll('a.btn-red[onclick*="openAuth"], a.btn-red[onclick*="switchAuthTab"], a.pricing-btn[onclick*="openAuth"]').forEach(btn => {
-                        btn.setAttribute('onclick', "window.location.href='app.html'");
-                    });
-                }
-            }).catch(() => {});
+        // ========== NAV ACCOUNT ==========
+        function toggleAccMenu(e) {
+            e.stopPropagation();
+            var menu = document.getElementById('navAccMenu');
+            if (menu) menu.classList.toggle('open');
+        }
+        document.addEventListener('click', function(e) {
+            var menu = document.getElementById('navAccMenu');
+            if (menu && !e.target.closest('.nav-account')) menu.classList.remove('open');
+        });
+        async function handleLogout() {
+            if (supabaseClient) {
+                try { await supabaseClient.auth.signOut(); } catch(e) {}
+            }
+            showLoggedOut();
+        }
+        function showLoggedOut() {
+            window.__rivaleyeLoggedIn = false;
+            var na = document.getElementById('navActions');
+            var ac = document.getElementById('navAccount');
+            if (na) na.style.display = '';
+            if (ac) ac.style.display = 'none';
+        }
+        function showLoggedIn(user) {
+            window.__rivaleyeLoggedIn = true;
+            var na = document.getElementById('navActions');
+            var ac = document.getElementById('navAccount');
+            if (na) na.style.display = 'none';
+            if (ac) ac.style.display = '';
+            var name = (user && (user.user_metadata?.full_name || user.email?.split('@')[0])) || 'Utilisateur';
+            var email = (user && user.email) || '—';
+            var initial = name.charAt(0).toUpperCase();
+            var ids = ['navAccAvatar','navAccAvatarLg'];
+            ids.forEach(function(id) { var el = document.getElementById(id); if (el) el.textContent = initial; });
+            var nameIds = ['navAccName','navAccHeaderName'];
+            nameIds.forEach(function(id) { var el = document.getElementById(id); if (el) el.textContent = name; });
+            var emailEl = document.getElementById('navAccHeaderEmail');
+            if (emailEl) emailEl.textContent = email;
+        }
 
-            supabaseClient.auth.onAuthStateChange((event, session) => {
-                if (event === 'SIGNED_OUT') {
-                    window.__rivaleyeLoggedIn = false;
+        // Check auth state on load
+        if (supabaseClient) {
+            supabaseClient.auth.getSession().then(function(_ref) {
+                var session = _ref.data.session;
+                if (session && session.user) {
+                    showLoggedIn(session.user);
+                } else {
+                    showLoggedOut();
+                }
+            }).catch(function() { showLoggedOut(); });
+
+            supabaseClient.auth.onAuthStateChange(function(event, session) {
+                if (event === 'SIGNED_IN' && session && session.user) {
+                    showLoggedIn(session.user);
+                } else if (event === 'SIGNED_OUT') {
+                    showLoggedOut();
                 }
             });
+        } else {
+            showLoggedOut();
         }
 
         // PWA Install
