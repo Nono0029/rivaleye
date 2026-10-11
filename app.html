@@ -1022,6 +1022,37 @@
         .free-donut-row:hover{background:rgba(255,255,255,.04);padding-left:6px}
         .ov-card{transition:border-color .2s,background .2s,transform .2s}
         .ov-card:hover{border-color:rgba(255,255,255,.1);transform:translateY(-1px)}
+
+        /* ========== PLAN THEMES ========== */
+        body.plan-pro .sb-item.premium::after { content:'PRO'; background:rgba(59,130,246,.2); color:#3B82F6; }
+        body.plan-business .sb-item.premium::after { content:'BIZ'; background:rgba(139,92,246,.2); color:#8B5CF6; }
+        body.plan-enterprise .sb-item.premium::after { content:'ENT'; background:rgba(245,158,11,.2); color:#F59E0B; }
+        .sb-item.locked { opacity:.45; }
+        .sb-item.locked:hover { opacity:.65; }
+        .badge-plan.free { background:rgba(107,114,128,.2); color:#9CA3AF; }
+        .badge-plan.pro { background:rgba(59,130,246,.2); color:#3B82F6; }
+        .badge-plan.business { background:rgba(139,92,246,.2); color:#8B5CF6; }
+        .badge-plan.enterprise { background:rgba(245,158,11,.2); color:#F59E0B; }
+        .plan-selector { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
+        .plan-opt { padding:14px; border:2px solid rgba(255,255,255,.08); border-radius:12px; cursor:pointer; text-align:center; transition:all .2s; background:rgba(255,255,255,.02); }
+        .plan-opt:hover { border-color:rgba(255,255,255,.15); background:rgba(255,255,255,.04); }
+        .plan-opt.active { border-color:var(--red); background:rgba(255,59,59,.08); }
+        .plan-opt-name { font-size:14px; font-weight:700; margin-bottom:4px; }
+        .plan-opt-price { font-size:12px; color:var(--gray-4); }
+        .plan-opt-desc { font-size:10px; color:var(--gray-5); margin-top:4px; }
+        /* Premium section styles */
+        .prem-section { border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:20px; margin-bottom:16px; background:linear-gradient(135deg,rgba(255,255,255,.02),transparent); position:relative; overflow:hidden; }
+        .prem-section::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--red),transparent); opacity:.5; }
+        .prem-title { font-size:16px; font-weight:700; margin-bottom:4px; display:flex; align-items:center; gap:8px; }
+        .prem-sub { font-size:12px; color:var(--gray-4); margin-bottom:16px; }
+        .verdict-box { padding:16px; border-radius:12px; text-align:center; margin:12px 0; }
+        .verdict-score { font-size:48px; font-weight:900; line-height:1; }
+        .verdict-label { font-size:14px; font-weight:600; margin-top:4px; }
+        .verdict-desc { font-size:12px; color:var(--gray-4); margin-top:8px; }
+        .pred-row { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid rgba(255,255,255,.04); }
+        .pred-bar-bg { flex:1; height:8px; background:rgba(255,255,255,.06); border-radius:4px; overflow:hidden; }
+        .pred-bar { height:100%; border-radius:4px; transition:width 1s ease; }
+        .pred-pct { font-size:14px; font-weight:700; min-width:40px; text-align:right; }
 </style>
 </head>
 <body>
@@ -1106,7 +1137,7 @@
     <div class="app" id="app">
         <aside class="sb" id="sb">
             <a href="index.html" class="sb-logo">
-                <div class="sb-logo-ic"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div>
+                <div class="sb-logo-ic"><svg viewBox="0 0 32 32"><defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="var(--red)"/><stop offset="100%" stop-color="var(--red-dark)"/></linearGradient></defs><path d="M16 4L4 16l12 12 12-12L16 4z" fill="none" stroke="url(#lg1)" stroke-width="2.5"/><path d="M16 9l-7 7 7 7 7-7-7-7z" fill="url(#lg1)" opacity=".9"/><circle cx="16" cy="16" r="2.5" fill="#050505"/><circle cx="16" cy="16" r="1.2" fill="var(--red)"/></svg></div>
                 <span>RivalEye</span>
             </a>
             <div class="sb-comp">
@@ -1122,15 +1153,15 @@
                 <div id="compLimit" style="padding:4px 10px;font-size:11px;color:var(--gray-5)"></div>
             </div>
             <nav class="sb-nav">
-                <a class="sb-item on" onclick="go('overview',this)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Vue d'ensemble</a>
-                <a class="sb-item premium" onclick="go('prices',this)"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg><span class="sb-item-text">Prix</span></a>
-                <a class="sb-item premium" onclick="go('posts',this)"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg><span class="sb-item-text">Posts</span></a>
-                <a class="sb-item premium" onclick="go('ads',this)"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><span class="sb-item-text">Pubs</span></a>
-                <a class="sb-item premium" onclick="go('reviews',this)"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><span class="sb-item-text">Avis</span></a>
-                <a class="sb-item premium" onclick="go('hiring',this)"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span class="sb-item-text">Recrutements</span></a>
-                <a class="sb-item premium" onclick="go('blog',this)"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span class="sb-item-text">Blog</span></a>
-                <a class="sb-item premium" onclick="go('alerts',this)"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><span class="sb-item-text">Alertes</span></a>
-                <a class="sb-item" onclick="go('settings',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Parametres</a>
+                <a class="sb-item on" data-tab="overview" onclick="go('overview',this)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Vue d'ensemble</a>
+                <a class="sb-item premium" data-tab="prices" onclick="go('prices',this)"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg><span class="sb-item-text">Prix</span></a>
+                <a class="sb-item premium" data-tab="posts" onclick="go('posts',this)"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg><span class="sb-item-text">Posts</span></a>
+                <a class="sb-item premium" data-tab="ads" onclick="go('ads',this)"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><span class="sb-item-text">Pubs</span></a>
+                <a class="sb-item premium" data-tab="reviews" onclick="go('reviews',this)"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><span class="sb-item-text">Avis</span></a>
+                <a class="sb-item premium" data-tab="hiring" onclick="go('hiring',this)"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span class="sb-item-text">Recrutements</span></a>
+                <a class="sb-item premium" data-tab="blog" onclick="go('blog',this)"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span class="sb-item-text">Blog</span></a>
+                <a class="sb-item premium" data-tab="alerts" onclick="go('alerts',this)"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><span class="sb-item-text">Alertes</span></a>
+                <a class="sb-item" data-tab="settings" onclick="go('settings',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Parametres</a>
             </nav>
             <div class="sb-foot">
                 <div class="sb-user">
@@ -1248,6 +1279,32 @@
 
         const FREE_LIMIT = 1, PRO_LIMIT = 3, BIZ_LIMIT = 10;
         let plan = localStorage.getItem('rivaleye_plan') || 'free';
+        function setPlan(p) {
+            plan = p;
+            localStorage.setItem('rivaleye_plan', p);
+            applyPlanTheme();
+            updateTabLocks();
+            renderSettings();
+            var pb = document.getElementById('planBadge');
+            if (pb) { pb.textContent = p.charAt(0).toUpperCase() + p.slice(1); pb.className = 'badge-plan ' + p; }
+            if (comps.length > 0) generateAll();
+        }
+        function applyPlanTheme() {
+            var r = document.documentElement;
+            var themes = {
+                free: { red:'#FF3B3B', redDark:'#C41E1E', redDeep:'#8B0F0F', glow:'rgba(255,59,59,0.15)' },
+                pro: { red:'#3B82F6', redDark:'#1D4ED8', redDeep:'#1E3A8A', glow:'rgba(59,130,246,0.15)' },
+                business: { red:'#8B5CF6', redDark:'#6D28D9', redDeep:'#4C1D95', glow:'rgba(139,92,246,0.15)' },
+                enterprise: { red:'#F59E0B', redDark:'#D97706', redDeep:'#92400E', glow:'rgba(245,158,11,0.15)' }
+            };
+            var t = themes[plan] || themes.free;
+            r.style.setProperty('--red', t.red);
+            r.style.setProperty('--red-dark', t.redDark);
+            r.style.setProperty('--red-deep', t.redDeep);
+            r.style.setProperty('--red-glow', t.glow);
+            document.body.classList.remove('plan-free','plan-pro','plan-business','plan-enterprise');
+            document.body.classList.add('plan-' + plan);
+        }
         let comps = [];
         try { comps = JSON.parse(localStorage.getItem('rivaleye_comps') || '[]'); } catch(e) { comps = []; }
         let curIdx = parseInt(localStorage.getItem('rivaleye_cur') || '0', 10);
@@ -3036,17 +3093,21 @@ function renderComps() {
         const BIZ_TABS = ['hiring', 'blog', 'alerts'];
 
         function isTabLocked(tab) {
-            // Everything is FREE for testing
-            return false;
+            var required = getRequiredPlan(tab);
+            var planOrder = { free: 0, pro: 1, business: 2, enterprise: 3 };
+            return (planOrder[plan] || 0) < (planOrder[required] || 0);
         }
 
         function updateTabLocks() {
-            // Everything accessible - no premium classes
-            document.querySelectorAll('.sb-item').forEach(function(item) {
-                item.classList.remove('premium', 'locked', 'biz');
-            });
-            document.querySelectorAll('.tab').forEach(function(tab) {
-                tab.classList.remove('premium');
+            document.querySelectorAll('.sb-item[data-tab]').forEach(function(el) {
+                var tab = el.getAttribute('data-tab');
+                el.classList.remove('premium', 'locked', 'biz');
+                if (tab) {
+                    var req = getRequiredPlan(tab);
+                    if (req === 'pro') el.classList.add('premium');
+                    if (req === 'business') { el.classList.add('premium'); el.classList.add('biz'); }
+                    if (isTabLocked(tab)) el.classList.add('locked');
+                }
             });
         }
 
@@ -3244,6 +3305,84 @@ function renderComps() {
             };
         }
 
+        function buildPremiumSections(name) {
+            var n = escHtml(name);
+            var data = getCompanyData(name);
+            var seed = hashSeed(name);
+            var growth = data.growth;
+            var satisfaction = data.satisfaction;
+            var nps = data.nps;
+            var marketShare = data.marketShare;
+            var html = '';
+
+            // VERDICT
+            var threatScore = Math.min(100, Math.max(0, Math.round(marketShare * 2 + growth * 1.5 + (100 - satisfaction) * 0.3)));
+            var threatLevel = threatScore > 70 ? 'CRITIQUE' : threatScore > 45 ? 'ELEVE' : threatScore > 25 ? 'MODERE' : 'FAIBLE';
+            var threatColor = threatScore > 70 ? 'var(--red)' : threatScore > 45 ? 'var(--orange)' : threatScore > 25 ? 'var(--gray-4)' : 'var(--green)';
+            html += '<div class="prem-section">';
+            html += '<div class="prem-title">Verdict RivalEye <span class="ov-tag ' + (plan === 'free' ? 'orange' : 'green') + '" style="margin-left:auto;font-size:9px">' + (plan === 'free' ? 'Pro' : plan.toUpperCase()) + '</span></div>';
+            html += '<div class="prem-sub">Analyse algorithmique de la menace concurrentielle</div>';
+            if (plan === 'free') {
+                html += '<div style="position:relative"><div style="filter:blur(6px);pointer-events:none;user-select:none">';
+                html += '<div class="verdict-box" style="background:rgba(255,59,59,.08)"><div class="verdict-score" style="color:' + threatColor + '">' + threatScore + '</div><div class="verdict-label" style="color:' + threatColor + '">Menace ' + threatLevel + '</div></div>';
+                html += '</div><div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(5,5,5,.7);gap:8px;border-radius:12px"><button class="int-btn" onclick="showUpgradeModal(\'pro\')" style="background:rgba(59,130,246,.15);border-color:rgba(59,130,246,.3);color:#3B82F6;font-weight:600">Voir le verdict — Pro</button></div></div>';
+            } else {
+                html += '<div class="verdict-box" style="background:' + (threatScore > 70 ? 'rgba(255,59,59,.08)' : threatScore > 45 ? 'rgba(245,158,11,.08)' : 'rgba(16,185,129,.08)') + '">';
+                html += '<div class="verdict-score" style="color:' + threatColor + '">' + threatScore + '</div>';
+                html += '<div class="verdict-label" style="color:' + threatColor + '">Menace ' + threatLevel + '</div>';
+                html += '<div class="verdict-desc">Parts ' + marketShare + '% \u00B7 Croissance ' + growth + '% \u00B7 Satisfaction ' + satisfaction + '/100</div>';
+                html += '</div>';
+                html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px">';
+                html += '<div class="int-stat-card"><div style="font-size:11px;color:var(--gray-5)">Croissance</div><div style="font-size:20px;font-weight:700;color:' + (growth > 10 ? 'var(--green)' : growth > 0 ? 'var(--orange)' : 'var(--red)') + '">' + growth + '%</div></div>';
+                html += '<div class="int-stat-card"><div style="font-size:11px;color:var(--gray-5)">NPS</div><div style="font-size:20px;font-weight:700;color:' + (nps > 50 ? 'var(--green)' : nps > 30 ? 'var(--orange)' : 'var(--red)') + '">' + nps + '</div></div>';
+                html += '<div class="int-stat-card"><div style="font-size:11px;color:var(--gray-5)">Parts</div><div style="font-size:20px;font-weight:700;color:var(--gray-2)">' + marketShare + '%</div></div>';
+                html += '</div>';
+            }
+            html += '</div>';
+
+            // PRONOSTICS
+            var priceTrend = growth > 10 ? 'Hausse probable' : growth > 0 ? 'Stable' : 'Baisse probable';
+            var priceTrendPct = growth > 10 ? '+' + (growth * 0.3).toFixed(1) + '%' : growth > 0 ? '+' + (growth * 0.1).toFixed(1) + '%' : (growth * 0.2).toFixed(1) + '%';
+            var priceColor = growth > 10 ? 'var(--red)' : growth > 0 ? 'var(--gray-3)' : 'var(--green)';
+            var growthNext = growth > 5 ? '+' + (growth * 0.8).toFixed(1) + '%' : growth > 0 ? '+' + (growth * 0.5).toFixed(1) + '%' : (growth * 0.5).toFixed(1) + '%';
+            var growthColor = growth > 5 ? 'var(--green)' : growth > 0 ? 'var(--orange)' : 'var(--red)';
+            var satNext = Math.min(100, satisfaction + (growth > 10 ? 2 : growth > 0 ? 0 : -3));
+            var satColor = satNext > 75 ? 'var(--green)' : satNext > 50 ? 'var(--orange)' : 'var(--red)';
+            html += '<div class="prem-section">';
+            html += '<div class="prem-title">Pronostics 90 jours <span class="ov-tag ' + (plan === 'free' ? 'orange' : 'green') + '" style="margin-left:auto;font-size:9px">' + (plan === 'free' ? 'Pro' : plan.toUpperCase()) + '</span></div>';
+            html += '<div class="prem-sub">Previsions bases sur les tendances actuelles</div>';
+            if (plan === 'free') {
+                html += '<div style="position:relative"><div style="filter:blur(6px);pointer-events:none;user-select:none">';
+                html += '<div class="pred-row"><span style="font-size:12px;color:var(--gray-3);min-width:100px">Prix</span><div class="pred-bar-bg"><div class="pred-bar" style="width:65%;background:' + priceColor + '"></div></div><span class="pred-pct" style="color:' + priceColor + '">' + priceTrendPct + '</span></div>';
+                html += '<div class="pred-row"><span style="font-size:12px;color:var(--gray-3);min-width:100px">Croissance</span><div class="pred-bar-bg"><div class="pred-bar" style="width:72%;background:' + growthColor + '"></div></div><span class="pred-pct" style="color:' + growthColor + '">' + growthNext + '</span></div>';
+                html += '</div><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(5,5,5,.7);border-radius:12px"><button class="int-btn" onclick="showUpgradeModal(\'pro\')" style="background:rgba(59,130,246,.15);border-color:rgba(59,130,246,.3);color:#3B82F6;font-weight:600">Voir les pronostics — Pro</button></div></div>';
+            } else {
+                html += '<div class="pred-row"><span style="font-size:12px;color:var(--gray-3);min-width:100px">Prix 90j</span><div class="pred-bar-bg"><div class="pred-bar" style="width:65%;background:' + priceColor + '"></div></div><span class="pred-pct" style="color:' + priceColor + '">' + priceTrendPct + '</span></div>';
+                html += '<div style="font-size:11px;color:var(--gray-5);margin:-4px 0 8px 112px">' + priceTrend + '</div>';
+                html += '<div class="pred-row"><span style="font-size:12px;color:var(--gray-3);min-width:100px">Croissance</span><div class="pred-bar-bg"><div class="pred-bar" style="width:72%;background:' + growthColor + '"></div></div><span class="pred-pct" style="color:' + growthColor + '">' + growthNext + '</span></div>';
+                html += '<div style="font-size:11px;color:var(--gray-5);margin:-4px 0 8px 112px">' + (growth > 5 ? 'Expansion continue attendue' : growth > 0 ? 'Croissance moderee' : 'Ralentissement prevu') + '</div>';
+                html += '<div class="pred-row"><span style="font-size:12px;color:var(--gray-3);min-width:100px">Satisfaction</span><div class="pred-bar-bg"><div class="pred-bar" style="width:' + satNext + '%;background:' + satColor + '"></div></div><span class="pred-pct" style="color:' + satColor + '">' + satNext + '/100</span></div>';
+            }
+            html += '</div>';
+
+            // MONITORING H24
+            html += '<div class="prem-section">';
+            html += '<div class="prem-title">Monitoring H24 <span class="ov-tag ' + (plan === 'business' || plan === 'enterprise' ? 'green' : 'orange') + '" style="margin-left:auto;font-size:9px">' + (plan === 'business' || plan === 'enterprise' ? plan.toUpperCase() : 'Business') + '</span></div>';
+            html += '<div class="prem-sub">Surveillance en temps reel</div>';
+            if (plan === 'free' || plan === 'pro') {
+                html += '<div style="position:relative"><div style="filter:blur(6px);pointer-events:none;user-select:none">';
+                html += '<div class="int-row"><span style="color:var(--green)">\u25CF</span><div><strong style="font-size:12px">Prix</strong><div style="font-size:11px;color:var(--gray-5)">Surveillance continue des changements</div></div></div>';
+                html += '<div class="int-row"><span style="color:var(--green)">\u25CF</span><div><strong style="font-size:12px">Recrutement</strong><div style="font-size:11px;color:var(--gray-5)">Nouvelles offres detectees</div></div></div>';
+                html += '</div><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(5,5,5,.7);border-radius:12px"><button class="int-btn" onclick="showUpgradeModal(\'business\')" style="background:rgba(139,92,246,.15);border-color:rgba(139,92,246,.3);color:#8B5CF6;font-weight:600">Monitoring H24 — Business</button></div></div>';
+            } else {
+                html += '<div class="int-row"><span style="color:var(--green)">\u25CF</span><div><strong style="font-size:12px">Prix</strong><div style="font-size:11px;color:var(--gray-5)">Surveillance active</div></div></div>';
+                html += '<div class="int-row"><span style="color:var(--green)">\u25CF</span><div><strong style="font-size:12px">Recrutement</strong><div style="font-size:11px;color:var(--gray-5)">' + Math.floor(seededRand(seed, 99) * 5 + 1) + ' nouvelles offres</div></div></div>';
+                html += '<div class="int-row"><span style="color:var(--green)">\u25CF</span><div><strong style="font-size:12px">Avis</strong><div style="font-size:11px;color:var(--gray-5)">Sentiment ' + (data.sentiment || 'stable') + '</div></div></div>';
+            }
+            html += '</div>';
+            return html;
+        }
+
         function generateAll() {
             if (comps.length === 0) { clearOverview(); return; }
             const c = cur();
@@ -3260,6 +3399,7 @@ function renderComps() {
 
             // Add extra detailed explanations (more space in dashboard)
             html += buildDetailedExplanations(name);
+            html += buildPremiumSections(name);
 
             ov.innerHTML = html;
 
@@ -3399,63 +3539,38 @@ function renderComps() {
         }
         
         function buildDetailedExplanations(name) {
-            const seed = hashSeed(name);
-            const data = getCompanyData(name);
-            const n = escHtml(name);
-            
-            let html = '';
-            
-            // Detailed explanation section - MORE detail since dashboard has more space
-            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📖</span> Analyse détaillée <span class="ov-tag blue" style="margin-left:auto;font-size:9px">Explications</span></div><div class="ov-card">';
-            
-            // What does this data mean?
-            html += '<div style="margin-bottom:16px">';
-            html += '<h4 style="font-size:14px;margin-bottom:8px;color:var(--gray-2)">Que signifient ces données ?</h4>';
-            html += '<div style="font-size:13px;color:var(--gray-3);line-height:1.6">';
-            html += '<p style="margin-bottom:8px"><strong>Score menace ' + Math.floor(35 + (data.marketShare > 15 ? 30 : data.marketShare > 5 ? 20 : 10) + seededRand(seed, 1) * 25) + '/100 :</strong> Ce score mesure à quel point ' + n + ' est une menace pour votre activité. Plus il est élevé, plus vous devriez surveiller leurs mouvements.</p>';
-            html += '<p style="margin-bottom:8px"><strong>Satisfaction ' + data.satisfaction + '/100 :</strong> Indique le niveau de satisfaction de leurs clients. Un score bas (< 70) signifie des clients mécontents = une opportunité pour vous.</p>';
-            html += '<p style="margin-bottom:8px"><strong>NPS ' + data.nps + ' :</strong> Net Promoter Score. Mesure la fidélité des clients. Au-delà de 50, la marque a une forte base de clients fidèles.</p>';
-            html += '<p><strong>Part de marché ' + data.marketShare + '% :</strong> Quelle part du marché total cette entreprise contrôle. Plus c\'est élevé, plus elle est dominante.</p>';
+            var n = escHtml(name);
+            var data = getCompanyData(name);
+            var marketShare = data.marketShare;
+            var growth = data.growth;
+            var satisfaction = data.satisfaction;
+            var nps = data.nps;
+            var sentiment = data.sentiment;
+            var sectorLabels = { tech:'Tech', ecommerce:'E-commerce', marketplace:'Marketplace', saas:'SaaS', fintech:'Fintech', food:'Food', telecom:'Telecom', travel:'Voyage', luxe:'Luxe', fashion:'Mode', beauty:'Beaute', gaming:'Gaming', streaming:'Streaming', social:'Social', design:'Design', sport:'Sport', mobility:'abilite', retail:'Retail', healthtech:'HealthTech', freelance:'Freelance', emploi:'Emploi' };
+            var sectorInfo = { label: sectorLabels[data.sector] || 'Entreprise' };
+            var html = '';
+            html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">\uD83E\uDD14</span> Analyse d\u00E9taill\u00E9e</div>';
+            html += '<div class="ov-card" style="font-size:13px;color:var(--gray-3);line-height:1.7">';
+            html += '<p><strong style="color:var(--gray-1)">Score de menace :</strong> ' + n + ' op\u00E8re dans le secteur ' + sectorInfo.label + ' avec une part de march\u00E9 de ' + marketShare + '%. ' + (marketShare > 20 ? 'Position dominante \u2014 menaces directes sur votre march\u00E9.' : 'Position interm\u00E9diaire \u2014 opportunit\u00E9s de capture existent.') + '</p>';
+            html += '<p style="margin-top:8px"><strong style="color:var(--gray-1)">Croissance :</strong> ' + growth + '% par an. ' + (growth > 15 ? 'Expansion tr\u00E9s rapide \u2014 surveillez leurs nouveaux produits.' : growth > 5 ? 'Croissance solide \u2014 strat\u00E9gie d\u2019expansion mesur\u00E9e.' : growth > 0 ? 'Croissance faible \u2014 phase de maturit\u00E9.' : 'D\u00E9clin \u2014 difficult\u00E9s ou perte de parts.') + '</p>';
+            html += '<p style="margin-top:8px"><strong style="color:var(--gray-1)">Exp\u00E9rience client :</strong> Satisfaction ' + satisfaction + '/100, NPS ' + nps + ', sentiment ' + sentiment + '. ' + (satisfaction > 75 ? 'Excellente exp\u00E9rience \u2014 clients tr\u00E9s fid\u00E8les.' : satisfaction > 50 ? 'Exp\u00E9rienne correcte \u2014 am\u00E9liorations possibles.' : 'Exp\u00E9rience \u00E0 risque \u2014 opportunit\u00E9 de capter leurs clients m\u00E9contents.') + '</p>';
+            html += '<p style="margin-top:8px"><strong style="color:var(--gray-1)">Que surveiller :</strong> Leurs prix, leurs lancements produits, leurs recrutements, et les avis clients n\u00E9gatifs.</p>';
             html += '</div></div>';
-            
-            // How to interpret price changes
-            html += '<div style="margin-bottom:16px">';
-            html += '<h4 style="font-size:14px;margin-bottom:8px;color:var(--gray-2)">Comment interpréter les changements de prix ?</h4>';
-            html += '<div style="font-size:13px;color:var(--gray-3);line-height:1.6">';
-            html += '<p style="margin-bottom:8px"><strong>Baisse de prix :</strong> Le concurrent cherche à capturer des parts de marché ou répond à une pression concurrentielle. C\'est souvent le signe qu\'il a des difficultés ou qu\'il veut accélérer sa croissance.</p>';
-            html += '<p><strong>Hausse de prix :</strong> Le concurrent est confiant dans son offre et pense que ses clients sont prêts à payer plus. Cela peut aussi signaler une hausse de ses coûts.</p>';
-            html += '</div></div>';
-            
-            // What to watch
-            html += '<div>';
-            html += '<h4 style="font-size:14px;margin-bottom:8px;color:var(--gray-2)">Que faut-il surveiller en priorité ?</h4>';
-            html += '<div style="font-size:13px;color:var(--gray-3);line-height:1.6">';
-            html += '<p style="margin-bottom:8px"><strong>1. Les changements de prix :</strong> Si ' + n + ' baisse ses prix, vous devrez peut-être ajuster votre stratégie.</p>';
-            html += '<p style="margin-bottom:8px"><strong>2. Les nouveaux produits/fonctionnalités :</strong> Ils pourraient attirer vos clients actuels.</p>';
-            html += '<p><strong>3. Les avis négatifs :</strong> C\'est votre opportunité d\'attirer leurs clients mécontents.</p>';
-            html += '</div></div>';
-            
-            html += '</div></div>';
-            
-            // === INTERACTIVE ANALYSIS SECTIONS ===
             html += '<div class="int-expand" onclick="toggleExpand(this)" style="margin-bottom:10px"><div class="int-expand-head"><span>\uD83E\uDD14 Analyse strat\u00E9gique interactive <span class="int-arrow">\u25BE</span></span></div><div class="int-expand-body">';
-            html += '<div class="int-row"><span style="font-size:15px">\uD83D\uDCA8</span><div><strong style="font-size:12px;color:var(--gray-2)">Positionnement concurrentiel</strong><div style="font-size:11px;color:var(--gray-5)">' + n + ' op\u00E8re dans le secteur ' + sectorInfo.label + ' avec une part de march\u00E9 de ' + marketShare + '%. ' + (marketShare > 20 ? 'Position dominante — difficile \u00E0 d\u00E9loger sans diff\u00E9renciation forte.' : 'Position interm\u00E9diaire — des opportunit\u00E9s de capture de parts existent.') + '</div></div></div>';
-            html += '<div class="int-row"><span style="font-size:15px">\uD83D\uDCC8</span><div><strong style="font-size:12px;color:var(--gray-2)">Dynamique de croissance</strong><div style="font-size:11px;color:var(--gray-5)">Croissance actuelle : ' + growth + '%. ' + (growth > 15 ? 'Croissance tr\u00E9s forte — ils investissent massivement.' : growth > 5 ? 'Croissance solide — strat\u00E9gie d\u2019expansion mesur\u00E9e.' : growth > 0 ? 'Croissance faible — possiblement en phase de maturit\u00E9.' : 'D\u00E9clin — difficult\u00E9s financi\u00E8res ou perte de parts de march\u00E9.') + '</div></div></div>';
-            html += '<div class="int-row"><span style="font-size:15px">\uD83D\uDC8E</span><div><strong style="font-size:12px;color:var(--gray-2)">Exp\u00E9rience client</strong><div style="font-size:11px;color:var(--gray-5)">Satisfaction : ' + satisfaction + '/100 \u00B7 NPS : ' + nps + ' \u00B7 Sentiment : ' + sentiment + '. ' + (satisfaction > 75 ? 'Excellente exp\u00E9rience — forte fid\u00E9lit\u00E9.' : satisfaction > 50 ? 'Exp\u00E9rienne correcte — des am\u00E9liorations sont possibles.' : 'Exp\u00E9rienne \u00E0 risque — opportunit\u00E9 de capter leurs clients m\u00E9contents.') + '</div></div></div>';
+            html += '<div class="int-row"><span style="font-size:15px">\uD83D\uDCA8</span><div><strong style="font-size:12px;color:var(--gray-2)">Positionnement concurrentiel</strong><div style="font-size:11px;color:var(--gray-5)">' + n + ' op\u00E8re dans le secteur ' + sectorInfo.label + '. ' + (marketShare > 20 ? 'Position dominante.' : 'Position interm\u00E9diaire \u2014 opportunit\u00E9s existent.') + '</div></div></div>';
+            html += '<div class="int-row"><span style="font-size:15px">\uD83D\uDCC8</span><div><strong style="font-size:12px;color:var(--gray-2)">Dynamique de croissance</strong><div style="font-size:11px;color:var(--gray-5)">' + growth + '%. ' + (growth > 15 ? 'Tr\u00E8s forte \u2014 investissement massif.' : growth > 5 ? 'Solide \u2014 expansion mesur\u00E9e.' : growth > 0 ? 'Faible \u2014 phase de maturit\u00E9.' : 'D\u00E9clin.') + '</div></div></div>';
+            html += '<div class="int-row"><span style="font-size:15px">\uD83D\uDC8E</span><div><strong style="font-size:12px;color:var(--gray-2)">Exp\u00E9rience client</strong><div style="font-size:11px;color:var(--gray-5)">Sat ' + satisfaction + '/100 \u00B7 NPS ' + nps + ' \u00B7 ' + sentiment + '. ' + (satisfaction > 75 ? 'Excellente fid\u00E9lit\u00E9.' : satisfaction > 50 ? 'Correcte, am\u00E9liorables.' : '\u00C0 risque \u2014 captez leurs clients m\u00E9contents.') + '</div></div></div>';
             html += '</div></div>';
-            
-            html += '<div class="int-expand" onclick="toggleExpand(this)" style="margin-bottom:10px"><div class="int-expand-head"><span>\uD83D\uDCA1 Recommandations strat\u00E9giques <span class="int-arrow">\u25BE</span></span></div><div class="int-expand-body">';
-            html += '<div class="int-row"><span style="color:var(--red);font-size:13px;font-weight:700">1.</span><div><strong style="font-size:12px;color:var(--gray-2)">Diff\u00E9renciation produit</strong><div style="font-size:11px;color:var(--gray-5)">Identifiez les fonctionnalit\u00E9s manquantes chez ' + n + ' et proposez-les en premier.</div></div></div>';
-            html += '<div class="int-row"><span style="color:var(--red);font-size:13px;font-weight:700">2.</span><div><strong style="font-size:12px;color:var(--gray-2)">Prix comp\u00E9itifs</strong><div style="font-size:11px;color:var(--gray-5)">Si leurs prix sont \u00E9lev\u00E9s, proposez une alternative plus abordable avec une bonne valeur per\u00E7ue.</div></div></div>';
-            html += '<div class="int-row"><span style="color:var(--red);font-size:13px;font-weight:700">3.</span><div><strong style="font-size:12px;color:var(--gray-2)">Exp\u00E9rience client sup\u00E9rieure</strong><div style="font-size:11px;color:var(--gray-5)">Un service client r\u00E9actif et une communaut\u00E9 engag\u00E9e font la diff\u00E9rence.</div></div></div>';
-            html += '<div class="int-row"><span style="color:var(--red);font-size:13px;font-weight:700">4.</span><div><strong style="font-size:12px;color:var(--gray-2)">Communication cibl\u00E9e</strong><div style="font-size:11px;color:var(--gray-5)">Analysez leurs points faibles pour construire votre message marketing.</div></div></div>';
+            html += '<div class="int-expand" onclick="toggleExpand(this)" style="margin-bottom:10px"><div class="int-expand-head"><span>\uD83D\uDCA1 Recommandations <span class="int-arrow">\u25BE</span></span></div><div class="int-expand-body">';
+            html += '<div class="int-row"><span style="color:var(--red);font-size:13px;font-weight:700">1.</span><div><strong style="font-size:12px;color:var(--gray-2)">Diff\u00E9renciation produit</strong><div style="font-size:11px;color:var(--gray-5)">Identifiez les fonctionnalit\u00E9s manquantes chez ' + n + '.</div></div></div>';
+            html += '<div class="int-row"><span style="color:var(--red);font-size:13px;font-weight:700">2.</span><div><strong style="font-size:12px;color:var(--gray-2)">Prix comp\u00E9itifs</strong><div style="font-size:11px;color:var(--gray-5)">Proposez une alternative avec une bonne valeur per\u00E7ue.</div></div></div>';
+            html += '<div class="int-row"><span style="color:var(--red);font-size:13px;font-weight:700">3.</span><div><strong style="font-size:12px;color:var(--gray-2)">Service client</strong><div style="font-size:11px;color:var(--gray-5)">Un service r\u00E9actif fait la diff\u00E9rence.</div></div></div>';
+            html += '<div class="int-row"><span style="color:var(--red);font-size:13px;font-weight:700">4.</span><div><strong style="font-size:12px;color:var(--gray-2)">Communication</strong><div style="font-size:11px;color:var(--gray-5)">Analysez leurs points faibles pour votre message.</div></div></div>';
             html += '</div></div>';
-
+            html += '</div>';
             return html;
         }
 
-        
-                // ========== INTERACTIVE HELPERS ==========
         function toggleExpand(el) {
             el.classList.toggle('open');
         }
@@ -3783,18 +3898,24 @@ function renderComps() {
             }
             const pl = document.getElementById('setPlan');
             if (pl) {
-                const badge = document.getElementById('planBadge');
-                if (badge) {
-                    badge.textContent = plan.charAt(0).toUpperCase() + plan.slice(1);
-                    badge.className = 'badge-plan' + (plan !== 'free' ? ' ' + plan : '');
-                }
-                if (plan === 'free') {
-                    pl.innerHTML = '<div class="plan-card free"><h3>Free</h3><p style="font-size:12px;color:var(--gray-4);margin-bottom:4px">Pour tester et découvrir RivalEye</p><div class="price">0€<span style="font-size:14px;color:var(--gray-4)">/mois · pour toujours</span></div><ul><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>1 concurrent</strong> — vous choisissez UNE entreprise à analyser</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Analyse détaillée</strong> — prix, posts, avis, graphiques</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Alertes basiques</strong> — notification quand un prix change</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Recherche illimitée</strong> — analysez n\'importe quelle marque</li></ul><button class="btn-primary" onclick="showUpgradeModal(\'pro\')">Passer à Pro — 19,99€/mois</button></div>';
-                } else if (plan === 'pro') {
-                    pl.innerHTML = '<div class="plan-card"><h3>Pro</h3><p style="font-size:12px;color:var(--gray-4);margin-bottom:4px">Pour les indépendants et petites équipes</p><div class="price">19,99€<span style="font-size:14px;color:var(--gray-4)">/mois · annulable</span></div><ul><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>3 concurrents</strong> — comparez 3 entreprises en parallèle</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Alertes temps réel</strong> — notification instantanée</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Pubs + Recrutements</strong> — suivez leurs campagnes</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Blog & contenu</strong> — analysez leur stratégie</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Historique 6 mois</strong> — accédez aux données</li></ul></div>';
-                } else {
-                    pl.innerHTML = '<div class="plan-card"><h3>Business</h3><p style="font-size:12px;color:var(--gray-4);margin-bottom:4px">Pour les entreprises qui veulent une veille complète</p><div class="price">49,99€<span style="font-size:14px;color:var(--gray-4)">/mois · annulable</span></div><ul><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>10 concurrents</strong> — suivez tout votre paysage</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Pronostics IA</strong> — l\'IA prédit les mouvements</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Export PDF</strong> — rapports à partager</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Historique illimité</strong> — toutes les données</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Support prioritaire</strong> — réponse sous 2h</li></ul></div>';
-                }
+                var badge = document.getElementById('planBadge');
+                if (badge) { badge.textContent = plan.charAt(0).toUpperCase() + plan.slice(1); badge.className = 'badge-plan ' + plan; }
+                var planOptions = [
+                    { id: 'free', name: 'Free', price: '0\u20AC', desc: '1 concurrent \u00B7 Aper\u00E7u limit\u00E9', color: '#9CA3AF' },
+                    { id: 'pro', name: 'Pro', price: '19,99\u20AC/mois', desc: '3 concurrents \u00B7 Prix, Posts, Ads, Avis \u00B7 Verdict + Pronostics', color: '#3B82F6' },
+                    { id: 'business', name: 'Business', price: '49,99\u20AC/mois', desc: '10 concurrents \u00B7 + Recrutements, Blog, Alertes \u00B7 Monitoring H24', color: '#8B5CF6' },
+                    { id: 'enterprise', name: 'Enterprise', price: '99,99\u20AC/mois', desc: 'Illimit\u00E9 \u00B7 Acc\u00E8s total \u00B7 Support d\u00E9di\u00E9', color: '#F59E0B' }
+                ];
+                var ph = '<div style="font-size:14px;font-weight:700;margin-bottom:8px">Votre abonnement</div><div class="plan-selector">';
+                planOptions.forEach(function(p) {
+                    var act = plan === p.id;
+                    ph += '<div class="plan-opt ' + p.id + (act ? ' active' : '') + '" onclick="setPlan(\'' + p.id + '\')">';
+                    ph += '<div class="plan-opt-name" style="color:' + p.color + '">' + p.name + (act ? ' \u2713' : '') + '</div>';
+                    ph += '<div class="plan-opt-price">' + p.price + '</div>';
+                    ph += '<div class="plan-opt-desc">' + p.desc + '</div></div>';
+                });
+                ph += '</div><div style="font-size:11px;color:var(--gray-5);margin-top:10px">Changez de plan pour voir l\u2019interface adapt\u00E9e.</div>';
+                pl.innerHTML = ph;
             }
             const cc = document.getElementById('setCompCount');
             if (cc) cc.textContent = comps.length + '/' + planLimit();
@@ -3898,6 +4019,7 @@ function renderComps() {
         var _appInitialized = false;
         function enterApp(u) {
             if (_appInitialized) return;
+            applyPlanTheme();
             _appInitialized = true;
             user = u || null;
             hideLoader();
