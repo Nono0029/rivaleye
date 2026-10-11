@@ -4621,7 +4621,7 @@
             supabaseClient.auth.getSession().then(({ data: { session } }) => {
                 if (session) {
                     window.__rivaleyeLoggedIn = true;
-                    document.querySelectorAll('a[onclick*="openAuth"], a[onclick*="switchAuthTab"]').forEach(btn => {
+                    document.querySelectorAll('a.btn-red[onclick*="openAuth"], a.btn-red[onclick*="switchAuthTab"], a.pricing-btn[onclick*="openAuth"]').forEach(btn => {
                         btn.setAttribute('onclick', "window.location.href='app.html'");
                     });
                 }
