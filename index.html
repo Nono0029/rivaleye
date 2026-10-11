@@ -3547,7 +3547,7 @@
         </ul>
         <div class="nav-actions" id="navActions">
             <a href="#" class="btn btn-ghost" onclick="installPWA(event);return false">Installer</a>
-            <a href="#" class="btn btn-ghost" onclick="openAuth(event)">Connexion / S'inscrire</a>
+            <span id="navAuthBtn"><a href="#" class="btn btn-ghost" onclick="openAuth(event)">Connexion / S'inscrire</a></span>
             <a href="app.html" class="btn btn-red">Commencer</a>
         </div>
         <div class="nav-account" id="navAccount" style="display:none">
@@ -4703,16 +4703,16 @@
         }
         function showLoggedOut() {
             window.__rivaleyeLoggedIn = false;
-            var na = document.getElementById('navActions');
+            var nb = document.getElementById('navAuthBtn');
             var ac = document.getElementById('navAccount');
-            if (na) na.style.display = '';
+            if (nb) nb.style.display = '';
             if (ac) ac.style.display = 'none';
         }
         function showLoggedIn(user) {
             window.__rivaleyeLoggedIn = true;
-            var na = document.getElementById('navActions');
+            var nb = document.getElementById('navAuthBtn');
             var ac = document.getElementById('navAccount');
-            if (na) na.style.display = 'none';
+            if (nb) nb.style.display = 'none';
             if (ac) ac.style.display = '';
             var name = (user && (user.user_metadata?.full_name || user.email?.split('@')[0])) || 'Utilisateur';
             var email = (user && user.email) || '—';

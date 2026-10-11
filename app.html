@@ -3895,44 +3895,48 @@ function renderComps() {
             if (app) app.classList.add('on');
             if (gate) gate.style.display = 'none';
         }
-        async function init() {
-            const gate = document.getElementById('gate');
-            try {
-                if (!supabaseClient) {
-                    hideLoader();
-                    showApp();
-                    if (comps.length === 0) {
-                        renderComps();
-                        showSbSearch();
-                        clearOverview();
-                    } else {
-                        renderComps();
-                        generateAll();
-                    }
-                    updateTabLocks();
-                    return;
-                }
-                const { data: { session } } = await supabaseClient.auth.getSession();
-                if (session && session.user) {
-                    user = session.user;
-                    hideLoader();
-                    showApp();
-                    if (comps.length === 0) {
-                        renderComps();
-                        showSbSearch();
-                        clearOverview();
-                    } else {
-                        renderComps();
-                        generateAll();
-                    }
-                    updateTabLocks();
-                    return;
-                }
-            } catch (e) { console.warn('Init error:', e); }
+        var _appInitialized = false;
+        function enterApp(u) {
+            if (_appInitialized) return;
+            _appInitialized = true;
+            user = u || null;
             hideLoader();
+            showApp();
+            if (comps.length === 0) {
+                renderComps();
+                showSbSearch();
+                clearOverview();
+            } else {
+                renderComps();
+                generateAll();
+            }
+            updateTabLocks();
+        }
+        function showGate() {
+            hideLoader();
+            var gate = document.getElementById('gate');
             if (gate) gate.style.display = 'flex';
         }
-
+        async function init() {
+            try {
+                if (!supabaseClient) { enterApp(null); return; }
+                var _ref = await supabaseClient.auth.getSession();
+                var session = _ref.data.session;
+                if (session && session.user) { enterApp(session.user); return; }
+            } catch (e) { console.warn('Init error:', e); }
+            showGate();
+        }
+        if (supabaseClient) {
+            supabaseClient.auth.onAuthStateChange(function(event, session) {
+                if (event === 'SIGNED_IN' && session && session.user) {
+                    enterApp(session.user);
+                    var gate = document.getElementById('gate');
+                    if (gate) gate.style.display = 'none';
+                } else if (event === 'SIGNED_OUT') {
+                    window.location.href = 'index.html';
+                }
+            });
+        }
         document.addEventListener('DOMContentLoaded', function() { init().catch(function(e) { console.error(e); hideLoader(); }); });
     
         </script>
