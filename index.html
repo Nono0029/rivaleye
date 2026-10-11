@@ -4747,6 +4747,11 @@
             showLoggedOut();
         }
 
+        // Auto-open auth modal if arriving with #auth
+        if (window.location.hash === '#auth') {
+            setTimeout(function() { openAuth(event); window.history.replaceState(null, '', window.location.pathname); }, 300);
+        }
+
         // PWA Install
         let deferredPrompt = null;
 
