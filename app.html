@@ -35,7 +35,7 @@
         .gate-box{background:linear-gradient(145deg,#141416,#0A0A0C);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:40px;max-width:400px;width:100%;text-align:center}
         .gate-box h2{font-size:22px;margin-bottom:8px}
         .gate-box p{color:var(--gray-4);font-size:14px;margin-bottom:24px}
-        .gate-box a{display:inline-block;padding:12px 28px;background:linear-gradient(135deg,var(--red),var(--red-dark));color:#fff;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px}
+        .gate-box a{display:inline-block;padding:12px 28px;background:linear-gradient(135deg,var(--red),var(--red-dark));color:#fff;border-radius:10px;text-decoration:none;font-weight:700;font-size:13px}
 
         /* MODAL */
         .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;z-index:8000;padding:24px}
@@ -791,7 +791,7 @@
             display: flex;
             gap: 10px;
             align-items: flex-end;
-            height: 240px;
+            height: 200px;
             margin-top: 12px;
         }
         .free-bar-col {
@@ -976,6 +976,52 @@
             min-width: 4px;
             border-radius: 2px 2px 0 0;
         }
+
+        /* ===== INTERACTIVE UI ===== */
+        .int-badge{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.08);color:var(--gray-4);font-size:9px;font-weight:700;cursor:help;flex-shrink:0;transition:background .15s,color .15s;vertical-align:middle;margin-left:4px;position:relative}
+        .int-badge:hover{background:var(--red);color:#fff}
+        .int-badge:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1A1A1C;border:1px solid rgba(255,255,255,.1);color:var(--gray-2);font-size:11px;font-weight:400;padding:8px 12px;border-radius:8px;white-space:normal;width:220px;text-align:left;pointer-events:none;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.5);line-height:1.4}
+        .int-expand{cursor:pointer;transition:background .15s;border-radius:10px;border:1px solid rgba(255,255,255,.04)}
+        .int-expand:hover{background:rgba(255,255,255,.02);border-color:rgba(255,255,255,.08)}
+        .int-expand-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;font-size:13px;font-weight:600;color:var(--gray-2);gap:8px}
+        .int-expand-head .int-arrow{transition:transform .3s;font-size:10px;color:var(--gray-5);flex-shrink:0}
+        .int-expand.open .int-arrow{transform:rotate(180deg)}
+        .int-expand-body{max-height:0;overflow:hidden;transition:max-height .45s ease,padding .3s;padding:0 14px}
+        .int-expand.open .int-expand-body{max-height:800px;padding:0 14px 14px}
+        .int-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.03);transition:background .15s,padding-left .15s}
+        .int-row:hover{background:rgba(255,255,255,.02);border-radius:6px;padding-left:8px}
+        .int-row:last-child{border-bottom:none}
+        .int-progress{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;margin-top:6px}
+        .int-progress-bar{height:100%;border-radius:3px;transition:width 1.2s ease}
+        .int-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;color:var(--gray-3);font-size:12px;cursor:pointer;transition:all .15s;font-family:inherit}
+        .int-btn:hover{background:rgba(255,59,59,.1);border-color:rgba(255,59,59,.25);color:var(--red)}
+        .int-tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+        .int-tab-btn{padding:6px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:8px;color:var(--gray-4);font-size:12px;cursor:pointer;transition:all .15s;font-family:inherit}
+        .int-tab-btn:hover{background:rgba(255,255,255,.07);color:var(--gray-2)}
+        .int-tab-btn.active{background:rgba(255,59,59,.12);border-color:rgba(255,59,59,.25);color:var(--red)}
+        .int-tab-content{display:none}
+        .int-tab-content.active{display:block}
+        .int-compare{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:14px;padding:12px;border:1px solid rgba(255,255,255,.05);border-radius:12px;margin-bottom:10px;transition:border-color .2s,background .2s}
+        .int-compare:hover{border-color:rgba(255,59,59,.2);background:rgba(255,255,255,.01)}
+        .int-compare-val{text-align:center;font-size:16px;font-weight:700}
+        .int-compare-label{text-align:center;font-size:10px;color:var(--gray-5);margin-top:2px}
+        .int-compare-vs{font-size:10px;color:var(--red);font-weight:700;background:rgba(255,59,59,.1);padding:4px 10px;border-radius:6px;white-space:nowrap}
+        .int-stat-card{padding:14px;border:1px solid rgba(255,255,255,.05);border-radius:10px;background:rgba(255,255,255,.015);transition:all .2s;cursor:default}
+        .int-stat-card:hover{border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.03);transform:translateY(-1px)}
+        .int-tip{position:relative;cursor:help}
+        .int-tip:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1A1A1C;border:1px solid rgba(255,255,255,.1);color:var(--gray-2);font-size:11px;padding:8px 12px;border-radius:8px;white-space:normal;width:200px;text-align:left;pointer-events:none;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.5);line-height:1.4}
+        .int-hover-reveal{position:relative;overflow:hidden}
+        .int-hover-reveal .int-reveal-overlay{position:absolute;inset:0;background:rgba(5,5,5,.85);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;border-radius:inherit;pointer-events:none}
+        .int-hover-reveal:hover .int-reveal-overlay{opacity:1;pointer-events:auto}
+        .free-bar-col{cursor:pointer;transition:transform .2s,opacity .2s}
+        .free-bar-col:hover{transform:scaleY(1.04);opacity:.9}
+        .free-bar-col:hover .free-bar-val{color:var(--red)!important}
+        .free-donut-wrap svg path{cursor:pointer;transition:opacity .2s,transform .2s;transform-origin:center}
+        .free-donut-wrap svg path:hover{opacity:.85;transform:scale(1.03)}
+        .free-donut-row{cursor:pointer;transition:background .15s,padding-left .15s;border-radius:6px}
+        .free-donut-row:hover{background:rgba(255,255,255,.04);padding-left:6px}
+        .ov-card{transition:border-color .2s,background .2s,transform .2s}
+        .ov-card:hover{border-color:rgba(255,255,255,.1);transform:translateY(-1px)}
 </style>
 </head>
 <body>
@@ -1758,7 +1804,7 @@
         // ========== CHART HELPERS ==========
         function makeLineChart(data, color, color2, labels, unit) {
             unit = unit || '';
-            const w = 600, h = 300, padL = 55, padR = 25, padT = 30, padB = 40;
+            const w = 600, h = 260, padL = 55, padR = 25, padT = 30, padB = 40;
             const maxData = Math.max(...data);
             const minData = Math.min(...data);
             const max = maxData * 1.15;
@@ -1787,7 +1833,7 @@
                 const x = padL + i * stepX;
                 const y = h - padB - ((v - min) / range) * (h - padT - padB);
                 const vStr = v >= 1000 ? (v/1000).toFixed(1) + 'k' : v.toFixed(v < 10 ? 1 : 0);
-                dots += '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="4" fill="' + color + '" stroke="#0A0A0B" stroke-width="2"/>';
+                dots += '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="4" fill="' + color + '" stroke="#0A0A0B" stroke-width="2"><title>' + (labels && labels[i] ? labels[i] + ': ' : 'Point ' + (i+1) + ': ') + vStr + unit + '</title></circle>';
                 dots += '<text x="' + x.toFixed(1) + '" y="' + (y - 12).toFixed(1) + '" text-anchor="middle" fill="' + color + '" font-size="12" font-weight="600">' + vStr + unit + '</text>';
             });
             let lbls = '';
@@ -1808,7 +1854,7 @@
                 '<span>Moyenne: <strong style="color:var(--gray-2)">' + avgStr + unit + '</strong></span>' +
                 '<span>Tendance: <strong style="color:' + (trendPct >= 0 ? 'var(--green)' : 'var(--red)') + '">' + trendPct + '%</strong></span>' +
                 '</div>' +
-                '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%;height:auto;min-height:260px">' + grid + '<path d="' + area + '" fill="url(#gLine)" opacity="0.3"/><path d="' + path + '" fill="none" stroke="' + color + '" stroke-width="2.5"/>' + dots + lbls + '<defs><linearGradient id="gLine" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="' + color + '" stop-opacity="0.4"/><stop offset="100%" stop-color="' + color + '" stop-opacity="0"/></linearGradient></defs></svg>';
+                '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%;height:auto;min-height:220px">' + grid + '<path d="' + area + '" fill="url(#gLine)" opacity="0.3"/><path d="' + path + '" fill="none" stroke="' + color + '" stroke-width="2.5"/>' + dots + lbls + '<defs><linearGradient id="gLine" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="' + color + '" stop-opacity="0.4"/><stop offset="100%" stop-color="' + color + '" stop-opacity="0"/></linearGradient></defs></svg>';
         }
 
         function makeBarChart(data, labels, colors, unit) {
@@ -1822,8 +1868,8 @@
                 const vStr = v >= 1000 ? (v/1000).toFixed(1) + 'k' : (v < 10 ? v.toFixed(1) : Math.round(v));
                 const isMax = v === Math.max(...data);
                 const isMin = v === Math.min(...data);
-                bars += '<div class="free-bar-col">' +
-                    '<div class="free-bar-val" style="color:' + (isMax ? c : isMin ? '#6B7280' : 'var(--gray-2)') + (isMax ? ';font-weight:700;font-size:14px' : '') + '">' + vStr + unit + '</div>' +
+                bars += '<div class="free-bar-col" title="' + labels[i] + ': ' + vStr + unit + (isMax ? ' (Maximum)' : isMin ? ' (Minimum)' : '') + '">' +
+                    '<div class="free-bar-val" style="color:' + (isMax ? c : isMin ? '#6B7280' : 'var(--gray-2)') + (isMax ? ';font-weight:700;font-size:13px' : '') + '">' + vStr + unit + '</div>' +
                     '<div class="free-bar" style="height:' + pct.toFixed(0) + '%;background:linear-gradient(180deg,' + c + ',' + c + '66)' + (isMax ? ';box-shadow:0 0 12px ' + c + '44' : '') + '"></div>' +
                     '<div class="free-bar-label">' + labels[i] + '</div>' +
                     (isMax ? '<div style="font-size:11px;color:' + c + ';font-weight:700">MAX</div>' : '') +
@@ -1855,7 +1901,7 @@
                 const x2 = cx + r * Math.cos(endRad), y2 = cy + r * Math.sin(endRad);
                 const x3 = cx + ir * Math.cos(endRad), y3 = cy + ir * Math.sin(endRad);
                 const x4 = cx + ir * Math.cos(startRad), y4 = cy + ir * Math.sin(startRad);
-                paths += '<path d="M' + x1.toFixed(1) + ',' + y1.toFixed(1) + 'A' + r + ',' + r + ' 0 ' + large + ',1 ' + x2.toFixed(1) + ',' + y2.toFixed(1) + 'L' + x3.toFixed(1) + ',' + y3.toFixed(1) + 'A' + ir + ',' + ir + ' 0 ' + large + ',0 ' + x4.toFixed(1) + ',' + y4.toFixed(1) + 'Z" fill="' + seg.color + '"/>';
+                paths += '<path d="M' + x1.toFixed(1) + ',' + y1.toFixed(1) + 'A' + r + ',' + r + ' 0 ' + large + ',1 ' + x2.toFixed(1) + ',' + y2.toFixed(1) + 'L' + x3.toFixed(1) + ',' + y3.toFixed(1) + 'A' + ir + ',' + ir + ' 0 ' + large + ',0 ' + x4.toFixed(1) + ',' + y4.toFixed(1) + 'Z" fill="' + seg.color + '"><title>' + seg.label + ': ' + seg.value + ' (' + pctStr + '%)</title></path>';
                 const pctStr = (pct * 100).toFixed(1);
                 legend += '<div class="free-donut-row"><div class="free-chart-legend-dot" style="background:' + seg.color + '"></div>' + seg.label + '<strong>' + seg.value + ' (' + pctStr + '%)</strong></div>';
                 angle += sweep;
@@ -2180,12 +2226,12 @@
             html += '<div class="free-section"><div class="free-section-title">Profil entreprise</div>';
             html += '<div class="free-card">';
             html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">';
-            html += '<div><span style="color:var(--gray-4)">Fondée en</span><br><strong>' + data.founded + '</strong></div>';
+            html += '<div class="int-tip" data-tip="Année de création de l\'entreprise. Une entreprise plus ancienne a généralement une base clients plus stable."><span style="color:var(--gray-4)">Fondée en</span><span class="int-badge">?</span><br><strong>' + data.founded + '</strong></div>';
             html += '<div><span style="color:var(--gray-4)">Siège</span><br><strong>' + data.hq + '</strong></div>';
             html += '<div><span style="color:var(--gray-4)">Employés</span><br><strong>' + employees.toLocaleString('fr-FR') + '</strong></div>';
-            html += '<div><span style="color:var(--gray-4)">Part de marché</span><br><strong>' + marketShare + '%</strong></div>';
+            html += '<div class="int-tip" data-tip="Pourcentage du marché total capté par cette entreprise. Plus c\'est élevé, plus la position est dominante."><span style="color:var(--gray-4)">Part de marché</span><span class="int-badge">?</span><br><strong>' + marketShare + '%</strong></div>';
             html += '<div><span style="color:var(--gray-4)">CA estimé</span><br><strong>' + revenue.toLocaleString('fr-FR') + data.currency + '</strong></div>';
-            html += '<div><span style="color:var(--gray-4)">Croissance</span><br><strong style="color:' + (growth > 10 ? 'var(--green)' : growth > 0 ? 'var(--orange)' : 'var(--red)') + '">' + (growth > 0 ? '+' : '') + growth + '%</strong></div>';
+            html += '<div class="int-tip" data-tip="Taux de croissance annuel. Au-dessus de 10% = croissance forte."><span style="color:var(--gray-4)">Croissance<span class="int-badge">?</span></span><br><strong style="color:' + (growth > 10 ? 'var(--green)' : growth > 0 ? 'var(--orange)' : 'var(--red)') + '">' + (growth > 0 ? '+' : '') + growth + '%</strong></div>';
             if (!isPublic && funding > 0) {
                 html += '<div><span style="color:var(--gray-4)">Levée de fonds</span><br><strong>' + funding + 'M€</strong></div>';
             }
@@ -2217,8 +2263,8 @@
             html += '<div class="free-section"><div class="free-section-title">Score détaillé</div>';
             html += '<div class="free-card">';
             html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">';
-            html += '<div><span style="color:var(--gray-4)">Satisfaction client</span><br><strong style="color:' + (satisfaction > 75 ? 'var(--green)' : satisfaction > 60 ? 'var(--orange)' : 'var(--red)') + '">' + satisfaction + '/100</strong></div>';
-            html += '<div><span style="color:var(--gray-4)">NPS (Net Promoter)</span><br><strong>' + nps + '</strong></div>';
+            html += '<div class="int-tip" data-tip="Score de satisfaction sur 100. Basé sur les avis clients, NPS et retours utilisateurs."><span style="color:var(--gray-4)">Satisfaction client<span class="int-badge">?</span></span><br><strong style="color:' + (satisfaction > 75 ? 'var(--green)' : satisfaction > 60 ? 'var(--orange)' : 'var(--red)') + '">' + satisfaction + '/100</strong></div>';
+            html += '<div class="int-tip" data-tip="Net Promoter Score : mesure la fidélité des clients. De -100 à 100. Au-dessus de 50 = excellent."><span style="color:var(--gray-4)">NPS (Net Promoter)</span><span class="int-badge">?</span><br><strong>' + nps + '</strong></div>';
             html += '<div><span style="color:var(--gray-4)">Taux de churn</span><br><strong>' + churn + '%</strong></div>';
             html += '<div><span style="color:var(--gray-4)">Sentiment global</span><br><strong style="color:' + (sentiment === 'Positif' ? 'var(--green)' : sentiment === 'Negatif' ? 'var(--red)' : 'var(--orange)') + '">' + sentiment + '</strong></div>';
             html += '</div>';
@@ -3279,13 +3325,13 @@ function renderComps() {
             // === 1. PROFIL ENTREPRISE (real data) ===
             html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">🏢</span> Profil entreprise <span class="ov-tag green" style="margin-left:auto;font-size:9px">Données réelles</span></div><div class="ov-card">';
             html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">';
-            html += '<div><span style="color:var(--gray-4)">Fondée en</span><br><strong>' + data.founded + '</strong></div>';
+            html += '<div class="int-tip" data-tip="Année de création de l\'entreprise. Une entreprise plus ancienne a généralement une base clients plus stable."><span style="color:var(--gray-4)">Fondée en</span><span class="int-badge">?</span><br><strong>' + data.founded + '</strong></div>';
             html += '<div><span style="color:var(--gray-4)">Siège</span><br><strong>' + data.hq + '</strong></div>';
             html += '<div><span style="color:var(--gray-4)">Employés</span><br><strong>' + employees.toLocaleString('fr-FR') + '</strong></div>';
-            html += '<div><span style="color:var(--gray-4)">Part de marché</span><br><strong>' + marketShare + '%</strong></div>';
+            html += '<div class="int-tip" data-tip="Pourcentage du marché total capté par cette entreprise. Plus c\'est élevé, plus la position est dominante."><span style="color:var(--gray-4)">Part de marché</span><span class="int-badge">?</span><br><strong>' + marketShare + '%</strong></div>';
             html += '<div><span style="color:var(--gray-4)">CA</span><br><strong>' + revenue.toLocaleString('fr-FR') + currency + '</strong></div>';
             html += '<div><span style="color:var(--gray-4)">Croissance</span><br><strong style="color:' + (growth > 10 ? 'var(--green)' : growth > 0 ? 'var(--orange)' : 'var(--red)') + '">' + (growth > 0 ? '+' : '') + growth + '%</strong></div>';
-            html += '<div><span style="color:var(--gray-4)">Valorisation</span><br><strong>' + (data.valuation > 0 ? data.valuation.toLocaleString('fr-FR') + currency : 'N/A (cotée)') + '</strong></div>';
+            html += '<div class="int-tip" data-tip="Valeur estimée de l\'entreprise sur le marché. Indique la confiance des investisseurs."><span style="color:var(--gray-4)">Valorisation</span><span class="int-badge">?</span><br><strong>' + (data.valuation > 0 ? data.valuation.toLocaleString('fr-FR') + currency : 'N/A (cotée)') + '</strong></div>';
             html += '</div>';
             html += '<div style="margin-top:12px;padding:10px;background:rgba(255,255,255,0.03);border-radius:8px;font-size:12px;color:var(--gray-4)"><strong style="color:var(--gray-2)">Concurrents directs :</strong> ' + c1 + ', ' + c2 + '</div>';
             // Real revenue chart
@@ -3304,7 +3350,7 @@ function renderComps() {
             html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">📊</span> Score détaillé <span class="ov-tag green" style="margin-left:auto;font-size:9px">Données réelles</span></div><div class="ov-card">';
             html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">';
             html += '<div><span style="color:var(--gray-4)">Satisfaction client</span><br><strong style="color:' + (satisfaction > 75 ? 'var(--green)' : satisfaction > 60 ? 'var(--orange)' : 'var(--red)') + '">' + satisfaction + '/100</strong></div>';
-            html += '<div><span style="color:var(--gray-4)">NPS (Net Promoter)</span><br><strong>' + nps + '</strong></div>';
+            html += '<div class="int-tip" data-tip="Net Promoter Score : mesure la fidélité des clients. De -100 à 100. Au-dessus de 50 = excellent."><span style="color:var(--gray-4)">NPS (Net Promoter)</span><span class="int-badge">?</span><br><strong>' + nps + '</strong></div>';
             html += '<div><span style="color:var(--gray-4)">Sentiment global</span><br><strong style="color:' + (sentiment === 'Positif' ? 'var(--green)' : sentiment === 'Negatif' ? 'var(--red)' : 'var(--orange)') + '">' + sentiment + '</strong></div>';
             html += '</div>';
             const satBase = Math.floor(satisfaction * 0.9);
@@ -3391,11 +3437,45 @@ function renderComps() {
             
             html += '</div></div>';
             
+            // === INTERACTIVE ANALYSIS SECTIONS ===
+            html += '<div class="int-expand" onclick="toggleExpand(this)" style="margin-bottom:10px"><div class="int-expand-head"><span>\uD83E\uDD14 Analyse strat\u00E9gique interactive <span class="int-arrow">\u25BE</span></span></div><div class="int-expand-body">';
+            html += '<div class="int-row"><span style="font-size:15px">\uD83D\uDCA8</span><div><strong style="font-size:12px;color:var(--gray-2)">Positionnement concurrentiel</strong><div style="font-size:11px;color:var(--gray-5)">' + n + ' op\u00E8re dans le secteur ' + sectorInfo.label + ' avec une part de march\u00E9 de ' + marketShare + '%. ' + (marketShare > 20 ? 'Position dominante — difficile \u00E0 d\u00E9loger sans diff\u00E9renciation forte.' : 'Position interm\u00E9diaire — des opportunit\u00E9s de capture de parts existent.') + '</div></div></div>';
+            html += '<div class="int-row"><span style="font-size:15px">\uD83D\uDCC8</span><div><strong style="font-size:12px;color:var(--gray-2)">Dynamique de croissance</strong><div style="font-size:11px;color:var(--gray-5)">Croissance actuelle : ' + growth + '%. ' + (growth > 15 ? 'Croissance tr\u00E9s forte — ils investissent massivement.' : growth > 5 ? 'Croissance solide — strat\u00E9gie d\u2019expansion mesur\u00E9e.' : growth > 0 ? 'Croissance faible — possiblement en phase de maturit\u00E9.' : 'D\u00E9clin — difficult\u00E9s financi\u00E8res ou perte de parts de march\u00E9.') + '</div></div></div>';
+            html += '<div class="int-row"><span style="font-size:15px">\uD83D\uDC8E</span><div><strong style="font-size:12px;color:var(--gray-2)">Exp\u00E9rience client</strong><div style="font-size:11px;color:var(--gray-5)">Satisfaction : ' + satisfaction + '/100 \u00B7 NPS : ' + nps + ' \u00B7 Sentiment : ' + sentiment + '. ' + (satisfaction > 75 ? 'Excellente exp\u00E9rience — forte fid\u00E9lit\u00E9.' : satisfaction > 50 ? 'Exp\u00E9rienne correcte — des am\u00E9liorations sont possibles.' : 'Exp\u00E9rienne \u00E0 risque — opportunit\u00E9 de capter leurs clients m\u00E9contents.') + '</div></div></div>';
+            html += '</div></div>';
+            
+            html += '<div class="int-expand" onclick="toggleExpand(this)" style="margin-bottom:10px"><div class="int-expand-head"><span>\uD83D\uDCA1 Recommandations strat\u00E9giques <span class="int-arrow">\u25BE</span></span></div><div class="int-expand-body">';
+            html += '<div class="int-row"><span style="color:var(--red);font-size:13px;font-weight:700">1.</span><div><strong style="font-size:12px;color:var(--gray-2)">Diff\u00E9renciation produit</strong><div style="font-size:11px;color:var(--gray-5)">Identifiez les fonctionnalit\u00E9s manquantes chez ' + n + ' et proposez-les en premier.</div></div></div>';
+            html += '<div class="int-row"><span style="color:var(--red);font-size:13px;font-weight:700">2.</span><div><strong style="font-size:12px;color:var(--gray-2)">Prix comp\u00E9itifs</strong><div style="font-size:11px;color:var(--gray-5)">Si leurs prix sont \u00E9lev\u00E9s, proposez une alternative plus abordable avec une bonne valeur per\u00E7ue.</div></div></div>';
+            html += '<div class="int-row"><span style="color:var(--red);font-size:13px;font-weight:700">3.</span><div><strong style="font-size:12px;color:var(--gray-2)">Exp\u00E9rience client sup\u00E9rieure</strong><div style="font-size:11px;color:var(--gray-5)">Un service client r\u00E9actif et une communaut\u00E9 engag\u00E9e font la diff\u00E9rence.</div></div></div>';
+            html += '<div class="int-row"><span style="color:var(--red);font-size:13px;font-weight:700">4.</span><div><strong style="font-size:12px;color:var(--gray-2)">Communication cibl\u00E9e</strong><div style="font-size:11px;color:var(--gray-5)">Analysez leurs points faibles pour construire votre message marketing.</div></div></div>';
+            html += '</div></div>';
+
             return html;
         }
 
         
-                // ========== TAB FILL FUNCTIONS ==========
+                // ========== INTERACTIVE HELPERS ==========
+        function toggleExpand(el) {
+            el.classList.toggle('open');
+        }
+        function intTab(evt, tabId) {
+            var container = evt.target.closest('.int-tabs').parentElement;
+            container.querySelectorAll('.int-tab-btn').forEach(function(b) { b.classList.remove('active'); });
+            container.querySelectorAll('.int-tab-content').forEach(function(c) { c.classList.remove('active'); });
+            evt.target.classList.add('active');
+            var content = container.querySelector('#' + tabId);
+            if (content) content.classList.add('active');
+        }
+        function premiumDeep(content) {
+            if (plan !== 'free') return content;
+            return '<div style="position:relative"><div style="filter:blur(5px);pointer-events:none;user-select:none;max-height:120px;overflow:hidden">' + content + '</div>' +
+                '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(5,5,5,.7);gap:8px;border-radius:10px">' +
+                '<button class="int-btn" onclick="showUpgradeModal(\'pro\')" style="background:rgba(255,59,59,.15);border-color:rgba(255,59,59,.3);color:var(--red);font-weight:600">\uD83D\uDD12 Analyses approfondies \u2014 Pro</button>' +
+                '<div style="font-size:10px;color:var(--gray-5)">D\u00E9bloquez les recommandations d\u00E9taill\u00E9es</div></div></div>';
+        }
+
+        // ========== TAB FILL FUNCTIONS ==========
         function fillAllTabs(name) {
             const data = getCompanyData(name);
             const seed = hashSeed(name);
@@ -3413,16 +3493,17 @@ function renderComps() {
             const priceBox = document.getElementById('priceHist');
             if (priceBox) {
                 let ph = '';
-                ph += '<div style="padding:14px 16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:10px;margin-bottom:16px;font-size:12px;color:var(--gray-4);line-height:1.6">';
-                ph += '<strong style="color:var(--gray-2)">À quoi sert cette page ?</strong> Suivez l\'évolution des prix de ' + n + ' pour anticiper ses mouvements stratégiques. ';
+                ph += '<div class="int-expand" onclick="toggleExpand(this)"><div class="int-expand-head"><span>\uD83D\uDCA1 \u00C0 quoi sert cette page ? <span class="int-arrow">\u25BE</span></span></div><div class="int-expand-body"><p style="font-size:12px;color:var(--gray-4);line-height:1.6;margin:0 0 8px">Suivez l\u2019\u00E9volution des prix de ' + n + ' pour anticiper ses mouvements strat\u00E9giques.</p>';
                 if (realPrices && realPrices.length > 0) {
-                    ph += 'Les données ci-dessous proviennent de sources vérifiées et montrent les prix publics actuels ainsi que leurs variations récentes. ';
-                    ph += 'Une baisse de prix peut indiquer une stratégie d\'acquisition agressive, tandis qu\'une hausse peut signaler une confiance dans la valeur perçue ou une hausse de coûts.';
+                    ph += '<div class="int-row"><span style="color:var(--green);font-size:13px">\u2705</span><div><strong style="font-size:12px;color:var(--gray-2)">Donn\u00E9es r\u00E9elles</strong><div style="font-size:11px;color:var(--gray-5)">Les prix ci-dessous proviennent de sources v\u00E9rifi\u00E9es et montrent les prix publics actuels ainsi que leurs variations r\u00E9centes.</div></div></div>';
+                    ph += '<div class="int-row"><span style="color:var(--red);font-size:15px">\u2193</span><div><strong style="font-size:12px;color:var(--gray-2)">Baisse de prix</strong><div style="font-size:11px;color:var(--gray-5)">Strat\u00E9gie d\u2019acquisition agressive ou fin de gamme obsol\u00E8te. Surveillez les parts de march\u00E9.</div></div></div>';
+                    ph += '<div class="int-row"><span style="color:var(--red);font-size:15px">\u2191</span><div><strong style="font-size:12px;color:var(--gray-2)">Hausse de prix</strong><div style="font-size:11px;color:var(--gray-5)">Confiance dans la valeur per\u00E7ue, hausse des co\u00FBts ou nouveau positionnement premium.</div></div></div>';
                 } else {
-                    ph += 'Les prix ci-dessous sont des estimations basées sur le positionnement sectoriel de ' + n + ' et la taille de son entreprise. ';
-                    ph += 'Pensez à vérifier sur leur site officiel pour des prix exacts.';
+                    ph += '<div class="int-row"><span style="color:var(--orange);font-size:13px">\u26A0\uFE0F</span><div><strong style="font-size:12px;color:var(--gray-2)">Estimations</strong><div style="font-size:11px;color:var(--gray-5)">Les prix ci-dessous sont des estimations bas\u00E9es sur le positionnement sectoriel de ' + n + ' et la taille de son entreprise. V\u00E9rifiez sur leur site officiel pour des prix exacts.</div></div></div>';
+                    ph += '<div class="int-row"><span style="color:var(--gray-4);font-size:15px">\u2192</span><div><strong style="font-size:12px;color:var(--gray-2)">Stable</strong><div style="font-size:11px;color:var(--gray-5)">Strat\u00E9gie de prix fixe. La diff\u00E9renciation se fait sur la qualit\u00E9 ou le service.</div></div></div>';
                 }
-                ph += '</div>';
+                ph += '</div></div>';
+                ph += '<div class="int-expand" onclick="toggleExpand(this)"><div class="int-expand-head"><span>\uD83D\uDCC8 Comment interpr\u00E9ter les variations ? <span class="int-arrow">\u25BE</span></span></div><div class="int-expand-body"><div class="int-row"><span style="color:var(--green);font-size:13px;font-weight:700">1.</span><div><strong style="font-size:12px;color:var(--gray-2)">Comparez avec vos prix</strong><div style="font-size:11px;color:var(--gray-5)">Si vos prix sont plus bas, mettez en avant la valeur ajout\u00E9e. S\u2019ils sont plus hauts, justifiez la diff\u00E9rence.</div></div></div><div class="int-row"><span style="color:var(--green);font-size:13px;font-weight:700">2.</span><div><strong style="font-size:12px;color:var(--gray-2)">Surveillez les tendances</strong><div style="font-size:11px;color:var(--gray-5)">Une baisse r\u00E9currente peut indiquer une guerre des prix. Anticipez avec une strat\u00E9gie de valeur.</div></div></div><div class="int-row"><span style="color:var(--green);font-size:13px;font-weight:700">3.</span><div><strong style="font-size:12px;color:var(--gray-2)">Identifiez les segments</strong><div style="font-size:11px;color:var(--gray-5)">Certains produits ont des marges plus \u00E9lev\u00E9es. Concentrez-vous l\u00E0 o\u00F9 la concurrence est faible.</div></div></div></div></div>';
                 if (realPrices && realPrices.length > 0) {
                     ph += '<div class="ov-section"><div class="ov-section-title"><span class="icon">💰</span> Prix actuels de ' + n + ' <span class="ov-tag green" style="margin-left:auto;font-size:9px">Données réelles</span></div>';
                     ph += '<div class="ov-card">';
@@ -3474,7 +3555,8 @@ function renderComps() {
             const postsBox = document.getElementById('postsBox');
             if (postsBox) {
                 let pb = '<div class="ov-section"><div class="ov-section-title"><span class="icon">📱</span> Activité sociale de ' + n + ' <span class="ov-tag" style="margin-left:auto;font-size:9px;background:rgba(139,92,246,0.15);color:var(--purple)">Données simulées</span></div>';
-                pb += '<div style="padding:12px 16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:10px;margin-bottom:14px;font-size:12px;color:var(--gray-4);line-height:1.6"><strong style="color:var(--gray-2)">Analyse des publications.</strong> Cette section recense l\'activité sociale de ' + n + ' sur les principales plateformes. Un volume élevé de publications indique une stratégie de visibilité active. Les publications avec beaucoup de likes et de partages montrent un engagement fort de la communauté. Surveillez les sujets récurrents pour identifier leurs axes de communication prioritaires.</div>';
+                pb += '<div class="int-expand" onclick="toggleExpand(this)"><div class="int-expand-head"><span>\uD83D\uDCA1 Que r\u00E9v\u00E8lent ces publications ? <span class="int-arrow">\u25BE</span></span></div><div class="int-expand-body"><p style="font-size:12px;color:var(--gray-4);line-height:1.6;margin:0 0 8px">Un volume \u00E9lev\u00E9 de publications indique une strat\u00E9gie de visibilit\u00E9 active. Les publications avec beaucoup de likes et de partages montrent un engagement fort de la communaut\u00E9. Surveillez les sujets r\u00E9currents pour identifier leurs axes de communication prioritaires.</p><div class="int-row"><span style="font-size:15px">\uD83D\uDCDD</span><div><strong style="font-size:12px;color:var(--gray-2)">Type de contenu</strong><div style="font-size:11px;color:var(--gray-5)">Annonces produit, t\u00E9moignages, coulisses, guides, actualit\u00E9s sectorielles.</div></div></div><div class="int-row"><span style="font-size:15px">\uD83D\uDD25</span><div><strong style="font-size:12px;color:var(--gray-2)">Engagement</strong><div style="font-size:11px;color:var(--gray-5)">Likes et partages refl\u00E8tent la r\u00E9sonance de la communaut\u00E9.</div></div></div><div class="int-row"><span style="font-size:15px">\u23F0</span><div><strong style="font-size:12px;color:var(--gray-2)">Fr\u00E9quence</strong><div style="font-size:11px;color:var(--gray-5)">La r\u00E9gularit\u00E9 montre la priorit\u00E9 accord\u00E9e au community management.</div></div></div></div></div>';
+                pb += '<div class="int-expand" onclick="toggleExpand(this)"><div class="int-expand-head"><span>\uD83C\uDFAF Comment exploiter ces donn\u00E9es ? <span class="int-arrow">\u25BE</span></span></div><div class="int-expand-body"><div class="int-row"><span style="color:var(--green);font-size:13px;font-weight:700">1.</span><div><strong style="font-size:12px;color:var(--gray-2)">Identifiez les sujets populaires</strong><div style="font-size:11px;color:var(--gray-5)">Quels th\u00E8mes g\u00E9n\u00E8rent le plus d\u2019engagement ? Reprenez-les avec votre angle.</div></div></div><div class="int-row"><span style="color:var(--green);font-size:13px;font-weight:700">2.</span><div><strong style="font-size:12px;color:var(--gray-2)">Rep\u00E9rez les lacunes</strong><div style="font-size:11px;color:var(--gray-5)">Quels sujets ' + n + ' ne couvre pas encore ? C\u2019est votre opportunit\u00E9.</div></div></div><div class="int-row"><span style="color:var(--green);font-size:13px;font-weight:700">3.</span><div><strong style="font-size:12px;color:var(--gray-2)">Analysez le timing</strong><div style="font-size:11px;color:var(--gray-5)">Publiez au m\u00EAme moment pour capter l\u2019attention du m\u00EAme public.</div></div></div></div></div>';
                 const postCount = Math.floor(seededRand(seed, 1) * 15) + 3;
                 const platforms = ['Twitter/X', 'LinkedIn', 'Instagram', 'TikTok', 'Facebook'];
                 const topics = ['Lancement produit', 'Recrutement', 'Partenariat', 'Événement', 'Mise à jour', 'Témoignage client', 'Coulisses'];
@@ -3502,7 +3584,8 @@ function renderComps() {
             const adsBox = document.getElementById('adsBox');
             if (adsBox) {
                 let ab = '<div class="ov-section"><div class="ov-section-title"><span class="icon">📢</span> Campagnes publicitaires <span class="ov-tag" style="margin-left:auto;font-size:9px;background:rgba(139,92,246,0.15);color:var(--purple)">Données simulées</span></div>';
-                ab += '<div style="padding:12px 16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:10px;margin-bottom:14px;font-size:12px;color:var(--gray-4);line-height:1.6"><strong style="color:var(--gray-2)">Campagnes publicitaires détectées.</strong> Découvrez les formats et plateformes que ' + n + ' utilise pour promouvoir ses produits. Un budget élevé sur une plateforme indique un canal d\'acquisition privilégié. Comparez avec vos propres campagnes pour identifier des opportunités de différentiation.</div>';
+                ab += '<div class="int-expand" onclick="toggleExpand(this)"><div class="int-expand-head"><span>\uD83D\uDCA1 Strat\u00E9gie publicitaire <span class="int-arrow">\u25BE</span></span></div><div class="int-expand-body"><p style="font-size:12px;color:var(--gray-4);line-height:1.6;margin:0 0 8px">Un budget \u00E9lev\u00E9 sur une plateforme indique un canal d\u2019acquisition privil\u00E9gi\u00E9. Meta cible les particuliers, LinkedIn vise les professionnels, TikTok atteint les jeunes audiences.</p><div class="int-row"><span style="font-size:15px">\uD83D\uDCDF</span><div><strong style="font-size:12px;color:var(--gray-2)">Meta (Facebook/Instagram)</strong><div style="font-size:11px;color:var(--gray-5)">Ciblage B2C large, remarketing puissant. Id\u00E9al pour les marques grand public.</div></div></div><div class="int-row"><span style="font-size:15px">\uD83D\uDD0D</span><div><strong style="font-size:12px;color:var(--gray-2)">Google Ads</strong><div style="font-size:11px;color:var(--gray-5)">Intent fort via la recherche. Conversion \u00E9lev\u00E9e mais co\u00FBt par clic en hausse.</div></div></div><div class="int-row"><span style="font-size:15px">\uD83C\uDFAC</span><div><strong style="font-size:12px;color:var(--gray-2)">TikTok Ads</strong><div style="font-size:11px;color:var(--gray-5)">Audience jeune (18-34 ans), format vid\u00E9o court, viralit\u00E9 potentielle forte.</div></div></div><div class="int-row"><span style="font-size:15px">\uD83D\uDCBC</span><div><strong style="font-size:12px;color:var(--gray-2)">LinkedIn Ads</strong><div style="font-size:11px;color:var(--gray-5)">Ciblage B2B d\u00E9cideurs. Co\u00FBt plus \u00E9lev\u00E9 mais ROI qualit\u00E9.</div></div></div></div></div>';
+                ab += '<div class="int-expand" onclick="toggleExpand(this)"><div class="int-expand-head"><span>\uD83D\uDCE2 Comment utiliser ces informations ? <span class="int-arrow">\u25BE</span></span></div><div class="int-expand-body"><div class="int-row"><span style="color:var(--red);font-size:13px;font-weight:700">1.</span><div><strong style="font-size:12px;color:var(--gray-2)">Identifiez le canal principal</strong><div style="font-size:11px;color:var(--gray-5)">Si ' + n + ' investit surtout sur Meta, c\u2019est l\u2019acquisition B2C qui fonctionne pour eux.</div></div></div><div class="int-row"><span style="color:var(--red);font-size:13px;font-weight:700">2.</span><div><strong style="font-size:12px;color:var(--gray-2)">Trouvez un canal d\u2019attaque</strong><div style="font-size:11px;color:var(--gray-5)">S\u2019ils n\u2019utilisent pas TikTok ou YouTube, vous pouvez les devancer.</div></div></div><div class="int-row"><span style="color:var(--red);font-size:13px;font-weight:700">3.</span><div><strong style="font-size:12px;color:var(--gray-2)">Estimez leur budget</strong><div style="font-size:11px;color:var(--gray-5)">Comparez avec votre propre budget pour ajuster votre investissement publicitaire.</div></div></div></div></div>';
                 const adPlatforms = ['Meta (Facebook/Instagram)', 'Google Ads', 'TikTok Ads', 'LinkedIn Ads'];
                 const adFormats = ['Vidéo 15s', 'Carrousel', 'Image statique', 'Story', 'Search'];
                 const adCount = Math.floor(seededRand(seed, 50) * 8) + 2;
@@ -3526,7 +3609,8 @@ function renderComps() {
             const reviewsBox = document.getElementById('reviewsBox');
             if (reviewsBox) {
                 let rb = '<div class="ov-section"><div class="ov-section-title"><span class="icon">⭐</span> Avis clients de ' + n + ' <span class="ov-tag green" style="margin-left:auto;font-size:9px">Données réelles</span></div>';
-                rb += '<div style="padding:12px 16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:10px;margin-bottom:14px;font-size:12px;color:var(--gray-4);line-height:1.6"><strong style="color:var(--gray-2)">Satisfaction client de ' + n + '.</strong> Le score NPS mesure la fidélité : au-dessus de 50, c\'est excellent ; en dessous de 30, risque de churn. La satisfaction globale reflète la qualité perçue des produits. Le sentiment agrège les avis pour une vision claire de la réputation. Comparez votre propre performance client avec celle de ' + n + '.</div>';
+                rb += '<div class="int-expand" onclick="toggleExpand(this)"><div class="int-expand-head"><span>\uD83D\uDCA1 Comment lire ces scores ? <span class="int-arrow">\u25BE</span></span></div><div class="int-expand-body"><p style="font-size:12px;color:var(--gray-4);line-height:1.6;margin:0 0 8px">Le score NPS mesure la fid\u00E9lit\u00E9. La satisfaction globale refl\u00E8te la qualit\u00E9 per\u00E7ue des produits et services.</p><div class="int-row"><span style="color:var(--green);font-size:14px">\u2605</span><div><strong style="font-size:12px;color:var(--gray-2)">NPS > 50 : Excellent</strong><div style="font-size:11px;color:var(--gray-5)">Clients tr\u00E8s fid\u00E8les qui recommandent activement la marque.</div></div></div><div class="int-row"><span style="color:var(--orange);font-size:14px">\u2605</span><div><strong style="font-size:12px;color:var(--gray-2)">NPS 30\u201350 : Bon</strong><div style="font-size:11px;color:var(--gray-5)">Clients satisfaits mais perfectibles. Des am\u00E9liorations cibl\u00E9es peuvent booster la fid\u00E9lit\u00E9.</div></div></div><div class="int-row"><span style="color:var(--red);font-size:14px">\u2605</span><div><strong style="font-size:12px;color:var(--gray-2)">NPS < 30 : Critique</strong><div style="font-size:11px;color:var(--gray-5)">Risque de d\u00E9part de clients et de mauvaise r\u00E9putation.</div></div></div></div></div>';
+                rb += '<div class="int-expand" onclick="toggleExpand(this)"><div class="int-expand-head"><span>\uD83D\uDC8E Opportunit\u00E9s pour vous <span class="int-arrow">\u25BE</span></span></div><div class="int-expand-body"><div class="int-row"><span style="color:var(--red);font-size:13px;font-weight:700">1.</span><div><strong style="font-size:12px;color:var(--gray-2)">Captez les clients m\u00E9contents</strong><div style="font-size:11px;color:var(--gray-5)">Si la satisfaction de ' + n + ' baisse, c\u2019est le moment de proposer une alternative.</div></div></div><div class="int-row"><span style="color:var(--red);font-size:13px;font-weight:700">2.</span><div><strong style="font-size:12px;color:var(--gray-2)">Analysez les plaintes r\u00E9currentes</strong><div style="font-size:11px;color:var(--gray-5)">Quels probl\u00E8mes reviennent le plus souvent ? Corrigez-les chez vous.</div></div></div><div class="int-row"><span style="color:var(--red);font-size:13px;font-weight:700">3.</span><div><strong style="font-size:12px;color:var(--gray-2)">Surpassez leur NPS</strong><div style="font-size:11px;color:var(--gray-5)">Un NPS plus \u00E9lev\u00E9 que celui de ' + n + ' est un argument commercial puissant.</div></div></div></div></div>';
                 rb += '<div class="ov-grid3" style="margin-bottom:16px">';
                 rb += '<div class="ov-stat-box"><div class="ov-stat-val" style="color:' + (sat >= 80 ? 'var(--green)' : sat >= 65 ? 'var(--orange)' : 'var(--red)') + '">' + sat + '%</div><div class="ov-stat-label">Satisfaction client</div></div>';
                 rb += '<div class="ov-stat-box"><div class="ov-stat-val" style="color:' + (nps >= 50 ? 'var(--green)' : nps >= 30 ? 'var(--orange)' : 'var(--red)') + '">' + nps + '</div><div class="ov-stat-label">Score NPS</div></div>';
@@ -3575,7 +3659,8 @@ function renderComps() {
             const hiringBox = document.getElementById('hiringBox');
             if (hiringBox) {
                 let hb = '<div class="ov-section"><div class="ov-section-title"><span class="icon">💼</span> Recrutements de ' + n + ' <span class="ov-tag" style="margin-left:auto;font-size:9px;background:rgba(139,92,246,0.15);color:var(--purple)">Données simulées</span></div>';
-                hb += '<div style="padding:12px 16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:10px;margin-bottom:14px;font-size:12px;color:var(--gray-4);line-height:1.6"><strong style="color:var(--gray-2)">Signaux de croissance.</strong> Le recrutement est un indicateur clé de la santé financière de ' + n + '. Un nombre élevé d\'offres dans des départements stratégiques (Engineering, Product) indique une phase d\'expansion. La croissance du personnel montre l\'efficacité opérationnelle. Analysez ces données pour anticiper les nouveaux produits ou marchés ciblés.</div>';
+                hb += '<div class="int-expand" onclick="toggleExpand(this)"><div class="int-expand-head"><span>\uD83D\uDCA1 Qu\u2019indique le recrutement ? <span class="int-arrow">\u25BE</span></span></div><div class="int-expand-body"><p style="font-size:12px;color:var(--gray-4);line-height:1.6;margin:0 0 8px">Le recrutement est un indicateur cl\u00E9 de la sant\u00E9 financi\u00E8re de ' + n + '. Un nombre \u00E9lev\u2019offres dans des d\u00E9partements strat\u00E9giques indique une phase d\u2019expansion.</p><div class="int-row"><span style="font-size:15px">\uD83D\uDEE0</span><div><strong style="font-size:12px;color:var(--gray-2)">Engineering</strong><div style="font-size:11px;color:var(--gray-5)">D\u00E9veloppement de nouveaux produits ou am\u00E9lioration de la plateforme.</div></div></div><div class="int-row"><span style="font-size:15px">\uD83C\uDFAF</span><div><strong style="font-size:12px;color:var(--gray-2)">Product</strong><div style="font-size:11px;color:var(--gray-5)">Expansion de la gamme ou refonte de l\u2019exp\u00E9rience utilisateur.</div></div></div><div class="int-row"><span style="font-size:15px">\uD83D\uDC8E</span><div><strong style="font-size:12px;color:var(--gray-2)">Data / AI</strong><div style="font-size:11px;color:var(--gray-5)">Investissement dans l\u2019intelligence artificielle et l\u2019analyse de donn\u00E9es.</div></div></div><div class="int-row"><span style="font-size:15px">\uD83D\uDE92</span><div><strong style="font-size:12px;color:var(--gray-2)">Sales / Marketing</strong><div style="font-size:11px;color:var(--gray-5)">Expansion commerciale et acquisition de nouveaux march\u00E9s.</div></div></div></div></div>';
+                hb += '<div class="int-expand" onclick="toggleExpand(this)"><div class="int-expand-head"><span>\uD83D\uDD0D Signaux strat\u00E9giques <span class="int-arrow">\u25BE</span></span></div><div class="int-expand-body"><div class="int-row"><span style="color:var(--orange);font-size:13px;font-weight:700">1.</span><div><strong style="font-size:12px;color:var(--gray-2)">Anticipez les nouveaux produits</strong><div style="font-size:11px;color:var(--gray-5)">Des recrutes en Engineering signifient souvent un nouveau produit ou une refonte majeure.</div></div></div><div class="int-row"><span style="color:var(--orange);font-size:13px;font-weight:700">2.</span><div><strong style="font-size:12px;color:var(--gray-2)">Rep\u00E9rez les march\u00E9s cibles</strong><div style="font-size:11px;color:var(--gray-5)">Des postes Sales dans une r\u00E9gion indiquent une expansion g\u00E9ographique.</div></div></div><div class="int-row"><span style="color:var(--orange);font-size:13px;font-weight:700">3.</span><div><strong style="font-size:12px;color:var(--gray-2)">Mesurez la croissance</strong><div style="font-size:11px;color:var(--gray-5)">Comparez le taux de recrutement avec le CA pour \u00E9valuer l\u2019efficacit\u00E9 op\u00E9rationnelle.</div></div></div></div></div>';
                 const jobRoles = ['Ingénieur logiciel', 'Designer UX/UI', 'Chef de produit', 'Data Analyst', 'Sales Manager', 'Customer Success', 'Marketing Manager', 'DevOps Engineer'];
                 const jobCount = Math.floor(seededRand(seed, 100) * 6) + 2;
                 hb += '<div class="ov-card" style="margin-bottom:12px">';
@@ -3602,7 +3687,8 @@ function renderComps() {
             const blogBox = document.getElementById('blogBox');
             if (blogBox) {
                 let blb = '<div class="ov-section"><div class="ov-section-title"><span class="icon">📝</span> Contenu éditorial de ' + n + ' <span class="ov-tag" style="margin-left:auto;font-size:9px;background:rgba(139,92,246,0.15);color:var(--purple)">Données simulées</span></div>';
-                blb += '<div style="padding:12px 16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:10px;margin-bottom:14px;font-size:12px;color:var(--gray-4);line-height:1.6"><strong style="color:var(--gray-2)">Stratégie éditoriale.</strong> Le blog de ' + n + ' reflète ses priorités de communication et son expertise sectorielle. Les sujets abordés montrent comment ils positionnent leur marque. La fréquence de publication indique l\'importance du content marketing. Affinez votre propre stratégie éditoriale en identifiant les sujets à fort potentiel.</div>';
+                blb += '<div class="int-expand" onclick="toggleExpand(this)"><div class="int-expand-head"><span>\uD83D\uDCA1 Analyse \u00E9ditoriale <span class="int-arrow">\u25BE</span></span></div><div class="int-expand-body"><p style="font-size:12px;color:var(--gray-4);line-height:1.6;margin:0 0 8px">Le blog de ' + n + ' refl\u00E8te ses priorit\u00E9s de communication et son expertise sectorielle.</p><div class="int-row"><span style="font-size:15px">\uD83D\uDD0D</span><div><strong style="font-size:12px;color:var(--gray-2)">Mots-cl\u00E9s cibl\u00E9s</strong><div style="font-size:11px;color:var(--gray-5)">Les sujets du blog refl\u00E8tent les mots-cl\u00E9s pour lesquels ils se positionnent sur Google.</div></div></div><div class="int-row"><span style="font-size:15px">\uD83D\uDCDD</span><div><strong style="font-size:12px;color:var(--gray-2)">Autorit\u00E9 de contenu</strong><div style="font-size:11px;color:var(--gray-5)">Un blog actif renforce l\u2019autorit\u00E9 de la marque et g\u00E9n\u00E8re du trafic organique qualifi\u00E9.</div></div></div><div class="int-row"><span style="font-size:15px">\uD83E\uDD1D</span><div><strong style="font-size:12px;color:var(--gray-2)">Partage social</strong><div style="font-size:11px;color:var(--gray-5)">Le contenu est partag\u00E9 sur les r\u00E9seaux sociaux, amplifiant la port\u00E9e organique.</div></div></div></div></div>';
+                blb += '<div class="int-expand" onclick="toggleExpand(this)"><div class="int-expand-head"><span>\uD83C\uDFAF Impact SEO <span class="int-arrow">\u25BE</span></span></div><div class="int-expand-body"><div class="int-row"><span style="color:var(--purple);font-size:13px;font-weight:700">1.</span><div><strong style="font-size:12px;color:var(--gray-2)">\u00C9tudiez leurs sujets populaires</strong><div style="font-size:11px;color:var(--gray-5)">Quels articles g\u00E8n\u00E8rent le plus de trafic ? Reprenez les th\u00E8mes avec un angle diff\u00E9rent.</div></div></div><div class="int-row"><span style="color:var(--purple);font-size:13px;font-weight:700">2.</span><div><strong style="font-size:12px;color:var(--gray-2)">Identifiez les mots-cl\u00E9s manquants</strong><div style="font-size:11px;color:var(--gray-5)">Quels mots-cl\u00E9s importants ' + n + ' ne couvre pas encore ? C\u2019est votre opportunit\u00E9 SEO.</div></div></div><div class="int-row"><span style="color:var(--purple);font-size:13px;font-weight:700">3.</span><div><strong style="font-size:12px;color:var(--gray-2)">Analysez la profondeur</strong><div style="font-size:11px;color:var(--gray-5)">Leurs articles sont-ils superficiels ou d\u00E9taill\u00E9s ? Proposez du contenu plus complet.</div></div></div></div></div>';
                 const blogTopics = [
                     'Comment nous avons augmenté notre croissance de ' + growth + '% cette année',
                     'Les tendances ' + (data.sector || 'tech') + ' à surveiller en 2025',
@@ -3626,7 +3712,8 @@ function renderComps() {
             const alertsBox = document.getElementById('alertsBox');
             if (alertsBox) {
                 let alB = '<div class="ov-section"><div class="ov-section-title"><span class="icon">🔔</span> Alertes pour ' + n + '</div>';
-                alB += '<div style="padding:12px 16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:10px;margin-bottom:14px;font-size:12px;color:var(--gray-4);line-height:1.6"><strong style="color:var(--gray-2)">Centre d\'alertes intelligent.</strong> RivalEye surveille en continu les mouvements de ' + n + '. Les alertes prix vous préviennent dès qu\'un tarif change. Les alertes de croissance signalent une expansion rapide. Les alertes satisfaction vous avertissent d\'une dégradation de l\'expérience client — une opportunité pour vous.</div>';
+                alB += '<div class="int-expand" onclick="toggleExpand(this)"><div class="int-expand-head"><span>\uD83D\uDCA1 Comment fonctionnent les alertes ? <span class="int-arrow">\u25BE</span></span></div><div class="int-expand-body"><p style="font-size:12px;color:var(--gray-4);line-height:1.6;margin:0 0 8px">RivalEye surveille en continu les mouvements de ' + n + ' et vous alerte sur les changements importants.</p><div class="int-row"><span style="font-size:15px">\uD83D\uDCC8</span><div><strong style="font-size:12px;color:var(--gray-2)">Alerte Prix</strong><div style="font-size:11px;color:var(--gray-5)">Notification imm\u00E9diate quand un prix change. R\u00E9action rapide pour ajuster votre strat\u00E9gie.</div></div></div><div class="int-row"><span style="font-size:15px">\uD83D\uDE80</span><div><strong style="font-size:12px;color:var(--gray-2)">Alerte Croissance</strong><div style="font-size:11px;color:var(--gray-5)">Signal d\u2019expansion rapide. Anticipez les nouveaux produits ou march\u00E9s cibl\u00E9s.</div></div></div><div class="int-row"><span style="font-size:15px">\u26A0\uFE0F</span><div><strong style="font-size:12px;color:var(--gray-2)">Alerte Satisfaction</strong><div style="font-size:11px;color:var(--gray-5)">D\u00E9gradation de l\u2019exp\u00E9rience client. Opportunit\u00E9 de capter leurs clients m\u00E9contents.</div></div></div><div class="int-row"><span style="font-size:15px">\uD83C\uDFC6</span><div><strong style="font-size:12px;color:var(--gray-2)">Alerte NPS</strong><div style="font-size:11px;color:var(--gray-5)">Score de fid\u00E9lit\u00E9 en hausse ou en baisse. Indicateur cl\u00E9 de la satisfaction globale.</div></div></div></div></div>';
+                alB += '<div class="int-expand" onclick="toggleExpand(this)"><div class="int-expand-head"><span>\uD83D\uDD14 Types d\u2019alertes <span class="int-arrow">\u25BE</span></span></div><div class="int-expand-body"><div class="int-row"><span style="color:var(--red);font-size:13px;font-weight:700">Prix</span><div><strong style="font-size:12px;color:var(--gray-2)">Baisse / Hausse</strong><div style="font-size:11px;color:var(--gray-5)">Les prix baissent ? Possible strat\u00E9gie d\u2019acquisition. Ils augmentent ? Confiance dans la valeur per\u00E7ue.</div></div></div><div class="int-row"><span style="color:var(--green);font-size:13px;font-weight:700">Recrutement</span><div><strong style="font-size:12px;color:var(--gray-2)">Expansion / Ralentissement</strong><div style="font-size:11px;color:var(--gray-5)">Plus d\u2019offres = croissance. Moins d\u2019offres = possible ralentissement ou restructuration.</div></div></div><div class="int-row"><span style="color:var(--orange);font-size:13px;font-weight:700">R\u00E9putation</span><div><strong style="font-size:12px;color:var(--gray-2)">Avis / Sentiment</strong><div style="font-size:11px;color:var(--gray-5)">Baisse de satisfaction = opportunit\u00E9 de capter leurs clients m\u00E9contents.</div></div></div></div></div>';
                 const alerts = [];
                 if (realPrices) {
                     realPrices.forEach(function(p) {
