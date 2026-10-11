@@ -4577,11 +4577,8 @@
                         successEl.textContent = 'Compte cree ! Verifiez votre email pour confirmer.';
                         successEl.classList.add('show');
                     } else if (data.session) {
-                        successEl.textContent = 'Bienvenue sur RivalEye ! Redirection...';
+                        successEl.textContent = 'Bienvenue sur RivalEye ! Vous pouvez fermer cette fenêtre.';
                         successEl.classList.add('show');
-                        setTimeout(() => {
-                            window.location.href = 'app.html';
-                        }, 1000);
                     }
                 } else {
                     const { data, error } = await supabaseClient.auth.signInWithPassword({
@@ -4589,11 +4586,8 @@
                         password
                     });
                     if (error) throw error;
-                    successEl.textContent = 'Connexion reussie ! Redirection...';
+                    successEl.textContent = 'Connexion réussie ! Vous pouvez fermer cette fenêtre.';
                     successEl.classList.add('show');
-                    setTimeout(() => {
-                        window.location.href = 'app.html';
-                    }, 800);
                 }
             } catch (err) {
                 let msg = err.message || 'Une erreur est survenue.';
