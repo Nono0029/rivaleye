@@ -1410,6 +1410,19 @@
                     <div class="panel-h"><h3>Gestion des concurrents</h3><span id="setCompCount"></span></div>
                     <div id="setComps"></div>
                 </div>
+                <div class="panel">
+                    <div class="panel-h"><h3>Donn\u00e9es</h3></div>
+                    <div style="padding:4px 16px 16px">
+                        <p style="font-size:12px;color:var(--gray-4);margin-bottom:12px">Exportez ou importez vos donn\u00e9es (entreprise, concurrents, plan, notifications).</p>
+                        <div style="display:flex;gap:8px">
+                            <button class="btn btn-ghost" style="padding:8px 16px;font-size:12px" onclick="exportUserData()">\uD83D\uDCE5 Exporter</button>
+                            <button class="btn btn-ghost" style="padding:8px 16px;font-size:12px" onclick="importUserData()">\uD83D\uDCE4 Importer</button>
+                        </div>
+                        <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+                            <button class="btn btn-ghost" style="padding:8px 16px;font-size:12px" onclick="localStorage.removeItem('rivaleye_tour_done');startTour()">\uD83C\uDFAF Relancer le tour</button>
+                        </div>
+                    </div>
+                </div>
                 <div class="panel" id="setMyCompanyPanel">
                     <div class="panel-h"><h3>Mon entreprise</h3><button class="btn btn-ghost" style="padding:6px 12px;font-size:11px" onclick="editMyCompany()">Modifier</button></div>
                     <div id="setMyCompany"></div>
@@ -4637,6 +4650,7 @@ function renderComps() {
             renderMyCompany();
             loadSharedReport();
             if (!myCompany) { openSetup(); }
+            else if (!isTourDone()) { setTimeout(function() { startTour(); }, 1000); }
             if (comps.length === 0) {
                 renderComps();
                 showSbSearch();
@@ -4673,6 +4687,7 @@ function renderComps() {
             document.getElementById('setupStep2').style.display = 'block';
             renderMyCompany();
             showToast('Entreprise configur\u00e9e avec succ\u00e8s !', 'success');
+            if (!isTourDone()) { setTimeout(function() { startTour(); }, 500); }
             addNotif('success', 'Entreprise configur\u00e9e', myCompany.name + ' est pr\u00eate pour la surveillance');
         }
         function handleSetupCompSearch() {
@@ -4759,10 +4774,13 @@ function renderComps() {
                 'h1,h2,h3{color:#fff}p{color:#9CA3AF;font-size:14px}.panel{background:#121214;border:1px solid rgba(255,255,255,.07);border-radius:12px;margin-bottom:16px;padding:20px}' +
                 'table{width:100%;border-collapse:collapse}td,th{padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.07);text-align:left;font-size:13px}' +
                 '.badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600}' +
+                '.report-header{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #FF3B3B}' +
+                '.report-logo{width:32px;height:32px}' +
                 '@media print{body{background:#fff;color:#000}}' +
                 '</style></head><body>' +
-                '<h1>Rapport de veille \u2014 ' + escHtml(name) + '</h1>' +
-                '<p style="color:#6B7280;font-size:12px">G\u00e9n\u00e9r\u00e9 par RivalEye le ' + new Date().toLocaleDateString('fr-FR') + (myCompany ? ' \u00B7 ' + escHtml(myCompany.name) + ' VS ' + escHtml(name) : '') + '</p>' +
+                '<div class="report-header"><svg class="report-logo" viewBox="0 0 32 32"><path d="M16 6C10 6 4 12 4 16s6 10 12 10 12-6 12-10S22 6 16 6z" fill="none" stroke="#FF3B3B" stroke-width="2.5"/><circle cx="16" cy="16" r="4" fill="none" stroke="#FF3B3B" stroke-width="2"/></svg>' +
+                '<div><h1 style="margin:0;font-size:20px">RivalEye \u2014 Rapport de veille</h1>' +
+                '<p style="color:#6B7280;font-size:12px;margin:4px 0 0">' + escHtml(name) + (myCompany ? ' \u00B7 ' + escHtml(myCompany.name) + ' VS ' + escHtml(name) : '') + ' \u00B7 ' + new Date().toLocaleDateString('fr-FR') + '</p></div></div>' +
                 content +
                 '</body></html>');
             win.document.close();
@@ -4882,6 +4900,115 @@ function renderComps() {
             return false;
         }
 
+        // ========== EXPORT/IMPORT DATA ==========
+        function exportUserData() {
+            var data = {
+                myCompany: myCompany,
+                comps: comps,
+                plan: plan,
+                notifications: notifications,
+                recent: getRecentSearches(),
+                exported: new Date().toISOString()
+            };
+            var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'rivaleye-data-' + new Date().toISOString().split('T')[0] + '.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('Donn\u00e9es export\u00e9es', 'success');
+        }
+        function importUserData() {
+            var input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = function(e) {
+                var file = e.target.files[0];
+                if (!file) return;
+                var reader = new FileReader();
+                reader.onload = function(ev) {
+                    try {
+                        var data = JSON.parse(ev.target.result);
+                        if (data.myCompany) { myCompany = data.myCompany; saveMyCompany(); }
+                        if (data.comps) { comps = data.comps; }
+                        if (data.plan) { plan = data.plan; localStorage.setItem('rivaleye_plan', plan); applyPlanTheme(); }
+                        if (data.notifications) { notifications = data.notifications; saveNotifs(); }
+                        if (data.recent) { localStorage.setItem('rivaleye_recent', JSON.stringify(data.recent)); }
+                        curIdx = 0;
+                        saveComps();
+                        renderMyCompany();
+                        updateTabLocks();
+                        if (comps.length > 0) generateAll();
+                        showToast('Donn\u00e9es import\u00e9es avec succ\u00e8s', 'success');
+                    } catch(err) { showToast('Fichier invalide', 'error'); }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        // ========== ONBOARDING TOUR ==========
+        var tourSteps = [
+            { target: 'ovSearchInput', title: 'Recherchez un concurrent', text: 'Tapez le nom d\u2019une marque pour lancer l\u2019analyse complète. Seules les marques de notre base sont acceptées.', pos: 'bottom' },
+            { target: 'myCompCard', title: 'Votre entreprise', text: 'Ici se trouve votre fiche entreprise. Cliquez sur \u270E pour modifier vos informations.', pos: 'right' },
+            { target: null, title: 'Onglets premium', text: 'Prix, Posts, Pubs, Avis sont débloqués avec le plan Pro. Recrutements, Blog et Alertes avec Business.', pos: 'left', selector: '.sb-nav' },
+            { target: null, title: 'Raccourcis clavier', text: 'Ctrl+K pour rechercher, Ctrl+E pour exporter, Alt+1-9 pour changer d\u2019onglet.', pos: 'top', selector: null }
+        ];
+        var tourCurrent = 0;
+        function startTour() {
+            tourCurrent = 0;
+            showTourStep();
+        }
+        function showTourStep() {
+            var overlay = document.getElementById('tourOverlay');
+            if (!overlay) return;
+            if (tourCurrent >= tourSteps.length) { endTour(); return; }
+            var step = tourSteps[tourCurrent];
+            var target = step.target ? document.getElementById(step.target) : (step.selector ? document.querySelector(step.selector) : null);
+            var rect = target ? target.getBoundingClientRect() : { top: 200, left: 200, width: 200, height: 40, bottom: 240, right: 400 };
+            // Position tooltip
+            var tooltip = document.getElementById('tourTooltip');
+            tooltip.style.display = 'block';
+            var tx, ty;
+            switch(step.pos) {
+                case 'bottom': tx = rect.left; ty = rect.bottom + 12; break;
+                case 'right': tx = rect.right + 12; ty = rect.top; break;
+                case 'left': tx = rect.left - 300; ty = rect.top; break;
+                case 'top': tx = rect.left; ty = rect.top - 120; break;
+                default: tx = rect.left; ty = rect.bottom + 12;
+            }
+            // Clamp to viewport
+            tx = Math.max(10, Math.min(tx, window.innerWidth - 310));
+            ty = Math.max(10, Math.min(ty, window.innerHeight - 150));
+            tooltip.style.left = tx + 'px';
+            tooltip.style.top = ty + 'px';
+            // Highlight target
+            var hl = document.getElementById('tourHighlight');
+            hl.style.display = 'block';
+            hl.style.top = (rect.top - 4) + 'px';
+            hl.style.left = (rect.left - 4) + 'px';
+            hl.style.width = (rect.width + 8) + 'px';
+            hl.style.height = (rect.height + 8) + 'px';
+            tooltip.innerHTML = '<div style="font-size:10px;color:var(--red);font-weight:700;margin-bottom:4px">ÉTAPE ' + (tourCurrent + 1) + '/' + tourSteps.length + '</div>' +
+                '<div style="font-size:14px;font-weight:700;color:var(--gray-1);margin-bottom:6px">' + step.title + '</div>' +
+                '<div style="font-size:12px;color:var(--gray-4);line-height:1.5;margin-bottom:12px">' + step.text + '</div>' +
+                '<div style="display:flex;gap:8px">' +
+                '<button class="btn btn-red" style="padding:6px 16px;font-size:12px" onclick="nextTourStep()">' + (tourCurrent < tourSteps.length - 1 ? 'Suivant' : 'Terminer') + '</button>' +
+                '<button class="btn btn-ghost" style="padding:6px 12px;font-size:11px" onclick="endTour()">Passer</button></div>';
+        }
+        function nextTourStep() { tourCurrent++; showTourStep(); }
+        function endTour() {
+            var overlay = document.getElementById('tourOverlay');
+            var tooltip = document.getElementById('tourTooltip');
+            var hl = document.getElementById('tourHighlight');
+            if (overlay) overlay.style.display = 'none';
+            if (tooltip) tooltip.style.display = 'none';
+            if (hl) hl.style.display = 'none';
+            localStorage.setItem('rivaleye_tour_done', '1');
+        }
+        function isTourDone() { return localStorage.getItem('rivaleye_tour_done') === '1'; }
+
         async function init() {
             try {
                 if (!supabaseClient) { enterApp(null); return; }
@@ -4905,6 +5032,9 @@ function renderComps() {
         document.addEventListener('DOMContentLoaded', function() { init().catch(function(e) { console.error(e); hideLoader(); }); });
     
         </script>
+    <div id="tourOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9998;display:none"></div>
+    <div id="tourHighlight" style="position:fixed;border:2px solid #FF3B3B;border-radius:12px;z-index:9999;display:none;pointer-events:none;box-shadow:0 0 0 4000px rgba(0,0,0,.4);transition:all 0.3s ease"></div>
+    <div id="tourTooltip" style="position:fixed;width:290px;background:#121214;border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:16px;z-index:10000;display:none;box-shadow:0 12px 40px rgba(0,0,0,.6)"></div>
     <div class="toast-container" id="toastContainer" aria-live="polite" role="status"></div>
 </body>
 </html>
