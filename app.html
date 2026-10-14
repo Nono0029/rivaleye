@@ -7,6 +7,11 @@
     <meta name="theme-color" content="#050505">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="description" content="RivalEye — Plateforme de veille concurrentielle en temps réel. Analysez prix, avis, pubs, recrutements de vos concurrents.">
+    <meta property="og:title" content="RivalEye — Veille concurrentielle en temps réel">
+    <meta property="og:description" content="Analysez vos concurrents : prix, avis, pubs, recrutements. Insights actionnables automatiques.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -4862,10 +4867,20 @@ function renderComps() {
             win.focus();
             setTimeout(function() { win.print(); }, 500);
         }
+        document.addEventListener('click', function(e) {
+            var panel = document.getElementById('notifPanel');
+            if (panel && panel.style.display === 'block' && !panel.contains(e.target) && !e.target.closest('[onclick*="toggleNotifPanel"]')) {
+                panel.style.display = 'none';
+            }
+        });
         document.addEventListener('keydown', function(e) {
             if (e.ctrlKey && e.key === 'k') { e.preventDefault(); var el = document.getElementById('ovSearchInput'); if (el) el.focus(); }
             if (e.ctrlKey && e.key === 'e') { e.preventDefault(); exportReport(); }
-            if (e.key === 'Escape') { document.querySelectorAll('.modal-bg.on').forEach(function(m) { m.classList.remove('on'); }); }
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-bg.on').forEach(function(m) { m.classList.remove('on'); });
+                var np = document.getElementById('notifPanel'); if (np) np.style.display = 'none';
+                if (document.getElementById('tourTooltip') && document.getElementById('tourTooltip').style.display === 'block') endTour();
+            }
         });
 
         function showToast(msg, type) {
