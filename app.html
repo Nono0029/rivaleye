@@ -3651,6 +3651,8 @@ function renderComps() {
 
             // Build overview HTML using same logic as generateFreeReport
             let html = buildComparison(name);
+            html += buildActionableInsights(name);
+            html += buildSectorSuggestions();
             html += buildFullAnalysis(name);
 
             // Add extra detailed explanations (more space in dashboard)
@@ -3794,6 +3796,93 @@ function renderComps() {
             return html;
         }
         
+        function buildSectorSuggestions() {
+            if (!myCompany) return '';
+            var sector = myCompany.sector || 'tech';
+            var sectorBrands = knownBrands.filter(function(b) {
+                return (b.type || '').toLowerCase().indexOf(sector.toLowerCase()) >= 0 ||
+                       sector.toLowerCase().indexOf((b.type || '').toLowerCase()) >= 0;
+            });
+            // Also match from companyDB
+            Object.keys(companyDB).forEach(function(k) {
+                var c = companyDB[k];
+                if (c.sector === sector && sectorBrands.filter(function(b){return b.name.toLowerCase()===k}).length === 0) {
+                    sectorBrands.push({ name: k.charAt(0).toUpperCase() + k.slice(1), type: c.sector, color: '#FF3B3B', domain: k + '.com' });
+                }
+            });
+            // Filter out already-added competitors and own company
+            var existing = comps.map(function(c) { return c.name.toLowerCase(); });
+            if (myCompany) existing.push(myCompany.name.toLowerCase());
+            sectorBrands = sectorBrands.filter(function(b) { return existing.indexOf(b.name.toLowerCase()) < 0; }).slice(0, 8);
+            if (sectorBrands.length === 0) return '';
+            var html = '<div class="panel" style="margin-bottom:16px">' +
+                '<div class="panel-h"><h3>\uD83D\uDCA1 Concurrents sugg\u00e9r\u00e9s pour votre secteur</h3>' +
+                '<span style="font-size:11px;color:var(--gray-4)">' + escHtml(sector) + '</span></div>' +
+                '<div style="padding:8px 16px 16px;display:flex;flex-wrap:wrap;gap:8px">';
+            sectorBrands.forEach(function(b) {
+                html += '<button class="btn btn-ghost" style="padding:8px 16px;font-size:12px;display:flex;align-items:center;gap:6px" onclick="quickAddComp(\'' + escHtml(b.name).replace(/'/g, "\\'") + '\')">' +
+                    '<span style="width:8px;height:8px;border-radius:50%;background:' + (b.color || '#FF3B3B') + ';display:inline-block"></span>' +
+                    escHtml(b.name) + ' <span style="color:var(--gray-5)">+</span></button>';
+            });
+            html += '</div></div>';
+            return html;
+        }
+        function quickAddComp(name) {
+            if (myCompany && name.toLowerCase() === myCompany.name.toLowerCase()) return;
+            if (comps.length >= planLimit()) { showUpgradeModal('pro'); return; }
+            var brand = getBrandByName(name);
+            comps.push({ name: name, type: brand ? brand.type : 'tech', url: brand ? brand.domain || '' : '', color: '#FF3B3B' });
+            curIdx = comps.length - 1;
+            saveComps();
+            generateAll();
+            showToast(name + ' ajout\u00e9', 'success');
+        }
+        function buildActionableInsights(name) {
+            if (!myCompany) return '';
+            var mine = getMyCompanyData();
+            var comp = getCompanyData(name);
+            var insights = [];
+            // Analyze gaps
+            if (mine.growth < comp.growth) {
+                var gap = (comp.growth - mine.growth).toFixed(1);
+                insights.push({ type: 'alert', icon: '\u26A0', title: 'Croissance en retard', text: escHtml(name) + ' cro\u00e0t de ' + comp.growth + '% vs vos ' + mine.growth + '%. Identifiez leurs canaux d\u2019acquisition et leur strat\u00e9gie de contenu.' });
+            } else {
+                insights.push({ type: 'good', icon: '\u2705', title: 'Croissance sup\u00e9rieure', text: 'Vous surpassez ' + escHtml(name) + ' en croissance (' + mine.growth + '% vs ' + comp.growth + '%). Capitalisez sur cet avantage.' });
+            }
+            if (mine.satisfaction < comp.satisfaction) {
+                var gap2 = comp.satisfaction - mine.satisfaction;
+                insights.push({ type: 'alert', icon: '\u26A0', title: 'Satisfaction \u00e0 am\u00e9liorer', text: 'Votre satisfaction (' + mine.satisfaction + '/100) est inf\u00e9rieure \u00e0 ' + escHtml(name) + ' (' + comp.satisfaction + '/100). Enqu\u00eatez sur les avis clients et les points de friction.' });
+            } else if (mine.satisfaction > comp.satisfaction) {
+                insights.push({ type: 'good', icon: '\u2705', title: 'Meilleure satisfaction', text: 'Vos clients sont plus satisfaits (' + mine.satisfaction + ' vs ' + comp.satisfaction + '). Mettez en avant ce diff\u00e9rentiel dans votre marketing.' });
+            }
+            if (mine.marketShare < comp.marketShare) {
+                insights.push({ type: 'alert', icon: '\uD83D\uDCC8', title: 'Part de march\u00e9', text: escHtml(name) + ' domine avec ' + comp.marketShare + '% vs vos ' + mine.marketShare + '%. \u00c9tudiez leurs prix et leur positionnement.' });
+            }
+            if (mine.nps < comp.nps) {
+                insights.push({ type: 'info', icon: '\uD83C\uDFAF', title: 'NPS \u00e0 travailler', text: 'NPS: ' + mine.nps + ' vs ' + comp.nps + '. Un NPS > 50 indique une forte loyalt\u00e9 client.' });
+            }
+            // Price comparison
+            if (mine.realPrices && comp.realPrices && mine.realPrices.length > 0 && comp.realPrices.length > 0) {
+                var myAvg = mine.realPrices.reduce(function(s,p){return s+p.price},0) / mine.realPrices.length;
+                var compAvg = comp.realPrices.reduce(function(s,p){return s+p.price},0) / comp.realPrices.length;
+                if (myAvg > compAvg) {
+                    insights.push({ type: 'info', icon: '\uD83D\uDCB0', title: 'Prix plus \u00e9lev\u00e9s', text: 'Votre panier moyen (' + myAvg.toFixed(0) + '\u20AC) est sup\u00e9rieur \u00e0 ' + escHtml(name) + ' (' + compAvg.toFixed(0) + '\u20AC). Justifiez la valeur ajout\u00e9e.' });
+                }
+            }
+            if (insights.length === 0) return '';
+            var html = '<div class="panel" style="margin-bottom:16px">' +
+                '<div class="panel-h"><h3>\uD83D\uDCA1 Insights actionnables</h3></div>' +
+                '<div style="padding:8px 16px 16px">';
+            insights.forEach(function(ins) {
+                var bgColor = ins.type === 'alert' ? 'rgba(255,59,59,.06)' : ins.type === 'good' ? 'rgba(16,185,129,.06)' : 'rgba(59,130,246,.06)';
+                var borderColor = ins.type === 'alert' ? 'rgba(255,59,59,.15)' : ins.type === 'good' ? 'rgba(16,185,129,.15)' : 'rgba(59,130,246,.15)';
+                html += '<div style="padding:12px;margin-bottom:8px;background:' + bgColor + ';border:1px solid ' + borderColor + ';border-radius:10px">' +
+                    '<div style="font-size:13px;font-weight:700;color:var(--gray-2);margin-bottom:4px">' + ins.icon + ' ' + ins.title + '</div>' +
+                    '<div style="font-size:12px;color:var(--gray-4);line-height:1.5">' + ins.text + '</div></div>';
+            });
+            html += '</div></div>';
+            return html;
+        }
         function buildComparison(name) {
             if (!myCompany) return '';
             var mine = getMyCompanyData();
@@ -4342,6 +4431,7 @@ function renderComps() {
                 });
                 html += '</div></div>';
             }
+            html += buildActionableInsights(comps.length > 0 ? comps[curIdx] ? comps[curIdx].name : 'Shopify' : 'Shopify');
             el.innerHTML = html;
         }
 
