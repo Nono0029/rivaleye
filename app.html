@@ -1234,9 +1234,9 @@
                 <button class="modal-close" onclick="finishSetup(true)">&times;</button>
                 <div id="setupStep1">
                     <div style="text-align:center;margin-bottom:24px">
-                        <div style="font-size:40px;margin-bottom:8px">\uD83C\uDFAF</div>
+                        <div style="font-size:40px;margin-bottom:8px">🎯</div>
                         <h2 style="font-size:22px;font-weight:800;margin-bottom:6px">Configurons votre entreprise</h2>
-                        <p style="font-size:13px;color:var(--gray-4)">RivalEye compare votre entreprise \u00E0 ses concurrents.</p>
+                        <p style="font-size:13px;color:var(--gray-4)">RivalEye compare votre entreprise à ses concurrents.</p>
                     </div>
                     <div style="margin-bottom:14px">
                         <label style="display:block;font-size:12px;color:var(--gray-3);margin-bottom:6px">Nom de votre entreprise *</label>
@@ -1246,7 +1246,7 @@
                         <div>
                             <label style="display:block;font-size:12px;color:var(--gray-3);margin-bottom:6px">Secteur</label>
                             <select id="setupSector" style="width:100%;padding:12px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;color:var(--gray-1);font-size:13px">
-                                <option value="tech">Tech</option><option value="saas">SaaS</option><option value="ecommerce">E-commerce</option><option value="marketplace">Marketplace</option><option value="fintech">Fintech</option><option value="food">Food</option><option value="luxe">Luxe</option><option value="fashion">Mode</option><option value="beauty">Beaut\u00E9</option><option value="gaming">Gaming</option><option value="streaming">Streaming</option><option value="social">Social</option><option value="design">Design</option><option value="sport">Sport</option><option value="healthtech">HealthTech</option><option value="travel">Voyage</option><option value="telecom">Telecom</option><option value="freelance">Freelance</option><option value="emploi">Emploi</option>
+                                <option value="tech">Tech</option><option value="saas">SaaS</option><option value="ecommerce">E-commerce</option><option value="marketplace">Marketplace</option><option value="fintech">Fintech</option><option value="food">Food</option><option value="luxe">Luxe</option><option value="fashion">Mode</option><option value="beauty">Beauté</option><option value="gaming">Gaming</option><option value="streaming">Streaming</option><option value="social">Social</option><option value="design">Design</option><option value="sport">Sport</option><option value="healthtech">HealthTech</option><option value="travel">Voyage</option><option value="telecom">Telecom</option><option value="freelance">Freelance</option><option value="emploi">Emploi</option>
                             </select>
                         </div>
                         <div>
@@ -1255,25 +1255,25 @@
                         </div>
                     </div>
                     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
-                        <div><label style="display:block;font-size:11px;color:var(--gray-3);margin-bottom:4px">Employ\u00E9s</label><input type="number" id="setupEmployees" value="5" min="1" style="width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;color:var(--gray-1);font-size:13px"></div>
-                        <div><label style="display:block;font-size:11px;color:var(--gray-3);margin-bottom:4px">CA (M\u20AC)</label><input type="number" id="setupRevenue" value="100" min="0" style="width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;color:var(--gray-1);font-size:13px"></div>
+                        <div><label style="display:block;font-size:11px;color:var(--gray-3);margin-bottom:4px">Employés</label><input type="number" id="setupEmployees" value="5" min="1" style="width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;color:var(--gray-1);font-size:13px"></div>
+                        <div><label style="display:block;font-size:11px;color:var(--gray-3);margin-bottom:4px">CA (M€)</label><input type="number" id="setupRevenue" value="100" min="0" style="width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;color:var(--gray-1);font-size:13px"></div>
                         <div><label style="display:block;font-size:11px;color:var(--gray-3);margin-bottom:4px">Croissance %</label><input type="number" id="setupGrowth" value="10" style="width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;color:var(--gray-1);font-size:13px"></div>
                     </div>
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
                         <div><label style="display:block;font-size:11px;color:var(--gray-3);margin-bottom:4px">Satisfaction (0-100)</label><input type="number" id="setupSat" value="75" min="0" max="100" style="width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;color:var(--gray-1);font-size:13px"></div>
-                        <div><label style="display:block;font-size:11px;color:var(--gray-3);margin-bottom:4px">Part de march\u00E9 %</label><input type="number" id="setupShare" value="2" min="0" max="100" step="0.1" style="width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;color:var(--gray-1);font-size:13px"></div>
+                        <div><label style="display:block;font-size:11px;color:var(--gray-3);margin-bottom:4px">Part de marché %</label><input type="number" id="setupShare" value="2" min="0" max="100" step="0.1" style="width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;color:var(--gray-1);font-size:13px"></div>
                     </div>
-                    <button class="btn btn-red" style="width:100%;padding:14px;font-size:15px" onclick="completeSetup()">Configurer \u2192</button>
+                    <button class="btn btn-red" style="width:100%;padding:14px;font-size:15px" onclick="completeSetup()">Configurer →</button>
                 </div>
                 <div id="setupStep2" style="display:none">
                     <div style="text-align:center;margin-bottom:20px">
-                        <div style="font-size:32px;margin-bottom:8px">\u2705</div>
-                        <h3 style="font-size:18px;font-weight:700;margin-bottom:4px">Entreprise configur\u00E9e !</h3>
+                        <div style="font-size:32px;margin-bottom:8px">✅</div>
+                        <h3 style="font-size:18px;font-weight:700;margin-bottom:4px">Entreprise configurée !</h3>
                         <p style="font-size:13px;color:var(--gray-4)">Ajoutez votre premier concurrent.</p>
                     </div>
                     <input type="text" id="setupCompSearch" placeholder="Rechercher un concurrent..." oninput="handleSetupCompSearch()" style="width:100%;padding:12px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;color:var(--gray-1);font-size:14px;margin-bottom:12px">
                     <div id="setupCompSuggestions"></div>
-                    <button class="btn btn-ghost" style="width:100%;padding:12px;margin-top:8px" onclick="finishSetup(true)">Passer pour l\u2019instant</button>
+                    <button class="btn btn-ghost" style="width:100%;padding:12px;margin-top:8px" onclick="finishSetup(true)">Passer pour l’instant</button>
                 </div>
             </div>
         </div>
@@ -1351,9 +1351,9 @@
                     <div class="badge-plan" id="planBadge">Free</div>
                     <div class="badge-live">En direct</div>
                     <button class="btn-sm" onclick="refreshAll()">Actualiser</button>
-                    <button class="btn-sm" onclick="shareReport()" title="Partager le rapport">\uD83D\uDD17 Partager</button>
-                    <button class="btn-sm" onclick="exportReport()" title="Exporter le rapport (Ctrl+E)">\uD83D\uDCC4 Exporter</button>
-                    <button class="btn-sm" onclick="toggleNotifPanel()" title="Notifications" style="position:relative">\uD83D\uDD14<span id="notifBadge" style="position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:9px;font-weight:700;min-width:16px;height:16px;border-radius:8px;display:none;align-items:center;justify-content:center;padding:0 4px">0</span></button>
+                    <button class="btn-sm" onclick="shareReport()" title="Partager le rapport">🔗 Partager</button>
+                    <button class="btn-sm" onclick="exportReport()" title="Exporter le rapport (Ctrl+E)">📄 Exporter</button>
+                    <button class="btn-sm" onclick="toggleNotifPanel()" title="Notifications" style="position:relative">🔔<span id="notifBadge" style="position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:9px;font-weight:700;min-width:16px;height:16px;border-radius:8px;display:none;align-items:center;justify-content:center;padding:0 4px">0</span></button>
                 </div>
                 <div id="notifPanel" style="position:absolute;top:52px;right:16px;width:340px;max-height:400px;overflow-y:auto;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;z-index:200;box-shadow:0 12px 40px rgba(0,0,0,.5);display:none"></div>
             </div>
@@ -1437,15 +1437,15 @@
                     <div id="setComps"></div>
                 </div>
                 <div class="panel">
-                    <div class="panel-h"><h3>Donn\u00e9es</h3></div>
+                    <div class="panel-h"><h3>Données</h3></div>
                     <div style="padding:4px 16px 16px">
-                        <p style="font-size:12px;color:var(--gray-4);margin-bottom:12px">Exportez ou importez vos donn\u00e9es (entreprise, concurrents, plan, notifications).</p>
+                        <p style="font-size:12px;color:var(--gray-4);margin-bottom:12px">Exportez ou importez vos données (entreprise, concurrents, plan, notifications).</p>
                         <div style="display:flex;gap:8px">
-                            <button class="btn btn-ghost" style="padding:8px 16px;font-size:12px" onclick="exportUserData()">\uD83D\uDCE5 Exporter</button>
-                            <button class="btn btn-ghost" style="padding:8px 16px;font-size:12px" onclick="importUserData()">\uD83D\uDCE4 Importer</button>
+                            <button class="btn btn-ghost" style="padding:8px 16px;font-size:12px" onclick="exportUserData()">📥 Exporter</button>
+                            <button class="btn btn-ghost" style="padding:8px 16px;font-size:12px" onclick="importUserData()">📤 Importer</button>
                         </div>
                         <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
-                            <button class="btn btn-ghost" style="padding:8px 16px;font-size:12px" onclick="localStorage.removeItem('rivaleye_tour_done');startTour()">\uD83C\uDFAF Relancer le tour</button>
+                            <button class="btn btn-ghost" style="padding:8px 16px;font-size:12px" onclick="localStorage.removeItem('rivaleye_tour_done');startTour()">🎯 Relancer le tour</button>
                         </div>
                     </div>
                 </div>
