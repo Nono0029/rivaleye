@@ -1157,7 +1157,55 @@
         </div>
     </div>
     
-    <div class="modal-bg" id="upgradeModal">
+    <div class="modal-bg" id="setupModal" style="z-index:200">
+            <div class="modal" style="max-width:520px">
+                <button class="modal-close" onclick="finishSetup(true)">&times;</button>
+                <div id="setupStep1">
+                    <div style="text-align:center;margin-bottom:24px">
+                        <div style="font-size:40px;margin-bottom:8px">\uD83C\uDFAF</div>
+                        <h2 style="font-size:22px;font-weight:800;margin-bottom:6px">Configurons votre entreprise</h2>
+                        <p style="font-size:13px;color:var(--gray-4)">RivalEye compare votre entreprise \u00E0 ses concurrents.</p>
+                    </div>
+                    <div style="margin-bottom:14px">
+                        <label style="display:block;font-size:12px;color:var(--gray-3);margin-bottom:6px">Nom de votre entreprise *</label>
+                        <input type="text" id="setupName" placeholder="Ex: MonApp, Mon Site..." style="width:100%;padding:12px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;color:var(--gray-1);font-size:14px">
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+                        <div>
+                            <label style="display:block;font-size:12px;color:var(--gray-3);margin-bottom:6px">Secteur</label>
+                            <select id="setupSector" style="width:100%;padding:12px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;color:var(--gray-1);font-size:13px">
+                                <option value="tech">Tech</option><option value="saas">SaaS</option><option value="ecommerce">E-commerce</option><option value="marketplace">Marketplace</option><option value="fintech">Fintech</option><option value="food">Food</option><option value="luxe">Luxe</option><option value="fashion">Mode</option><option value="beauty">Beaut\u00E9</option><option value="gaming">Gaming</option><option value="streaming">Streaming</option><option value="social">Social</option><option value="design">Design</option><option value="sport">Sport</option><option value="healthtech">HealthTech</option><option value="travel">Voyage</option><option value="telecom">Telecom</option><option value="freelance">Freelance</option><option value="emploi">Emploi</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display:block;font-size:12px;color:var(--gray-3);margin-bottom:6px">Ville / Pays</label>
+                            <input type="text" id="setupHq" value="Paris, France" style="width:100%;padding:12px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;color:var(--gray-1);font-size:13px">
+                        </div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+                        <div><label style="display:block;font-size:11px;color:var(--gray-3);margin-bottom:4px">Employ\u00E9s</label><input type="number" id="setupEmployees" value="5" min="1" style="width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;color:var(--gray-1);font-size:13px"></div>
+                        <div><label style="display:block;font-size:11px;color:var(--gray-3);margin-bottom:4px">CA (M\u20AC)</label><input type="number" id="setupRevenue" value="100" min="0" style="width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;color:var(--gray-1);font-size:13px"></div>
+                        <div><label style="display:block;font-size:11px;color:var(--gray-3);margin-bottom:4px">Croissance %</label><input type="number" id="setupGrowth" value="10" style="width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;color:var(--gray-1);font-size:13px"></div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
+                        <div><label style="display:block;font-size:11px;color:var(--gray-3);margin-bottom:4px">Satisfaction (0-100)</label><input type="number" id="setupSat" value="75" min="0" max="100" style="width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;color:var(--gray-1);font-size:13px"></div>
+                        <div><label style="display:block;font-size:11px;color:var(--gray-3);margin-bottom:4px">Part de march\u00E9 %</label><input type="number" id="setupShare" value="2" min="0" max="100" step="0.1" style="width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;color:var(--gray-1);font-size:13px"></div>
+                    </div>
+                    <button class="btn btn-red" style="width:100%;padding:14px;font-size:15px" onclick="completeSetup()">Configurer \u2192</button>
+                </div>
+                <div id="setupStep2" style="display:none">
+                    <div style="text-align:center;margin-bottom:20px">
+                        <div style="font-size:32px;margin-bottom:8px">\u2705</div>
+                        <h3 style="font-size:18px;font-weight:700;margin-bottom:4px">Entreprise configur\u00E9e !</h3>
+                        <p style="font-size:13px;color:var(--gray-4)">Ajoutez votre premier concurrent.</p>
+                    </div>
+                    <input type="text" id="setupCompSearch" placeholder="Rechercher un concurrent..." oninput="handleSetupCompSearch()" style="width:100%;padding:12px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;color:var(--gray-1);font-size:14px;margin-bottom:12px">
+                    <div id="setupCompSuggestions"></div>
+                    <button class="btn btn-ghost" style="width:100%;padding:12px;margin-top:8px" onclick="finishSetup(true)">Passer pour l\u2019instant</button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-bg" id="upgradeModal">
         <div class="modal">
             <button class="modal-close" onclick="closeModal('upgradeModal')">&times;</button>
             <h2 id="upgradeTitle">Passez au niveau superieur</h2>
@@ -1188,7 +1236,8 @@
                 <span>RivalEye</span>
             </a>
             <div class="sb-comp">
-                <div class="sb-comp-label"><span>Concurrents</span><button class="sb-comp-add" onclick="openAddComp()">+</button></div>
+                <div id="myCompCard"></div>
+        <div class="sb-comp-label"><span>Concurrents</span><button class="sb-comp-add" onclick="openAddComp()">+</button></div>
                 <div id="compList"></div>
                 <div class="sb-search-wrap" id="sbSearchWrap" style="display:none">
                     <div class="sb-search-bar">
@@ -1200,6 +1249,7 @@
                 <div id="compLimit" style="padding:4px 10px;font-size:11px;color:var(--gray-5)"></div>
             </div>
             <nav class="sb-nav">
+                <a class="sb-item" data-tab="mycompany" onclick="go('mycompany',this)"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>Mon entreprise</a>
                 <a class="sb-item on" data-tab="overview" onclick="go('overview',this)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Vue d'ensemble</a>
                 <a class="sb-item premium" data-tab="prices" onclick="go('prices',this)"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg><span class="sb-item-text">Prix</span></a>
                 <a class="sb-item premium" data-tab="posts" onclick="go('posts',this)"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg><span class="sb-item-text">Posts</span></a>
@@ -1229,9 +1279,13 @@
                     <div class="badge-plan" id="planBadge">Free</div>
                     <div class="badge-live">En direct</div>
                     <button class="btn-sm" onclick="refreshAll()">Actualiser</button>
+                    <button class="btn-sm" onclick="exportReport()" title="Exporter le rapport (Ctrl+E)">\uD83D\uDCC4 Exporter</button>
                 </div>
             </div>
 
+            <div class="tc" id="tc-mycompany">
+                <div id="myCompanyContent"></div>
+            </div>
             <div class="tc on" id="tc-overview">
                 <div class="ov-search-wrap">
                     <div class="ov-search-bar">
@@ -1306,6 +1360,10 @@
                 <div class="panel">
                     <div class="panel-h"><h3>Gestion des concurrents</h3><span id="setCompCount"></span></div>
                     <div id="setComps"></div>
+                </div>
+                <div class="panel" id="setMyCompanyPanel">
+                    <div class="panel-h"><h3>Mon entreprise</h3><button class="btn btn-ghost" style="padding:6px 12px;font-size:11px" onclick="editMyCompany()">Modifier</button></div>
+                    <div id="setMyCompany"></div>
                 </div>
             </div>
         </div>
@@ -1827,6 +1885,10 @@
         // ========== GET COMPANY DATA ==========
         function getCompanyData(name) {
             const lower = name.toLowerCase().trim();
+            // User's own company
+            if (myCompany && lower === myCompany.name.toLowerCase()) {
+                return { ...getMyCompanyData(), name: myCompany.name, isMine: true };
+            }
             // Direct match
             if (companyDB[lower]) return { ...companyDB[lower], name };
             // Partial match
@@ -2642,24 +2704,7 @@
 
 
         // ========== FREE ANALYSIS SEARCH ==========
-        function getRecentSearches() {
-            try { return JSON.parse(localStorage.getItem('rivaleye_recent') || '[]'); }
-            catch(e) { return []; }
-        }
-        function saveRecentSearch(name) {
-            let recent = getRecentSearches().filter(r => r.toLowerCase() !== name.toLowerCase());
-            recent.unshift(name);
-            if (recent.length > 8) recent = recent.slice(0, 8);
-            localStorage.setItem('rivaleye_recent', JSON.stringify(recent));
-        }
-        function clearRecentSearches() {
-            localStorage.removeItem('rivaleye_recent');
-            hideFreeSuggestions();
-        }
-
-        function getBrandByName(name) {
-            return knownBrands.find(b => b.name.toLowerCase() === name.toLowerCase());
-        }
+        
 
         function getBrandLogo(domain, name) {
             if (domain) {
@@ -2684,7 +2729,24 @@
             renderComps();
         }
 
-        function planLimit() { return plan === 'pro' ? PRO_LIMIT : plan === 'business' ? BIZ_LIMIT : FREE_LIMIT; }
+        function planLimit() { return plan === 'enterprise' ? 999 : plan === 'pro' ? PRO_LIMIT : plan === 'business' ? BIZ_LIMIT : FREE_LIMIT; }
+        let myCompany = null;
+        try { myCompany = JSON.parse(localStorage.getItem('rivaleye_mycompany') || 'null'); } catch(e) { myCompany = null; }
+        function saveMyCompany() { localStorage.setItem('rivaleye_mycompany', JSON.stringify(myCompany)); }
+        function getMyCompanyData() {
+            if (!myCompany) return null;
+            return {
+                name: myCompany.name, hq: myCompany.hq || 'Paris, France', founded: myCompany.founded || 2020,
+                employees: myCompany.employees || 5, revenue: myCompany.revenue || 100,
+                marketShare: myCompany.marketShare || 1, growth: myCompany.growth || 10,
+                valuation: myCompany.valuation || (myCompany.revenue || 100) * 3,
+                competitors: myCompany.competitors || [], sector: myCompany.sector || 'tech',
+                currency: 'M€', realPrices: myCompany.realPrices || null,
+                satisfaction: myCompany.satisfaction || 70, nps: myCompany.nps || 40,
+                sentiment: myCompany.satisfaction > 75 ? 'Positif' : myCompany.satisfaction > 50 ? 'Neutre' : 'Négatif',
+                hqCountry: 'France', languages: ['FR']
+            };
+        }
 
         function pickType(el) {
             document.querySelectorAll('#addCompModal .type-opt').forEach(o => o.classList.remove('sel'));
@@ -2750,7 +2812,29 @@
             const curName = document.getElementById('curComp');
             if (curName) curName.textContent = 'Aucun';
             const ov = document.getElementById('ovCharts');
-            if (ov) ov.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--gray-4)"><div style="font-size:48px;margin-bottom:16px">🔍</div><h3 style="color:var(--gray-2);margin-bottom:8px">Aucun concurrent sélectionné</h3><p style="font-size:13px;margin-bottom:20px">Utilisez la recherche ci-dessus pour analyser un concurrent.</p></div>';
+            if (ov) {
+                var hasMy = !!myCompany;
+                var html = '<div style="text-align:center;padding:60px 20px;color:var(--gray-4)">' +
+                    '<div style="font-size:48px;margin-bottom:16px">' + (hasMy ? '🤝' : '🔍') + '</div>' +
+                    '<h3 style="color:var(--gray-2);margin-bottom:8px">' + (hasMy ? 'Ajoutez un concurrent pour comparer' : 'Bienvenue sur RivalEye') + '</h3>' +
+                    '<p style="font-size:13px;margin-bottom:20px;max-width:400px;margin-left:auto;margin-right:auto">' +
+                    (hasMy
+                        ? 'Votre entreprise <b style="color:var(--red)">' + escHtml(myCompany.name) + '</b> est prête. Recherchez un concurrent pour lancer la comparaison.'
+                        : 'Analysez n\u2019importe quelle marque : prix, avis, pubs, recrutements, croissance. Tout en temps réel.') +
+                    '</p>' +
+                    (hasMy ? '' : '<button class="btn btn-red" style="padding:12px 28px;font-size:14px;margin-bottom:12px" onclick="openSetup()">Configurer mon entreprise</button><br>') +
+                    '<button class="btn btn-ghost" style="padding:10px 24px;font-size:13px" onclick="document.getElementById(\'ovSearchInput\').focus()">🔍 Rechercher une marque</button>';
+                var recentSearches = getRecentSearches();
+                if (recentSearches.length > 0) {
+                    html += '<div style="margin-top:24px;max-width:400px;margin-left:auto;margin-right:auto"><div style="font-size:11px;color:var(--gray-5);margin-bottom:8px">Recherches récentes</div>';
+                    recentSearches.slice(0, 5).forEach(function(r) {
+                        html += '<button class="btn btn-ghost" style="padding:6px 14px;font-size:12px;margin:3px" onclick="document.getElementById(\'ovSearchInput\').value=\'' + escHtml(r) + '\';runOvAnalysis()">' + escHtml(r) + '</button>';
+                    });
+                    html += '<button class="btn btn-ghost" style="padding:6px 10px;font-size:11px;margin:3px;color:var(--gray-5)" onclick="clearRecentSearches();clearOverview()">✕ Effacer</button></div>';
+                }
+                html += '</div>';
+                ov.innerHTML = html;
+            }
             const emptyMsg = '<div style="text-align:center;padding:40px 20px;color:var(--gray-5);font-size:13px">Aucune donnée. Sélectionnez un concurrent.</div>';
             ['priceHist','postsBox','adsBox','reviewsBox','hiringBox','blogBox','alertsBox'].forEach(function(id) {
                 const el = document.getElementById(id);
@@ -2942,6 +3026,11 @@
                 input.focus();
                 return;
             }
+            if (myCompany && name.toLowerCase() === myCompany.name.toLowerCase()) {
+                input.value = '';
+                input.placeholder = 'C\u2019est d\u00e9j\u00e0 votre entreprise !';
+                return;
+            }
             saveRecentSearch(name);
             hideSbSuggestions();
             hideSbSearch();
@@ -3111,6 +3200,11 @@
                 setTimeout(() => { input.style.borderColor = ''; }, 1500);
                 return;
             }
+            if (myCompany && name.toLowerCase() === myCompany.name.toLowerCase()) {
+                input.value = '';
+                input.placeholder = 'C\u2019est d\u00e9j\u00e0 votre entreprise !';
+                return;
+            }
             const box = document.getElementById('ovSearchSuggestions');
             if (box) box.classList.remove('on');
             const isKnown = knownBrands.find(b => b.name.toLowerCase() === name.toLowerCase());
@@ -3154,6 +3248,7 @@
         });
 
 function renderComps() {
+            renderMyCompany();
             const list = document.getElementById('compList');
             const lim = document.getElementById('compLimit');
             if (!list) return;
@@ -3168,7 +3263,7 @@ function renderComps() {
 
         function cur() { return comps[curIdx] || { name: 'Shopify', type: 'site', url: '', color: 'red' }; }
 
-        const typeLabels = { site: 'Site web', app: 'Application', logiciel: 'Logiciel', boite: 'Entreprise' };
+        const typeLabels = { site: 'Site web', app: 'Application', logiciel: 'Logiciel', boite: 'Entreprise', mine: 'Mon entreprise' };
 
         const icons = {
             red: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>',
@@ -3220,6 +3315,7 @@ function renderComps() {
         }
 
         function getRequiredPlan(tab) {
+            if (tab === 'mycompany' || tab === 'overview' || tab === 'settings') return null;
             if (PRO_TABS.includes(tab)) return 'pro';
             if (BIZ_TABS.includes(tab)) return 'business';
             return null;
@@ -3503,7 +3599,8 @@ function renderComps() {
             if (!ov) return;
 
             // Build overview HTML using same logic as generateFreeReport
-            let html = buildFullAnalysis(name);
+            let html = buildComparison(name);
+            html += buildFullAnalysis(name);
 
             // Add extra detailed explanations (more space in dashboard)
             html += buildDetailedExplanations(name);
@@ -3646,6 +3743,69 @@ function renderComps() {
             return html;
         }
         
+        function buildComparison(name) {
+            if (!myCompany) return '';
+            var mine = getMyCompanyData();
+            var comp = getCompanyData(name);
+            var diff = function(a, b) { return b > 0 ? ((a - b) / b * 100).toFixed(1) : '0'; };
+            var better = function(a, b) { return a > b; };
+            var cmpRow = function(label, mineVal, compVal, unit, invert) {
+                var mineWin = invert ? mineVal < compVal : mineVal > compVal;
+                var diffPct = compVal !== 0 ? Math.abs((mineVal - compVal) / compVal * 100).toFixed(0) : '0';
+                return '<div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">' +
+                    '<div style="text-align:right"><span style="font-size:15px;font-weight:700;color:' + (mineWin ? 'var(--green)' : 'var(--gray-3)') + '">' + mineVal + unit + '</span></div>' +
+                    '<div style="text-align:center;min-width:140px"><div style="font-size:11px;color:var(--gray-5);margin-bottom:2px">' + label + '</div>' +
+                    '<div style="font-size:10px;color:' + (mineWin ? 'var(--green)' : 'var(--red)') + '">' + (mineWin ? '\u25B2 +' : '\u25BC -') + diffPct + '%</div></div>' +
+                    '<div><span style="font-size:15px;font-weight:700;color:' + (!mineWin ? 'var(--red)' : 'var(--gray-3)') + '">' + compVal + unit + '</span></div></div>';
+            };
+            var html = '<div class="panel" style="margin-bottom:16px">' +
+                '<div class="panel-h" style="display:flex;align-items:center;gap:10px"><h3 style="margin:0">\u2694\uFE0F Comparaison directe</h3>' +
+                '<span style="font-size:11px;color:var(--gray-4)">' + escHtml(myCompany.name) + ' VS ' + escHtml(name) + '</span></div>' +
+                '<div style="padding:4px 16px 16px">';
+            html += cmpRow('Croissance', mine.growth, comp.growth, '%');
+            html += cmpRow('Satisfaction', mine.satisfaction, comp.satisfaction, '/100');
+            html += cmpRow('Part de march\u00E9', mine.marketShare, comp.marketShare, '%');
+            html += cmpRow('CA (M\u20AC)', mine.revenue, comp.revenue, '');
+            html += cmpRow('Employ\u00E9s', mine.employees, comp.employees, '');
+            html += cmpRow('NPS', mine.nps, comp.nps, '');
+            html += '</div>';
+            // Score comparison bar
+            var myScore = Math.round((mine.growth * 2 + mine.satisfaction + mine.marketShare * 5 + mine.nps) / 4);
+            var compScore = Math.round((comp.growth * 2 + comp.satisfaction + comp.marketShare * 5 + comp.nps) / 4);
+            var total = myScore + compScore || 1;
+            var myPct = Math.round(myScore / total * 100);
+            html += '<div style="padding:0 16px 16px">' +
+                '<div style="display:flex;justify-content:space-between;font-size:11px;color:var(--gray-4);margin-bottom:6px"><span>Score global</span><span>' + myScore + ' vs ' + compScore + '</span></div>' +
+                '<div style="display:flex;height:10px;border-radius:5px;overflow:hidden;background:var(--card)">' +
+                '<div style="width:' + myPct + '%;background:var(--red);transition:width 0.6s"></div>' +
+                '<div style="width:' + (100 - myPct) + '%;background:var(--gray-5);transition:width 0.6s"></div></div>' +
+                '<div style="display:flex;justify-content:space-between;font-size:11px;margin-top:4px"><span style="color:var(--red);font-weight:600">' + escHtml(myCompany.name) + ' (' + myPct + '%)</span>' +
+                '<span style="color:var(--gray-4)">' + escHtml(name) + ' (' + (100 - myPct) + '%)</span></div></div>';
+            // Mini bar chart
+            html += '<div style="padding:0 16px 16px"><div style="font-size:12px;color:var(--gray-4);margin-bottom:10px">Visualisation comparative</div>';
+            var chartMetrics = [
+                { label: 'Croissance', a: Math.min(Math.abs(mine.growth), 50), b: Math.min(Math.abs(comp.growth), 50), unit: '%' },
+                { label: 'Satisfaction', a: mine.satisfaction, b: comp.satisfaction, unit: '/100' },
+                { label: 'March\u00e9', a: Math.min(mine.marketShare, 50), b: Math.min(comp.marketShare, 50), unit: '%' },
+                { label: 'NPS', a: mine.nps, b: comp.nps, unit: '' }
+            ];
+            html += '<div style="display:flex;gap:16px;align-items:flex-end;height:120px;padding:10px 0">';
+            chartMetrics.forEach(function(m) {
+                var maxVal = Math.max(m.a, m.b, 1);
+                var hA = Math.round(m.a / maxVal * 90);
+                var hB = Math.round(m.b / maxVal * 90);
+                html += '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">' +
+                    '<div style="display:flex;gap:3px;align-items:flex-end;height:90px">' +
+                    '<div style="width:16px;height:' + hA + 'px;background:var(--red);border-radius:3px 3px 0 0;transition:height 0.6s" title="' + escHtml(myCompany.name) + ': ' + m.a + m.unit + '"></div>' +
+                    '<div style="width:16px;height:' + hB + 'px;background:var(--gray-5);border-radius:3px 3px 0 0;transition:height 0.6s" title="' + escHtml(name) + ': ' + m.b + m.unit + '"></div>' +
+                    '</div><div style="font-size:10px;color:var(--gray-5);text-align:center">' + m.label + '</div></div>';
+            });
+            html += '</div>';
+            html += '<div style="display:flex;gap:16px;font-size:10px;color:var(--gray-5)"><span><span style="display:inline-block;width:8px;height:8px;background:var(--red);border-radius:2px;margin-right:3px"></span>' + escHtml(myCompany.name) + '</span>' +
+                '<span><span style="display:inline-block;width:8px;height:8px;background:var(--gray-5);border-radius:2px;margin-right:3px"></span>' + escHtml(name) + '</span></div></div>';
+            html += '</div>';
+            return html;
+        }
         function buildDetailedExplanations(name) {
             var n = escHtml(name);
             var data = getCompanyData(name);
@@ -4031,6 +4191,18 @@ function renderComps() {
             if (sc) sc.innerHTML = comps.map(function(c2, i) {
                 return '<div class="set-row"><div class="set-info"><h4>' + esc(c2.name) + '</h4><p>' + typeLabels[c2.type] + (c2.url ? ' · ' + esc(c2.url) : '') + '</p></div><button class="btn-sm" onclick="removeComp(event,' + i + ')">Retirer</button></div>';
             }).join('') + (comps.length >= planLimit() ? '<div style="padding:12px;margin-top:8px;background:rgba(255,59,59,.06);border:1px solid rgba(255,59,59,.15);border-radius:8px;font-size:12px;color:var(--gray-3)">Limite atteinte. <a href="#" onclick="showUpgradeModal(\'pro\');return false" style="color:var(--red);font-weight:600">Passer à Pro</a> pour plus de concurrents.</div>' : '');
+            var smc = document.getElementById('setMyCompany');
+            if (smc) {
+                if (myCompany) {
+                    smc.innerHTML = '<div class="set-row"><div class="set-info"><h4>' + escHtml(myCompany.name) + '</h4><p>' + escHtml(myCompany.sector) + ' \u00B7 ' + escHtml(myCompany.hq) + '</p></div></div>' +
+                        '<div class="set-row"><div class="set-info"><h4>Employ\u00E9s</h4><p>' + (myCompany.employees || '?') + '</p></div></div>' +
+                        '<div class="set-row"><div class="set-info"><h4>Chiffre d\u2019affaires</h4><p>' + (myCompany.revenue || 0) + ' M\u20AC</p></div></div>' +
+                        '<div class="set-row"><div class="set-info"><h4>Croissance</h4><p style="color:' + ((myCompany.growth||0) >= 0 ? 'var(--green)' : 'var(--red)') + '">' + ((myCompany.growth||0) >= 0 ? '+' : '') + (myCompany.growth || 0) + '%</p></div></div>' +
+                        '<div class="set-row"><div class="set-info"><h4>Satisfaction</h4><p>' + (myCompany.satisfaction || 0) + '/100</p></div></div>';
+                } else {
+                    smc.innerHTML = '<div style="text-align:center;padding:20px;color:var(--gray-4)"><p style="font-size:13px;margin-bottom:12px">Pas encore configur\u00E9e.</p><button class="btn btn-red" style="padding:10px 20px;font-size:13px" onclick="openSetup()">Configurer</button></div>';
+                }
+            }
         }
 
         // ========== TAB NAVIGATION ==========
@@ -4054,9 +4226,72 @@ function renderComps() {
             const tc = document.getElementById('tc-' + tab);
             if (tc) tc.classList.add('on');
             if (el) el.classList.add('on');
-            const titles = { overview: 'Vue d\'ensemble', prices: 'Prix', posts: 'Posts', ads: 'Pubs', reviews: 'Avis', hiring: 'Recrutements', blog: 'Blog', alerts: 'Alertes', settings: 'Paramètres' };
+            const titles = { overview: 'Vue d\'ensemble', mycompany: 'Mon entreprise', prices: 'Prix', posts: 'Posts', ads: 'Pubs', reviews: 'Avis', hiring: 'Recrutements', blog: 'Blog', alerts: 'Alertes', settings: 'Paramètres' };
             setText('pgTitle', titles[tab] || 'Dashboard');
+            if (tab === 'mycompany') renderMyCompanyTab();
             toggleSidebar();
+        }
+
+        function renderMyCompanyTab() {
+            var el = document.getElementById('myCompanyContent');
+            if (!el) return;
+            if (!myCompany) {
+                el.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--gray-4)">' +
+                    '<div style="font-size:48px;margin-bottom:16px">🏢</div>' +
+                    '<h3 style="color:var(--gray-2);margin-bottom:8px">Configurez votre entreprise</h3>' +
+                    '<p style="font-size:13px;margin-bottom:20px">Renseignez vos informations pour comparer votre entreprise \u00e0 ses concurrents.</p>' +
+                    '<button class="btn btn-red" style="padding:12px 28px;font-size:14px" onclick="openSetup()">Commencer</button></div>';
+                return;
+            }
+            var d = getMyCompanyData();
+            var myScore = Math.round((d.growth * 2 + d.satisfaction + d.marketShare * 5 + d.nps) / 4);
+            var html = '<div class="grid2" style="margin-bottom:16px">';
+            // Profile panel
+            html += '<div class="panel"><div class="panel-h"><h3>🏢 ' + escHtml(myCompany.name) + '</h3><button class="btn-sm" onclick="editMyCompany()">Modifier</button></div><div style="padding:4px 16px 16px">';
+            var fields = [
+                ['Secteur', d.sector], ['Localisation', d.hq], ['Fondation', d.founded],
+                ['Employ\u00e9s', d.employees], ['CA', d.revenue + ' M\u20AC'], ['Croissance', (d.growth >= 0 ? '+' : '') + d.growth + '%'],
+                ['Satisfaction', d.satisfaction + '/100'], ['NPS', d.nps], ['Part de march\u00e9', d.marketShare + '%'],
+                ['Score global', myScore + '/100'], ['Sentiment', d.sentiment]
+            ];
+            fields.forEach(function(f) {
+                var color = 'var(--gray-2)';
+                if (f[0] === 'Croissance') color = d.growth >= 0 ? 'var(--green)' : 'var(--red)';
+                if (f[0] === 'Satisfaction') color = d.satisfaction >= 70 ? 'var(--green)' : d.satisfaction >= 50 ? 'var(--orange)' : 'var(--red)';
+                if (f[0] === 'Score global') color = myScore >= 70 ? 'var(--green)' : myScore >= 50 ? 'var(--orange)' : 'var(--red)';
+                html += '<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><span style="font-size:13px;color:var(--gray-4)">' + f[0] + '</span><span style="font-size:13px;font-weight:600;color:' + color + '">' + f[1] + '</span></div>';
+            });
+            html += '</div></div>';
+            // Radar / visual score panel
+            html += '<div class="panel"><div class="panel-h"><h3>Profil comp\u00e9titif</h3></div><div style="padding:16px">';
+            // Bar visualizations for each metric vs max
+            var metrics = [
+                ['Croissance', Math.min(Math.abs(d.growth), 50) / 50 * 100, d.growth >= 0 ? 'var(--green)' : 'var(--red)'],
+                ['Satisfaction', d.satisfaction, d.satisfaction >= 70 ? 'var(--green)' : 'var(--orange)'],
+                ['Part de march\u00e9', Math.min(d.marketShare, 50) / 50 * 100, 'var(--red)'],
+                ['NPS', Math.min(d.nps, 100), d.nps >= 50 ? 'var(--green)' : 'var(--orange)'],
+                ['Taille', Math.min(d.employees, 1000) / 1000 * 100, 'var(--blue)']
+            ];
+            metrics.forEach(function(m) {
+                html += '<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="color:var(--gray-3)">' + m[0] + '</span><span style="color:' + m[2] + ';font-weight:600">' + Math.round(m[1]) + '%</span></div>' +
+                    '<div style="height:8px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden"><div style="width:' + Math.round(m[1]) + '%;height:100%;background:' + m[2] + ';border-radius:4px;transition:width 0.8s ease"></div></div></div>';
+            });
+            html += '</div></div></div>';
+            // Competitor comparison section
+            if (comps.length > 0) {
+                html += '<div class="panel"><div class="panel-h"><h3>Comparaisons actives</h3></div><div style="padding:8px 16px 16px">';
+                comps.forEach(function(c, i) {
+                    var cd = getCompanyData(c.name);
+                    var win = d.growth > cd.growth;
+                    html += '<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer" onclick="selectComp(' + i + ');go(\'overview\')">' +
+                        '<div style="width:32px;height:32px;border-radius:8px;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:' + (win ? 'var(--green)' : 'var(--red)') + '">' + (win ? '\u25B2' : '\u25BC') + '</div>' +
+                        '<div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--gray-2)">' + escHtml(c.name) + '</div>' +
+                        '<div style="font-size:11px;color:var(--gray-5)">Croissance: ' + (cd.growth >= 0 ? '+' : '') + cd.growth + '% vs votre ' + (d.growth >= 0 ? '+' : '') + d.growth + '%</div></div>' +
+                        '<span style="font-size:11px;color:var(--gray-5)">Voir \u2192</span></div>';
+                });
+                html += '</div></div>';
+            }
+            el.innerHTML = html;
         }
 
         // ========== UPGRADE MODAL ==========
@@ -4140,6 +4375,8 @@ function renderComps() {
             user = u || null;
             hideLoader();
             showApp();
+            renderMyCompany();
+            if (!myCompany) { openSetup(); }
             if (comps.length === 0) {
                 renderComps();
                 showSbSearch();
@@ -4155,6 +4392,126 @@ function renderComps() {
             var gate = document.getElementById('gate');
             if (gate) gate.style.display = 'flex';
         }
+        function completeSetup() {
+            var name = document.getElementById('setupName').value.trim();
+            if (!name) { document.getElementById('setupName').style.borderColor = 'rgba(255,59,59,0.6)'; return; }
+            myCompany = {
+                name: name,
+                sector: document.getElementById('setupSector').value,
+                hq: document.getElementById('setupHq').value.trim() || 'Paris, France',
+                employees: parseInt(document.getElementById('setupEmployees').value) || 5,
+                revenue: parseFloat(document.getElementById('setupRevenue').value) || 100,
+                growth: parseFloat(document.getElementById('setupGrowth').value) || 10,
+                satisfaction: parseInt(document.getElementById('setupSat').value) || 75,
+                marketShare: parseFloat(document.getElementById('setupShare').value) || 1,
+                founded: new Date().getFullYear() - 3,
+                realPrices: null,
+                competitors: []
+            };
+            saveMyCompany();
+            document.getElementById('setupStep1').style.display = 'none';
+            document.getElementById('setupStep2').style.display = 'block';
+            renderMyCompany();
+        }
+        function handleSetupCompSearch() {
+            var val = document.getElementById('setupCompSearch').value.trim().toLowerCase();
+            var box = document.getElementById('setupCompSuggestions');
+            if (!val) { box.innerHTML = ''; return; }
+            var normalize = function(s) { return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); };
+            var nv = normalize(val);
+            var matches = knownBrands.filter(function(b) { return normalize(b.name).indexOf(nv) >= 0; }).slice(0, 6);
+            if (matches.length === 0) { box.innerHTML = '<div style="padding:12px;text-align:center;color:var(--gray-5);font-size:12px">Aucun r\u00E9sultat</div>'; return; }
+            var html = '';
+            matches.forEach(function(b) {
+                html += '<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;border-radius:8px" onmouseover="this.style.background=\'rgba(255,255,255,.05)\'" onmouseout="this.style.background=\'\'" onclick="setupAddComp(\'' + b.name.replace(/'/g, "\\'") + '\')">';
+                html += '<div style="width:28px;height:28px;border-radius:6px;background:' + (b.color || '#FF3B3B') + ';display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff">' + b.name.charAt(0).toUpperCase() + '</div>';
+                html += '<div><div style="font-size:13px;font-weight:600;color:var(--gray-2)">' + escHtml(b.name) + '</div><div style="font-size:11px;color:var(--gray-5)">' + escHtml(b.type || '') + '</div></div></div>';
+            });
+            box.innerHTML = html;
+        }
+        function setupAddComp(name) {
+            if (comps.length >= planLimit()) { finishSetup(true); showUpgradeModal('pro'); return; }
+            var brand = getBrandByName(name);
+            comps.push({ name: name, type: brand ? brand.type : 'tech', url: brand ? brand.domain || '' : '', color: '#FF3B3B' });
+            curIdx = comps.length - 1;
+            saveComps();
+            finishSetup(true);
+            generateAll();
+        }
+        function finishSetup(skip) {
+            document.getElementById('setupModal').classList.remove('on');
+            document.getElementById('setupStep1').style.display = '';
+            document.getElementById('setupStep2').style.display = 'none';
+            if (comps.length === 0) { showSbSearch(); }
+        }
+        function renderMyCompany() {
+            var el = document.getElementById('myCompCard');
+            if (!el) return;
+            if (!myCompany) {
+                el.innerHTML = '<div style="padding:8px 10px;margin-bottom:8px;background:rgba(255,59,59,.06);border:1px dashed rgba(255,59,59,.2);border-radius:10px;text-align:center"><button style="background:none;border:none;color:var(--red);font-size:12px;cursor:pointer;font-weight:600" onclick="openSetup()">+ Ajouter votre entreprise</button></div>';
+                return;
+            }
+            var d = getMyCompanyData();
+            el.innerHTML = '<div style="padding:10px;margin-bottom:8px;background:rgba(255,59,59,.08);border:1px solid rgba(255,59,59,.15);border-radius:10px;cursor:pointer" onclick="viewMyCompany()">' +
+                '<div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:6px;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff">' + escHtml(myCompany.name.charAt(0).toUpperCase()) + '</div>' +
+                '<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;color:var(--gray-1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + escHtml(myCompany.name) + '</div>' +
+                '<div style="font-size:10px;color:var(--red)">Mon entreprise</div></div>' +
+                '<button style="background:none;border:none;color:var(--gray-5);cursor:pointer;font-size:16px;padding:2px" onclick="event.stopPropagation();editMyCompany()">&#9998;</button></div></div>';
+        }
+        function viewMyCompany() {
+            if (!myCompany) return;
+            var d = getMyCompanyData();
+            comps.unshift({ name: myCompany.name, type: 'mine', url: '', color: 'red' });
+            curIdx = 0;
+            saveComps();
+            generateAll();
+        }
+        function editMyCompany() {
+            if (!myCompany) { openSetup(); return; }
+            document.getElementById('setupName').value = myCompany.name;
+            document.getElementById('setupSector').value = myCompany.sector;
+            document.getElementById('setupHq').value = myCompany.hq;
+            document.getElementById('setupEmployees').value = myCompany.employees;
+            document.getElementById('setupRevenue').value = myCompany.revenue;
+            document.getElementById('setupGrowth').value = myCompany.growth;
+            document.getElementById('setupSat').value = myCompany.satisfaction;
+            document.getElementById('setupShare').value = myCompany.marketShare;
+            document.getElementById('setupStep1').style.display = '';
+            document.getElementById('setupStep2').style.display = 'none';
+            document.getElementById('setupModal').classList.add('on');
+        }
+        function openSetup() {
+            document.getElementById('setupStep1').style.display = '';
+            document.getElementById('setupStep2').style.display = 'none';
+            document.getElementById('setupModal').classList.add('on');
+        }
+
+        function exportReport() {
+            if (comps.length === 0) { alert('S\u00e9lectionnez d\u2019abord un concurrent \u00e0 exporter.'); return; }
+            var name = cur().name;
+            var content = document.getElementById('ovCharts').innerHTML;
+            var win = window.open('', '_blank');
+            win.document.write('<html><head><title>Rapport ' + escHtml(name) + ' \u2014 RivalEye</title>' +
+                '<style>body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;background:#0A0A0B;color:#E5E7EB;padding:30px;max-width:800px;margin:0 auto}' +
+                'h1,h2,h3{color:#fff}p{color:#9CA3AF;font-size:14px}.panel{background:#121214;border:1px solid rgba(255,255,255,.07);border-radius:12px;margin-bottom:16px;padding:20px}' +
+                'table{width:100%;border-collapse:collapse}td,th{padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.07);text-align:left;font-size:13px}' +
+                '.badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600}' +
+                '@media print{body{background:#fff;color:#000}}' +
+                '</style></head><body>' +
+                '<h1>Rapport de veille \u2014 ' + escHtml(name) + '</h1>' +
+                '<p style="color:#6B7280;font-size:12px">G\u00e9n\u00e9r\u00e9 par RivalEye le ' + new Date().toLocaleDateString('fr-FR') + (myCompany ? ' \u00B7 ' + escHtml(myCompany.name) + ' VS ' + escHtml(name) : '') + '</p>' +
+                content +
+                '</body></html>');
+            win.document.close();
+            win.focus();
+            setTimeout(function() { win.print(); }, 500);
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'k') { e.preventDefault(); var el = document.getElementById('ovSearchInput'); if (el) el.focus(); }
+            if (e.ctrlKey && e.key === 'e') { e.preventDefault(); exportReport(); }
+            if (e.key === 'Escape') { document.querySelectorAll('.modal-bg.on').forEach(function(m) { m.classList.remove('on'); }); }
+        });
+
         async function init() {
             try {
                 if (!supabaseClient) { enterApp(null); return; }
