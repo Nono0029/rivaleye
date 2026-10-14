@@ -5915,71 +5915,26 @@
                     return { ...data, name };
                 }
             }
-            // Type-based fallback
-            const seed = hashSeed(lower);
-            const types = {
-                tech: { hq: 'Paris, France', employees: 250, revenue: 25, marketShare: 3.2, growth: 18.5, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 72, nps: 42 },
-                ecommerce: { hq: 'Paris, France', employees: 150, revenue: 15, marketShare: 2.1, growth: 12.5, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 70, nps: 38 },
-                saas: { hq: 'Paris, France', employees: 80, revenue: 8, marketShare: 2.8, growth: 25.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 78, nps: 55 },
-                luxe: { hq: 'Paris, France', employees: 500, revenue: 200, marketShare: 4.2, growth: 5.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 85, nps: 72 },
-                gaming: { hq: 'Paris, France', employees: 200, revenue: 50, marketShare: 5.2, growth: 15.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 72, nps: 45 },
-                food: { hq: 'Paris, France', employees: 5000, revenue: 500, marketShare: 1.2, growth: 4.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 68, nps: 32 },
-                telecom: { hq: 'Paris, France', employees: 10000, revenue: 2000, marketShare: 5.2, growth: 1.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 65, nps: 28 },
-                travel: { hq: 'Paris, France', employees: 1000, revenue: 100, marketShare: 8.2, growth: 8.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 72, nps: 42 },
-                beauty: { hq: 'Paris, France', employees: 300, revenue: 80, marketShare: 3.5, growth: 12.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 78, nps: 52 },
-                fashion: { hq: 'Paris, France', employees: 2000, revenue: 200, marketShare: 2.5, growth: 6.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 70, nps: 42 },
-                sport: { hq: 'Paris, France', employees: 5000, revenue: 800, marketShare: 12.2, growth: 5.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 76, nps: 48 },
-                mobility: { hq: 'Paris, France', employees: 500, revenue: 80, marketShare: 12.2, growth: 15.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 72, nps: 42 },
-                social: { hq: 'Paris, France', employees: 100, revenue: 10, marketShare: 2.2, growth: 22.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 72, nps: 42 },
-                streaming: { hq: 'Paris, France', employees: 50, revenue: 20, marketShare: 5.2, growth: 12.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 78, nps: 55 },
-                design: { hq: 'Paris, France', employees: 30, revenue: 5, marketShare: 8.2, growth: 28.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 82, nps: 62 },
-                marketplace: { hq: 'Paris, France', employees: 100, revenue: 20, marketShare: 8.2, growth: 18.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 72, nps: 42 },
-                fintech: { hq: 'Paris, France', employees: 200, revenue: 50, marketShare: 5.2, growth: 25.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 78, nps: 52 },
-                healthtech: { hq: 'Paris, France', employees: 150, revenue: 15, marketShare: 12.2, growth: 28.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 78, nps: 52 },
-                freelance: { hq: 'Paris, France', employees: 100, revenue: 10, marketShare: 12.2, growth: 22.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 72, nps: 42 },
-                emploi: { hq: 'Paris, France', employees: 100, revenue: 20, marketShare: 8.2, growth: 25.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 74, nps: 45 },
-                retail: { hq: 'Paris, France', employees: 5000, revenue: 800, marketShare: 3.2, growth: 4.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 70, nps: 38 }
-            };
-            
-            // Detect type from name keywords
-            let type = 'tech';
-            const typeKeywords = {
-                luxe: ['louis', 'gucci', 'chanel', 'prada', 'dior', 'hermes', 'cartier', 'rolex', 'omega'],
-                fashion: ['zara', 'hm', 'mango', 'sandro', 'maje', 'sezane', 'uniqlo'],
-                gaming: ['fortnite', 'minecraft', 'roblox', 'league', 'valorant', 'gaming', 'game'],
-                food: ['mcdonald', 'burger', 'kfc', 'starbucks', 'restaurant', 'food'],
-                telecom: ['orange', 'sfr', 'bouygues', 'free', 'telecom', 'mobile'],
-                travel: ['sncf', 'blablacar', 'booking', 'airbnb', 'voyage', 'travel'],
-                beauty: ['loreal', 'sephora', 'dior', 'chanel', 'beauty', 'cosmetique'],
-                sport: ['nike', 'adidas', 'decathlon', 'puma', 'sport'],
-                fintech: ['stripe', 'paypal', 'revolut', 'n26', 'fintech', 'banque'],
-                streaming: ['spotify', 'netflix', 'deezer', 'twitch', 'streaming'],
-                social: ['instagram', 'tiktok', 'facebook', 'linkedin', 'social'],
-                marketplace: ['vinted', 'leboncoin', 'airbnb', 'marketplace'],
-                healthtech: ['doctolib', 'sante', 'health', 'medecin'],
-                freelance: ['malt', 'upwork', 'freelance', 'freelancer'],
-                emploi: ['indeed', 'emploi', 'job', 'travail']
-            };
-            
-            for (const [t, keywords] of Object.entries(typeKeywords)) {
-                if (keywords.some(kw => lower.includes(kw))) {
-                    type = t;
-                    break;
-                }
-            }
-            
-            const fallback = types[type] || types.tech;
+            // No data in DB — return minimal object with realData flag
             return {
-                name,
-                ...fallback,
-                sector: type,
+                name: name,
+                realData: false,
+                hq: 'Non disponible',
+                founded: null,
+                employees: null,
+                revenue: null,
+                marketShare: null,
+                growth: null,
+                valuation: null,
+                competitors: [],
+                sector: 'unknown',
                 currency: 'M€',
-                founded: 2010 + Math.floor(seededRand(seed, 1) * 14),
-                valuation: Math.floor(fallback.revenue * 3),
-                sentiment: fallback.satisfaction > 75 ? 'Positif' : fallback.satisfaction > 60 ? 'Neutre' : 'Negatif',
-                hqCountry: 'France',
-                languages: ['FR', 'EN'],
-                realPrices: null
+                realPrices: null,
+                satisfaction: null,
+                nps: null,
+                sentiment: null,
+                hqCountry: null,
+                languages: []
             };
         }
 
@@ -6148,9 +6103,9 @@
             const isEcommerce = data.sector === 'ecommerce' || data.sector === 'marketplace' || data.sector === 'retail';
             
             // Competitors
-            const competitors = data.competitors || ['Concurrent A', 'Concurrent B'];
-            const c1 = competitors[0] || 'Concurrent A';
-            const c2 = competitors[1] || 'Concurrent B';
+            const competitors = data.competitors || [];
+            const c1 = competitors[0] || 'Non disponible';
+            const c2 = competitors[1] || 'Non disponible';
             
             // Events
             const lastEvents = isTech ? ['Lancement nouvelle version', 'Conference annuelle', 'Levee de fonds', 'Partenariat strategique', 'Acquisition'] :

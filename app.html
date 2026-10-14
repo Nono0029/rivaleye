@@ -1987,71 +1987,26 @@
                     return { ...data, name };
                 }
             }
-            // Type-based fallback
-            const seed = hashSeed(lower);
-            const types = {
-                tech: { hq: 'Paris, France', employees: 250, revenue: 25, marketShare: 3.2, growth: 18.5, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 72, nps: 42 },
-                ecommerce: { hq: 'Paris, France', employees: 150, revenue: 15, marketShare: 2.1, growth: 12.5, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 70, nps: 38 },
-                saas: { hq: 'Paris, France', employees: 80, revenue: 8, marketShare: 2.8, growth: 25.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 78, nps: 55 },
-                luxe: { hq: 'Paris, France', employees: 500, revenue: 200, marketShare: 4.2, growth: 5.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 85, nps: 72 },
-                gaming: { hq: 'Paris, France', employees: 200, revenue: 50, marketShare: 5.2, growth: 15.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 72, nps: 45 },
-                food: { hq: 'Paris, France', employees: 5000, revenue: 500, marketShare: 1.2, growth: 4.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 68, nps: 32 },
-                telecom: { hq: 'Paris, France', employees: 10000, revenue: 2000, marketShare: 5.2, growth: 1.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 65, nps: 28 },
-                travel: { hq: 'Paris, France', employees: 1000, revenue: 100, marketShare: 8.2, growth: 8.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 72, nps: 42 },
-                beauty: { hq: 'Paris, France', employees: 300, revenue: 80, marketShare: 3.5, growth: 12.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 78, nps: 52 },
-                fashion: { hq: 'Paris, France', employees: 2000, revenue: 200, marketShare: 2.5, growth: 6.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 70, nps: 42 },
-                sport: { hq: 'Paris, France', employees: 5000, revenue: 800, marketShare: 12.2, growth: 5.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 76, nps: 48 },
-                mobility: { hq: 'Paris, France', employees: 500, revenue: 80, marketShare: 12.2, growth: 15.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 72, nps: 42 },
-                social: { hq: 'Paris, France', employees: 100, revenue: 10, marketShare: 2.2, growth: 22.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 72, nps: 42 },
-                streaming: { hq: 'Paris, France', employees: 50, revenue: 20, marketShare: 5.2, growth: 12.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 78, nps: 55 },
-                design: { hq: 'Paris, France', employees: 30, revenue: 5, marketShare: 8.2, growth: 28.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 82, nps: 62 },
-                marketplace: { hq: 'Paris, France', employees: 100, revenue: 20, marketShare: 8.2, growth: 18.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 72, nps: 42 },
-                fintech: { hq: 'Paris, France', employees: 200, revenue: 50, marketShare: 5.2, growth: 25.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 78, nps: 52 },
-                healthtech: { hq: 'Paris, France', employees: 150, revenue: 15, marketShare: 12.2, growth: 28.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 78, nps: 52 },
-                freelance: { hq: 'Paris, France', employees: 100, revenue: 10, marketShare: 12.2, growth: 22.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 72, nps: 42 },
-                emploi: { hq: 'Paris, France', employees: 100, revenue: 20, marketShare: 8.2, growth: 25.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 74, nps: 45 },
-                retail: { hq: 'Paris, France', employees: 5000, revenue: 800, marketShare: 3.2, growth: 4.2, competitors: ['Concurrent A', 'Concurrent B'], satisfaction: 70, nps: 38 }
-            };
-            
-            // Detect type from name keywords
-            let type = 'tech';
-            const typeKeywords = {
-                luxe: ['louis', 'gucci', 'chanel', 'prada', 'dior', 'hermes', 'cartier', 'rolex', 'omega'],
-                fashion: ['zara', 'hm', 'mango', 'sandro', 'maje', 'sezane', 'uniqlo'],
-                gaming: ['fortnite', 'minecraft', 'roblox', 'league', 'valorant', 'gaming', 'game'],
-                food: ['mcdonald', 'burger', 'kfc', 'starbucks', 'restaurant', 'food'],
-                telecom: ['orange', 'sfr', 'bouygues', 'free', 'telecom', 'mobile'],
-                travel: ['sncf', 'blablacar', 'booking', 'airbnb', 'voyage', 'travel'],
-                beauty: ['loreal', 'sephora', 'dior', 'chanel', 'beauty', 'cosmetique'],
-                sport: ['nike', 'adidas', 'decathlon', 'puma', 'sport'],
-                fintech: ['stripe', 'paypal', 'revolut', 'n26', 'fintech', 'banque'],
-                streaming: ['spotify', 'netflix', 'deezer', 'twitch', 'streaming'],
-                social: ['instagram', 'tiktok', 'facebook', 'linkedin', 'social'],
-                marketplace: ['vinted', 'leboncoin', 'airbnb', 'marketplace'],
-                healthtech: ['doctolib', 'sante', 'health', 'medecin'],
-                freelance: ['malt', 'upwork', 'freelance', 'freelancer'],
-                emploi: ['indeed', 'emploi', 'job', 'travail']
-            };
-            
-            for (const [t, keywords] of Object.entries(typeKeywords)) {
-                if (keywords.some(kw => lower.includes(kw))) {
-                    type = t;
-                    break;
-                }
-            }
-            
-            const fallback = types[type] || types.tech;
+            // No data in DB — return minimal object with realData flag
             return {
-                name,
-                ...fallback,
-                sector: type,
+                name: name,
+                realData: false,
+                hq: 'Non disponible',
+                founded: null,
+                employees: null,
+                revenue: null,
+                marketShare: null,
+                growth: null,
+                valuation: null,
+                competitors: [],
+                sector: 'unknown',
                 currency: 'M€',
-                founded: 2010 + Math.floor(seededRand(seed, 1) * 14),
-                valuation: Math.floor(fallback.revenue * 3),
-                sentiment: fallback.satisfaction > 75 ? 'Positif' : fallback.satisfaction > 60 ? 'Neutre' : 'Negatif',
-                hqCountry: 'France',
-                languages: ['FR', 'EN'],
-                realPrices: null
+                realPrices: null,
+                satisfaction: null,
+                nps: null,
+                sentiment: null,
+                hqCountry: null,
+                languages: []
             };
         }
 
@@ -2181,9 +2136,12 @@
 
         // ========== GENERATE FREE REPORT ==========
         function generateFreeReport(name) {
+            const data = getCompanyData(name);
+            if (!data || data.realData === false) {
+                return '<div class="panel" style="text-align:center;padding:40px"><h3 style="color:var(--gray-2)">Donn\u00e9es non disponibles</h3><p style="font-size:13px;color:var(--gray-4);margin-top:8px">' + escHtml(name) + ' n\u2019est pas dans notre base.</p></div>';
+            }
             const seed = hashSeed(name);
             const n = escHtml(name);
-            const data = getCompanyData(name);
             
             // Detect company type for UI
             const sectorLabels = {
@@ -2309,14 +2267,9 @@
                     };
                 });
             } else {
-                const isDrop = seededRand(seed, 6) > 0.4;
-                priceItems = templates.map((t, i) => {
-                    const variation = 0.85 + seededRand(seed, 100 + i) * 0.3;
-                    const oldP = Math.round(t.oldMult * variation * 100) / 100;
-                    const change = isDrop ? -(0.05 + seededRand(seed, 200 + i) * 0.15) : (0.03 + seededRand(seed, 200 + i) * 0.12);
-                    const newP = Math.round(oldP * (1 + change) * 100) / 100;
-                    const pct = ((newP - oldP) / oldP * 100).toFixed(1);
-                    return { ...t, oldP, newP, pct: parseFloat(pct), isDrop: pct < 0 };
+                // No verified prices — show items without fake numbers
+                priceItems = templates.map(function(t) {
+                    return { item: t.item, what: t.what, affects: t.affects, oldP: null, newP: null, pct: null, isDrop: false };
                 });
             }
             
@@ -2345,9 +2298,9 @@
             const isEcommerce = data.sector === 'ecommerce' || data.sector === 'marketplace' || data.sector === 'retail';
             
             // Competitors
-            const competitors = data.competitors || ['Concurrent A', 'Concurrent B'];
-            const c1 = competitors[0] || 'Concurrent A';
-            const c2 = competitors[1] || 'Concurrent B';
+            const competitors = data.competitors || [];
+            const c1 = competitors[0] || 'Non disponible';
+            const c2 = competitors[1] || 'Non disponible';
             
             // Events
             const lastEvents = isTech ? ['Lancement nouvelle version', 'Conference annuelle', 'Levee de fonds', 'Partenariat strategique', 'Acquisition'] :
@@ -2468,6 +2421,7 @@
             // Build HTML
             let html = '';
             html += '<div class="free-badge">✓ Analyse complète gratuite — aucune inscription requise</div>';
+            html += '<div style="margin-bottom:12px;padding:10px 14px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:8px;font-size:12px;color:#F59E0B">⚠️ <strong>Estimation</strong> — Certains indicateurs (posts, avis, budget ads, postes ouverts) sont des estimations basées sur la taille et le secteur de l\u2019entreprise. Seuls les chiffres vérifiés (CA, employés, satisfaction, NPS, prix) proviennent de sources fiables.</div>';
             html += '<div style="margin-bottom:16px;padding:12px 16px;background:rgba(255,59,59,0.06);border:1px solid rgba(255,59,59,0.15);border-radius:10px;font-size:13px"><strong>' + sectorInfo.icon + ' ' + sectorInfo.label + '</strong> — ' + n + ' est analysé comme <strong>' + sectorInfo.label.toLowerCase() + '</strong>. Siège : ' + data.hq + '.</div>';
 
             // STATS
@@ -3126,6 +3080,14 @@
                 input.placeholder = 'C\u2019est d\u00e9j\u00e0 votre entreprise !';
                 return;
             }
+            var checkData = getCompanyData(name);
+            var isKnownBrand = knownBrands.find(function(b) { return b.name.toLowerCase() === name.toLowerCase(); });
+            if (!checkData || checkData.realData === false || !isKnownBrand) {
+                input.value = '';
+                input.placeholder = 'Marque non reconnue dans notre base';
+                showToast('Marque non disponible dans notre base de données', 'error');
+                return;
+            }
             saveRecentSearch(name);
             hideSbSuggestions();
             hideSbSearch();
@@ -3314,7 +3276,7 @@
             if (box) box.classList.remove('on');
             const isKnown = knownBrands.find(b => b.name.toLowerCase() === name.toLowerCase());
             const isDb = getCompanyData(name);
-            if (!isKnown && !isDb) {
+            if (!isKnown || !isDb || isDb.realData === false) {
                 input.style.borderColor = 'rgba(255,59,59,0.6)';
                 if (box) {
                     box.innerHTML = '<div style="padding:20px;text-align:center;color:var(--gray-5);font-size:12px">\u26A0 \u00AB ' + escHtml(name) + ' \u00BB n\u2019est pas dans notre base<br><span style="font-size:11px">Choisissez une marque dans les suggestions</span></div>';
@@ -3438,8 +3400,9 @@ function renderComps() {
 
         // ========== GENERATE DASHBOARD DATA ==========
         function getOverviewData(name) {
-            const seed = hashSeed(name);
             const data = getCompanyData(name);
+            if (!data || data.realData === false) return { name: name, realData: false };
+            const seed = hashSeed(name);
             
             const isTech = ['tech', 'saas', 'design', 'healthtech'].includes(data.sector);
             const isGaming = data.sector === 'gaming';
@@ -3610,18 +3573,19 @@ function renderComps() {
                 growth: data.growth, satisfaction: data.satisfaction, nps: data.nps,
                 sentiment: data.sentiment, currency: data.currency || '€',
                 founded: data.founded, hq: data.hq,
-                competitors: data.competitors || ['Concurrent A', 'Concurrent B']
+                competitors: data.competitors || []
             };
         }
 
         function buildPremiumSections(name) {
-            var n = escHtml(name);
             var data = getCompanyData(name);
+            if (!data || data.realData === false) return '';
+            var n = escHtml(name);
             var seed = hashSeed(name);
-            var growth = data.growth;
-            var satisfaction = data.satisfaction;
-            var nps = data.nps;
-            var marketShare = data.marketShare;
+            var growth = data.growth || 0;
+            var satisfaction = data.satisfaction || 50;
+            var nps = data.nps || 0;
+            var marketShare = data.marketShare || 0;
             var html = '';
 
             // VERDICT
@@ -3734,9 +3698,12 @@ function renderComps() {
         }
         
         function buildFullAnalysis(name) {
+            const data = getCompanyData(name);
+            if (!data || data.realData === false) {
+                return '<div class="panel" style="text-align:center;padding:40px"><div style="font-size:48px;margin-bottom:16px">\uD83D\uDD0D</div><h3 style="color:var(--gray-2);margin-bottom:8px">Donn\u00e9es non disponibles</h3><p style="font-size:13px;color:var(--gray-4)">' + escHtml(name) + ' n\u2019est pas dans notre base de donn\u00e9es v\u00e9rifi\u00e9e.</p></div>';
+            }
             const seed = hashSeed(name);
             const n = escHtml(name);
-            const data = getCompanyData(name);
             
             // Sector info
             const sectorLabels = {
@@ -3765,9 +3732,9 @@ function renderComps() {
             const sectorInfo = sectorLabels[data.sector] || { label: 'Entreprise', icon: '🏢' };
             
             // Real data only
-            const competitors = data.competitors || ['Concurrent A', 'Concurrent B'];
-            const c1 = competitors[0] || 'Concurrent A';
-            const c2 = competitors[1] || 'Concurrent B';
+            const competitors = data.competitors || [];
+            const c1 = competitors[0] || 'Non disponible';
+            const c2 = competitors[1] || 'Non disponible';
             const currency = data.currency || '€';
             const revenue = data.revenue;
             const marketShare = data.marketShare;
@@ -3956,8 +3923,9 @@ function renderComps() {
         }
         function buildActionableInsights(name) {
             if (!myCompany) return '';
-            var mine = getMyCompanyData();
             var comp = getCompanyData(name);
+            if (!comp || comp.realData === false) return '';
+            var mine = getMyCompanyData();
             var insights = [];
             // Analyze gaps
             if (mine.growth < comp.growth) {
@@ -4016,6 +3984,7 @@ function renderComps() {
         }
         function buildKpiStrip(name) {
             var data = getCompanyData(name);
+            if (!data || data.realData === false) return '';
             var mine = myCompany ? getMyCompanyData() : null;
             var seed = hashSeed(name);
             // Generate 6-month sparkline data (deterministic per company)
@@ -4054,8 +4023,9 @@ function renderComps() {
         }
         function buildComparison(name) {
             if (!myCompany) return '';
-            var mine = getMyCompanyData();
             var comp = getCompanyData(name);
+            if (!comp || comp.realData === false) return '';
+            var mine = getMyCompanyData();
             var diff = function(a, b) { return b > 0 ? ((a - b) / b * 100).toFixed(1) : '0'; };
             var better = function(a, b) { return a > b; };
             var cmpRow = function(label, mineVal, compVal, unit, invert) {
@@ -4116,9 +4086,10 @@ function renderComps() {
             return html;
         }
         function buildDetailedExplanations(name) {
-            var n = escHtml(name);
             var data = getCompanyData(name);
-            var marketShare = data.marketShare;
+            if (!data || data.realData === false) return '';
+            var n = escHtml(name);
+            var marketShare = data.marketShare || 0;
             var growth = data.growth;
             var satisfaction = data.satisfaction;
             var nps = data.nps;
@@ -4170,6 +4141,14 @@ function renderComps() {
         // ========== TAB FILL FUNCTIONS ==========
         function fillAllTabs(name) {
             const data = getCompanyData(name);
+            if (!data || data.realData === false) {
+                var noDataMsg = '<div class="panel" style="text-align:center;padding:30px"><p style="color:var(--gray-4)">Donn\u00e9es non disponibles pour cette entreprise.</p></div>';
+                ['pricesContent','postsContent','adsContent','reviewsContent','hiringContent','blogContent','alertsContent'].forEach(function(id) {
+                    var el = document.getElementById(id);
+                    if (el) el.innerHTML = noDataMsg;
+                });
+                return;
+            }
             const seed = hashSeed(name);
             const n = escHtml(name);
             const currency = data.currency || '€';
@@ -4178,7 +4157,7 @@ function renderComps() {
             const nps = data.nps || 40;
             const employees = data.employees || 100;
             const growth = data.growth || 5;
-            const competitors = data.competitors || ['Concurrent A', 'Concurrent B'];
+            const competitors = data.competitors || [];
             const realPrices = data.realPrices || null;
 
             // ===== PRICES TAB =====
