@@ -1958,8 +1958,8 @@
                 const x2 = cx + r * Math.cos(endRad), y2 = cy + r * Math.sin(endRad);
                 const x3 = cx + ir * Math.cos(endRad), y3 = cy + ir * Math.sin(endRad);
                 const x4 = cx + ir * Math.cos(startRad), y4 = cy + ir * Math.sin(startRad);
-                paths += '<path d="M' + x1.toFixed(1) + ',' + y1.toFixed(1) + 'A' + r + ',' + r + ' 0 ' + large + ',1 ' + x2.toFixed(1) + ',' + y2.toFixed(1) + 'L' + x3.toFixed(1) + ',' + y3.toFixed(1) + 'A' + ir + ',' + ir + ' 0 ' + large + ',0 ' + x4.toFixed(1) + ',' + y4.toFixed(1) + 'Z" fill="' + seg.color + '"><title>' + seg.label + ': ' + seg.value + ' (' + pctStr + '%)</title></path>';
                 const pctStr = (pct * 100).toFixed(1);
+                paths += '<path d="M' + x1.toFixed(1) + ',' + y1.toFixed(1) + 'A' + r + ',' + r + ' 0 ' + large + ',1 ' + x2.toFixed(1) + ',' + y2.toFixed(1) + 'L' + x3.toFixed(1) + ',' + y3.toFixed(1) + 'A' + ir + ',' + ir + ' 0 ' + large + ',0 ' + x4.toFixed(1) + ',' + y4.toFixed(1) + 'Z" fill="' + seg.color + '"><title>' + seg.label + ': ' + seg.value + ' (' + pctStr + '%)</title></path>';
                 legend += '<div class="free-donut-row"><div class="free-chart-legend-dot" style="background:' + seg.color + '"></div>' + seg.label + '<strong>' + seg.value + ' (' + pctStr + '%)</strong></div>';
                 angle += sweep;
             });
