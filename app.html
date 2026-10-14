@@ -1214,7 +1214,7 @@
                     </div>
                     <div style="margin-bottom:14px">
                         <label style="display:block;font-size:12px;color:var(--gray-3);margin-bottom:6px">Nom de votre entreprise *</label>
-                        <input type="text" id="setupName" placeholder="Ex: MonApp, Mon Site..." style="width:100%;padding:12px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;color:var(--gray-1);font-size:14px">
+                        <input type="text" id="setupName" aria-label="Nom de votre entreprise" role="searchbox" placeholder="Ex: MonApp, Mon Site..." style="width:100%;padding:12px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;color:var(--gray-1);font-size:14px">
                     </div>
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
                         <div>
@@ -1288,7 +1288,7 @@
                 <div class="sb-search-wrap" id="sbSearchWrap" style="display:none">
                     <div class="sb-search-bar">
                         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--gray-5);flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                        <input type="text" id="sbSearchInput" placeholder="Nouveau concurrent..." onkeydown="handleSbSearchKey(event)" oninput="handleSbSearchInput()" onfocus="handleSbSearchFocus()">
+                        <input type="text" id="sbSearchInput" aria-label="Rechercher un concurrent" role="searchbox" placeholder="Nouveau concurrent..." onkeydown="handleSbSearchKey(event)" oninput="handleSbSearchInput()" onfocus="handleSbSearchFocus()">
                     </div>
                     <div class="sb-search-suggestions" id="sbSearchSuggestions"></div>
                 </div>
@@ -1325,8 +1325,11 @@
                     <div class="badge-plan" id="planBadge">Free</div>
                     <div class="badge-live">En direct</div>
                     <button class="btn-sm" onclick="refreshAll()">Actualiser</button>
+                    <button class="btn-sm" onclick="shareReport()" title="Partager le rapport">\uD83D\uDD17 Partager</button>
                     <button class="btn-sm" onclick="exportReport()" title="Exporter le rapport (Ctrl+E)">\uD83D\uDCC4 Exporter</button>
+                    <button class="btn-sm" onclick="toggleNotifPanel()" title="Notifications" style="position:relative">\uD83D\uDD14<span id="notifBadge" style="position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:9px;font-weight:700;min-width:16px;height:16px;border-radius:8px;display:none;align-items:center;justify-content:center;padding:0 4px">0</span></button>
                 </div>
+                <div id="notifPanel" style="position:absolute;top:52px;right:16px;width:340px;max-height:400px;overflow-y:auto;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;z-index:200;box-shadow:0 12px 40px rgba(0,0,0,.5);display:none"></div>
             </div>
 
             <div class="tc" id="tc-mycompany">
@@ -1336,7 +1339,7 @@
                 <div class="ov-search-wrap">
                     <div class="ov-search-bar">
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--gray-5);flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                        <input type="text" id="ovSearchInput" placeholder="Rechercher une marque pour l'analyser..." onkeydown="handleOvSearchKey(event)" oninput="handleOvSearchInput()" onfocus="handleOvSearchFocus()">
+                        <input type="text" id="ovSearchInput" aria-label="Rechercher une marque" role="searchbox" placeholder="Rechercher une marque pour l'analyser..." onkeydown="handleOvSearchKey(event)" oninput="handleOvSearchInput()" onfocus="handleOvSearchFocus()">
                     </div>
                     <div class="ov-search-suggestions" id="ovSearchSuggestions"></div>
                 </div>
@@ -1437,6 +1440,7 @@
             updateTabLocks();
             renderSettings();
             showToast('Plan chang\u00e9 en ' + p.charAt(0).toUpperCase() + p.slice(1), 'info');
+            addNotif('info', 'Plan mis \u00e0 jour', 'Vous \u00eates maintenant sur le plan ' + p);
             var pb = document.getElementById('planBadge');
             if (pb) { pb.textContent = p.charAt(0).toUpperCase() + p.slice(1); pb.className = 'badge-plan ' + p; }
             if (comps.length > 0) generateAll();
@@ -2983,7 +2987,12 @@
             }
         }
 
+        var _sbDebounce = null;
         function handleSbSearchInput() {
+            clearTimeout(_sbDebounce);
+            _sbDebounce = setTimeout(function() { _doSbSearch(); }, 150);
+        }
+        function _doSbSearch() {
             const input = document.getElementById('sbSearchInput');
             if (!input) return;
             const val = input.value.trim();
@@ -3128,7 +3137,12 @@
             }
         }
 
+        var _ovDebounce = null;
         function handleOvSearchInput() {
+            clearTimeout(_ovDebounce);
+            _ovDebounce = setTimeout(function() { _doOvSearch(); }, 150);
+        }
+        function _doOvSearch() {
             const input = document.getElementById('ovSearchInput');
             if (!input) return;
             const val = input.value.trim();
@@ -3674,6 +3688,7 @@ function renderComps() {
             // Fill all other tabs with detailed data
             fillAllTabs(name);
 
+            enrichWithRealData(name);
             renderSettings();
             updateTabLocks();
         }
@@ -3806,6 +3821,57 @@ function renderComps() {
             return html;
         }
         
+        // ========== REAL DATA (Wikipedia API) ==========
+        var wikiCache = {};
+        function fetchWikiData(name, callback) {
+            if (wikiCache[name]) { callback(wikiCache[name]); return; }
+            var url = 'https://fr.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(name);
+            fetch(url).then(function(r) { return r.json(); }).then(function(data) {
+                if (data && data.extract) {
+                    var wiki = {
+                        extract: data.extract,
+                        thumbnail: data.thumbnail ? data.thumbnail.source : null,
+                        url: data.content_urls ? data.content_urls.desktop.page : null
+                    };
+                    wikiCache[name] = wiki;
+                    callback(wiki);
+                } else { callback(null); }
+            }).catch(function() { callback(null); });
+        }
+        function fetchWikiBatch(names, callback) {
+            var results = {};
+            var done = 0;
+            if (names.length === 0) { callback(results); return; }
+            names.forEach(function(n) {
+                fetchWikiData(n, function(data) {
+                    results[n] = data;
+                    done++;
+                    if (done === names.length) callback(results);
+                });
+            });
+        }
+        // Inject real Wikipedia extract into overview when available
+        function enrichWithRealData(name) {
+            fetchWikiData(name, function(wiki) {
+                if (!wiki) return;
+                var container = document.getElementById('realDataBanner');
+                if (!container) {
+                    container = document.createElement('div');
+                    container.id = 'realDataBanner';
+                    var ov = document.getElementById('ovCharts');
+                    if (ov && ov.firstChild) ov.insertBefore(container, ov.firstChild);
+                }
+                var img = wiki.thumbnail ? '<img src="' + wiki.thumbnail + '" alt="' + escHtml(name) + '" style="width:48px;height:48px;border-radius:10px;object-fit:cover;flex-shrink:0">' : '';
+                container.innerHTML = '<div style="display:flex;gap:14px;align-items:flex-start;padding:14px 16px;background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);border-radius:12px;margin-bottom:16px">' +
+                    img +
+                    '<div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">' +
+                    '<span style="font-size:10px;font-weight:700;color:#3B82F6;background:rgba(59,130,246,.15);padding:2px 8px;border-radius:4px">DONN\u00c9ES R\u00c9ELLES</span>' +
+                    '<span style="font-size:10px;color:var(--gray-5)">Source : Wikip\u00e9dia</span></div>' +
+                    '<p style="font-size:12px;color:var(--gray-4);line-height:1.6;margin:0">' + escHtml(wiki.extract.substring(0, 300)) + (wiki.extract.length > 300 ? '...' : '') + '</p>' +
+                    (wiki.url ? '<a href="' + wiki.url + '" target="_blank" rel="noopener" style="font-size:11px;color:#3B82F6;margin-top:6px;display:inline-block">Lire la suite \u2192</a>' : '') +
+                    '</div></div>';
+            });
+        }
         function buildSectorSuggestions() {
             if (!myCompany) return '';
             var sector = myCompany.sector || 'tech';
@@ -3846,6 +3912,7 @@ function renderComps() {
             saveComps();
             generateAll();
             showToast(name + ' ajout\u00e9', 'success');
+            addNotif('success', 'Concurrent ajout\u00e9', name + ' est maintenant surveill\u00e9');
         }
         function buildActionableInsights(name) {
             if (!myCompany) return '';
@@ -4355,6 +4422,19 @@ function renderComps() {
             }
         }
 
+        // ========== KEYBOARD NAV ==========
+        document.addEventListener('keydown', function(e) {
+            if (e.altKey && e.key >= '1' && e.key <= '9') {
+                e.preventDefault();
+                var tabs = ['overview','mycompany','prices','posts','ads','reviews','hiring','blog','alerts'];
+                var idx = parseInt(e.key) - 1;
+                if (tabs[idx]) {
+                    var tabEl = document.querySelector('.sb-item[data-tab="' + tabs[idx] + '"]');
+                    if (tabEl) go(tabs[idx], tabEl);
+                }
+            }
+        });
+
         // ========== TAB NAVIGATION ==========
         function go(tab, el) {
             if (isTabLocked(tab)) {
@@ -4555,6 +4635,7 @@ function renderComps() {
             hideLoader();
             showApp();
             renderMyCompany();
+            loadSharedReport();
             if (!myCompany) { openSetup(); }
             if (comps.length === 0) {
                 renderComps();
@@ -4592,6 +4673,7 @@ function renderComps() {
             document.getElementById('setupStep2').style.display = 'block';
             renderMyCompany();
             showToast('Entreprise configur\u00e9e avec succ\u00e8s !', 'success');
+            addNotif('success', 'Entreprise configur\u00e9e', myCompany.name + ' est pr\u00eate pour la surveillance');
         }
         function handleSetupCompSearch() {
             var val = document.getElementById('setupCompSearch').value.trim().toLowerCase();
@@ -4705,6 +4787,101 @@ function renderComps() {
             setTimeout(function() { if (t.parentNode) t.remove(); }, 3000);
         }
 
+        // ========== NOTIFICATION CENTER ==========
+        var notifications = [];
+        try { notifications = JSON.parse(localStorage.getItem('rivaleye_notifs') || '[]'); } catch(e) { notifications = []; }
+        function saveNotifs() { localStorage.setItem('rivaleye_notifs', JSON.stringify(notifications.slice(0, 50))); }
+        function addNotif(type, title, text) {
+            notifications.unshift({ type: type, title: title, text: text, time: Date.now(), read: false });
+            if (notifications.length > 50) notifications = notifications.slice(0, 50);
+            saveNotifs();
+            updateNotifBadge();
+        }
+        function updateNotifBadge() {
+            var unread = notifications.filter(function(n) { return !n.read; }).length;
+            var badge = document.getElementById('notifBadge');
+            if (badge) { badge.textContent = unread; badge.style.display = unread > 0 ? 'flex' : 'none'; }
+        }
+        function toggleNotifPanel() {
+            var panel = document.getElementById('notifPanel');
+            if (!panel) return;
+            var isOpen = panel.style.display === 'block';
+            if (isOpen) { panel.style.display = 'none'; return; }
+            renderNotifPanel();
+            panel.style.display = 'block';
+        }
+        function renderNotifPanel() {
+            var panel = document.getElementById('notifPanel');
+            if (!panel) return;
+            var html = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">' +
+                '<h3 style="font-size:14px;font-weight:700;margin:0">Notifications</h3>' +
+                '<button style="background:none;border:none;color:var(--gray-5);font-size:11px;cursor:pointer" onclick="markAllRead()">Tout marquer lu</button></div>';
+            if (notifications.length === 0) {
+                html += '<div style="text-align:center;padding:24px;color:var(--gray-5);font-size:12px">Aucune notification</div>';
+            } else {
+                notifications.forEach(function(n, i) {
+                    var icon = n.type === 'alert' ? '\u26A0' : n.type === 'success' ? '\u2705' : n.type === 'price' ? '\uD83D\uDCB0' : '\uD83D\uDD14';
+                    var bg = !n.read ? 'background:rgba(255,255,255,.03);' : '';
+                    html += '<div style="padding:10px 12px;border-radius:8px;' + bg + 'border-bottom:1px solid var(--border);cursor:pointer" onclick="readNotif(' + i + ')">' +
+                        '<div style="display:flex;gap:8px;align-items:flex-start"><span style="font-size:14px">' + icon + '</span>' +
+                        '<div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--gray-2)">' + escHtml(n.title) + '</div>' +
+                        '<div style="font-size:11px;color:var(--gray-5);margin-top:2px">' + escHtml(n.text) + '</div>' +
+                        '<div style="font-size:10px;color:var(--gray-5);margin-top:4px">' + timeAgo(n.time) + '</div></div>' +
+                        (!n.read ? '<div style="width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:4px"></div>' : '') +
+                        '</div></div>';
+                });
+            }
+            panel.innerHTML = html;
+        }
+        function timeAgo(ts) {
+            var diff = Date.now() - ts;
+            if (diff < 60000) return '\u00e0 l\u2019instant';
+            if (diff < 3600000) return Math.floor(diff / 60000) + ' min';
+            if (diff < 86400000) return Math.floor(diff / 3600000) + 'h';
+            return Math.floor(diff / 86400000) + 'j';
+        }
+        function readNotif(i) { if (notifications[i]) { notifications[i].read = true; saveNotifs(); updateNotifBadge(); renderNotifPanel(); } }
+        function markAllRead() { notifications.forEach(function(n) { n.read = true; }); saveNotifs(); updateNotifBadge(); renderNotifPanel(); }
+
+        // ========== SHARE REPORT ==========
+        function shareReport() {
+            if (comps.length === 0) { showToast('S\u00e9lectionnez un concurrent d\u2019abord', 'warn'); return; }
+            var name = cur().name;
+            var shareData = { company: name, myCompany: myCompany ? myCompany.name : null, date: new Date().toISOString() };
+            var encoded = btoa(encodeURIComponent(JSON.stringify(shareData)));
+            var url = window.location.origin + window.location.pathname + '?report=' + encoded;
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(url).then(function() {
+                    showToast('Lien de rapport copi\u00e9 !', 'success');
+                }).catch(function() {
+                    prompt('Copiez ce lien :', url);
+                });
+            } else {
+                prompt('Copiez ce lien :', url);
+            }
+        }
+        function loadSharedReport() {
+            var params = new URLSearchParams(window.location.search);
+            var report = params.get('report');
+            if (!report) return false;
+            try {
+                var data = JSON.parse(decodeURIComponent(atob(report)));
+                if (data.company) {
+                    var existing = comps.findIndex(function(c) { return c.name.toLowerCase() === data.company.toLowerCase(); });
+                    if (existing >= 0) { curIdx = existing; }
+                    else if (comps.length < planLimit()) {
+                        var brand = getBrandByName(data.company);
+                        comps.push({ name: data.company, type: brand ? brand.type : 'tech', url: '', color: '#FF3B3B' });
+                        curIdx = comps.length - 1;
+                    }
+                    saveComps();
+                    showToast('Rapport partag\u00e9 charg\u00e9 : ' + data.company, 'info');
+                    return true;
+                }
+            } catch(e) {}
+            return false;
+        }
+
         async function init() {
             try {
                 if (!supabaseClient) { enterApp(null); return; }
@@ -4728,6 +4905,6 @@ function renderComps() {
         document.addEventListener('DOMContentLoaded', function() { init().catch(function(e) { console.error(e); hideLoader(); }); });
     
         </script>
-    <div class="toast-container" id="toastContainer"></div>
+    <div class="toast-container" id="toastContainer" aria-live="polite" role="status"></div>
 </body>
 </html>

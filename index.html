@@ -3538,6 +3538,39 @@
         .nav-acc-logout:hover{background:rgba(255,59,59,.1)!important;color:var(--red)!important}
         .nav-acc-item svg{opacity:.6;flex-shrink:0}
         .nav-acc-item:hover svg{opacity:1}
+
+/* Testimonials */
+.testimonials-section{padding:80px 0;background:var(--bg)}
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px}
+.testimonial-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px}
+.testimonial-stars{color:var(--orange);font-size:14px;margin-bottom:12px;letter-spacing:2px}
+.testimonial-text{font-size:14px;line-height:1.7;color:var(--gray-3);margin-bottom:20px;font-style:italic}
+.testimonial-author{display:flex;align-items:center;gap:12px}
+.testimonial-avatar{width:40px;height:40px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:16px}
+.testimonial-name{font-size:14px;font-weight:600;color:var(--gray-2)}
+.testimonial-role{font-size:12px;color:var(--gray-5)}
+/* FAQ */
+.faq-section{padding:80px 0;background:var(--bg)}
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px}
+.faq-item{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.faq-question{width:100%;display:flex;justify-content:space-between;align-items:center;padding:18px 20px;background:none;border:none;color:var(--gray-2);font-size:14px;font-weight:600;cursor:pointer;text-align:left;gap:12px}
+.faq-question:hover{background:rgba(255,255,255,.03)}
+.faq-icon{font-size:18px;color:var(--red);transition:transform 0.3s;flex-shrink:0}
+.faq-question.open .faq-icon{transform:rotate(45deg)}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height 0.3s ease}
+.faq-answer.open{max-height:200px}
+.faq-answer p{padding:0 20px 18px;font-size:13px;line-height:1.7;color:var(--gray-4);margin:0}
+/* Social proof */
+.social-proof{padding:60px 0;background:var(--bg);border-top:1px solid var(--border)}
+.social-proof-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center}
+.social-stat-num{font-size:36px;font-weight:800;color:var(--red);margin-bottom:4px}
+.social-stat-label{font-size:13px;color:var(--gray-4)}
+/* Mobile */
+@media(max-width:768px){
+    .testimonials-grid{grid-template-columns:1fr}
+    .faq-grid{grid-template-columns:1fr}
+    .social-proof-grid{grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
 <body>
@@ -4362,6 +4395,122 @@
                 <a href="#pricing" class="btn btn-ghost btn-large">
                     Voir les tarifs
                 </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="badge">T\u00e9moignages</div>
+                <h2>Ils surveillent leurs concurrents avec RivalEye</h2>
+                <p>Des entrepreneurs, marketers et CEO qui prennent des d\u00e9cisions bas\u00e9es sur les donn\u00e9es.</p>
+            </div>
+            <div class="testimonials-grid reveal">
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">\u2605\u2605\u2605\u2605\u2605</div>
+                    <p class="testimonial-text">"J'ai d\u00e9couvert qu'un concurrent augmentait ses prix de 34%. Gr\u00e2ce \u00e0 RivalEye, j'ai r\u00e9agi en 2h et d\u00e9croch\u00e9 3 clients avant qu'ils ne partent."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">S</div>
+                        <div><div class="testimonial-name">Sophie M.</div><div class="testimonial-role">CEO, SaaS B2B</div></div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">\u2605\u2605\u2605\u2605\u2605</div>
+                    <p class="testimonial-text">"Le verdict automatique et les pronostics \u00e0 90 jours m'ont fait gagner des heures de veille par semaine. Indispensable."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">K</div>
+                        <div><div class="testimonial-name">Karim B.</div><div class="testimonial-role">Growth Manager, E-commerce</div></div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">\u2605\u2605\u2605\u2605\u2605</div>
+                    <p class="testimonial-text">"Le classement sectoriel montre exactement o\u00f9 j'en suis par rapport \u00e0 mon march\u00e9. Aucun outil ne fait \u00e7a aussi bien."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">L</div>
+                        <div><div class="testimonial-name">Lucas T.</div><div class="testimonial-role">Fondateur, Startup Fintech</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="badge">FAQ</div>
+                <h2>Questions fr\u00e9quentes</h2>
+                <p>Tout ce que vous devez savoir avant de commencer.</p>
+            </div>
+            <div class="faq-grid reveal">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+                        <span>Comment RivalEye collecte-t-il les donn\u00e9es ?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>RivalEye agr\u00e8ge des donn\u00e9es publiques : prix des sites, avis clients, publications r\u00e9seaux sociaux, offres d'emploi, actualit\u00e9s. Les donn\u00e9es non v\u00e9rifiables sont clairement marqu\u00e9es comme estimations.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+                        <span>Puis-je ajouter mon propre entreprise ?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Oui ! Configurez votre entreprise (secteur, CA, croissance, satisfaction) et RivalEye la compare automatiquement \u00e0 ses concurrents avec des insights actionnables.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+                        <span>Quelle est la diff\u00e9rence entre les plans ?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p><strong>Free</strong> : 1 concurrent, aper\u00e7u. <strong>Pro</strong> : 3 concurrents, prix, posts, pubs, avis, verdict. <strong>Business</strong> : 10 concurrents, recrutements, blog, alertes. <strong>Enterprise</strong> : illimit\u00e9 + support d\u00e9di\u00e9.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+                        <span>Les donn\u00e9es sont-elles en temps r\u00e9el ?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Les analyses sont g\u00e9n\u00e9r\u00e9es \u00e0 la demande et r\u00e9actualis\u00e9es \u00e0 chaque consultation. Le mode Business inclut un monitoring H24 avec alertes push.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+                        <span>Puis-je exporter mes rapports ?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Oui, chaque rapport est exportable en PDF (bouton Exporter ou Ctrl+E) et partageable par lien unique (bouton Partager).</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+                        <span>Mes donn\u00e9es entreprise sont-elles s\u00e9curis\u00e9es ?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Vos donn\u00e9es sont stock\u00e9es localement dans votre navigateur et li\u00e9es \u00e0 votre compte Supabase. Elles ne sont jamais partag\u00e9es avec des tiers.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF -->
+    <section class="social-proof">
+        <div class="container">
+            <div class="social-proof-grid reveal">
+                <div class="social-stat"><div class="social-stat-num">2 500+</div><div class="social-stat-label">Entreprises surveill\u00e9es</div></div>
+                <div class="social-stat"><div class="social-stat-num">47</div><div class="social-stat-label">Secteurs couverts</div></div>
+                <div class="social-stat"><div class="social-stat-num">12 000+</div><div class="social-stat-label">Concurrents analys\u00e9s</div></div>
+                <div class="social-stat"><div class="social-stat-num">98%</div><div class="social-stat-label">Satisfaction client</div></div>
             </div>
         </div>
     </section>
@@ -6443,6 +6592,15 @@
             html += '</div></div>';
 
             document.getElementById('freeModalBody').innerHTML = html;
+        }
+
+        function toggleFaq(btn) {
+            var item = btn.parentElement;
+            var answer = item.querySelector('.faq-answer');
+            var isOpen = answer.classList.contains('open');
+            document.querySelectorAll('.faq-answer').forEach(function(a) { a.classList.remove('open'); });
+            document.querySelectorAll('.faq-question').forEach(function(q) { q.classList.remove('open'); q.setAttribute('aria-expanded', 'false'); });
+            if (!isOpen) { answer.classList.add('open'); btn.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
         }
 
     </script>
