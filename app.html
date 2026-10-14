@@ -1146,6 +1146,27 @@
 /* Search suggestions entrance */
 .ov-search-suggestions.on,.sb-search-suggestions{animation:suggIn 0.15s ease}
 @keyframes suggIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+
+/* Reveal animation on scroll */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+/* KPI hover glow */
+.kpi-card{transition:border-color 0.2s,box-shadow 0.2s}
+.kpi-card:hover{box-shadow:0 0 20px rgba(255,59,59,.08)}
+/* Better scrollbar */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.2)}
+/* Focus visible for accessibility */
+*:focus-visible{outline:2px solid var(--red);outline-offset:2px;border-radius:4px}
+/* Print styles */
+@media print{
+    .sb,.topbar,.toast-container,#tourOverlay,#tourHighlight,#tourTooltip,#notifPanel{display:none!important}
+    .main{margin-left:0!important}
+    .tc{padding:0!important}
+    .panel{break-inside:avoid;border:1px solid #ddd}
+}
 </style>
 </head>
 <body>
@@ -3687,7 +3708,8 @@ function renderComps() {
             if (!ov) return;
 
             // Build overview HTML using same logic as generateFreeReport
-            let html = buildComparison(name);
+            let html = buildKpiStrip(name);
+            html += buildComparison(name);
             html += buildActionableInsights(name);
             html += buildSectorSuggestions();
             html += buildFullAnalysis(name);
@@ -3971,6 +3993,58 @@ function renderComps() {
                     '<div style="font-size:12px;color:var(--gray-4);line-height:1.5">' + ins.text + '</div></div>';
             });
             html += '</div></div>';
+            return html;
+        }
+        // ========== KPI DASHBOARD + SPARKLINES ==========
+        function makeSparkline(data, color, w, h) {
+            w = w || 80; h = h || 24;
+            if (!data || data.length < 2) return '';
+            var min = Math.min.apply(null, data);
+            var max = Math.max.apply(null, data);
+            var range = max - min || 1;
+            var stepX = (w - 2) / (data.length - 1);
+            var points = data.map(function(v, i) {
+                return (1 + i * stepX).toFixed(1) + ',' + (h - 2 - ((v - min) / range) * (h - 4)).toFixed(1);
+            }).join(' ');
+            var lastY = h - 2 - ((data[data.length-1] - min) / range) * (h - 4);
+            return '<svg width="' + w + '" height="' + h + '" style="display:block"><polyline points="' + points + '" fill="none" stroke="' + color + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="' + (1 + (data.length-1) * stepX).toFixed(1) + '" cy="' + lastY.toFixed(1) + '" r="3" fill="' + color + '"/></svg>';
+        }
+        function buildKpiStrip(name) {
+            var data = getCompanyData(name);
+            var mine = myCompany ? getMyCompanyData() : null;
+            var seed = hashSeed(name);
+            // Generate 6-month sparkline data (deterministic per company)
+            var growthSpark = [];
+            var satSpark = [];
+            var revSpark = [];
+            for (var i = 0; i < 6; i++) {
+                var r1 = seededRand(seed, i + 10);
+                var r2 = seededRand(seed, i + 20);
+                var r3 = seededRand(seed, i + 30);
+                growthSpark.push(data.growth * (0.7 + r1 * 0.6));
+                satSpark.push(data.satisfaction * (0.9 + r2 * 0.15));
+                revSpark.push(data.revenue * (0.6 + r3 * 0.5));
+            }
+            var html = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px">';
+            var kpis = [
+                { label: 'Croissance', value: (data.growth >= 0 ? '+' : '') + data.growth + '%', spark: growthSpark, color: data.growth >= 0 ? '#10B981' : '#FF3B3B', sub: mine ? 'Vous: ' + (mine.growth >= 0 ? '+' : '') + mine.growth + '%' : null },
+                { label: 'Satisfaction', value: data.satisfaction + '/100', spark: satSpark, color: data.satisfaction >= 70 ? '#10B981' : data.satisfaction >= 50 ? '#F59E0B' : '#FF3B3B', sub: mine ? 'Vous: ' + mine.satisfaction + '/100' : null },
+                { label: 'CA', value: data.revenue >= 1000 ? (data.revenue/1000).toFixed(1) + ' Md' + (data.currency === 'M$' ? '$' : '\u20AC') : data.revenue + ' M' + (data.currency === 'M$' ? '$' : '\u20AC'), spark: revSpark, color: '#3B82F6', sub: mine ? 'Vous: ' + mine.revenue + ' M\u20AC' : null },
+                { label: 'Part de march\u00e9', value: data.marketShare + '%', spark: null, color: '#8B5CF6', sub: mine ? 'Vous: ' + mine.marketShare + '%' : null },
+                { label: 'NPS', value: data.nps, spark: null, color: data.nps >= 50 ? '#10B981' : '#F59E0B', sub: mine ? 'Vous: ' + mine.nps : null },
+                { label: 'Employ\u00e9s', value: data.employees >= 1000 ? (data.employees/1000).toFixed(0) + 'k' : data.employees, spark: null, color: '#D1D5DB', sub: mine ? 'Vous: ' + mine.employees : null }
+            ];
+            kpis.forEach(function(k) {
+                html += '<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;transition:border-color 0.2s" onmouseover="this.style.borderColor=\'' + k.color + '40\'" onmouseout="this.style.borderColor=\'\'">' +
+                    '<div style="font-size:10px;color:var(--gray-5);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">' + k.label + '</div>' +
+                    '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px">' +
+                    '<div><div style="font-size:20px;font-weight:800;color:' + k.color + '">' + k.value + '</div>' +
+                    (k.sub ? '<div style="font-size:10px;color:var(--gray-5);margin-top:2px">' + k.sub + '</div>' : '') +
+                    '</div>' +
+                    (k.spark ? '<div style="opacity:.8">' + makeSparkline(k.spark, k.color, 80, 28) + '</div>' : '') +
+                    '</div></div>';
+            });
+            html += '</div>';
             return html;
         }
         function buildComparison(name) {
@@ -4660,6 +4734,7 @@ function renderComps() {
                 generateAll();
             }
             updateTabLocks();
+            initRevealObserver();
         }
         function showGate() {
             hideLoader();
@@ -5008,6 +5083,23 @@ function renderComps() {
             localStorage.setItem('rivaleye_tour_done', '1');
         }
         function isTourDone() { return localStorage.getItem('rivaleye_tour_done') === '1'; }
+
+        // ========== SCROLL REVEAL ==========
+        function initRevealObserver() {
+            if (typeof IntersectionObserver === 'undefined') {
+                document.querySelectorAll('.reveal').forEach(function(el) { el.classList.add('visible'); });
+                return;
+            }
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.reveal:not(.visible)').forEach(function(el) { observer.observe(el); });
+        }
 
         async function init() {
             try {
