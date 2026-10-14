@@ -958,7 +958,7 @@
         .ov-search-bar input{flex:1;background:none;border:none;outline:none;color:var(--gray-2);font-size:14px}
         .ov-search-bar input::placeholder{color:var(--gray-5)}
         .ov-search-suggestions{position:absolute;top:100%;left:0;right:0;background:#111;border:1px solid var(--border);border-radius:8px;margin-top:4px;max-height:320px;overflow-y:auto;z-index:50;display:none}
-        .ov-search-suggestions.show{display:block}
+        .ov-search-suggestions.on{display:block}
         .ov-sugg-item{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;font-size:13px;color:var(--gray-3);transition:background 0.15s}
         .ov-sugg-item:hover{background:rgba(255,255,255,0.05);color:var(--gray-2)}
         .ov-sugg-item img{width:20px;height:20px;border-radius:4px;object-fit:contain}
@@ -2799,7 +2799,24 @@
             const input = document.getElementById('sbSearchInput');
             if (input) input.value = name;
             hideSbSuggestions();
-            runSbAnalysis();
+            const brand = getBrandByName(name);
+            if (brand) {
+                saveRecentSearch(name);
+                hideSbSearch();
+                if (comps.length >= planLimit()) { showUpgradeModal('pro'); return; }
+                const existingIdx = comps.findIndex(c => c.name.toLowerCase() === name.toLowerCase());
+                if (existingIdx >= 0) {
+                    curIdx = existingIdx;
+                } else {
+                    comps.push({ name: name, type: brand.type, url: brand.domain || '', color: '#FF3B3B' });
+                    curIdx = comps.length - 1;
+                }
+                saveComps();
+                renderComps();
+                generateAll();
+            } else {
+                runSbAnalysis();
+            }
         }
         function getBrandByName(name) {
             return knownBrands.find(b => b.name.toLowerCase() === name.toLowerCase());
@@ -2840,28 +2857,36 @@
             if (!input) return;
             const val = input.value.trim();
             const box = document.getElementById('sbSearchSuggestions');
-            if (val.length < 2) {
+            if (val.length < 1) {
                 if (!val) { handleSbSearchFocus(); }
                 else { box.classList.remove('on'); }
                 return;
             }
-            const lower = val.toLowerCase();
+            const normalize = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            const lower = normalize(val);
             const words = lower.split(/\s+/).filter(w => w.length > 0);
             let matches = knownBrands.filter(b => {
-                const name = b.name.toLowerCase();
-                const type = b.type.toLowerCase();
+                const name = normalize(b.name);
+                const type = normalize(b.type || '');
                 return words.every(w => name.includes(w) || type.includes(w));
-            }).slice(0, 8);
+            });
+            matches.sort((a, b) => {
+                const an = normalize(a.name), bn = normalize(b.name);
+                const aStart = an.indexOf(lower) === 0 ? 0 : 1;
+                const bStart = bn.indexOf(lower) === 0 ? 0 : 1;
+                if (aStart !== bStart) return aStart - bStart;
+                return a.name.length - b.name.length;
+            });
+            matches = matches.slice(0, 12);
             if (matches.length === 0 && words.length > 1) {
                 matches = knownBrands.filter(b => {
-                    const name = b.name.toLowerCase();
-                    const type = b.type.toLowerCase();
-                    return words.some(w => name.includes(w) || type.includes(w));
-                }).slice(0, 6);
+                    const name = normalize(b.name);
+                    return words.some(w => name.includes(w));
+                }).slice(0, 8);
             }
             if (matches.length === 0) {
                 const firstLetter = words[0].charAt(0);
-                matches = knownBrands.filter(b => b.name.toLowerCase().charAt(0) === firstLetter).slice(0, 4);
+                matches = knownBrands.filter(b => normalize(b.name).charAt(0) === firstLetter).slice(0, 8);
                 const popular = ['Louis Vuitton', 'Shopify', 'Uber', 'Notion', 'Spotify', 'Canva', 'Gucci', 'Chanel', 'Fortnite', 'Minecraft'];
                 popular.forEach(p => {
                     if (matches.length < 6 && !matches.find(m => m.name === p)) {
@@ -2870,7 +2895,7 @@
                     }
                 });
             }
-            let html = '<div class="sb-sugg-header"><span>Suggestions</span></div>';
+            let html = '<div class="sb-sugg-header"><span>' + matches.length + ' r\u00E9sultat' + (matches.length > 1 ? 's' : '') + '</span></div>';
             matches.forEach(b => {
                 const logo = getBrandLogo(b.domain, b.name);
                 const iconHtml = logo
@@ -2881,10 +2906,9 @@
                     '<div class="sb-sugg-info"><div class="sb-sugg-name">' + b.name + '</div><div class="sb-sugg-type">' + b.type + '</div></div>' +
                     '</div>';
             });
-            html += '<div class="sb-sugg-item" onclick="selectSbSuggestion(\'' + val.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '\')">' +
-                '<div class="sb-sugg-icon" style="background:#FF3B3B">' + val.charAt(0).toUpperCase() + '</div>' +
-                '<div class="sb-sugg-info"><div class="sb-sugg-name">Analyser "' + val + '"</div><div class="sb-sugg-type">Recherche libre</div></div>' +
-                '</div>';
+            if (matches.length === 0) {
+                html = '<div style="padding:20px;text-align:center;color:var(--gray-5);font-size:12px">Aucun r\u00E9sultat pour \u00AB ' + escHtml(val) + ' \u00BB<br><span style="font-size:11px">Essayez une autre marque</span></div>';
+            }
             box.innerHTML = html;
             box.classList.add('on');
         }
@@ -2929,10 +2953,12 @@
                 if (existingIdx >= 0) {
                     curIdx = existingIdx;
                 } else {
-                    comps.push({ name: name, type: 'site', url: '', color: colors[comps.length % colors.length] });
+                    const brand = getBrandByName(name);
+                    comps.push({ name: name, type: brand ? brand.type : 'tech', url: brand ? brand.domain || '' : '', color: '#FF3B3B' });
                     curIdx = comps.length - 1;
                 }
                 saveComps();
+                renderComps();
                 generateAll();
             } else {
                 showUpgradeModal('pro');
@@ -2971,28 +2997,36 @@
             if (!input) return;
             const val = input.value.trim();
             const box = document.getElementById('ovSearchSuggestions');
-            if (val.length < 2) {
+            if (val.length < 1) {
                 if (!val) { handleOvSearchFocus(); }
                 else { box.classList.remove('on'); }
                 return;
             }
-            const lower = val.toLowerCase();
+            const normalize = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            const lower = normalize(val);
             const words = lower.split(/\s+/).filter(w => w.length > 0);
             let matches = knownBrands.filter(b => {
-                const name = b.name.toLowerCase();
-                const type = b.type.toLowerCase();
+                const name = normalize(b.name);
+                const type = normalize(b.type || '');
                 return words.every(w => name.includes(w) || type.includes(w));
-            }).slice(0, 8);
+            });
+            matches.sort((a, b) => {
+                const an = normalize(a.name), bn = normalize(b.name);
+                const aStart = an.indexOf(lower) === 0 ? 0 : 1;
+                const bStart = bn.indexOf(lower) === 0 ? 0 : 1;
+                if (aStart !== bStart) return aStart - bStart;
+                return a.name.length - b.name.length;
+            });
+            matches = matches.slice(0, 12);
             if (matches.length === 0 && words.length > 1) {
                 matches = knownBrands.filter(b => {
-                    const name = b.name.toLowerCase();
-                    const type = b.type.toLowerCase();
-                    return words.some(w => name.includes(w) || type.includes(w));
-                }).slice(0, 6);
+                    const name = normalize(b.name);
+                    return words.some(w => name.includes(w));
+                }).slice(0, 8);
             }
             if (matches.length === 0) {
                 const firstLetter = words[0].charAt(0);
-                matches = knownBrands.filter(b => b.name.toLowerCase().charAt(0) === firstLetter).slice(0, 4);
+                matches = knownBrands.filter(b => normalize(b.name).charAt(0) === firstLetter).slice(0, 8);
                 const popular = ['Louis Vuitton', 'Shopify', 'Uber', 'Notion', 'Spotify', 'Canva', 'Gucci', 'Chanel', 'Fortnite', 'Minecraft'];
                 popular.forEach(p => {
                     if (matches.length < 6 && !matches.find(m => m.name === p)) {
@@ -3001,7 +3035,7 @@
                     }
                 });
             }
-            let html = '<div class="sb-sugg-header"><span>Suggestions</span></div>';
+            let html = '<div class="sb-sugg-header"><span>' + matches.length + ' r\u00E9sultat' + (matches.length > 1 ? 's' : '') + '</span></div>';
             matches.forEach(b => {
                 const logo = getBrandLogo(b.domain, b.name);
                 const iconHtml = logo
@@ -3012,10 +3046,9 @@
                     '<div class="sb-sugg-info"><div class="sb-sugg-name">' + b.name + '</div><div class="sb-sugg-type">' + b.type + '</div></div>' +
                     '</div>';
             });
-            html += '<div class="sb-sugg-item" onclick="selectOvSuggestion(\'' + val.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '\')">' +
-                '<div class="sb-sugg-icon" style="background:#FF3B3B">' + val.charAt(0).toUpperCase() + '</div>' +
-                '<div class="sb-sugg-info"><div class="sb-sugg-name">Analyser "' + val + '"</div><div class="sb-sugg-type">Recherche libre</div></div>' +
-                '</div>';
+            if (matches.length === 0) {
+                html = '<div style="padding:20px;text-align:center;color:var(--gray-5);font-size:12px">Aucun r\u00E9sultat pour \u00AB ' + escHtml(val) + ' \u00BB<br><span style="font-size:11px">Essayez une autre marque</span></div>';
+            }
             box.innerHTML = html;
             box.classList.add('on');
         }
@@ -3049,7 +3082,23 @@
             if (input) input.value = name;
             const box = document.getElementById('ovSearchSuggestions');
             if (box) box.classList.remove('on');
-            runOvAnalysis();
+            const brand = getBrandByName(name);
+            if (brand) {
+                saveRecentSearch(name);
+                if (comps.length >= planLimit()) { showUpgradeModal('pro'); return; }
+                const existingIdx = comps.findIndex(c => c.name.toLowerCase() === name.toLowerCase());
+                if (existingIdx >= 0) {
+                    curIdx = existingIdx;
+                } else {
+                    comps.push({ name: name, type: brand.type, url: brand.domain || '', color: '#FF3B3B' });
+                    curIdx = comps.length - 1;
+                }
+                saveComps();
+                renderComps();
+                generateAll();
+            } else {
+                runOvAnalysis();
+            }
         }
 
         function runOvAnalysis() {
@@ -3062,10 +3111,20 @@
                 setTimeout(() => { input.style.borderColor = ''; }, 1500);
                 return;
             }
-            saveRecentSearch(name);
             const box = document.getElementById('ovSearchSuggestions');
             if (box) box.classList.remove('on');
-            // Add as competitor and show analysis
+            const isKnown = knownBrands.find(b => b.name.toLowerCase() === name.toLowerCase());
+            const isDb = getCompanyData(name);
+            if (!isKnown && !isDb) {
+                input.style.borderColor = 'rgba(255,59,59,0.6)';
+                if (box) {
+                    box.innerHTML = '<div style="padding:20px;text-align:center;color:var(--gray-5);font-size:12px">\u26A0 \u00AB ' + escHtml(name) + ' \u00BB n\u2019est pas dans notre base<br><span style="font-size:11px">Choisissez une marque dans les suggestions</span></div>';
+                    box.classList.add('on');
+                }
+                setTimeout(() => { input.style.borderColor = ''; }, 2000);
+                return;
+            }
+            saveRecentSearch(name);
             if (comps.length < planLimit()) {
                 const colors = ['red','silver','green','orange'];
                 // Check if already exists
@@ -3073,10 +3132,12 @@
                 if (existingIdx >= 0) {
                     curIdx = existingIdx;
                 } else {
-                    comps.push({ name: name, type: 'site', url: '', color: colors[comps.length % colors.length] });
+                    const brand = getBrandByName(name);
+                    comps.push({ name: name, type: brand ? brand.type : (dbData ? dbData.sector : 'tech'), url: brand ? brand.domain || '' : '', color: '#FF3B3B' });
                     curIdx = comps.length - 1;
                 }
                 saveComps();
+                renderComps();
                 generateAll();
             } else {
                 showUpgradeModal('pro');
