@@ -1100,6 +1100,52 @@
         .pred-bar-bg { flex:1; height:8px; background:rgba(255,255,255,.06); border-radius:4px; overflow:hidden; }
         .pred-bar { height:100%; border-radius:4px; transition:width 1s ease; }
         .pred-pct { font-size:14px; font-weight:700; min-width:40px; text-align:right; }
+
+/* Toast notifications */
+.toast-container{position:fixed;top:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;color:#fff;pointer-events:auto;cursor:pointer;animation:toastIn 0.3s ease,toastOut 0.3s ease 2.7s;max-width:350px;box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+.toast-success{background:#10B981}.toast-error{background:#FF3B3B}.toast-info{background:#3B82F6}.toast-warn{background:#F59E0B}
+@keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes toastOut{from{opacity:1}to:0;transform:translateX(40px)}}
+/* Fade-in animation for panels */
+.panel{animation:fadeUp 0.3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* Smooth number transitions */
+.stat-num{transition:color 0.3s}
+/* Mobile responsive */
+@media(max-width:768px){
+    .sb{position:fixed;left:-260px;top:0;bottom:0;z-index:100;transition:left 0.3s}
+    .sb.open{left:0}
+    .main{margin-left:0!important}
+    .topbar{padding-left:16px}
+    .grid2,.grid3{grid-template-columns:1fr!important}
+    .ov-search-bar input{font-size:16px}
+    .modal{margin:10px;max-height:90vh;overflow-y:auto}
+    .plan-selector{flex-direction:column}
+    .stat-grid{grid-template-columns:1fr 1fr!important}
+    .tc{padding:12px!important}
+}
+
+/* Skeleton loading */
+.skeleton{background:linear-gradient(90deg,rgba(255,255,255,.04) 25%,rgba(255,255,255,.08) 50%,rgba(255,255,255,.04) 75%);background-size:200% 100%;animation:skel 1.5s infinite;border-radius:8px}
+@keyframes skel{0%{background-position:200% 0}100%{background-position:-200% 0}}
+/* Pulse for live badge */
+.badge-live{animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+/* Smooth tab transitions */
+.tc{transition:opacity 0.2s ease}
+.tc:not(.on){display:none}
+.tc.on{animation:tabIn 0.25s ease}
+@keyframes tabIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+/* Competitor item hover */
+.sb-comp-item{transition:background 0.15s,transform 0.1s}
+.sb-comp-item:hover{transform:translateX(2px)}
+/* Plan options hover */
+.plan-opt{transition:transform 0.15s,border-color 0.15s}
+.plan-opt:hover{transform:translateY(-1px)}
+/* Search suggestions entrance */
+.ov-search-suggestions.on,.sb-search-suggestions{animation:suggIn 0.15s ease}
+@keyframes suggIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
@@ -3086,6 +3132,11 @@
             if (!input) return;
             const val = input.value.trim();
             const box = document.getElementById('ovSearchSuggestions');
+            if (myCompany && val.length >= 1 && myCompany.name.toLowerCase() === val.toLowerCase()) {
+                box.innerHTML = '<div style="padding:10px 14px;color:var(--gray-4);font-size:12px;background:rgba(255,59,59,.06);border-radius:8px;margin:4px">C\u2019est votre entreprise ! Choisissez un concurrent pour comparer.</div>';
+                box.classList.add('on');
+                return;
+            }
             if (val.length < 1) {
                 if (!val) { handleOvSearchFocus(); }
                 else { box.classList.remove('on'); }
@@ -4412,6 +4463,7 @@ function renderComps() {
             document.getElementById('setupStep1').style.display = 'none';
             document.getElementById('setupStep2').style.display = 'block';
             renderMyCompany();
+            showToast('Entreprise configur\u00e9e avec succ\u00e8s !', 'success');
         }
         function handleSetupCompSearch() {
             var val = document.getElementById('setupCompSearch').value.trim().toLowerCase();
@@ -4437,6 +4489,7 @@ function renderComps() {
             saveComps();
             finishSetup(true);
             generateAll();
+            showToast(name + ' ajout\u00e9 aux concurrents', 'success');
         }
         function finishSetup(skip) {
             document.getElementById('setupModal').classList.remove('on');
@@ -4487,7 +4540,7 @@ function renderComps() {
         }
 
         function exportReport() {
-            if (comps.length === 0) { alert('S\u00e9lectionnez d\u2019abord un concurrent \u00e0 exporter.'); return; }
+            if (comps.length === 0) { showToast('S\u00e9lectionnez d\u2019abord un concurrent', 'warn'); return; }
             var name = cur().name;
             var content = document.getElementById('ovCharts').innerHTML;
             var win = window.open('', '_blank');
@@ -4512,6 +4565,18 @@ function renderComps() {
             if (e.key === 'Escape') { document.querySelectorAll('.modal-bg.on').forEach(function(m) { m.classList.remove('on'); }); }
         });
 
+        function showToast(msg, type) {
+            type = type || 'info';
+            var c = document.getElementById('toastContainer');
+            if (!c) return;
+            var t = document.createElement('div');
+            t.className = 'toast toast-' + type;
+            t.textContent = msg;
+            t.onclick = function() { t.remove(); };
+            c.appendChild(t);
+            setTimeout(function() { if (t.parentNode) t.remove(); }, 3000);
+        }
+
         async function init() {
             try {
                 if (!supabaseClient) { enterApp(null); return; }
@@ -4535,5 +4600,6 @@ function renderComps() {
         document.addEventListener('DOMContentLoaded', function() { init().catch(function(e) { console.error(e); hideLoader(); }); });
     
         </script>
+    <div class="toast-container" id="toastContainer"></div>
 </body>
 </html>
