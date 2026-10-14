@@ -1024,15 +1024,60 @@
         .ov-card:hover{border-color:rgba(255,255,255,.1);transform:translateY(-1px)}
 
         /* ========== PLAN THEMES ========== */
-        body.plan-pro .sb-item.premium::after { content:'PRO'; background:rgba(59,130,246,.2); color:#3B82F6; }
-        body.plan-business .sb-item.premium::after { content:'BIZ'; background:rgba(139,92,246,.2); color:#8B5CF6; }
-        body.plan-enterprise .sb-item.premium::after { content:'ENT'; background:rgba(245,158,11,.2); color:#F59E0B; }
+        body.plan-pro { --red:#FF3B3B; --red-dark:#FF6B6B; --red-deep:#CC0000; --red-glow:rgba(255,59,59,.2); --black:#1A0505; --black-2:#2A0808; --black-3:#120303; --silver:#FFB3B3; }
+        body.plan-pro .app { background:linear-gradient(180deg,#1A0505 0%,#0D0202 100%); }
+        body.plan-pro .sb { background:linear-gradient(180deg,#1A0505,#0D0202); border-right-color:rgba(255,59,59,.12); }
+        body.plan-pro .topbar { background:rgba(26,5,5,.95); border-bottom-color:rgba(255,59,59,.1); }
+        body.plan-pro .card, body.plan-pro .ov-card, body.plan-pro .prem-section { background:linear-gradient(135deg,rgba(255,59,59,.06),rgba(26,5,5,.8)); border-color:rgba(255,59,59,.12); }
+        body.plan-pro .prem-section::before { background:linear-gradient(90deg,transparent,#FF3B3B,transparent); }
+        body.plan-pro .sb-item.on { background:rgba(255,59,59,.12); color:#FF6B6B; }
+        body.plan-pro .btn-red { background:linear-gradient(135deg,#FF3B3B,#CC0000); }
+        body.plan-pro .stat-value { color:#FF6B6B; }
+
+        body.plan-business { --red:#8B5CF6; --red-dark:#A78BFA; --red-deep:#6D28D9; --red-glow:rgba(139,92,246,.2); --black:#0D0518; --black-2:#150828; --black-3:#0A0312; --silver:#C4B5FD; }
+        body.plan-business .app { background:linear-gradient(180deg,#0D0518 0%,#06020D 100%); }
+        body.plan-business .sb { background:linear-gradient(180deg,#0D0518,#06020D); border-right-color:rgba(139,92,246,.12); }
+        body.plan-business .topbar { background:rgba(13,5,24,.95); border-bottom-color:rgba(139,92,246,.1); }
+        body.plan-business .card, body.plan-business .ov-card, body.plan-business .prem-section { background:linear-gradient(135deg,rgba(139,92,246,.06),rgba(13,5,24,.8)); border-color:rgba(139,92,246,.12); }
+        body.plan-business .prem-section::before { background:linear-gradient(90deg,transparent,#8B5CF6,transparent); }
+        body.plan-business .sb-item.on { background:rgba(139,92,246,.12); color:#A78BFA; }
+        body.plan-business .btn-red { background:linear-gradient(135deg,#8B5CF6,#6D28D9); }
+        body.plan-business .stat-value { color:#A78BFA; }
+
+        body.plan-enterprise { --red:#38BDF8; --red-dark:#7DD3FC; --red-deep:#0284C7; --red-glow:rgba(56,189,248,.2); --black:#050D18; --black-2:#081425; --black-3:#030910; --silver:#BAE6FD; }
+        body.plan-enterprise .app { background:linear-gradient(180deg,#050D18 0%,#020810 100%); }
+        body.plan-enterprise .sb { background:linear-gradient(180deg,#050D18,#020810); border-right-color:rgba(56,189,248,.12); }
+        body.plan-enterprise .topbar { background:rgba(5,13,24,.95); border-bottom-color:rgba(56,189,248,.1); }
+        body.plan-enterprise .card, body.plan-enterprise .ov-card, body.plan-enterprise .prem-section { background:linear-gradient(135deg,rgba(56,189,248,.06),rgba(5,13,24,.8)); border-color:rgba(56,189,248,.12); }
+        body.plan-enterprise .prem-section::before { background:linear-gradient(90deg,transparent,#38BDF8,transparent); }
+        body.plan-enterprise .sb-item.on { background:rgba(56,189,248,.12); color:#7DD3FC; }
+        body.plan-enterprise .btn-red { background:linear-gradient(135deg,#38BDF8,#0284C7); }
+        body.plan-enterprise .stat-value { color:#7DD3FC; }
+
         .sb-item.locked { opacity:.45; }
         .sb-item.locked:hover { opacity:.65; }
         .badge-plan.free { background:rgba(107,114,128,.2); color:#9CA3AF; }
-        .badge-plan.pro { background:rgba(59,130,246,.2); color:#3B82F6; }
-        .badge-plan.business { background:rgba(139,92,246,.2); color:#8B5CF6; }
-        .badge-plan.enterprise { background:rgba(245,158,11,.2); color:#F59E0B; }
+        .badge-plan.pro { background:rgba(255,59,59,.2); color:#FF6B6B; }
+        .badge-plan.business { background:rgba(139,92,246,.2); color:#A78BFA; }
+        .badge-plan.enterprise { background:rgba(56,189,248,.2); color:#7DD3FC; }
+
+        /* Tab preview overlay for locked tabs */
+        .tab-preview-overlay { position:relative; }
+        .tab-preview-overlay::after { content:''; position:absolute; inset:0; background:rgba(5,5,5,.6); backdrop-filter:blur(4px); z-index:10; border-radius:12px; }
+        .tab-preview-badge { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:11; text-align:center; background:rgba(10,10,12,.95); border:1px solid rgba(255,255,255,.1); border-radius:16px; padding:24px 32px; }
+        .tab-preview-badge .lock-icon { font-size:32px; margin-bottom:8px; }
+        .tab-preview-badge .lock-title { font-size:16px; font-weight:700; margin-bottom:4px; }
+        .tab-preview-badge .lock-sub { font-size:12px; color:var(--gray-4); margin-bottom:16px; }
+        .tab-preview-badge .lock-btn { display:inline-block; padding:10px 24px; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer; border:none; }
+        .tab-preview-badge .lock-btn.pro { background:linear-gradient(135deg,#FF3B3B,#CC0000); color:#fff; }
+        .tab-preview-badge .lock-btn.biz { background:linear-gradient(135deg,#8B5CF6,#6D28D9); color:#fff; }
+
+        /* Tooltip system */
+        .tip { position:relative; cursor:help; border-bottom:1px dotted var(--gray-5); }
+        .tip::after { content:attr(data-tip); position:absolute; bottom:100%; left:50%; transform:translateX(-50%) translateY(-4px); background:#1A1A1E; color:#E5E7EB; font-size:11px; font-weight:400; padding:6px 10px; border-radius:8px; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .2s,transform .2s; border:1px solid rgba(255,255,255,.08); z-index:100; max-width:250px; white-space:normal; width:max-content; line-height:1.4; }
+        .tip:hover::after { opacity:1; transform:translateX(-50%) translateY(-8px); }
+        .tip-s::after { white-space:nowrap; }
+
         .plan-selector { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
         .plan-opt { padding:14px; border:2px solid rgba(255,255,255,.08); border-radius:12px; cursor:pointer; text-align:center; transition:all .2s; background:rgba(255,255,255,.02); }
         .plan-opt:hover { border-color:rgba(255,255,255,.15); background:rgba(255,255,255,.04); }
@@ -1040,6 +1085,8 @@
         .plan-opt-name { font-size:14px; font-weight:700; margin-bottom:4px; }
         .plan-opt-price { font-size:12px; color:var(--gray-4); }
         .plan-opt-desc { font-size:10px; color:var(--gray-5); margin-top:4px; }
+
+        /* Premium section styles */
         /* Premium section styles */
         .prem-section { border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:20px; margin-bottom:16px; background:linear-gradient(135deg,rgba(255,255,255,.02),transparent); position:relative; overflow:hidden; }
         .prem-section::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--red),transparent); opacity:.5; }
@@ -1861,7 +1908,7 @@
         // ========== CHART HELPERS ==========
         function makeLineChart(data, color, color2, labels, unit) {
             unit = unit || '';
-            const w = 600, h = 260, padL = 55, padR = 25, padT = 30, padB = 40;
+            const w = 500, h = 200, padL = 50, padR = 20, padT = 25, padB = 35;
             const maxData = Math.max(...data);
             const minData = Math.min(...data);
             const max = maxData * 1.15;
@@ -2284,8 +2331,8 @@
             html += '<div class="free-card">';
             html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">';
             html += '<div class="int-tip" data-tip="Année de création de l\'entreprise. Une entreprise plus ancienne a généralement une base clients plus stable."><span style="color:var(--gray-4)">Fondée en</span><span class="int-badge">?</span><br><strong>' + data.founded + '</strong></div>';
-            html += '<div><span style="color:var(--gray-4)">Siège</span><br><strong>' + data.hq + '</strong></div>';
-            html += '<div><span style="color:var(--gray-4)">Employés</span><br><strong>' + employees.toLocaleString('fr-FR') + '</strong></div>';
+            html += '<div class="int-tip" data-tip="Ville et pays du siège social"><span style="color:var(--gray-4)">Siège</span><span class="int-badge">?</span><br><strong>' + data.hq + '</strong></div>';
+            html += '<div class="int-tip" data-tip="Nombre total d\u2019employ\u00E9s"><span style="color:var(--gray-4)">Employés</span><span class="int-badge">?</span><br><strong>' + employees.toLocaleString('fr-FR') + '</strong></div>';
             html += '<div class="int-tip" data-tip="Pourcentage du marché total capté par cette entreprise. Plus c\'est élevé, plus la position est dominante."><span style="color:var(--gray-4)">Part de marché</span><span class="int-badge">?</span><br><strong>' + marketShare + '%</strong></div>';
             html += '<div><span style="color:var(--gray-4)">CA estimé</span><br><strong>' + revenue.toLocaleString('fr-FR') + data.currency + '</strong></div>';
             html += '<div class="int-tip" data-tip="Taux de croissance annuel. Au-dessus de 10% = croissance forte."><span style="color:var(--gray-4)">Croissance<span class="int-badge">?</span></span><br><strong style="color:' + (growth > 10 ? 'var(--green)' : growth > 0 ? 'var(--orange)' : 'var(--red)') + '">' + (growth > 0 ? '+' : '') + growth + '%</strong></div>';
@@ -3459,18 +3506,18 @@ function renderComps() {
             // Header
             html += '<div style="margin-bottom:20px;padding:16px;background:linear-gradient(135deg,rgba(255,59,59,0.1),rgba(255,59,59,0.02));border:1px solid rgba(255,59,59,0.15);border-radius:12px">';
             html += '<div style="display:flex;align-items:center;gap:12px;margin-bottom:8px"><span style="font-size:24px">' + sectorInfo.icon + '</span><div><h3 style="margin:0;font-size:18px">' + n + '</h3><div style="font-size:12px;color:var(--gray-4)">' + sectorInfo.label + ' · ' + data.hq + '</div></div></div>';
-            html += '<div style="font-size:13px;color:var(--gray-3)">' + employees.toLocaleString('fr-FR') + ' employés · CA ' + revenue.toLocaleString('fr-FR') + currency + ' · Croissance ' + (growth > 0 ? '+' : '') + growth + '% · Part de marché ' + marketShare + '%</div>';
+            html += '<div style="font-size:13px;color:var(--gray-3)"><span class="tip tip-s" data-tip="Nombre total d\u2019employ\u00E9s de l\u2019entreprise">' + employees.toLocaleString('fr-FR') + ' employ\u00E9s</span> · <span class="tip tip-s" data-tip="Chiffre d\u2019affaires annuel">' + revenue.toLocaleString('fr-FR') + currency + '</span> · <span class="tip tip-s" data-tip="Croissance annuelle du chiffre d\u2019affaires">Croissance ' + (growth > 0 ? '+' : '') + growth + '%</span> · <span class="tip tip-s" data-tip="Part du march\u00E9 mondial occup\u00E9e par cette entreprise">Part de march\u00E9 ' + marketShare + '%</span></div>';
             html += '</div>';
             
             // === 1. PROFIL ENTREPRISE (real data) ===
             html += '<div class="ov-section"><div class="ov-section-title"><span class="icon">🏢</span> Profil entreprise <span class="ov-tag green" style="margin-left:auto;font-size:9px">Données réelles</span></div><div class="ov-card">';
             html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">';
             html += '<div class="int-tip" data-tip="Année de création de l\'entreprise. Une entreprise plus ancienne a généralement une base clients plus stable."><span style="color:var(--gray-4)">Fondée en</span><span class="int-badge">?</span><br><strong>' + data.founded + '</strong></div>';
-            html += '<div><span style="color:var(--gray-4)">Siège</span><br><strong>' + data.hq + '</strong></div>';
-            html += '<div><span style="color:var(--gray-4)">Employés</span><br><strong>' + employees.toLocaleString('fr-FR') + '</strong></div>';
+            html += '<div class="int-tip" data-tip="Ville et pays du siège social"><span style="color:var(--gray-4)">Siège</span><span class="int-badge">?</span><br><strong>' + data.hq + '</strong></div>';
+            html += '<div class="int-tip" data-tip="Nombre total d\u2019employ\u00E9s"><span style="color:var(--gray-4)">Employés</span><span class="int-badge">?</span><br><strong>' + employees.toLocaleString('fr-FR') + '</strong></div>';
             html += '<div class="int-tip" data-tip="Pourcentage du marché total capté par cette entreprise. Plus c\'est élevé, plus la position est dominante."><span style="color:var(--gray-4)">Part de marché</span><span class="int-badge">?</span><br><strong>' + marketShare + '%</strong></div>';
-            html += '<div><span style="color:var(--gray-4)">CA</span><br><strong>' + revenue.toLocaleString('fr-FR') + currency + '</strong></div>';
-            html += '<div><span style="color:var(--gray-4)">Croissance</span><br><strong style="color:' + (growth > 10 ? 'var(--green)' : growth > 0 ? 'var(--orange)' : 'var(--red)') + '">' + (growth > 0 ? '+' : '') + growth + '%</strong></div>';
+            html += '<div class="int-tip" data-tip="Chiffre d\u2019affaires annuel"><span style="color:var(--gray-4)">CA</span><span class="int-badge">?</span><br><strong>' + revenue.toLocaleString('fr-FR') + currency + '</strong></div>';
+            html += '<div class="int-tip" data-tip="Taux de croissance annuel du CA"><span style="color:var(--gray-4)">Croissance</span><span class="int-badge">?</span><br><strong style="color:' + (growth > 10 ? 'var(--green)' : growth > 0 ? 'var(--orange)' : 'var(--red)') + '">' + (growth > 0 ? '+' : '') + growth + '%</strong></div>';
             html += '<div class="int-tip" data-tip="Valeur estimée de l\'entreprise sur le marché. Indique la confiance des investisseurs."><span style="color:var(--gray-4)">Valorisation</span><span class="int-badge">?</span><br><strong>' + (data.valuation > 0 ? data.valuation.toLocaleString('fr-FR') + currency : 'N/A (cotée)') + '</strong></div>';
             html += '</div>';
             html += '<div style="margin-top:12px;padding:10px;background:rgba(255,255,255,0.03);border-radius:8px;font-size:12px;color:var(--gray-4)"><strong style="color:var(--gray-2)">Concurrents directs :</strong> ' + c1 + ', ' + c2 + '</div>';
@@ -3927,10 +3974,18 @@ function renderComps() {
 
         // ========== TAB NAVIGATION ==========
         function go(tab, el) {
-            // Check if tab is locked
             if (isTabLocked(tab)) {
-                const requiredPlan = getRequiredPlan(tab);
-                showUpgradeModal(requiredPlan || 'pro');
+                const req = getRequiredPlan(tab);
+                document.querySelectorAll('.tc').forEach(function(t) { t.classList.remove('on'); });
+                document.querySelectorAll('.sb-item').forEach(function(s) { s.classList.remove('on'); });
+                document.querySelectorAll('.panel-header').forEach(function(p) { p.style.display = 'none'; });
+                const tc = document.getElementById('tc-' + tab);
+                if (tc) {
+                    tc.classList.add('on');
+                    const tabLabels = { prices: 'Prix', posts: 'Posts', ads: 'Pubs', reviews: 'Avis', hiring: 'Recrutements', blog: 'Blog', alerts: 'Alertes' };
+                    const planPrice = req === 'pro' ? '19,99\u20AC/mois' : req === 'business' ? '49,99\u20AC/mois' : '99,99\u20AC/mois';
+                    tc.innerHTML = '<div style="padding:60px 40px;text-align:center"><div style="font-size:48px;margin-bottom:16px">\uD83D\uDD12</div><h3 style="font-size:20px;font-weight:700;color:var(--gray-1);margin-bottom:8px">' + (tabLabels[tab] || tab) + ' \u2014 R\u00E9serv\u00E9 au plan ' + req.charAt(0).toUpperCase() + req.slice(1) + '</h3><p style="font-size:13px;color:var(--gray-4);margin-bottom:24px">Abonnez-vous \u00E0 ' + req.charAt(0).toUpperCase() + req.slice(1) + ' (' + planPrice + ') pour d\u00E9bloquer cet onglet et toutes ses analyses.</p><button class="btn btn-red" style="font-size:14px;padding:12px 32px" onclick="showUpgradeModal(\'' + req + '\')">Passer \u00E0 ' + req.charAt(0).toUpperCase() + req.slice(1) + '</button></div>';
+                }
                 return;
             }
             document.querySelectorAll('.tc').forEach(function(t) { t.classList.remove('on'); });

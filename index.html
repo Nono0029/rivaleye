@@ -2674,6 +2674,29 @@
             transform: translateY(-4px);
         }
 
+        .pricing-card.plan-pro { border-color: rgba(255, 107, 107, 0.3); }
+        .pricing-card.plan-pro:hover { border-color: rgba(255, 107, 107, 0.5); background: rgba(255, 59, 59, 0.06); }
+        .pricing-card.plan-pro .pricing-name { color: #FF6B6B; }
+        .pricing-card.plan-pro .pricing-price { color: #FF6B6B; }
+        .pricing-card.plan-pro .pricing-btn { background: linear-gradient(135deg, #FF3B3B, #CC0000) !important; color: #fff !important; border: none !important; }
+
+        .pricing-card.plan-biz { border-color: rgba(139, 92, 246, 0.3); }
+        .pricing-card.plan-biz:hover { border-color: rgba(139, 92, 246, 0.5); background: rgba(139, 92, 246, 0.06); }
+        .pricing-card.plan-biz .pricing-name { color: #A78BFA; }
+        .pricing-card.plan-biz .pricing-price { color: #A78BFA; }
+        .pricing-card.plan-biz .pricing-btn { background: linear-gradient(135deg, #8B5CF6, #6D28D9) !important; color: #fff !important; border: none !important; }
+
+        .pricing-card.plan-ent { border-color: rgba(56, 189, 248, 0.3); }
+        .pricing-card.plan-ent:hover { border-color: rgba(56, 189, 248, 0.5); background: rgba(56, 189, 248, 0.06); }
+        .pricing-card.plan-ent .pricing-name { color: #7DD3FC; }
+        .pricing-card.plan-ent .pricing-price { color: #7DD3FC; }
+        .pricing-card.plan-ent .pricing-btn { background: linear-gradient(135deg, #38BDF8, #0284C7) !important; color: #fff !important; border: none !important; }
+
+        .pricing-card.plan-free { border-color: rgba(255, 59, 59, 0.3); }
+        .pricing-card.plan-free:hover { border-color: rgba(255, 59, 59, 0.5); background: rgba(255, 59, 59, 0.06); }
+        .pricing-card.plan-free .pricing-name { color: #FF3B3B; }
+        .pricing-card.plan-free .pricing-price { color: #FF3B3B; }
+
         .pricing-card.popular {
             border-color: var(--red);
             background: linear-gradient(180deg, rgba(255, 59, 59, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%);
@@ -4197,7 +4220,7 @@
         </div>
         <div class="pricing-grid">
             <!-- FREE -->
-            <div class="pricing-card reveal">
+            <div class="pricing-card plan-free reveal">
                 <div class="pricing-name">Free</div>
                 <div class="pricing-desc">Pour tester et découvrir RivalEye sans payer</div>
                 <div class="pricing-price">0€</div>
@@ -4223,7 +4246,7 @@
                 <a href="app.html" class="pricing-btn pricing-btn-ghost">Commencer gratuitement</a>
             </div>
             <!-- PRO -->
-            <div class="pricing-card popular reveal">
+            <div class="pricing-card popular plan-pro reveal">
                 <div class="pricing-badge">⭐ Le plus choisi</div>
                 <div class="pricing-name">Pro</div>
                 <div class="pricing-desc">Pour les indépendants et petites équipes qui veulent avancer</div>
@@ -4254,7 +4277,7 @@
                 <a href="#" class="pricing-btn pricing-btn-red" onclick="switchAuthTab('signup'); openAuth(event)">Essayer Pro — 19,99€</a>
             </div>
             <!-- BUSINESS -->
-            <div class="pricing-card reveal">
+            <div class="pricing-card plan-biz reveal">
                 <div class="pricing-name">Business</div>
                 <div class="pricing-desc">Pour les entreprises qui veulent une veille complète</div>
                 <div class="pricing-price">49,99€<span>/mois</span></div>
@@ -4284,7 +4307,7 @@
                 <a href="#" class="pricing-btn pricing-btn-ghost" onclick="switchAuthTab('signup'); openAuth(event)">Essayer Business — 49,99€</a>
             </div>
             <!-- ENTERPRISE -->
-            <div class="pricing-card reveal">
+            <div class="pricing-card plan-ent reveal">
                 <div class="pricing-name">Enterprise</div>
                 <div class="pricing-desc">Pour les grandes entreprises avec des besoins spécifiques</div>
                 <div class="pricing-price">99,99€<span>/mois</span></div>
