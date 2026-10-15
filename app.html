@@ -1224,7 +1224,88 @@
     .tc{padding:0!important}
     .panel{break-inside:avoid;border:1px solid #ddd}
 }
-</style>
+        /* ===== DUEL ARENA ===== */
+        .duel-search{width:100%;max-width:420px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px 12px;color:var(--gray-2);font-size:13px;margin:2px 0 10px;outline:none}
+        .duel-search:focus{border-color:var(--red)}
+        .duel-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+        .duel-chip{background:var(--card);border:1px solid var(--border);color:var(--gray-3);border-radius:999px;padding:6px 12px;font-size:12px;cursor:pointer;transition:all .15s}
+        .duel-chip:hover{border-color:var(--gray-5);color:var(--gray-2)}
+        .duel-chip.active{font-weight:700}
+        .duel-empty{text-align:center;padding:44px 16px;color:var(--gray-4)}
+        .duel-empty p{margin:8px 0}
+        .duel-empty .sub{font-size:12px;color:var(--gray-5)}
+        .duel-arena{display:flex;align-items:stretch;justify-content:center;margin:6px 0 18px;flex-wrap:wrap;gap:8px}
+        .duel-fighter{flex:1;min-width:220px;max-width:420px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px 16px;text-align:center;position:relative;overflow:hidden}
+        .duel-fighter::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--fc);box-shadow:0 0 18px var(--fc)}
+        .duel-fighter-tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:1px;color:#fff;border-radius:999px;padding:3px 10px;margin-bottom:6px}
+        .duel-fname{font-size:20px;font-weight:800;color:var(--gray-2);text-transform:capitalize}
+        .duel-fsub{font-size:12px;color:var(--gray-4);margin-bottom:8px}
+        .score-ring{width:92px;height:92px;border-radius:50%;margin:10px auto;display:flex;align-items:center;justify-content:center;background:conic-gradient(var(--fc) calc(var(--sc)*1%),rgba(255,255,255,0.06) 0)}
+        .score-ring>div{width:72px;height:72px;border-radius:50%;background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center}
+        .score-ring b{font-size:22px;color:var(--gray-2);line-height:1}
+        .score-ring span{font-size:10px;color:var(--gray-4)}
+        .score-ring.sm{width:64px;height:64px;margin:6px auto}
+        .score-ring.sm>div{width:50px;height:50px}
+        .score-ring.sm b{font-size:16px}
+        .duel-prob{margin:6px 0}
+        .duel-prob-bar{height:6px;background:rgba(255,255,255,0.06);border-radius:999px;overflow:hidden;margin-bottom:4px}
+        .duel-prob-bar>div{height:100%;border-radius:999px}
+        .duel-prob span{font-size:11px;color:var(--gray-3)}
+        .duel-fstats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:8px}
+        .duel-fstats span{font-size:11px;background:rgba(255,255,255,0.05);border-radius:8px;padding:4px 8px;color:var(--gray-3)}
+        .duel-estim{margin-top:8px;font-size:10px;color:var(--orange);background:rgba(245,158,11,0.1);border-radius:8px;padding:4px 8px;display:inline-block}
+        .duel-vs{align-self:center;width:60px;height:60px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#2a2f3d,#14161d);border:2px solid var(--gray-5);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;color:var(--red);margin:0 -6px;z-index:2;box-shadow:0 0 26px rgba(255,59,59,0.35);flex:0 0 60px}
+        .duel-lineup{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:6px 0 18px}
+        .duel-mini{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px;text-align:center;position:relative;overflow:hidden}
+        .duel-mini::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--fc)}
+        .duel-mini b{color:var(--gray-2);text-transform:capitalize;font-size:13px;display:block}
+        .duel-mini>span{font-size:11px;color:var(--gray-4)}
+        .duel-medal{font-size:18px;margin-bottom:2px}
+        .duel-verdict{display:flex;gap:14px;align-items:center;background:linear-gradient(120deg,var(--fc) 0%,var(--card) 70%);border:1px solid var(--fc);border-radius:16px;padding:16px 18px;margin:4px 0 16px}
+        .duel-verdict-icon{font-size:34px}
+        .duel-verdict h4{margin:0 0 4px;color:#fff;font-size:16px}
+        .duel-verdict p{margin:0;font-size:12px;color:var(--gray-2)}
+        .duel-section-title{font-size:14px;font-weight:800;color:var(--gray-2);margin:18px 0 10px}
+        .duel-battles{display:flex;flex-direction:column;gap:8px}
+        .battle-row{display:grid;grid-template-columns:1fr minmax(120px,auto) 1fr;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 12px}
+        .battle-side{display:flex;align-items:center;gap:8px;opacity:.55}
+        .battle-side.win{opacity:1}
+        .battle-side.left{justify-content:flex-end}
+        .battle-side.left .battle-track{order:1}
+        .battle-val{font-size:12px;font-weight:700;color:var(--gray-2);white-space:nowrap}
+        .battle-track{flex:1;height:8px;background:rgba(255,255,255,0.06);border-radius:999px;overflow:hidden;min-width:40px}
+        .battle-fill{height:100%;border-radius:999px}
+        .battle-side.right .battle-fill{margin-left:auto}
+        .battle-label{font-size:11px;font-weight:700;color:var(--gray-3);text-align:center;white-space:nowrap}
+        .duel-radar-box{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px}
+        .duel-radar-legend{display:flex;flex-direction:column;gap:8px}
+        .duel-radar-legend span{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--gray-3);text-transform:capitalize}
+        .duel-radar-legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+        .duel-table-box{overflow-x:auto;background:var(--card);border:1px solid var(--border);border-radius:14px}
+        .duel-table{width:100%;border-collapse:collapse;font-size:12px}
+        .duel-table th{color:var(--gray-4);font-weight:700;text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);white-space:nowrap}
+        .duel-table td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--gray-2)}
+        .duel-table tr:last-child td{border-bottom:none}
+        .cell-win{color:var(--green) !important;font-weight:700}
+        .best-price{color:var(--green)}
+        .duel-tag{display:inline-block;border-radius:999px;padding:3px 9px;font-size:11px;font-weight:700;text-transform:capitalize}
+        .duel-price-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+        .duel-price-card{background:var(--card);border:1px solid var(--border);border-top:3px solid var(--fc);border-radius:14px;padding:14px;text-align:center}
+        .duel-price-card b{color:var(--gray-2);text-transform:capitalize}
+        .dpc-price{font-size:20px;font-weight:800;color:var(--gray-2);margin:6px 0 2px}
+        .duel-price-card>span{font-size:10px;color:var(--gray-4)}
+        .dpc-item{font-size:11px;color:var(--gray-3);margin-top:5px}
+        .duel-sw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+        .duel-sw{background:var(--card);border:1px solid var(--border);border-top:3px solid var(--fc);border-radius:14px;padding:14px}
+        .duel-sw h5{margin:0 0 8px;font-size:13px;text-transform:capitalize}
+        .sw-strong div,.sw-weak div{font-size:11px;color:var(--gray-3);padding:3px 0}
+        .sw-weak{margin-top:6px;border-top:1px dashed var(--border);padding-top:6px}
+        .duel-analysis{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px}
+        .duel-analysis h4{margin:0 0 8px;color:var(--gray-2);font-size:13px}
+        .duel-analysis ul{margin:0;padding-left:18px}
+        .duel-analysis li{font-size:12px;color:var(--gray-3);margin:5px 0;line-height:1.5}
+
+        </style>
 </head>
 <body>
     <div class="loader" id="loader"><div class="spinner"></div><p>Chargement de RivalEye...</p></div>
@@ -4317,95 +4398,304 @@ function renderComps() {
             var cnt = document.getElementById('duelCount');
             if (!pickBox || !board) return;
             var slots = duelSlots();
-            if (cnt) cnt.textContent = duelSel.length + '/' + slots + ' entreprises';
-            // Picker: all tracked comps + myCompany + ability to add
-            var options = [];
-            if (myCompany) options.push({ name: myCompany.name, mine: true });
-            comps.forEach(function(c) { options.push({ name: c.name, mine: false }); });
-            var ph = '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px">';
-            options.forEach(function(o) {
-                var active = duelSel.indexOf(o.name) >= 0;
-                ph += '<button class="btn ' + (active ? 'btn-primary' : 'btn-ghost') + '" style="padding:6px 14px;font-size:12px" onclick="toggleDuel(\'' + escHtml(o.name).replace(/'/g, "\\'") + '\')">' + (o.mine ? '🏠 ' : '') + escHtml(o.name) + '</button>';
+            if (cnt) cnt.textContent = '\u2694 ' + duelSel.length + '/' + slots + ' places';
+            // Picker: tracked comps + myCompany first, full DB searchable
+            var quick = [];
+            if (myCompany) quick.push({ name: myCompany.name, mine: true });
+            comps.forEach(function(c) { quick.push({ name: c.name, mine: false }); });
+            var pool = Object.keys(companyDB).sort();
+            if (typeof duelSearchQ === 'string' && duelSearchQ) {
+                var q = duelSearchQ.toLowerCase();
+                pool = pool.filter(function(k) { return k.indexOf(q) >= 0; });
+            } else {
+                var quickNames = quick.map(function(o) { return o.name; });
+                pool = quickNames.concat(pool.filter(function(k) { return quickNames.indexOf(k) < 0; })).slice(0, 30);
+            }
+            var ph = '<input class="duel-search" type="text" placeholder="Rechercher parmi ' + Object.keys(companyDB).length + ' entreprises..." value="' + (duelSearchQ || '').replace(/"/g, '&quot;') + '" oninput="duelSearch(this.value)">';
+            ph += '<div class="duel-chips">';
+            pool.slice(0, 48).forEach(function(k) {
+                var idx = duelSel.indexOf(k);
+                var active = idx >= 0;
+                var col = active ? duelColor(idx) : '';
+                var mine = quick.some(function(o) { return o.name === k && o.mine; });
+                ph += '<button class="duel-chip' + (active ? ' active' : '') + '" style="' + (active ? 'background:' + col + '22;border-color:' + col + ';color:' + col : '') + '" onclick="toggleDuel(decodeURIComponent(\'' + encodeURIComponent(k) + '\'))">' + (active ? '\u2694 ' : '+ ') + (mine ? '\ud83c\udfe0 ' : '') + escHtml(k) + '</button>';
             });
             ph += '</div>';
-            if (comps.length < 2 && !myCompany) {
-                ph += '<div style="font-size:12px;color:var(--gray-4);padding:8px 0">Ajoutez au moins 2 concurrents (ou définissez votre entreprise) pour lancer un duel.</div>';
-            }
             pickBox.innerHTML = ph;
             // Build board
-            if (duelSel.length < 2) {
-                board.innerHTML = '<div style="text-align:center;padding:40px;color:var(--gray-4);font-size:13px">Sélectionnez au moins 2 entreprises pour comparer ⚔️</div>';
+            var sel = duelSel.map(function(n) { return { key: n, d: getCompanyData(n) || {} }; }).filter(function(s) { return s.d && (s.d.revenue !== undefined || s.d.satisfaction !== undefined || s.d.hq); });
+            if (sel.length < 2) {
+                board.innerHTML = '<div class="duel-empty">\u2694\ufe0f<p>S\u00e9lectionnez au moins 2 entreprises pour lancer le duel.</p><p class="sub">Comparez croissance, prix, satisfaction, forces et faiblesses en face-\u00e0-face.</p></div>';
                 return;
             }
-            var metrics = [
-                { key: 'revenue', label: 'Revenus', unit: 'M€', better: 'high' },
-                { key: 'valuation', label: 'Valorisation', unit: 'M€', better: 'high' },
-                { key: 'growth', label: 'Croissance', unit: '%', better: 'high' },
-                { key: 'employees', label: 'Employés', unit: '', better: 'high' },
-                { key: 'marketShare', label: 'Part de marché', unit: '%', better: 'high' },
-                { key: 'satisfaction', label: 'Satisfaction', unit: '/100', better: 'high' },
-                { key: 'nps', label: 'NPS', unit: '', better: 'high' }
+            var colors = sel.map(function(_, i) { return duelColor(i); });
+            var METRICS = [
+                { key: 'revenue', label: 'Revenue', icon: '\ud83d\udcb0', fmt: function(v) { return v.toLocaleString() + ' M$'; } },
+                { key: 'valuation', label: 'Valorisation', icon: '\ud83e\udd18', fmt: function(v) { return v.toLocaleString() + ' M$'; } },
+                { key: 'growth', label: 'Croissance', icon: '\ud83d\ude80', fmt: function(v) { return (v > 0 ? '+' : '') + v + '%'; } },
+                { key: 'satisfaction', label: 'Satisfaction', icon: '\ud83d\ude0a', fmt: function(v) { return v + '/100'; } },
+                { key: 'nps', label: 'NPS', icon: '\ud83c\udfaf', fmt: function(v) { return String(v); } },
+                { key: 'marketShare', label: 'Part de march\u00e9', icon: '\ud83d\udcca', fmt: function(v) { return v + '%'; } },
+                { key: 'employees', label: 'Effectif', icon: '\ud83d\udc65', fmt: function(v) { return v.toLocaleString(); } }
             ];
-            var datas = duelSel.map(function(n) { return getCompanyData(n) || {}; });
-            // Winner per metric
-            var winners = {};
-            metrics.forEach(function(m) {
-                var bestIdx = -1, bestVal = -Infinity;
-                datas.forEach(function(d, i) {
-                    var v = d[m.key];
-                    if (typeof v === 'number' && v > bestVal) { bestVal = v; bestIdx = i; }
+            var battles = METRICS.map(function(m) {
+                var vals = sel.map(function(s) { return typeof s.d[m.key] === 'number' ? s.d[m.key] : 0; });
+                var mx = Math.max.apply(null, vals.concat([0.0001]));
+                var winnerIdx = vals.indexOf(Math.max.apply(null, vals));
+                return { m: m, vals: vals, max: mx, winnerIdx: winnerIdx };
+            });
+            var scoreKeys = ['growth', 'satisfaction', 'nps', 'marketShare'];
+            var scores = sel.map(function(s) {
+                var t = 0, n = 0;
+                scoreKeys.forEach(function(k) {
+                    var mx = Math.max.apply(null, sel.map(function(x) { return typeof x.d[k] === 'number' ? x.d[k] : 0; }).concat([0.0001]));
+                    var v = typeof s.d[k] === 'number' ? s.d[k] : 0;
+                    t += Math.min(v / mx, 1) * 100; n++;
                 });
-                winners[m.key] = bestIdx;
+                return Math.round(t / n);
             });
-            // Overall score (normalized 0-100 per metric, averaged)
-            var scores = datas.map(function() { return []; });
-            metrics.forEach(function(m) {
-                var vals = datas.map(function(d) { return typeof d[m.key] === 'number' ? d[m.key] : 0; });
-                var max = Math.max.apply(null, vals.map(Math.abs)) || 1;
-                vals.forEach(function(v, i) { scores[i].push(Math.abs(v) / max * 100); });
-            });
-            var totals = scores.map(function(arr) { return arr.length ? Math.round(arr.reduce(function(a, b) { return a + b; }, 0) / arr.length) : 0; });
-            var champIdx = totals.indexOf(Math.max.apply(null, totals));
-            // HTML
-            var cols = duelSel.length;
-            var h = '<div style="padding:0 16px 16px">';
-            // Header row
-            h += '<div style="display:grid;grid-template-columns:140px repeat(' + cols + ',1fr);gap:8px;margin-bottom:8px">';
-            h += '<div></div>';
-            duelSel.forEach(function(n, i) {
-                var color = i === champIdx ? 'var(--green)' : 'var(--gray-2)';
-                h += '<div style="text-align:center;padding:10px;border-radius:10px;background:' + (i === champIdx ? 'rgba(34,197,94,0.1)' : 'var(--bg)') + ';border:1px solid ' + (i === champIdx ? 'rgba(34,197,94,0.3)' : 'var(--border)') + '"><div style="font-size:14px;font-weight:700;color:' + color + '">' + escHtml(n) + '</div>' + (i === champIdx ? '<div style="font-size:10px;color:var(--green);margin-top:2px">🏆 CHAMPION · Score ' + totals[i] + '</div>' : '<div style="font-size:10px;color:var(--gray-5);margin-top:2px">Score ' + totals[i] + '</div>') + '</div>';
-            });
-            h += '</div>';
-            // Metric rows
-            metrics.forEach(function(m) {
-                h += '<div style="display:grid;grid-template-columns:140px repeat(' + cols + ',1fr);gap:8px;padding:8px 0;border-top:1px solid var(--border)">';
-                h += '<div style="font-size:12px;color:var(--gray-4);display:flex;align-items:center">' + m.label + '</div>';
-                datas.forEach(function(d, i) {
-                    var v = d[m.key];
-                    var isWin = winners[m.key] === i;
-                    var txt = (typeof v === 'number') ? (v >= 1000 ? (v / 1000).toFixed(1) + 'Md' : v) + m.unit : '—';
-                    h += '<div style="text-align:center;font-size:13px;font-weight:' + (isWin ? '700' : '400') + ';color:' + (isWin ? 'var(--green)' : 'var(--gray-2)') + '">' + txt + (isWin ? ' 👑' : '') + '</div>';
+            var champIdx = scores.indexOf(Math.max.apply(null, scores));
+            var exps = scores.map(function(s) { return Math.exp(s / 16); });
+            var sumE = exps.reduce(function(a, b) { return a + b; }, 0) || 1;
+            var probs = exps.map(function(e) { return Math.round(e / sumE * 100); });
+            var wins = sel.map(function(_, i) { return battles.filter(function(b) { return b.winnerIdx === i; }).length; });
+
+            var h = '';
+            // --- Arena ---
+            if (sel.length === 2) {
+                h += '<div class="duel-arena">';
+                [0, 1].forEach(function(i) {
+                    var s = sel[i], c = colors[i];
+                    h += '<div class="duel-fighter" style="--fc:' + c + '">';
+                    h += '<div class="duel-fighter-tag" style="background:' + c + '">' + (i === 0 ? '\u00c9QUIPE 1' : '\u00c9QUIPE 2') + '</div>';
+                    h += '<div class="duel-fname">' + escHtml(s.key) + '</div>';
+                    h += '<div class="duel-fsub">' + escHtml(s.d.sector || '\u2014') + ' \u00b7 ' + escHtml(s.d.hqCountry || '\u2014') + '</div>';
+                    h += '<div class="score-ring" style="--sc:' + scores[i] + ';--fc:' + c + '"><div><b>' + scores[i] + '</b><span>score</span></div></div>';
+                    h += '<div class="duel-prob"><div class="duel-prob-bar"><div style="width:' + probs[i] + '%;background:' + c + '"></div></div><span>' + probs[i] + '% de victoire</span></div>';
+                    h += '<div class="duel-fstats"><span>\ud83d\udcb0 ' + (typeof s.d.revenue === 'number' ? s.d.revenue.toLocaleString() : '\u2014') + ' M$</span><span>\ud83d\ude80 ' + (typeof s.d.growth === 'number' ? ((s.d.growth > 0 ? '+' : '') + s.d.growth + '%') : '\u2014') + '</span><span>\ud83d\ude0a ' + (typeof s.d.satisfaction === 'number' ? s.d.satisfaction : '\u2014') + '</span></div>';
+                    if (s.d.dataConfidence === 'Estimation') h += '<div class="duel-estim">\u26a0 Donn\u00e9es estim\u00e9es</div>';
+                    h += '</div>';
+                    if (i === 0) h += '<div class="duel-vs">VS</div>';
                 });
                 h += '</div>';
+            } else {
+                h += '<div class="duel-lineup">';
+                sel.map(function(s, i) { return { s: s, i: i }; }).sort(function(a, b) { return scores[b.i] - scores[a.i]; }).forEach(function(x, rank) {
+                    var s = x.s, i = x.i, c = colors[i];
+                    var medal = rank === 0 ? '\ud83e\udd47' : rank === 1 ? '\ud83e\udd48' : rank === 2 ? '\ud83e\udd49' : '#' + (rank + 1);
+                    h += '<div class="duel-mini" style="--fc:' + c + '"><div class="duel-medal">' + medal + '</div><b>' + escHtml(s.key) + '</b><div class="score-ring sm" style="--sc:' + scores[i] + ';--fc:' + c + '"><div><b>' + scores[i] + '</b></div></div><span>' + probs[i] + '% de victoire</span></div>';
+                });
+                h += '</div>';
+            }
+            // --- Verdict ---
+            var champ = sel[champIdx];
+            var runner = sel.map(function(_, i) { return i; }).filter(function(i) { return i !== champIdx; }).sort(function(a, b) { return scores[b] - scores[a]; })[0];
+            var gap = scores[champIdx] - scores[runner];
+            h += '<div class="duel-verdict" style="--fc:' + colors[champIdx] + '">';
+            h += '<div class="duel-verdict-icon">\ud83c\udfc6</div><div><h4>' + escHtml(champ.key) + ' remporte le duel !</h4>';
+            h += '<p>Score global <b>' + scores[champIdx] + '</b> contre <b>' + scores[runner] + '</b> (' + escHtml(sel[runner].key) + ') \u2014 \u00e9cart de ' + gap + ' point' + (gap > 1 ? 's' : '') + '. ' + wins[champIdx] + '/' + battles.length + ' m\u00e9triques remport\u00e9es.</p></div></div>';
+            // --- Metric battles ---
+            h += '<div class="duel-section-title">\u2694\ufe0f Bataille par m\u00e9trique</div><div class="duel-battles">';
+            battles.forEach(function(b) {
+                h += '<div class="battle-row"><div class="battle-side left' + (b.winnerIdx === 0 ? ' win' : '') + '">';
+                h += '<span class="battle-val">' + b.m.fmt(b.vals[0]) + '</span>';
+                h += '<div class="battle-track"><div class="battle-fill" style="width:' + Math.round(b.vals[0] / b.max * 100) + '%;background:' + colors[0] + '"></div></div></div>';
+                h += '<div class="battle-label">' + (b.winnerIdx === 0 ? '\ud83d\udc51' : '') + ' ' + b.m.icon + ' ' + b.m.label + ' ' + (b.winnerIdx === 1 ? '\ud83d\udc51' : '') + '</div>';
+                h += '<div class="battle-side right' + (b.winnerIdx === 1 ? ' win' : '') + '">';
+                h += '<div class="battle-track"><div class="battle-fill" style="width:' + Math.round(b.vals[1] / b.max * 100) + '%;background:' + colors[1] + '"></div></div>';
+                h += '<span class="battle-val">' + b.m.fmt(b.vals[1]) + '</span></div></div>';
             });
-            // Sector / HQ info row
-            h += '<div style="display:grid;grid-template-columns:140px repeat(' + cols + ',1fr);gap:8px;padding:8px 0;border-top:1px solid var(--border)">';
-            h += '<div style="font-size:12px;color:var(--gray-4)">Siège</div>';
-            datas.forEach(function(d) { h += '<div style="text-align:center;font-size:12px;color:var(--gray-3)">' + escHtml(d.hq || '—') + '</div>'; });
             h += '</div>';
-            // Verdict
-            h += '<div style="margin-top:16px;padding:14px;border-radius:10px;background:var(--bg);border:1px solid var(--border)">';
-            h += '<div style="font-size:12px;font-weight:700;color:var(--gray-2);margin-bottom:4px">Verdict du duel</div>';
-            h += '<div style="font-size:13px;color:var(--gray-3)"><strong style="color:var(--green)">' + escHtml(duelSel[champIdx]) + '</strong> remporte le duel avec un score global de <strong>' + totals[champIdx] + '/100</strong>. ';
-            // Best at revenue
-            if (winners.revenue >= 0) h += 'C\'est aussi le plus gros chiffre d\'affaires (' + escHtml(duelSel[winners.revenue]) + '). ';
-            if (winners.growth >= 0 && winners.growth !== champIdx) h += escHtml(duelSel[winners.growth]) + ' a la meilleure croissance \u2014 \u00e0 surveiller. ';
+            // --- Radar ---
+            h += '<div class="duel-section-title">\ud83d\udce1 Radar de performance</div>';
+            h += '<div class="duel-radar-box"><canvas id="duelRadar" width="340" height="340"></canvas><div class="duel-radar-legend">';
+            sel.forEach(function(s, i) { h += '<span><i style="background:' + colors[i] + '"></i>' + escHtml(s.key) + '</span>'; });
             h += '</div></div>';
+            // --- Price battle ---
+            var allItems = [];
+            sel.forEach(function(s, i) {
+                (s.d.realPrices || []).forEach(function(p) {
+                    if (p && p.item) allItems.push({ co: s.key, ci: i, item: p.item, price: +p.price || 0, old: +p.old || 0 });
+                });
+            });
+            var groups = {};
+            allItems.forEach(function(it) {
+                var gk = it.item.toLowerCase().replace(/[^a-z0-9]+/g, '');
+                (groups[gk] = groups[gk] || []).push(it);
+            });
+            var contested = Object.keys(groups).map(function(gk) { return groups[gk]; }).filter(function(g) {
+                var cis = {}; g.forEach(function(x) { cis[x.ci] = 1; });
+                return Object.keys(cis).length > 1;
+            });
+            h += '<div class="duel-section-title">\ud83d\udcb0 Bataille des prix</div>';
+            if (contested.length) {
+                h += '<div class="duel-table-box"><table class="duel-table"><thead><tr><th>Produit</th>';
+                sel.forEach(function(s, i) { h += '<th style="color:' + colors[i] + '">' + escHtml(s.key) + '</th>'; });
+                h += '<th>Meilleur prix</th></tr></thead><tbody>';
+                contested.slice(0, 6).forEach(function(g) {
+                    var prices = g.map(function(x) { return x.price; });
+                    var cheap = Math.min.apply(null, prices);
+                    h += '<tr><td>' + escHtml(g[0].item) + '</td>';
+                    sel.forEach(function(s, i) {
+                        var it = null;
+                        g.forEach(function(x) { if (x.ci === i) it = x; });
+                        h += '<td>' + (it ? (it.price === cheap ? '<b class="best-price">\ud83d\udcb0 ' + it.price.toLocaleString() + ' M$</b>' : it.price.toLocaleString() + ' M$') : '\u2014') + '</td>';
+                    });
+                    var win = g[0];
+                    g.forEach(function(x) { if (x.price === cheap) win = x; });
+                    h += '<td><span class="duel-tag" style="background:' + colors[win.ci] + '22;color:' + colors[win.ci] + '">' + escHtml(win.co) + '</span></td></tr>';
+                });
+                h += '</tbody></table></div>';
+            } else {
+                h += '<div class="duel-price-grid">';
+                sel.forEach(function(s, i) {
+                    var items = s.d.realPrices || [];
+                    var avg = 0;
+                    if (items.length) avg = Math.round(items.reduce(function(a, p) { return a + (+p.price || 0); }, 0) / items.length);
+                    h += '<div class="duel-price-card" style="--fc:' + colors[i] + '"><b>' + escHtml(s.key) + '</b><div class="dpc-price">' + avg.toLocaleString() + ' M$</div><span>prix moyen des produits suivis</span>';
+                    items.slice(0, 3).forEach(function(p) { h += '<div class="dpc-item">' + escHtml(p.item) + ' \u00b7 <b>' + p.price + ' M$</b></div>'; });
+                    h += '</div>';
+                });
+                h += '</div>';
+            }
+            // --- Strengths / weaknesses ---
+            h += '<div class="duel-section-title">\ud83d\udcaa Forces &amp; faiblesses</div><div class="duel-sw-grid">';
+            sel.forEach(function(s, i) {
+                var sw = duelStrengths(s);
+                h += '<div class="duel-sw" style="--fc:' + colors[i] + '"><h5 style="color:' + colors[i] + '">' + escHtml(s.key) + '</h5>';
+                h += '<div class="sw-strong">' + sw.strong.map(function(x) { return '<div>' + x + '</div>'; }).join('') + '</div>';
+                h += '<div class="sw-weak">' + sw.weak.map(function(x) { return '<div>' + x + '</div>'; }).join('') + '</div></div>';
+            });
             h += '</div>';
+            // --- Analysis ---
+            if (sel.length === 2) {
+                var A = sel[0], B = sel[1];
+                var gA = +A.d.growth || 0, gB = +B.d.growth || 0;
+                var sA = +A.d.satisfaction || 0, sB = +B.d.satisfaction || 0;
+                var rA = +A.d.revenue || 0, rB = +B.d.revenue || 0;
+                var revRatio = rB > 0 ? (rA / rB) : 1;
+                var t = '<div class="duel-analysis"><h4>\ud83d\udccb Analyse du face-\u00e0-face</h4><ul>';
+                t += '<li><b>Volume :</b> ' + (revRatio >= 1.15 ? escHtml(A.key) + ' est ' + revRatio.toFixed(1) + '\u00d7 plus gros que ' + escHtml(B.key) + ' en revenus' : revRatio <= 0.87 ? escHtml(B.key) + ' est ' + (1 / revRatio).toFixed(1) + '\u00d7 plus gros que ' + escHtml(A.key) + ' en revenus' : 'Revenus comparables entre les deux') + '.</li>';
+                t += '<li><b>\u00c9lan :</b> ' + (gA > gB + 1 ? escHtml(A.key) + ' cro\u00eet plus vite (+' + gA + '% vs +' + gB + '%)' : gB > gA + 1 ? escHtml(B.key) + ' cro\u00eet plus vite (+' + gB + '% vs +' + gA + '%)' : 'croissance similaire') + '.</li>';
+                t += '<li><b>Clients :</b> ' + (sA === sB ? 'satisfaction identique (' + sA + '/100)' : escHtml(sA > sB ? A.key : B.key) + ' satisfait davantage ses clients (' + Math.max(sA, sB) + ' vs ' + Math.min(sA, sB) + '/100)') + '.</li>';
+                t += '<li><b>M\u00e9triques :</b> ' + escHtml(A.key) + ' remporte ' + wins[0] + ' m\u00e9trique' + (wins[0] > 1 ? 's' : '') + ', ' + escHtml(B.key) + ' en remporte ' + wins[1] + ' sur ' + battles.length + '.</li>';
+                t += '<li><b>Recommandation :</b> ' + (scores[champIdx] >= 75 ? escHtml(champ.key) + ' domine clairement ce duel \u2014 r\u00e9f\u00e9rence incontournable du matchup' : 'Duel serr\u00e9 \u2014 ' + escHtml(champ.key) + ' garde l\u2019avantage') + '.</li>';
+                t += '</ul></div>';
+                h += '<div class="duel-section-title">\ud83e\udde0 Verdict analytique</div>' + t;
+            } else {
+                h += '<div class="duel-section-title">\ud83e\udde0 Synth\u00e8se du tournoi</div><div class="duel-analysis"><ul>';
+                h += '<li><b>Champion :</b> ' + escHtml(champ.key) + ' domine le classement avec un score de ' + scores[champIdx] + '/100 et ' + wins[champIdx] + ' m\u00e9triques en t\u00eate.</li>';
+                var podium = sel.map(function(_, i) { return i; }).sort(function(a, b) { return scores[b] - scores[a]; }).slice(0, 3).map(function(i, r) { return ['\ud83e\udd47', '\ud83e\udd48', '\ud83e\udd49'][r] + ' ' + escHtml(sel[i].key); }).join(' \u00b7 ');
+                h += '<li><b>Podium :</b> ' + podium + '</li>';
+                var gmax = sel.map(function(s, i) { return { i: i, g: +s.d.growth || 0 }; }).sort(function(a, b) { return b.g - a.g; })[0];
+                h += '<li><b>Machine \u00e0 croissance :</b> ' + escHtml(sel[gmax.i].key) + ' affiche la meilleure trajectoire (+' + gmax.g + '%).</li>';
+                h += '</ul></div>';
+            }
+            // --- Full table ---
+            h += '<div class="duel-section-title">\ud83d\udcca Tableau comparatif complet</div><div class="duel-table-box"><table class="duel-table"><thead><tr><th>Entreprise</th><th>CA</th><th>Valo</th><th>Croiss.</th><th>Satisf.</th><th>NPS</th><th>Part</th><th>Si\u00e8ge</th></tr></thead><tbody>';
+            sel.forEach(function(s, i) {
+                var d = s.d;
+                function cell(key, fmt) {
+                    var winner = null;
+                    battles.forEach(function(b) { if (b.m.key === key) winner = b; });
+                    var isW = winner && winner.winnerIdx === i && sel.length === 2;
+                    var v = typeof d[key] === 'number' ? d[key] : 0;
+                    return '<td' + (isW ? ' class="cell-win"' : '') + '>' + fmt(v) + '</td>';
+                }
+                h += '<tr><td><span class="duel-tag" style="background:' + colors[i] + '22;color:' + colors[i] + '">' + escHtml(s.key) + '</span></td>';
+                h += cell('revenue', function(v) { return v.toLocaleString() + ' M$'; });
+                h += cell('valuation', function(v) { return v.toLocaleString() + ' M$'; });
+                h += cell('growth', function(v) { return (v > 0 ? '+' : '') + v + '%'; });
+                h += cell('satisfaction', function(v) { return String(v); });
+                h += cell('nps', function(v) { return String(v); });
+                h += cell('marketShare', function(v) { return v + '%'; });
+                h += '<td>' + escHtml(d.hqCountry || '\u2014') + '</td></tr>';
+            });
+            h += '</tbody></table></div>';
             board.innerHTML = h;
+            drawDuelRadar(sel, colors);
         }
-        function toggleDuel(name) {
+        function duelSearch(q) { duelSearchQ = q; renderDuel(); }
+
+        const DUEL_COLORS = ['#3B82F6', '#EF4444', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899', '#06B6D4', '#84CC16'];
+        function duelColor(i) { return DUEL_COLORS[i % DUEL_COLORS.length]; }
+        var duelSearchQ = '';
+
+        function drawDuelRadar(sel, colors) {
+            var cv = document.getElementById('duelRadar');
+            if (!cv || !cv.getContext) return;
+            var ctx = cv.getContext('2d');
+            if (!ctx) return;
+            var W = 340, H = 340, cx = W / 2, cy = H / 2, R = 118;
+            var dpr = window.devicePixelRatio || 1;
+            cv.width = W * dpr; cv.height = H * dpr;
+            cv.style.width = W + 'px'; cv.style.height = H + 'px';
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            var AXES = ['CA', 'Valo', 'Growth', 'Satisf.', 'NPS', 'Part'];
+            var keys = ['revenue', 'valuation', 'growth', 'satisfaction', 'nps', 'marketShare'];
+            var n = AXES.length;
+            var maxes = keys.map(function(k) {
+                return Math.max.apply(null, sel.map(function(s) { return typeof s.d[k] === 'number' ? s.d[k] : 0; }).concat([0.0001]));
+            });
+            ctx.clearRect(0, 0, W, H);
+            ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+            ctx.fillStyle = 'rgba(255,255,255,0.4)';
+            ctx.font = '11px sans-serif';
+            for (var ring = 1; ring <= 4; ring++) {
+                ctx.beginPath();
+                for (var i = 0; i < n; i++) {
+                    var a = -Math.PI / 2 + (i * 2 * Math.PI / n);
+                    var r = R * ring / 4;
+                    var x = cx + r * Math.cos(a), y = cy + r * Math.sin(a);
+                    if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y);
+                }
+                ctx.closePath(); ctx.stroke();
+            }
+            for (var i2 = 0; i2 < n; i2++) {
+                var a2 = -Math.PI / 2 + (i2 * 2 * Math.PI / n);
+                ctx.beginPath(); ctx.moveTo(cx, cy);
+                ctx.lineTo(cx + R * Math.cos(a2), cy + R * Math.sin(a2)); ctx.stroke();
+                ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                ctx.fillText(AXES[i2], cx + (R + 20) * Math.cos(a2), cy + (R + 20) * Math.sin(a2));
+            }
+            sel.forEach(function(s, si) {
+                ctx.beginPath();
+                keys.forEach(function(k, i3) {
+                    var v = Math.min((typeof s.d[k] === 'number' ? s.d[k] : 0) / maxes[i3], 1);
+                    var a3 = -Math.PI / 2 + (i3 * 2 * Math.PI / n);
+                    var x3 = cx + R * v * Math.cos(a3), y3 = cy + R * v * Math.sin(a3);
+                    if (i3) ctx.lineTo(x3, y3); else ctx.moveTo(x3, y3);
+                });
+                ctx.closePath();
+                ctx.fillStyle = colors[si] + '26';
+                ctx.strokeStyle = colors[si];
+                ctx.lineWidth = 2;
+                ctx.fill(); ctx.stroke();
+            });
+        }
+
+        function duelStrengths(s) {
+            var d = s.d, strong = [], weak = [];
+            var g = +d.growth || 0, sat = +d.satisfaction || 0, nps = +d.nps || 0;
+            var rev = +d.revenue || 0, val = +d.valuation || 0, ms = +d.marketShare || 0;
+            if (g >= 12) strong.push('\ud83d\ude80 Croissance tr\u00e8s forte (+' + g + '%)');
+            else if (g >= 5) strong.push('\ud83d\udcc8 Bonne croissance (+' + g + '%)');
+            else if (g < 0) weak.push('\ud83d\udcc9 Croissance n\u00e9gative (' + g + '%)');
+            if (sat >= 88) strong.push('\ud83d\ude0a Satisfaction excellente (' + sat + '/100)');
+            else if (sat < 72) weak.push('\ud83d\ude20 Satisfaction faible (' + sat + '/100)');
+            if (nps >= 50) strong.push('\ud83c\udfaf Clients ambassadeurs (NPS ' + nps + ')');
+            else if (nps < 15) weak.push('\ud83d\ude10 Clients peu recommandeurs (NPS ' + nps + ')');
+            if (rev >= 10000) strong.push('\ud83d\udcb0 G\u00e9ant du secteur (CA ' + rev.toLocaleString() + ' M$)');
+            if (val >= 50000) strong.push('\ud83e\udd18 Valorisation haute (' + val.toLocaleString() + ' M$)');
+            if (ms >= 5) strong.push('\ud83d\udc51 Leader march\u00e9 (' + ms + '% de part)');
+            else if (ms > 0 && ms < 0.1) weak.push('\ud83d\udd0d Niche ultra-cibl\u00e9e (' + ms + '% de part)');
+            if (d.dataConfidence === 'Estimation') weak.push('\u26a0 Donn\u00e9es partiellement estim\u00e9es');
+            while (strong.length < 2) strong.push('\ud83c\udff7\ufe0f Marque \u00e9tablie (' + (d.hqCountry || '\u2014') + ')');
+            if (weak.length === 0) weak.push('\ud83d\udee1\ufe0f Profil solide, peu de faiblesses d\u00e9tect\u00e9es');
+            return { strong: strong.slice(0, 4), weak: weak.slice(0, 3) };
+        }
+
+function toggleDuel(name) {
             var i = duelSel.indexOf(name);
             if (i >= 0) duelSel.splice(i, 1);
             else {
