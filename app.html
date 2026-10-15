@@ -1029,15 +1029,15 @@
         .ov-card:hover{border-color:rgba(255,255,255,.1);transform:translateY(-1px)}
 
         /* ========== PLAN THEMES ========== */
-        body.plan-pro { --red:#FF3B3B; --red-dark:#FF6B6B; --red-deep:#CC0000; --red-glow:rgba(255,59,59,.2); --black:#1A0505; --black-2:#2A0808; --black-3:#120303; --silver:#FFB3B3; }
-        body.plan-pro .app { background:linear-gradient(180deg,#1A0505 0%,#0D0202 100%); }
-        body.plan-pro .sb { background:linear-gradient(180deg,#1A0505,#0D0202); border-right-color:rgba(255,59,59,.12); }
-        body.plan-pro .topbar { background:rgba(26,5,5,.95); border-bottom-color:rgba(255,59,59,.1); }
-        body.plan-pro .card, body.plan-pro .ov-card, body.plan-pro .prem-section { background:linear-gradient(135deg,rgba(255,59,59,.06),rgba(26,5,5,.8)); border-color:rgba(255,59,59,.12); }
-        body.plan-pro .prem-section::before { background:linear-gradient(90deg,transparent,#FF3B3B,transparent); }
-        body.plan-pro .sb-item.on { background:rgba(255,59,59,.12); color:#FF6B6B; }
-        body.plan-pro .btn-red { background:linear-gradient(135deg,#FF3B3B,#CC0000); }
-        body.plan-pro .stat-value { color:#FF6B6B; }
+        body.plan-pro { --red:#3B82F6; --red-dark:#60A5FA; --red-deep:#2563EB; --red-glow:rgba(59,130,246,.2); --black:#050D1F; --black-2:#0A1633; --black-3:#030914; --silver:#BFDBFE; }
+        body.plan-pro .app { background:linear-gradient(180deg,#050D1F 0%,#020712 100%); }
+        body.plan-pro .sb { background:linear-gradient(180deg,#050D1F,#020712); border-right-color:rgba(59,130,246,.12); }
+        body.plan-pro .topbar { background:rgba(5,13,31,.95); border-bottom-color:rgba(59,130,246,.1); }
+        body.plan-pro .card, body.plan-pro .ov-card, body.plan-pro .prem-section { background:linear-gradient(135deg,rgba(59,130,246,.06),rgba(5,13,31,.8)); border-color:rgba(59,130,246,.12); }
+        body.plan-pro .prem-section::before { background:linear-gradient(90deg,transparent,#3B82F6,transparent); }
+        body.plan-pro .sb-item.on { background:rgba(59,130,246,.12); color:#60A5FA; }
+        body.plan-pro .btn-red { background:linear-gradient(135deg,#3B82F6,#2563EB); }
+        body.plan-pro .stat-value { color:#60A5FA; }
 
         body.plan-business { --red:#8B5CF6; --red-dark:#A78BFA; --red-deep:#6D28D9; --red-glow:rgba(139,92,246,.2); --black:#0D0518; --black-2:#150828; --black-3:#0A0312; --silver:#C4B5FD; }
         body.plan-business .app { background:linear-gradient(180deg,#0D0518 0%,#06020D 100%); }
@@ -1059,8 +1059,60 @@
         body.plan-enterprise .btn-red { background:linear-gradient(135deg,#38BDF8,#0284C7); }
         body.plan-enterprise .stat-value { color:#7DD3FC; }
 
+        body.plan-starter { --red:#14B8A6; --red-dark:#2DD4BF; --red-deep:#0D9488; --red-glow:rgba(20,184,166,.2); --black:#041210; --black-2:#07201C; --black-3:#02100D; --silver:#99F6E4; }
+        body.plan-starter .app { background:linear-gradient(180deg,#041210 0%,#020A09 100%); }
+        body.plan-starter .sb { background:linear-gradient(180deg,#041210,#020A09); border-right-color:rgba(20,184,166,.12); }
+        body.plan-starter .topbar { background:rgba(4,18,16,.95); border-bottom-color:rgba(20,184,166,.1); }
+        body.plan-starter .card, body.plan-starter .ov-card, body.plan-starter .prem-section { background:linear-gradient(135deg,rgba(20,184,166,.06),rgba(4,18,16,.8)); border-color:rgba(20,184,166,.12); }
+        body.plan-starter .prem-section::before { background:linear-gradient(90deg,transparent,#14B8A6,transparent); }
+        body.plan-starter .sb-item.on { background:rgba(20,184,166,.12); color:#2DD4BF; }
+        body.plan-starter .btn-red { background:linear-gradient(135deg,#14B8A6,#0D9488); }
+        body.plan-starter .stat-value { color:#2DD4BF; }
+
+        body.plan-scale { --red:#F59E0B; --red-dark:#FBBF24; --red-deep:#D97706; --red-glow:rgba(245,158,11,.2); --black:#140D02; --black-2:#221704; --black-3:#0F0A02; --silver:#FDE68A; }
+        body.plan-scale .app { background:linear-gradient(180deg,#140D02 0%,#0C0801 100%); }
+        body.plan-scale .sb { background:linear-gradient(180deg,#140D02,#0C0801); border-right-color:rgba(245,158,11,.12); }
+        body.plan-scale .topbar { background:rgba(20,13,2,.95); border-bottom-color:rgba(245,158,11,.1); }
+        body.plan-scale .card, body.plan-scale .ov-card, body.plan-scale .prem-section { background:linear-gradient(135deg,rgba(245,158,11,.06),rgba(20,13,2,.8)); border-color:rgba(245,158,11,.12); }
+        body.plan-scale .prem-section::before { background:linear-gradient(90deg,transparent,#F59E0B,transparent); }
+        body.plan-scale .sb-item.on { background:rgba(245,158,11,.12); color:#FBBF24; }
+        body.plan-scale .btn-red { background:linear-gradient(135deg,#F59E0B,#D97706); }
+        body.plan-scale .stat-value { color:#FBBF24; }
+
+        /* Sidebar items colored by REQUIRED plan (gradient) */
+        .sb-item[data-req="starter"] .sb-item-text {
+            background: linear-gradient(90deg, #14B8A6 0%, #2DD4BF 25%, #14B8A6 50%, #2DD4BF 75%, #14B8A6 100%);
+            background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            animation: shimmerText 3s linear infinite;
+        }
+        .sb-item[data-req="starter"]:hover { background: rgba(20,184,166,.12); box-shadow: 0 0 20px rgba(20,184,166,.15), inset 0 0 15px rgba(20,184,166,.05); }
+        .sb-item[data-req="pro"] .sb-item-text {
+            background: linear-gradient(90deg, #3B82F6 0%, #60A5FA 25%, #3B82F6 50%, #60A5FA 75%, #3B82F6 100%);
+            background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            animation: shimmerText 3s linear infinite;
+        }
+        .sb-item[data-req="pro"]:hover { background: rgba(59,130,246,.12); box-shadow: 0 0 20px rgba(59,130,246,.15), inset 0 0 15px rgba(59,130,246,.05); }
+        .sb-item[data-req="business"] .sb-item-text {
+            background: linear-gradient(90deg, #8B5CF6 0%, #A78BFA 25%, #8B5CF6 50%, #A78BFA 75%, #8B5CF6 100%);
+            background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            animation: shimmerText 3s linear infinite;
+        }
+        .sb-item[data-req="business"]:hover { background: rgba(139,92,246,.12); box-shadow: 0 0 20px rgba(139,92,246,.15), inset 0 0 15px rgba(139,92,246,.05); }
+        .sb-item[data-req="scale"] .sb-item-text {
+            background: linear-gradient(90deg, #F59E0B 0%, #FBBF24 25%, #F59E0B 50%, #FBBF24 75%, #F59E0B 100%);
+            background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            animation: shimmerText 3s linear infinite;
+        }
+        .sb-item[data-req="scale"]:hover { background: rgba(245,158,11,.12); box-shadow: 0 0 20px rgba(245,158,11,.15), inset 0 0 15px rgba(245,158,11,.05); }
+        .sb-item[data-req="enterprise"] .sb-item-text {
+            background: linear-gradient(90deg, #38BDF8 0%, #7DD3FC 25%, #38BDF8 50%, #7DD3FC 75%, #38BDF8 100%);
+            background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            animation: shimmerText 3s linear infinite;
+        }
+        .sb-item[data-req="enterprise"]:hover { background: rgba(56,189,248,.12); box-shadow: 0 0 20px rgba(56,189,248,.15), inset 0 0 15px rgba(56,189,248,.05); }
         .sb-item.locked { opacity:.45; }
         .sb-item.locked:hover { opacity:.65; }
+        .sb-item.locked::after { content:'🔒'; position:absolute; right:10px; font-size:10px; }
         .badge-plan.free { background:rgba(107,114,128,.2); color:#9CA3AF; }
         .badge-plan.pro { background:rgba(255,59,59,.2); color:#FF6B6B; }
         .badge-plan.business { background:rgba(139,92,246,.2); color:#A78BFA; }
@@ -1206,6 +1258,43 @@
         </div>
     </div>
 
+    <!-- SUBMIT COMPANY MODAL -->
+    <div class="modal-bg" id="submitModal">
+        <div class="modal" style="max-width:540px">
+            <button class="modal-close" onclick="closeModal('submitModal')">&times;</button>
+            <h2>Soumettre une entreprise / app / jeu / site</h2>
+            <p style="font-size:13px;color:var(--gray-4);margin-bottom:16px">Entrez un nom ou une URL — RivalEye va chercher les infos publiquement disponibles (Wikipedia, GitHub, npm, site web) puis vous complétez le reste.</p>
+            <div class="field"><label>Nom de l'entreprise / app / jeu / site</label><input type="text" id="subName" placeholder="Ex: MonApp, Stardew Valley, monsite.fr..." maxlength="60" onkeydown="if(event.key==='Enter')startDiscovery()"></div>
+            <div class="field"><label>URL (optionnel — accélère la découverte)</label><input type="text" id="subUrl" placeholder="https://monapp.com, github.com/monorg..."></div>
+            <div class="field"><label>Type</label><div class="type-grid" id="subTypeGrid">
+                <div class="type-opt sel" data-type="site" onclick="pickSubType(this)"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span>Site web</span></div>
+                <div class="type-opt" data-type="app" onclick="pickSubType(this)"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg><span>App mobile</span></div>
+                <div class="type-opt" data-type="jeu" onclick="pickSubType(this)"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="M6 12h4M8 10v4"/><circle cx="15" cy="11" r="1"/><circle cx="18" cy="13" r="1"/></svg><span>Jeu vidéo</span></div>
+                <div class="type-opt" data-type="logiciel" onclick="pickSubType(this)"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg><span>Logiciel</span></div>
+                <div class="type-opt" data-type="boite" onclick="pickSubType(this)"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Entreprise</span></div>
+            </div></div>
+            <div id="discoveryBox" style="display:none;margin-bottom:12px"></div>
+            <div id="subExtraFields" style="display:none">
+                <div class="field"><label>Votre siège (ville, pays)</label><input type="text" id="subHq" placeholder="Ex: Paris, France"></div>
+                <div class="field" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                    <div><label style="font-size:11px">Fondée en</label><input type="number" id="subFounded" placeholder="2020" min="1800" max="2030"></div>
+                    <div><label style="font-size:11px">Employés</label><input type="number" id="subEmployees" placeholder="10" min="0"></div>
+                </div>
+                <div class="field" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                    <div><label style="font-size:11px">CA estimé (M€)</label><input type="number" id="subRevenue" placeholder="1" min="0" step="0.1"></div>
+                    <div><label style="font-size:11px">Croissance estimée (%)</label><input type="number" id="subGrowth" placeholder="10" step="0.1"></div>
+                </div>
+                <div class="field"><label>Secteur</label><select id="subSector" style="width:100%;padding:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--gray-1);font-size:13px">
+                    <option value="tech">Tech</option><option value="gaming">Gaming</option><option value="saas">SaaS / Logiciel</option><option value="ecommerce">E-commerce</option><option value="fintech">Fintech</option><option value="food">Food / Restauration</option><option value="luxe">Luxe</option><option value="fashion">Mode</option><option value="beauty">Beauté</option><option value="telecom">Télécom</option><option value="media">Média / Streaming</option><option value="auto">Automobile</option><option value="ia">IA</option><option value="pharma">Pharma / Santé</option><option value="travel">Voyage</option><option value="retail">Retail</option>
+                </select></div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:8px">
+                <button class="btn-primary" id="discoBtn" onclick="startDiscovery()" style="flex:1">🔎 Découvrir automatiquement</button>
+                <button class="btn btn-ghost" onclick="closeModal('submitModal')">Annuler</button>
+            </div>
+        </div>
+    </div>
+
     <!-- UPGRADE MODAL -->
     <!-- FREE ANALYSIS MODAL -->
     <div class="free-modal-bg" id="freeModal" onclick="closeFreeModal(event)">
@@ -1309,7 +1398,7 @@
             </a>
             <div class="sb-comp">
                 <div id="myCompCard"></div>
-        <div class="sb-comp-label"><span>Concurrents</span><button class="sb-comp-add" onclick="openAddComp()">+</button></div>
+        <div class="sb-comp-label"><span>Concurrents</span><div style="display:flex;gap:4px"><button class="sb-comp-add" onclick="openAddComp()" title="Ajouter un concurrent de la base">+</button><button class="sb-comp-add" onclick="openSubmitModal()" title="Soumettre une nouvelle entreprise / app / jeu / site" style="background:var(--accent);color:#050505">★</button></div></div>
                 <div id="compList"></div>
                 <div class="sb-search-wrap" id="sbSearchWrap" style="display:none">
                     <div class="sb-search-bar">
@@ -1323,6 +1412,7 @@
             <nav class="sb-nav">
                 <a class="sb-item" data-tab="mycompany" onclick="go('mycompany',this)"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>Mon entreprise</a>
                 <a class="sb-item on" data-tab="overview" onclick="go('overview',this)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Vue d'ensemble</a>
+                <a class="sb-item" data-tab="duel" onclick="go('duel',this)"><svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5"/><path d="M13 19l6-6"/><path d="M16 16l4 4"/><path d="M19 21l2-2"/></svg><span class="sb-item-text">Duels</span></a>
                 <a class="sb-item premium" data-tab="prices" onclick="go('prices',this)"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg><span class="sb-item-text">Prix</span></a>
                 <a class="sb-item premium" data-tab="posts" onclick="go('posts',this)"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg><span class="sb-item-text">Posts</span></a>
                 <a class="sb-item premium" data-tab="ads" onclick="go('ads',this)"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><span class="sb-item-text">Pubs</span></a>
@@ -1330,6 +1420,10 @@
                 <a class="sb-item premium" data-tab="hiring" onclick="go('hiring',this)"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span class="sb-item-text">Recrutements</span></a>
                 <a class="sb-item premium" data-tab="blog" onclick="go('blog',this)"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span class="sb-item-text">Blog</span></a>
                 <a class="sb-item premium" data-tab="alerts" onclick="go('alerts',this)"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><span class="sb-item-text">Alertes</span></a>
+                <a class="sb-item premium" data-tab="market" onclick="go('market',this)"><svg viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 118 2.83"/><path d="M22 12A10 10 0 0012 2v10z"/></svg><span class="sb-item-text">Marché</span></a>
+                <a class="sb-item premium" data-tab="forecast" onclick="go('forecast',this)"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="sb-item-text">Pronostics</span></a>
+                <a class="sb-item premium" data-tab="exports" onclick="go('exports',this)"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span class="sb-item-text">Exports</span></a>
+                <a class="sb-item premium" data-tab="api" onclick="go('api',this)"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg><span class="sb-item-text">API</span></a>
                 <a class="sb-item" data-tab="settings" onclick="go('settings',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Parametres</a>
             </nav>
             <div class="sb-foot">
@@ -1370,6 +1464,14 @@
                     <div class="ov-search-suggestions" id="ovSearchSuggestions"></div>
                 </div>
                 <div id="ovCharts"></div>
+            </div>
+
+            <div class="tc" id="tc-duel">
+                <div class="panel">
+                    <div class="panel-h"><h3>⚔️ Mode Duel — Comparez N entreprises</h3><span id="duelCount"></span></div>
+                    <div id="duelPicker" style="padding:0 16px 12px"></div>
+                    <div id="duelBoard"></div>
+                </div>
             </div>
 
             <div class="tc" id="tc-prices">
@@ -1418,6 +1520,31 @@
                 <div class="panel">
                     <div class="panel-h"><h3>Centre d'alertes</h3><span>Toutes les notifications</span></div>
                     <div id="alertsBox"></div>
+                </div>
+            </div>
+
+            <div class="tc" id="tc-market">
+                <div class="panel">
+                    <div class="panel-h"><h3>Part de marché</h3><span>Positionnement sectoriel</span></div>
+                    <div id="marketBox"></div>
+                </div>
+            </div>
+            <div class="tc" id="tc-forecast">
+                <div class="panel">
+                    <div class="panel-h"><h3>Pronostics IA</h3><span>Projection 12 mois</span></div>
+                    <div id="forecastBox"></div>
+                </div>
+            </div>
+            <div class="tc" id="tc-exports">
+                <div class="panel">
+                    <div class="panel-h"><h3>Exports & rapports</h3><span>PDF · CSV · Partage</span></div>
+                    <div id="exportsBox"></div>
+                </div>
+            </div>
+            <div class="tc" id="tc-api">
+                <div class="panel">
+                    <div class="panel-h"><h3>API développeur</h3><span>Intégration</span></div>
+                    <div id="apiBox"></div>
                 </div>
             </div>
 
@@ -1470,7 +1597,7 @@
             }
         } catch (e) { console.warn('Supabase indisponible:', e.message); }
 
-        const FREE_LIMIT = 1, PRO_LIMIT = 3, BIZ_LIMIT = 10;
+        const FREE_LIMIT = 1, PRO_LIMIT = 4, BIZ_LIMIT = 10;
         let plan = localStorage.getItem('rivaleye_plan') || 'free';
         function setPlan(p) {
             plan = p;
@@ -1488,16 +1615,18 @@
             var r = document.documentElement;
             var themes = {
                 free: { red:'#FF3B3B', redDark:'#C41E1E', redDeep:'#8B0F0F', glow:'rgba(255,59,59,0.15)' },
-                pro: { red:'#3B82F6', redDark:'#1D4ED8', redDeep:'#1E3A8A', glow:'rgba(59,130,246,0.15)' },
-                business: { red:'#8B5CF6', redDark:'#6D28D9', redDeep:'#4C1D95', glow:'rgba(139,92,246,0.15)' },
-                enterprise: { red:'#F59E0B', redDark:'#D97706', redDeep:'#92400E', glow:'rgba(245,158,11,0.15)' }
+                starter: { red:'#14B8A6', redDark:'#0D9488', redDeep:'#115E59', glow:'rgba(20,184,166,0.15)' },
+                pro: { red:'#3B82F6', redDark:'#2563EB', redDeep:'#1E40AF', glow:'rgba(59,130,246,0.15)' },
+                business: { red:'#8B5CF6', redDark:'#7C3AED', redDeep:'#5B21B6', glow:'rgba(139,92,246,0.15)' },
+                scale: { red:'#F59E0B', redDark:'#D97706', redDeep:'#B45309', glow:'rgba(245,158,11,0.15)' },
+                enterprise: { red:'#38BDF8', redDark:'#0EA5E9', redDeep:'#0369A1', glow:'rgba(56,189,248,0.15)' }
             };
             var t = themes[plan] || themes.free;
             r.style.setProperty('--red', t.red);
             r.style.setProperty('--red-dark', t.redDark);
             r.style.setProperty('--red-deep', t.redDeep);
             r.style.setProperty('--red-glow', t.glow);
-            document.body.classList.remove('plan-free','plan-pro','plan-business','plan-enterprise');
+            document.body.classList.remove('plan-free','plan-starter','plan-pro','plan-business','plan-scale','plan-enterprise');
             document.body.classList.add('plan-' + plan);
         }
         let comps = [];
@@ -1957,7 +2086,7 @@
             'sfr': { hq: 'Paris, France', founded: 1994, employees: 70000, revenue: 12000, marketShare: 22.1, growth: -0.5, valuation: 15000, competitors: ['Orange', 'Bouygues', 'Free'], sector: 'telecom', currency: 'M$', realPrices: [{ item: 'Forfait 80Go', price: 22.99, old: 19.99 }, { item: 'Forfait 150Go', price: 34.99, old: 29.99 }, { item: 'Box 4G', price: 24.99, old: 19.99 }], satisfaction: 62, nps: 22, sentiment: 'Negatif', hqCountry: 'France', languages: ['FR'] },
             'bouygues': { hq: 'Paris, France', founded: 1929, employees: 200000, revenue: 51000, marketShare: 18.5, growth: 2.1, valuation: 25000, competitors: ['Orange', 'SFR', 'Free'], sector: 'telecom', currency: 'M$', realPrices: [{ item: 'Forfait 100Go', price: 24.99, old: 22.99 }, { item: 'Forfait 200Go', price: 34.99, old: 32.99 }, { item: 'Box Bbox', price: 34.99, old: 32.99 }], satisfaction: 70, nps: 38, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR'] },
             'free': { hq: 'Paris, France', founded: 1991, employees: 20000, revenue: 7700, marketShare: 26.8, growth: 3.2, valuation: 20000, competitors: ['Orange', 'SFR', 'Bouygues'], sector: 'telecom', currency: 'M$', realPrices: [{ item: 'Forfait 300Go', price: 19.99, old: 15.99 }, { item: 'Forfait 120Go', price: 11.99, old: 9.99 }, { item: 'Box Freebox', price: 24.99, old: 19.99 }], satisfaction: 72, nps: 42, sentiment: 'Positif', hqCountry: 'France', languages: ['FR'] },
-            'mcdonald\'s': { hq: 'Chicago, USA', founded: 1940, employees: 150000, revenue: 25000, marketShare: 12.8, growth: 4.5, valuation: 200000, competitors: ['Burger King', 'KFC', 'Subway'], sector: 'food', currency: 'M$', realPrices: [{ item: 'Big Mac', price: 6.29, old: 5.79 }, { item: 'Menu McFirst', price: 10.99, old: 9.99 }, { item: 'McFlurry', price: 3.99, old: 3.49 }], satisfaction: 71, nps: 42, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN', 'FR', 'ES'] },
+            'mcdonald\'mcdonalds': { hq: 'Chicago, USA', founded: 1940, employees: 150000, revenue: 25000, marketShare: 12.8, growth: 4.5, valuation: 200000, competitors: ['Burger King', 'KFC', 'Subway'], sector: 'food', currency: 'M$', realPrices: [{ item: 'Big Mac', price: 6.29, old: 5.79 }, { item: 'Menu McFirst', price: 10.99, old: 9.99 }, { item: 'McFlurry', price: 3.99, old: 3.49 }], satisfaction: 71, nps: 42, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN', 'FR', 'ES'] },
             'starbucks': { hq: 'Seattle, USA', founded: 1971, employees: 380000, revenue: 36000, marketShare: 8.5, growth: 6.2, valuation: 110000, competitors: ['Costa Coffee', 'Caffè Nero', 'Dunkin'], sector: 'food', currency: 'M$', realPrices: [{ item: 'Café Venti', price: 4.25, old: 3.95 }, { item: 'Frappuccino', price: 5.75, old: 5.25 }, { item: 'Pastry', price: 3.50, old: 3.25 }], satisfaction: 74, nps: 48, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN', 'FR'] },
             'airbnb': { hq: 'San Francisco, USA', founded: 2008, employees: 6800, revenue: 9900, marketShare: 45.2, growth: 12.1, valuation: 75000, competitors: ['Booking.com', 'Vrbo', 'Hotels.com'], sector: 'travel', currency: 'M$', realPrices: [{ item: 'Service fee', price: 14, old: 12 }, { item: 'Cleaning fee', price: 65, old: 55 }, { item: 'Airbnb Plus', price: 0, old: 0 }], satisfaction: 77, nps: 52, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN', 'FR', 'ES', 'DE'] },
             'booking': { hq: 'Amsterdam, Pays-Bas', founded: 1996, employees: 22000, revenue: 21000, marketShare: 32.5, growth: 8.2, valuation: 100000, competitors: ['Airbnb', 'Expedia', 'Hotels.com'], sector: 'travel', currency: 'M$', realPrices: [{ item: 'Commission hôtel', price: 15, old: 15 }, { item: 'Genius Niv.2', price: 0, old: 0 }, { item: 'Genius Niv.3', price: 0, old: 0 }], satisfaction: 82, nps: 65, sentiment: 'Positif', hqCountry: 'Pays-Bas', languages: ['EN', 'FR', 'ES', 'DE'] },
@@ -1968,22 +2097,284 @@
             'doctolib': { hq: 'Paris, France', founded: 2013, employees: 2500, revenue: 300, marketShare: 45.2, growth: 28.5, valuation: 7000, competitors: ['MonDocteur', 'KelDoc', 'Qare'], sector: 'healthtech', currency: 'M$', realPrices: [{ item: 'Forfait pro', price: 49, old: 39 }, { item: 'Abonnement patient', price: 0, old: 0 }, { item: 'Visio', price: 0, old: 0 }], satisfaction: 78, nps: 52, sentiment: 'Positif', hqCountry: 'France', languages: ['FR'] },
             'malt': { hq: 'Paris, France', founded: 2013, employees: 450, revenue: 200, marketShare: 22.1, growth: 25.2, valuation: 300, competitors: ['Upwork', 'Fiverr', 'Comet'], sector: 'freelance', currency: 'M$', realPrices: [{ item: 'Commission', price: 10, old: 5 }, { item: 'Talent', price: 0, old: 0 }, { item: 'Enterprise', price: 0, old: 0 }], satisfaction: 72, nps: 42, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR', 'EN'] },
             'welcometothejungle': { hq: 'Paris, France', founded: 2013, employees: 250, revenue: 80, marketShare: 12.5, growth: 32.1, valuation: 400, competitors: ['Indeed', 'LinkedIn Jobs', 'Glassdoor'], sector: 'emploi', currency: 'M$', realPrices: [{ item: 'Annonce', price: 499, old: 399 }, { item: 'Employer branding', price: 999, old: 799 }, { item: 'Recrutement', price: 0, old: 0 }], satisfaction: 74, nps: 45, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'acer': { hq: 'New Taipei, Taïwan', founded: 1976, employees: 7600, revenue: 8000, growth: -3.2, valuation: 4500, competitors: ['Asus', 'Lenovo', 'MSI'], sector: 'tech', currency: 'M$', realPrices: [{ item: 'Predator Helios 16', price: 1799, old: 1899 }, { item: 'Swift X', price: 999, old: 949 }, { item: 'Aspire 5', price: 549, old: 599 }], satisfaction: 70, nps: 38, sentiment: 'Neutre', hqCountry: 'Taïwan', languages: ['EN'] },
+        'activision': { hq: 'Santa Monica, USA', founded: 1979, employees: 9500, revenue: 7500, growth: 3, valuation: 69000, competitors: ['EA', 'Take-Two', 'Ubisoft'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Call of Duty', price: 69.99, old: 69.99 }, { item: 'COD Points', price: 9.99, old: 9.99 }, { item: 'Battle Pass', price: 10, old: 10 }], satisfaction: 62, nps: 28, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'adobe': { hq: 'San Jose, USA', founded: 1982, employees: 30000, revenue: 21505, marketShare: 62, growth: 10.3, valuation: 185000, competitors: ['Canva', 'Figma', 'Affinity'], sector: 'design', currency: 'M$', realPrices: [{ item: 'Creative Cloud', price: 59.99, old: 54.99 }, { item: 'Photography', price: 9.99, old: 9.99 }, { item: 'Acrobat Pro', price: 22.99, old: 22.99 }], satisfaction: 72, nps: 44, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'aldi': { hq: 'Essen, Allemagne', founded: 1946, employees: 360000, revenue: 82000, marketShare: 2, growth: 4.2, valuation: 0, competitors: ['Lidl', 'Carrefour', 'Leclerc'], sector: 'retail', currency: 'M$', realPrices: [{ item: 'Courses semaine', price: 35, old: 32 }, { item: 'Eau 6x1.5L', price: 1.29, old: 1.19 }, { item: 'Pain complet', price: 1.05, old: 0.95 }], satisfaction: 70, nps: 42, sentiment: 'Neutre', hqCountry: 'Allemagne', languages: ['DE', 'FR'] },
+        'alibaba': { hq: 'Hangzhou, Chine', founded: 1999, employees: 235000, revenue: 130000, marketShare: 5, growth: 8.3, valuation: 190000, competitors: ['Amazon', 'JD.com', 'Temu'], sector: 'marketplace', currency: 'M$', realPrices: [{ item: 'Alibaba Cloud', price: 0, old: 0 }, { item: 'Taobao', price: 0, old: 0 }, { item: 'Tmall', price: 0, old: 0 }], satisfaction: 70, nps: 40, sentiment: 'Neutre', hqCountry: 'Chine', languages: ['ZH', 'EN'] },
+        'amazon music': { hq: 'Seattle, USA', founded: 2007, employees: 0, revenue: 5000, growth: 12, valuation: 0, competitors: ['Spotify', 'Apple Music', 'YouTube Music'], sector: 'streaming', currency: 'M$', realPrices: [{ item: 'Individual', price: 10.99, old: 10.99 }, { item: 'Family', price: 16.99, old: 16.99 }, { item: 'Unlimited', price: 10.99, old: 10.99 }], satisfaction: 76, nps: 48, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'amd': { hq: 'Santa Clara, USA', founded: 1969, employees: 26000, revenue: 22680, marketShare: 18, growth: 17.6, valuation: 260000, competitors: ['Intel', 'NVIDIA', 'Qualcomm'], sector: 'tech', currency: 'M$', realPrices: [{ item: 'Ryzen 9 7950X', price: 599, old: 699 }, { item: 'Ryzen 7 7800X3D', price: 449, old: 449 }, { item: 'Ryzen 5 7600X', price: 249, old: 299 }], satisfaction: 85, nps: 70, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'angry birds': { hq: 'Espoo, Finlande', founded: 2009, employees: 0, revenue: 0, growth: -5, valuation: 0, competitors: ['Cut the Rope', 'Candy Crush', 'Fruit Ninja'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Angry Birds 2', price: 0, old: 0 }, { item: 'Seasons', price: 0.99, old: 0.99 }], satisfaction: 70, nps: 40, sentiment: 'Positif', hqCountry: 'Finlande', languages: ['EN'] },
+        'anthropic': { hq: 'San Francisco, USA', founded: 2021, employees: 1000, revenue: 1000, growth: 300, valuation: 61500, competitors: ['OpenAI', 'Google DeepMind', 'Meta AI'], sector: 'tech', currency: 'M$', realPrices: [{ item: 'Claude Pro', price: 20, old: 20 }, { item: 'Claude Team', price: 30, old: 30 }, { item: 'Claude Enterprise', price: 60, old: 60 }], satisfaction: 90, nps: 78, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'apple music': { hq: 'Cupertino, USA', founded: 2015, employees: 0, revenue: 8000, growth: 10, valuation: 0, competitors: ['Spotify', 'YouTube Music', 'Deezer'], sector: 'streaming', currency: 'M$', realPrices: [{ item: 'Individual', price: 10.99, old: 10.99 }, { item: 'Family', price: 16.99, old: 16.99 }, { item: 'Student', price: 5.99, old: 5.99 }], satisfaction: 84, nps: 65, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'armani': { hq: 'Milan, Italie', founded: 1975, employees: 8000, revenue: 2700, marketShare: 0.5, growth: 5.5, valuation: 9000, competitors: ['Versace', 'Prada', 'Dolce & Gabbana'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Costume', price: 1800, old: 1700 }, { item: 'Parfum Acqua', price: 95, old: 89 }, { item: 'Sneakers', price: 550, old: 490 }], satisfaction: 80, nps: 62, sentiment: 'Positif', hqCountry: 'Italie', languages: ['IT', 'EN', 'FR'] },
+        'asos': { hq: 'Londres, UK', founded: 2000, employees: 7000, revenue: 3700, marketShare: 0.5, growth: -6, valuation: 700, competitors: ['Zalando', 'Boohoo', 'PrettyLittleThing'], sector: 'ecommerce', currency: 'M$', realPrices: [{ item: 'Robe', price: 35, old: 30 }, { item: 'Jean', price: 32, old: 28 }, { item: 'Sneakers', price: 45, old: 40 }], satisfaction: 68, nps: 35, sentiment: 'Neutre', hqCountry: 'UK', languages: ['EN'] },
+        'asus': { hq: 'Taipei, Taïwan', founded: 1989, employees: 18000, revenue: 21000, growth: 5.1, valuation: 12000, competitors: ['MSI', 'Gigabyte', 'Acer'], sector: 'tech', currency: 'M$', realPrices: [{ item: 'ROG Zephyrus G16', price: 1899, old: 1799 }, { item: 'ZenBook 14', price: 999, old: 1049 }, { item: 'TUF Gaming A15', price: 999, old: 949 }], satisfaction: 80, nps: 55, sentiment: 'Positif', hqCountry: 'Taïwan', languages: ['EN'] },
+        'auchan': { hq: 'Croix, France', founded: 1961, employees: 85000, revenue: 36000, marketShare: 1.8, growth: 1.2, valuation: 0, competitors: ['Carrefour', 'Leclerc', 'Intermarché'], sector: 'retail', currency: 'M$', realPrices: [{ item: 'Panier moyen', price: 40, old: 38 }, { item: 'Lait 1L', price: 1.05, old: 0.95 }, { item: 'Pain de mie', price: 1.35, old: 1.25 }], satisfaction: 66, nps: 32, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR'] },
+        'bandai namco': { hq: 'Tokyo, Japon', founded: 2006, employees: 7000, revenue: 3200, growth: 8, valuation: 15000, competitors: ['Square Enix', 'Capcom', 'Sega'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Tekken 8', price: 69.99, old: 69.99 }, { item: 'Elden Ring', price: 59.99, old: 59.99 }, { item: 'Dragon Ball Sparking', price: 69.99, old: 69.99 }], satisfaction: 85, nps: 68, sentiment: 'Positif', hqCountry: 'Japon', languages: ['JA', 'EN'] },
+        'battle.net': { hq: 'Irvine, USA', founded: 1996, employees: 0, revenue: 0, growth: 2, valuation: 0, competitors: ['Steam', 'Epic Games', 'Xbox Store'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'WoW Subscription', price: 14.99, old: 14.99 }, { item: 'Overwatch Coins', price: 9.99, old: 9.99 }], satisfaction: 68, nps: 35, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'bethesda': { hq: 'Rockville, USA', founded: 1986, employees: 1500, revenue: 1000, growth: 5, valuation: 0, competitors: ['CD Projekt', 'BioWare', 'Obsidian'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Starfield', price: 69.99, old: 69.99 }, { item: 'Fallout 76', price: 39.99, old: 39.99 }, { item: 'The Elder Scrolls', price: 0, old: 0 }], satisfaction: 65, nps: 30, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'blizzard': { hq: 'Irvine, USA', founded: 1991, employees: 4700, revenue: 3000, growth: 2, valuation: 0, competitors: ['Riot Games', 'Valve', 'Epic Games'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'WoW', price: 14.99, old: 14.99 }, { item: 'Diablo IV', price: 69.99, old: 69.99 }, { item: 'Overwatch 2', price: 0, old: 0 }], satisfaction: 60, nps: 25, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'bnp': { hq: 'Paris, France', founded: 1848, employees: 190000, revenue: 60000, marketShare: 1.8, growth: 5.5, valuation: 80000, competitors: ['Crédit Agricole', 'Société Générale', 'LCL'], sector: 'fintech', currency: 'M$', realPrices: [{ item: 'Compte courant', price: 8, old: 7.5 }, { item: 'Assurance habitation', price: 15, old: 14 }, { item: 'Livret A', price: 0, old: 0 }], satisfaction: 62, nps: 22, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR'] },
+        'bolt': { hq: 'Tallinn, Estonie', founded: 2013, employees: 3000, revenue: 1200, growth: 40, valuation: 8500, competitors: ['Uber', 'Free Now', 'Heetch'], sector: 'mobility', currency: 'M$', realPrices: [{ item: 'Bolt', price: 9, old: 10 }, { item: 'Bolt Premium', price: 18, old: 20 }, { item: 'Bolt Green', price: 11, old: 12 }], satisfaction: 72, nps: 45, sentiment: 'Positif', hqCountry: 'Estonie', languages: ['EN', 'FR'] },
+        'boulanger': { hq: 'Bry-sur-Marne, France', founded: 1954, employees: 10000, revenue: 3200, marketShare: 0.6, growth: 3.5, valuation: 0, competitors: ['Darty', 'Fnac', 'Amazon'], sector: 'retail', currency: 'M$', realPrices: [{ item: 'PC portable', price: 599, old: 549 }, { item: 'Machine à café', price: 399, old: 349 }, { item: 'TV', price: 499, old: 449 }], satisfaction: 72, nps: 42, sentiment: 'Positif', hqCountry: 'France', languages: ['FR'] },
+        'brawl stars': { hq: 'Helsinki, Finlande', founded: 2018, employees: 0, revenue: 0, growth: 8, valuation: 0, competitors: ['Clash Royale', 'Clash of Clans', 'Brawlhalla'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Brawl Pass', price: 9.99, old: 9.99 }, { item: 'Gems', price: 4.99, old: 4.99 }], satisfaction: 78, nps: 52, sentiment: 'Positif', hqCountry: 'Finlande', languages: ['EN'] },
+        'burberry': { hq: 'Londres, UK', founded: 1856, employees: 11000, revenue: 3200, marketShare: 0.6, growth: -4, valuation: 7000, competitors: ['Dior', 'Gucci', 'Armani'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Trench Coat', price: 2100, old: 1900 }, { item: 'Écharpe', price: 450, old: 420 }, { item: 'Sac', price: 1500, old: 1400 }], satisfaction: 76, nps: 52, sentiment: 'Neutre', hqCountry: 'UK', languages: ['EN'] },
+        'burger king': { hq: 'Miami, USA', founded: 1954, employees: 340000, revenue: 28000, marketShare: 3.2, growth: 4.2, valuation: 0, competitors: ["McDonald's", 'KFC', 'Five Guys'], sector: 'food', currency: 'M$', realPrices: [{ item: 'Whopper', price: 7.49, old: 6.99 }, { item: 'Menu Whopper', price: 11.99, old: 10.99 }, { item: 'Chicken Royale', price: 8.99, old: 8.49 }], satisfaction: 66, nps: 30, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN', 'FR'] },
+        'calvin klein': { hq: 'New York, USA', founded: 1968, employees: 12000, revenue: 3600, marketShare: 0.5, growth: 2, valuation: 7000, competitors: ['Ralph Lauren', 'Tommy Hilfiger', 'Armani'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Jean', price: 99, old: 89 }, { item: 'Sous-vêtements', price: 45, old: 40 }, { item: 'Parfum', price: 85, old: 78 }], satisfaction: 73, nps: 45, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'canal': { hq: 'Issy-les-Moulineaux, France', founded: 1984, employees: 9000, revenue: 6000, marketShare: 2.5, growth: -2, valuation: 0, competitors: ['Netflix', 'Disney+', 'Amazon Prime'], sector: 'streaming', currency: 'M$', realPrices: [{ item: 'Canal+', price: 25.99, old: 24.99 }, { item: 'Canal+ Cinéma', price: 33.99, old: 32.99 }, { item: 'Canal Sport', price: 43.99, old: 42.99 }], satisfaction: 70, nps: 38, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR'] },
+        'candy crush': { hq: 'New York, USA', founded: 2012, employees: 0, revenue: 0, growth: 2, valuation: 0, competitors: ['Bejeweled', 'Candy Crush Soda', 'King Games'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Gold Bar', price: 4.99, old: 4.99 }, { item: 'Lives', price: 0.99, old: 0.99 }], satisfaction: 68, nps: 38, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'capcom': { hq: 'Osaka, Japon', founded: 1979, employees: 2800, revenue: 1300, growth: 18, valuation: 8000, competitors: ['Square Enix', 'Bandai Namco', 'Sega'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Resident Evil 4', price: 59.99, old: 59.99 }, { item: 'Street Fighter 6', price: 59.99, old: 59.99 }, { item: 'Dragon\'s Dogma 2', price: 69.99, old: 69.99 }], satisfaction: 88, nps: 72, sentiment: 'Positif', hqCountry: 'Japon', languages: ['JA', 'EN'] },
+        'carrefour': { hq: 'Levallois-Perret, France', founded: 1959, employees: 385000, revenue: 85000, marketShare: 4.1, growth: -0.4, valuation: 14000, competitors: ['Leclerc', 'Intermarché', 'Auchan'], sector: 'retail', currency: 'M$', realPrices: [{ item: 'Panier moyen', price: 42, old: 39 }, { item: 'Lait 1L', price: 1.09, old: 0.99 }, { item: 'Pain de mie', price: 1.45, old: 1.29 }], satisfaction: 68, nps: 35, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR'] },
+        'cd projekt': { hq: 'Varsovie, Pologne', founded: 1994, employees: 1200, revenue: 300, growth: 15, valuation: 3000, competitors: ['Bethesda', 'Ubisoft', 'FromSoftware'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Cyberpunk 2077', price: 59.99, old: 59.99 }, { item: 'Witcher 3', price: 39.99, old: 19.99 }, { item: 'Phantom Liberty', price: 29.99, old: 29.99 }], satisfaction: 80, nps: 58, sentiment: 'Melange', hqCountry: 'Pologne', languages: ['EN'] },
+        'cisco': { hq: 'San Jose, USA', founded: 1984, employees: 84900, revenue: 53803, growth: -5.6, valuation: 195000, competitors: ['Juniper', 'Arista', 'Huawei'], sector: 'tech', currency: 'M$', realPrices: [{ item: 'Meraki MX68', price: 945, old: 945 }, { item: 'Catalyst 9200', price: 1500, old: 1500 }, { item: 'Webex Suite', price: 25.5, old: 23.5 }], satisfaction: 70, nps: 40, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'clash of clans': { hq: 'Helsinki, Finlande', founded: 2012, employees: 0, revenue: 0, growth: 5, valuation: 0, competitors: ['Clash Royale', 'Boom Beach', 'Brawl Stars'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Gold Pass', price: 4.99, old: 4.99 }, { item: 'Gems', price: 4.99, old: 4.99 }], satisfaction: 76, nps: 50, sentiment: 'Positif', hqCountry: 'Finlande', languages: ['EN'] },
+        'clash royale': { hq: 'Helsinki, Finlande', founded: 2016, employees: 0, revenue: 0, growth: 3, valuation: 0, competitors: ['Clash of Clans', 'Brawl Stars', 'Plants vs Zombies'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Pass Royale', price: 4.99, old: 4.99 }, { item: 'Gems', price: 4.99, old: 4.99 }], satisfaction: 72, nps: 45, sentiment: 'Neutre', hqCountry: 'Finlande', languages: ['EN'] },
+        'corsair': { hq: 'Fremont, USA', founded: 1994, employees: 1200, revenue: 1463, growth: 4.1, valuation: 2200, competitors: ['Razer', 'Logitech', 'NZXT'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'K100 RGB', price: 229, old: 229 }, { item: 'M75 Air', price: 149, old: 139 }, { item: '4000D Case', price: 94, old: 89 }], satisfaction: 78, nps: 54, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'credit agricole': { hq: 'Montrouge, France', founded: 1894, employees: 145000, revenue: 47000, marketShare: 1.5, growth: 4.2, valuation: 50000, competitors: ['BNP', 'Société Générale', 'LCL'], sector: 'fintech', currency: 'M$', realPrices: [{ item: 'Compte courant', price: 7, old: 6.5 }, { item: 'Assurance auto', price: 25, old: 24 }, { item: 'Livret A', price: 0, old: 0 }], satisfaction: 65, nps: 25, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR'] },
+        'dailymotion': { hq: 'Paris, France', founded: 2005, employees: 250, revenue: 100, growth: 2, valuation: 300, competitors: ['YouTube', 'Vimeo', 'Twitch'], sector: 'streaming', currency: 'M$', realPrices: [{ item: 'Dailymotion', price: 0, old: 0 }, { item: 'Partner Program', price: 0, old: 0 }], satisfaction: 55, nps: 20, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'darty': { hq: 'Ivry-sur-Seine, France', founded: 1957, employees: 12000, revenue: 4500, marketShare: 0.8, growth: 1.5, valuation: 900, competitors: ['Fnac', 'Boulanger', 'Amazon'], sector: 'retail', currency: 'M$', realPrices: [{ item: 'Machine à café', price: 449, old: 399 }, { item: 'TV 55"', price: 549, old: 499 }, { item: 'Aspirateur', price: 299, old: 279 }], satisfaction: 68, nps: 32, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR'] },
+        'deezer': { hq: 'Paris, France', founded: 2007, employees: 500, revenue: 600, growth: 5, valuation: 500, competitors: ['Spotify', 'Apple Music', 'Qobuz'], sector: 'streaming', currency: 'M$', realPrices: [{ item: 'Free', price: 0, old: 0 }, { item: 'Premium', price: 11.99, old: 10.99 }, { item: 'Family', price: 19.99, old: 17.99 }], satisfaction: 72, nps: 42, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'deliveroo': { hq: 'Londres, UK', founded: 2013, employees: 3600, revenue: 2200, marketShare: 5, growth: 5, valuation: 3000, competitors: ['Uber Eats', 'Just Eat', 'Glovo'], sector: 'food', currency: 'M$', realPrices: [{ item: 'Livraison', price: 2.5, old: 2.5 }, { item: 'Service fee', price: 1.5, old: 1.5 }, { item: 'Plus', price: 12.99, old: 12.99 }], satisfaction: 70, nps: 38, sentiment: 'Neutre', hqCountry: 'UK', languages: ['EN', 'FR'] },
+        'dell': { hq: 'Round Rock, USA', founded: 1984, employees: 120000, revenue: 88425, growth: -14.4, valuation: 68000, competitors: ['HP', 'Lenovo', 'Apple'], sector: 'tech', currency: 'M$', realPrices: [{ item: 'XPS 15', price: 1449, old: 1299 }, { item: 'Alienware m18', price: 2099, old: 2099 }, { item: 'Inspiron 15', price: 549, old: 599 }], satisfaction: 74, nps: 46, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'discord': { hq: 'San Francisco, USA', founded: 2015, employees: 600, revenue: 600, growth: 25, valuation: 15000, competitors: ['Slack', 'Telegram', 'Teams'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'Nitro', price: 9.99, old: 9.99 }, { item: 'Nitro Basic', price: 2.99, old: 2.99 }, { item: 'Server Boost', price: 4.99, old: 4.99 }], satisfaction: 85, nps: 68, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'disneyplus': { hq: 'Burbank, USA', founded: 2019, employees: 0, revenue: 5500, growth: 12, valuation: 0, competitors: ['Netflix', 'Amazon Prime', 'Max'], sector: 'streaming', currency: 'M$', realPrices: [{ item: 'Standard avec pubs', price: 9.99, old: 9.99 }, { item: 'Standard', price: 13.99, old: 13.99 }, { item: 'Premium', price: 19.99, old: 19.99 }], satisfaction: 74, nps: 45, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN', 'FR'] },
+        'dominos': { hq: 'Ann Arbor, USA', founded: 1960, employees: 350000, revenue: 18000, growth: 3.5, valuation: 8000, competitors: ['Pizza Hut', 'Telepizza', 'Pizza Marcel'], sector: 'food', currency: 'M$', realPrices: [{ item: 'Pizza 2/2', price: 14.99, old: 12.99 }, { item: 'Pizza Reine', price: 12.99, old: 11.99 }, { item: 'Nuggets 12', price: 9.99, old: 8.99 }], satisfaction: 72, nps: 42, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN', 'FR'] },
+        'doordash': { hq: 'San Francisco, USA', founded: 2013, employees: 20000, revenue: 8600, marketShare: 65, growth: 27, valuation: 70000, competitors: ['Uber Eats', 'Grubhub', 'Instacart'], sector: 'food', currency: 'M$', realPrices: [{ item: 'DashPass', price: 9.99, old: 9.99 }, { item: 'Livraison', price: 3.99, old: 3.49 }, { item: 'Service fee', price: 2.5, old: 2.5 }], satisfaction: 72, nps: 42, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'ea': { hq: 'Redwood City, USA', founded: 1982, employees: 13400, revenue: 7430, growth: 4.5, valuation: 32000, competitors: ['Activision', 'Ubisoft', 'Take-Two'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'EA Play', price: 4.99, old: 4.99 }, { item: 'EA FC 25', price: 69.99, old: 69.99 }, { item: 'Madden 25', price: 69.99, old: 69.99 }], satisfaction: 58, nps: 22, sentiment: 'Negatif', hqCountry: 'USA', languages: ['EN'] },
+        'easyjet': { hq: 'Luton, UK', founded: 1995, employees: 15000, revenue: 9200, marketShare: 8, growth: 18, valuation: 10000, competitors: ['Ryanair', 'Vueling', 'Transavia'], sector: 'travel', currency: 'M$', realPrices: [{ item: 'Paris-Nice', price: 44.99, old: 39.99 }, { item: 'Cabine', price: 15.99, old: 15.99 }, { item: 'Flexible', price: 24.99, old: 24.99 }], satisfaction: 65, nps: 28, sentiment: 'Neutre', hqCountry: 'UK', languages: ['EN', 'FR'] },
+        'ebay': { hq: 'San Jose, USA', founded: 1995, employees: 11600, revenue: 10100, marketShare: 3.5, growth: 1.8, valuation: 23000, competitors: ['Amazon', 'Etsy', 'Vinted'], sector: 'marketplace', currency: 'M$', realPrices: [{ item: 'Frais vendeur', price: 13.6, old: 12.9 }, { item: 'Frais insertion', price: 0.35, old: 0.3 }, { item: 'eBay Plus', price: 4.99, old: 4.99 }], satisfaction: 65, nps: 32, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'elgato': { hq: 'Munich, Allemagne', founded: 1998, employees: 400, revenue: 200, growth: 12.5, valuation: 400, competitors: ['Razer', 'AverMedia', 'Corsair'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Stream Deck MK.2', price: 149, old: 149 }, { item: 'Key Light', price: 199, old: 199 }, { item: 'Wave:3', price: 149, old: 129 }], satisfaction: 87, nps: 70, sentiment: 'Positif', hqCountry: 'Allemagne', languages: ['EN', 'DE'] },
+        'epic games': { hq: 'Cary, USA', founded: 1991, employees: 4000, revenue: 6000, growth: 8, valuation: 31500, competitors: ['Steam', 'Xbox Store', 'PlayStation Store'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Fortnite V-Bucks', price: 9.99, old: 9.99 }, { item: 'Unreal Engine', price: 0, old: 0 }, { item: 'Epic Games Store', price: 0, old: 0 }], satisfaction: 72, nps: 42, sentiment: 'Melange', hqCountry: 'USA', languages: ['EN'] },
+        'etsy': { hq: 'Brooklyn, USA', founded: 2005, employees: 2400, revenue: 2700, growth: 2.6, valuation: 7500, competitors: ['eBay', 'Amazon Handmade', 'Faire'], sector: 'marketplace', currency: 'M$', realPrices: [{ item: 'Transaction fee', price: 6.5, old: 6.5 }, { item: 'Listing', price: 0.2, old: 0.2 }, { item: 'Offsite Ads', price: 15, old: 15 }], satisfaction: 74, nps: 45, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'expedia': { hq: 'Seattle, USA', founded: 1996, employees: 16500, revenue: 12800, marketShare: 12, growth: 15, valuation: 21000, competitors: ['Booking', 'Airbnb', 'Hotels.com'], sector: 'travel', currency: 'M$', realPrices: [{ item: 'One Key', price: 0, old: 0 }, { item: 'Concierge', price: 0, old: 0 }], satisfaction: 70, nps: 38, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN', 'FR'] },
+        'facetime': { hq: 'Cupertino, USA', founded: 2010, employees: 0, revenue: 0, growth: 5, valuation: 0, competitors: ['WhatsApp', 'Skype', 'Google Duo'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'FaceTime', price: 0, old: 0 }], satisfaction: 78, nps: 55, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'fnac': { hq: 'Ivry-sur-Seine, France', founded: 1954, employees: 25000, revenue: 8000, marketShare: 1.2, growth: 2.2, valuation: 1800, competitors: ['Darty', 'Boulanger', 'Amazon'], sector: 'retail', currency: 'M$', realPrices: [{ item: 'iPhone 15', price: 869, old: 869 }, { item: 'Casque', price: 299, old: 279 }, { item: 'Livre', price: 22.9, old: 21.9 }], satisfaction: 70, nps: 38, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR'] },
+        'fromsoftware': { hq: 'Tokyo, Japon', founded: 1986, employees: 350, revenue: 500, growth: 20, valuation: 1000, competitors: ['Capcom', 'Square Enix', 'CD Projekt'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Elden Ring', price: 59.99, old: 59.99 }, { item: 'Dark Souls III', price: 59.99, old: 29.99 }, { item: 'Sekiro', price: 59.99, old: 29.99 }], satisfaction: 93, nps: 85, sentiment: 'Positif', hqCountry: 'Japon', languages: ['JA', 'EN'] },
+        'gameloft': { hq: 'Paris, France', founded: 2000, employees: 2000, revenue: 300, growth: 5, valuation: 600, competitors: ['EA Mobile', 'Ubisoft Mobile', 'Activision Mobile'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Asphalt 9', price: 0, old: 0 }, { item: 'Diamonds', price: 4.99, old: 4.99 }, { item: 'VIP Pass', price: 9.99, old: 9.99 }], satisfaction: 65, nps: 32, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'glassdoor': { hq: 'San Francisco, USA', founded: 2008, employees: 1500, revenue: 400, growth: 8, valuation: 1200, competitors: ['Indeed', 'LinkedIn', 'Blind'], sector: 'emploi', currency: 'M$', realPrices: [{ item: 'Employer', price: 0, old: 0 }, { item: 'Jobs', price: 0, old: 0 }], satisfaction: 68, nps: 38, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'glovo': { hq: 'Barcelone, Espagne', founded: 2015, employees: 8000, revenue: 1000, growth: 15, valuation: 2700, competitors: ['Deliveroo', 'Uber Eats', 'Just Eat'], sector: 'food', currency: 'M$', realPrices: [{ item: 'Livraison', price: 1.99, old: 1.99 }, { item: 'Service fee', price: 1.5, old: 1.5 }, { item: 'Glovo Prime', price: 8.99, old: 8.99 }], satisfaction: 68, nps: 35, sentiment: 'Neutre', hqCountry: 'Espagne', languages: ['ES', 'EN', 'FR'] },
+        'gog': { hq: 'Varsovie, Pologne', founded: 2008, employees: 100, revenue: 200, growth: 8, valuation: 300, competitors: ['Steam', 'Epic Games', 'Humble Bundle'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'GOG Games', price: 0, old: 0 }, { item: 'Galaxy', price: 0, old: 0 }], satisfaction: 92, nps: 78, sentiment: 'Positif', hqCountry: 'Pologne', languages: ['EN'] },
+        'google meet': { hq: 'Mountain View, USA', founded: 2017, employees: 0, revenue: 0, growth: 12, valuation: 0, competitors: ['Zoom', 'Teams', 'Webex'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'Google One', price: 1.99, old: 1.99 }, { item: 'Workspace Individual', price: 7.2, old: 7.2 }, { item: 'Workspace Business', price: 12, old: 12 }], satisfaction: 72, nps: 40, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'hp': { hq: 'Palo Alto, USA', founded: 1939, employees: 58000, revenue: 53718, growth: -8.8, valuation: 33000, competitors: ['Dell', 'Lenovo', 'Canon'], sector: 'tech', currency: 'M$', realPrices: [{ item: 'Spectre x360', price: 1449, old: 1399 }, { item: 'Omen 16', price: 1199, old: 1249 }, { item: 'LaserJet Pro', price: 299, old: 279 }], satisfaction: 73, nps: 45, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'hyperx': { hq: 'San Jose, USA', founded: 2002, employees: 300, revenue: 350, growth: 3.5, valuation: 600, competitors: ['Razer', 'Logitech', 'Corsair'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Alloy Origins', price: 109, old: 99 }, { item: 'Cloud III', price: 99, old: 99 }, { item: 'Pulsefire Haste', price: 49, old: 49 }], satisfaction: 79, nps: 53, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'ibm': { hq: 'Armonk, USA', founded: 1911, employees: 282200, revenue: 61860, growth: 1.4, valuation: 165000, competitors: ['Accenture', 'Oracle', 'Microsoft'], sector: 'tech', currency: 'M$', realPrices: [{ item: 'Cloud Pak', price: 0, old: 0 }, { item: 'Watsonx', price: 0, old: 0 }, { item: 'SPSS', price: 99, old: 99 }], satisfaction: 67, nps: 33, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'indeed': { hq: 'Austin, USA', founded: 2004, employees: 14600, revenue: 5000, growth: 5, valuation: 0, competitors: ['LinkedIn', 'Glassdoor', 'StepStone'], sector: 'emploi', currency: 'M$', realPrices: [{ item: 'Sponsored', price: 5, old: 5 }, { item: 'Indeed Resume', price: 0, old: 0 }], satisfaction: 65, nps: 32, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN', 'FR'] },
+        'intel': { hq: 'Santa Clara, USA', founded: 1968, employees: 124800, revenue: 54228, marketShare: 58, growth: -1.1, valuation: 93000, competitors: ['AMD', 'NVIDIA', 'ARM'], sector: 'tech', currency: 'M$', realPrices: [{ item: 'Core i9-14900K', price: 589, old: 589 }, { item: 'Core i7-14700K', price: 409, old: 409 }, { item: 'Core i5-14600K', price: 294, old: 319 }], satisfaction: 71, nps: 42, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'just eat': { hq: 'Amsterdam, Pays-Bas', founded: 2000, employees: 7500, revenue: 5400, marketShare: 6, growth: -3, valuation: 6000, competitors: ['Uber Eats', 'Deliveroo', 'Glovo'], sector: 'food', currency: 'M$', realPrices: [{ item: 'Livraison', price: 2.99, old: 2.49 }, { item: 'Service fee', price: 1.99, old: 1.99 }, { item: 'Pass', price: 9.99, old: 9.99 }], satisfaction: 66, nps: 30, sentiment: 'Neutre', hqCountry: 'Pays-Bas', languages: ['EN', 'FR'] },
+        'kering': { hq: 'Paris, France', founded: 1963, employees: 47000, revenue: 19500, marketShare: 2.1, growth: 4.4, valuation: 60000, competitors: ['LVMH', 'Hermès', 'Richemont'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Sac Dionysus', price: 2400, old: 2100 }, { item: 'Ceinture GG', price: 450, old: 380 }, { item: 'Sneakers Rhyton', price: 790, old: 690 }], satisfaction: 82, nps: 68, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'kfc': { hq: 'Louisville, USA', founded: 1952, employees: 350000, revenue: 35000, marketShare: 3.8, growth: 6.5, valuation: 0, competitors: ["McDonald's", 'Burger King', 'Subway'], sector: 'food', currency: 'M$', realPrices: [{ item: 'Bucket 8', price: 19.99, old: 17.99 }, { item: 'Zinger', price: 8.49, old: 7.99 }, { item: 'Menu Envers', price: 12.99, old: 11.99 }], satisfaction: 70, nps: 40, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN', 'FR'] },
+        'kick': { hq: 'Melbourne, Australie', founded: 2023, employees: 100, revenue: 100, growth: 200, valuation: 1000, competitors: ['Twitch', 'Rumble', 'YouTube'], sector: 'streaming', currency: 'M$', realPrices: [{ item: 'Kick', price: 0, old: 0 }, { item: 'Subscription', price: 4.99, old: 4.99 }], satisfaction: 70, nps: 42, sentiment: 'Positif', hqCountry: 'Australie', languages: ['EN'] },
+        'konami': { hq: 'Tokyo, Japon', founded: 1969, employees: 5800, revenue: 2200, growth: 5, valuation: 5000, competitors: ['Capcom', 'Square Enix', 'Bandai Namco'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Metal Gear Delta', price: 69.99, old: 69.99 }, { item: 'eFootball', price: 0, old: 0 }, { item: 'Castlevania', price: 0, old: 0 }], satisfaction: 68, nps: 38, sentiment: 'Melange', hqCountry: 'Japon', languages: ['JA', 'EN'] },
+        'leclerc': { hq: 'Boigny-sur-Bionne, France', founded: 1949, employees: 100000, revenue: 68000, marketShare: 3.5, growth: 2.1, valuation: 0, competitors: ['Carrefour', 'Intermarché', 'Auchan'], sector: 'retail', currency: 'M$', realPrices: [{ item: 'Panier moyen', price: 38, old: 36 }, { item: 'Lait 1L', price: 0.95, old: 0.89 }, { item: 'Pain complet', price: 1.2, old: 1.1 }], satisfaction: 74, nps: 48, sentiment: 'Positif', hqCountry: 'France', languages: ['FR'] },
+        'lenovo': { hq: 'Pekin, Chine', founded: 1984, employees: 77000, revenue: 56917, growth: 8.2, valuation: 14000, competitors: ['Dell', 'HP', 'Asus'], sector: 'tech', currency: 'M$', realPrices: [{ item: 'ThinkPad X1', price: 1849, old: 1749 }, { item: 'IdeaPad 5', price: 649, old: 699 }, { item: 'Legion 7', price: 1999, old: 1899 }], satisfaction: 76, nps: 48, sentiment: 'Positif', hqCountry: 'Chine', languages: ['EN', 'ZH'] },
+        'leroy merlin': { hq: 'Villeurbanne, France', founded: 1923, employees: 85000, revenue: 23000, marketShare: 3.2, growth: 2.5, valuation: 0, competitors: ['Bricomarché', 'Castorama', 'Weldom'], sector: 'retail', currency: 'M$', realPrices: [{ item: 'Peinture 10L', price: 45, old: 40 }, { item: 'Perceuse', price: 89, old: 79 }, { item: 'Parquet', price: 25, old: 22 }], satisfaction: 72, nps: 45, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR'] },
+        'lidl': { hq: 'Neckarsulm, Allemagne', founded: 1973, employees: 370000, revenue: 89000, marketShare: 2.1, growth: 5.5, valuation: 0, competitors: ['Aldi', 'Intermarché', 'Carrefour'], sector: 'retail', currency: 'M$', realPrices: [{ item: 'Panier basics', price: 25, old: 22 }, { item: 'Eau 1.5L', price: 0.29, old: 0.25 }, { item: 'Pain', price: 0.99, old: 0.89 }], satisfaction: 72, nps: 45, sentiment: 'Positif', hqCountry: 'Allemagne', languages: ['DE', 'FR'] },
+        'line': { hq: 'Tokyo, Japon', founded: 2011, employees: 7000, revenue: 3500, growth: 3, valuation: 9000, competitors: ['WeChat', 'KakaoTalk', 'WhatsApp'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'LINE Music', price: 7.2, old: 7.2 }, { item: 'LINE Premium', price: 3.99, old: 3.99 }], satisfaction: 76, nps: 50, sentiment: 'Positif', hqCountry: 'Japon', languages: ['JA'] },
+        'logitech': { hq: 'Lausanne, Suisse', founded: 1981, employees: 7300, revenue: 4300, growth: -4.5, valuation: 9500, competitors: ['Razer', 'Corsair', 'HyperX'], sector: 'tech', currency: 'M$', realPrices: [{ item: 'MX Master 3S', price: 99, old: 99 }, { item: 'G Pro X Superlight', price: 159, old: 149 }, { item: 'G915 TKL', price: 199, old: 179 }], satisfaction: 83, nps: 62, sentiment: 'Positif', hqCountry: 'Suisse', languages: ['EN'] },
+        'lvmh': { hq: 'Paris, France', founded: 1987, employees: 213000, revenue: 93150, marketShare: 6.5, growth: 10.9, valuation: 450000, competitors: ['Kering', 'Richemont', 'Hermès'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Sac Speedy', price: 1650, old: 1550 }, { item: 'Parfum', price: 155, old: 145 }, { item: 'Ceinture', price: 620, old: 580 }], satisfaction: 88, nps: 76, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'lyft': { hq: 'San Francisco, USA', founded: 2012, employees: 4800, revenue: 5400, marketShare: 8, growth: 22, valuation: 5000, competitors: ['Uber', 'Via', 'Juno'], sector: 'mobility', currency: 'M$', realPrices: [{ item: 'Lyft', price: 10, old: 12 }, { item: 'Lyft XL', price: 18, old: 20 }, { item: 'Priority', price: 2, old: 2 }], satisfaction: 65, nps: 35, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'm6': { hq: 'Saint-Denis, France', founded: 1987, employees: 2000, revenue: 1400, marketShare: 1.5, growth: -4, valuation: 1500, competitors: ['TF1', 'France 2', 'Arte'], sector: 'streaming', currency: 'M$', realPrices: [{ item: 'M6+', price: 0, old: 0 }, { item: 'M6 Premium', price: 4.99, old: 4.99 }], satisfaction: 58, nps: 22, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR'] },
+        'mango': { hq: 'Palau-solità i Plegamans, Espagne', founded: 1984, employees: 27000, revenue: 3100, marketShare: 0.4, growth: 8.2, valuation: 8000, competitors: ['Zara', 'H&M', 'Sandro'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Robe', price: 59.99, old: 49.99 }, { item: 'Blazer', price: 79.99, old: 89.99 }, { item: 'Sac', price: 39.99, old: 35.99 }], satisfaction: 70, nps: 42, sentiment: 'Neutre', hqCountry: 'Espagne', languages: ['ES', 'EN', 'FR'] },
+        'mastercard': { hq: 'Purchase, USA', founded: 1966, employees: 33400, revenue: 28170, growth: 12, valuation: 420000, competitors: ['Visa', 'Amex', 'UnionPay'], sector: 'fintech', currency: 'M$', realPrices: [{ item: 'Commission', price: 1.5, old: 1.5 }, { item: 'FX', price: 3, old: 3 }], satisfaction: 73, nps: 44, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'moderna': { hq: 'Cambridge, USA', founded: 2010, employees: 1300, revenue: 6752, marketShare: 1.2, growth: -64, valuation: 35000, competitors: ['Pfizer', 'BioNTech', 'Novavax'], sector: 'healthtech', currency: 'M$', realPrices: [{ item: 'Spikevax', price: 15, old: 15 }, { item: 'mRNA-1083', price: 0, old: 0 }], satisfaction: 55, nps: 20, sentiment: 'Melange', hqCountry: 'USA', languages: ['EN'] },
+        'n26': { hq: 'Berlin, Allemagne', founded: 2013, employees: 800, revenue: 200, growth: 20, valuation: 7000, competitors: ['Revolut', 'Monzo', 'Bunq'], sector: 'fintech', currency: 'M$', realPrices: [{ item: 'Standard', price: 0, old: 0 }, { item: 'Smart', price: 4.9, old: 4.9 }, { item: 'You', price: 9.9, old: 9.9 }], satisfaction: 72, nps: 42, sentiment: 'Neutre', hqCountry: 'Allemagne', languages: ['DE', 'EN', 'FR'] },
+        'napster': { hq: 'San Francisco, USA', founded: 1999, employees: 100, revenue: 100, growth: -10, valuation: 200, competitors: ['Spotify', 'Apple Music', 'Deezer'], sector: 'streaming', currency: 'M$', realPrices: [{ item: 'Individual', price: 10.99, old: 10.99 }, { item: 'Family', price: 14.99, old: 14.99 }], satisfaction: 55, nps: 18, sentiment: 'Negatif', hqCountry: 'USA', languages: ['EN'] },
+        'naughty dog': { hq: 'Santa Monica, USA', founded: 1984, employees: 600, revenue: 0, growth: 0, valuation: 0, competitors: ['Santa Monica Studio', 'Insomniac', 'Guerrilla Games'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'The Last of Us II', price: 49.99, old: 49.99 }, { item: 'Uncharted 4', price: 19.99, old: 19.99 }], satisfaction: 92, nps: 82, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'new balance': { hq: 'Boston, USA', founded: 1906, employees: 9000, revenue: 6500, marketShare: 4.2, growth: 15, valuation: 10000, competitors: ['Nike', 'Adidas', 'Asics'], sector: 'ecommerce', currency: 'M$', realPrices: [{ item: '990v6', price: 199, old: 189 }, { item: '574', price: 99, old: 89 }, { item: '327', price: 99, old: 89 }], satisfaction: 85, nps: 68, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'nintendo': { hq: 'Kyoto, Japon', founded: 1889, employees: 7300, revenue: 12000, marketShare: 8, growth: 10, valuation: 75000, competitors: ['Sony PlayStation', 'Xbox', 'Steam'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Switch OLED', price: 349.99, old: 349.99 }, { item: 'Mario Kart 8', price: 59.99, old: 59.99 }, { item: 'Zelda TotK', price: 69.99, old: 69.99 }], satisfaction: 92, nps: 82, sentiment: 'Positif', hqCountry: 'Japon', languages: ['JA', 'EN', 'FR'] },
+        'nvidia': { hq: 'Santa Clara, USA', founded: 1993, employees: 36000, revenue: 130500, marketShare: 80, growth: 122, valuation: 3200000, competitors: ['AMD', 'Intel', 'Qualcomm'], sector: 'tech', currency: 'M$', realPrices: [{ item: 'GeForce RTX 4090', price: 1599, old: 1599 }, { item: 'GeForce RTX 4070', price: 599, old: 599 }, { item: 'GeForce RTX 4060', price: 299, old: 329 }], satisfaction: 88, nps: 76, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'obs': { hq: 'Open source', founded: 2012, employees: 0, revenue: 0, growth: 15, valuation: 0, competitors: ['Streamlabs', 'XSplit', 'Twitch Studio'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'OBS Studio', price: 0, old: 0 }], satisfaction: 90, nps: 75, sentiment: 'Positif', hqCountry: null, languages: ['EN'] },
+        'odoo': { hq: 'Ramillies, Belgique', founded: 2005, employees: 4000, revenue: 500, growth: 40, valuation: 3500, competitors: ['SAP', 'Sage', 'Microsoft Dynamics'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'One App Free', price: 0, old: 0 }, { item: 'Standard', price: 24.9, old: 24.9 }, { item: 'Custom', price: 37.4, old: 37.4 }], satisfaction: 82, nps: 60, sentiment: 'Positif', hqCountry: 'Belgique', languages: ['FR', 'EN'] },
+        'openai': { hq: 'San Francisco, USA', founded: 2015, employees: 2000, revenue: 3400, growth: 200, valuation: 157000, competitors: ['Anthropic', 'Google DeepMind', 'Meta AI'], sector: 'tech', currency: 'M$', realPrices: [{ item: 'ChatGPT Plus', price: 20, old: 20 }, { item: 'ChatGPT Team', price: 25, old: 25 }, { item: 'ChatGPT Enterprise', price: 60, old: 60 }], satisfaction: 88, nps: 75, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'oracle': { hq: 'Austin, USA', founded: 1977, employees: 164000, revenue: 52961, growth: 6.9, marketShare: 12, valuation: 470000, competitors: ['SAP', 'Microsoft', 'IBM'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'Database Standard', price: 15000, old: 15000 }, { item: 'Fusion Apps', price: 625, old: 625 }, { item: 'OCI', price: 0, old: 0 }], satisfaction: 68, nps: 36, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'origin': { hq: 'Redwood City, USA', founded: 2011, employees: 0, revenue: 0, growth: -15, valuation: 0, competitors: ['Steam', 'Epic Games', 'GOG'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'EA Play', price: 4.99, old: 4.99 }, { item: 'EA Play Pro', price: 16.99, old: 16.99 }], satisfaction: 48, nps: 15, sentiment: 'Negatif', hqCountry: 'USA', languages: ['EN'] },
+        'pandora': { hq: 'Oakland, USA', founded: 2000, employees: 2000, revenue: 2700, growth: -2, valuation: 3500, competitors: ['Spotify', 'Apple Music', 'Amazon Music'], sector: 'streaming', currency: 'M$', realPrices: [{ item: 'Plus', price: 7.99, old: 7.99 }, { item: 'Premium', price: 14.99, old: 14.99 }, { item: 'Platinum', price: 19.99, old: 19.99 }], satisfaction: 68, nps: 35, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'paypal': { hq: 'San Jose, USA', founded: 1998, employees: 27000, revenue: 29771, marketShare: 20, growth: 8, valuation: 70000, competitors: ['Stripe', 'Apple Pay', 'Klarna'], sector: 'fintech', currency: 'M$', realPrices: [{ item: 'P2P', price: 0, old: 0 }, { item: 'Commerce', price: 2.9, old: 2.9 }, { item: 'FX', price: 3.5, old: 3.5 }], satisfaction: 72, nps: 42, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'perplexity': { hq: 'San Francisco, USA', founded: 2022, employees: 180, revenue: 50, growth: 400, valuation: 9000, competitors: ['Google', 'Bing', 'You.com'], sector: 'tech', currency: 'M$', realPrices: [{ item: 'Pro', price: 20, old: 20 }, { item: 'Enterprise Pro', price: 40, old: 40 }], satisfaction: 85, nps: 68, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'pfizer': { hq: 'New York, USA', founded: 1849, employees: 88000, revenue: 58496, marketShare: 4.5, growth: -42, valuation: 160000, competitors: ['Sanofi', 'Moderna', 'Johnson & Johnson'], sector: 'healthtech', currency: 'M$', realPrices: [{ item: 'Comirnaty', price: 19.5, old: 19.5 }, { item: 'Eliquis', price: 550, old: 520 }, { item: 'Paxlovid', price: 1390, old: 1390 }], satisfaction: 60, nps: 28, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'pinterest': { hq: 'San Francisco, USA', founded: 2010, employees: 4000, revenue: 3638, growth: 16, valuation: 20000, competitors: ['Instagram', 'TikTok', 'Etsy'], sector: 'social', currency: 'M$', realPrices: [{ item: 'Pinterest+', price: 5, old: 5 }, { item: 'Promoted Pins', price: 0, old: 0 }], satisfaction: 78, nps: 52, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'pizzahut': { hq: 'Plano, USA', founded: 1958, employees: 350000, revenue: 13000, growth: 1.5, valuation: 0, competitors: ['Dominos', 'Telepizza', 'Pizza Marcel'], sector: 'food', currency: 'M$', realPrices: [{ item: 'Pizza pan', price: 13.99, old: 12.99 }, { item: 'Menu 1', price: 9.99, old: 8.99 }, { item: 'Wings', price: 7.99, old: 6.99 }], satisfaction: 62, nps: 22, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN', 'FR'] },
+        'playstation': { hq: 'San Mateo, USA', founded: 1994, employees: 0, revenue: 0, growth: 3, valuation: 0, competitors: ['Xbox', 'Nintendo', 'Steam'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'PS Plus Essential', price: 9.99, old: 9.99 }, { item: 'PS Plus Extra', price: 14.99, old: 14.99 }, { item: 'PS Plus Premium', price: 17.99, old: 17.99 }], satisfaction: 80, nps: 58, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'primevideo': { hq: 'Seattle, USA', founded: 2006, employees: 0, revenue: 0, growth: 10, valuation: 0, competitors: ['Netflix', 'Disney+', 'Max'], sector: 'streaming', currency: 'M$', realPrices: [{ item: 'Prime Video', price: 8.99, old: 8.99 }, { item: 'Channels', price: 4.99, old: 4.99 }, { item: 'Prime', price: 14.99, old: 14.99 }], satisfaction: 76, nps: 48, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN', 'FR'] },
+        'puma': { hq: 'Herzogenaurach, Allemagne', founded: 1948, employees: 20000, revenue: 8600, marketShare: 5.5, growth: 7.4, valuation: 8000, competitors: ['Nike', 'Adidas', 'New Balance'], sector: 'ecommerce', currency: 'M$', realPrices: [{ item: 'Suede Classic', price: 80, old: 75 }, { item: 'RS-X', price: 110, old: 100 }, { item: 'Speedcat', price: 100, old: 90 }], satisfaction: 74, nps: 48, sentiment: 'Neutre', hqCountry: 'Allemagne', languages: ['DE', 'EN', 'FR'] },
+        'qobuz': { hq: 'Paris, France', founded: 2007, employees: 200, revenue: 100, growth: 20, valuation: 200, competitors: ['Deezer', 'Spotify', 'Apple Music'], sector: 'streaming', currency: 'M$', realPrices: [{ item: 'Solo', price: 10.99, old: 10.99 }, { item: 'Duo', price: 17.99, old: 17.99 }, { item: 'Family', price: 19.99, old: 19.99 }], satisfaction: 85, nps: 62, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'quickbooks': { hq: 'Mountain View, USA', founded: 1983, employees: 0, revenue: 0, growth: 10, valuation: 0, competitors: ['Sage', 'Xero', 'Wave'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'Simple Start', price: 15, old: 15 }, { item: 'Essentials', price: 30, old: 28 }, { item: 'Plus', price: 45, old: 42 }], satisfaction: 72, nps: 42, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'ralph lauren': { hq: 'New York, USA', founded: 1967, employees: 24000, revenue: 6600, marketShare: 0.9, growth: 3.6, valuation: 11000, competitors: ['Tommy Hilfiger', 'Calvin Klein', 'Armani'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Polo', price: 110, old: 98 }, { item: 'Sac', price: 450, old: 425 }, { item: 'Sweat', price: 150, old: 135 }], satisfaction: 78, nps: 55, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'razer': { hq: 'Irvine, USA', founded: 2005, employees: 1800, revenue: 1600, growth: 8.5, valuation: 4200, competitors: ['Logitech', 'Corsair', 'SteelSeries'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'BlackWidow V4', price: 179, old: 169 }, { item: 'DeathAdder V3', price: 159, old: 149 }, { item: 'Blade 16', price: 2699, old: 2599 }], satisfaction: 77, nps: 52, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'reddit': { hq: 'San Francisco, USA', founded: 2005, employees: 2000, revenue: 1125, growth: 20, valuation: 10000, competitors: ['4chan', 'Discord', 'X'], sector: 'social', currency: 'M$', realPrices: [{ item: 'Reddit Premium', price: 6.99, old: 6.99 }, { item: 'Coins', price: 1.99, old: 1.99 }], satisfaction: 70, nps: 42, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'revolut': { hq: 'Londres, UK', founded: 2015, employees: 8000, revenue: 2000, growth: 50, valuation: 33000, competitors: ['N26', 'Monzo', 'Wise'], sector: 'fintech', currency: 'M$', realPrices: [{ item: 'Standard', price: 0, old: 0 }, { item: 'Plus', price: 8.99, old: 8.99 }, { item: 'Premium', price: 16.99, old: 16.99 }], satisfaction: 80, nps: 58, sentiment: 'Positif', hqCountry: 'UK', languages: ['EN', 'FR'] },
+        'riot games': { hq: 'Los Angeles, USA', founded: 2006, employees: 4500, revenue: 4000, growth: 15, valuation: 0, competitors: ['Valve', 'Blizzard', 'Epic Games'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'League Points', price: 9.99, old: 9.99 }, { item: 'Valorant Points', price: 9.99, old: 9.99 }, { item: 'Battle Pass', price: 10, old: 10 }], satisfaction: 68, nps: 35, sentiment: 'Melange', hqCountry: 'USA', languages: ['EN'] },
+        'rockstar': { hq: 'New York, USA', founded: 1998, employees: 2000, revenue: 2000, growth: 10, valuation: 0, competitors: ['EA', 'Ubisoft', 'Square Enix'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'GTA V', price: 19.99, old: 19.99 }, { item: 'GTA Online', price: 0, old: 0 }, { item: 'Red Dead 2', price: 59.99, old: 19.99 }], satisfaction: 85, nps: 70, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'rumble': { hq: 'Toronto, Canada', founded: 2013, employees: 200, revenue: 100, growth: 50, valuation: 2000, competitors: ['YouTube', 'Kick', 'BitChute'], sector: 'streaming', currency: 'M$', realPrices: [{ item: 'Rumble', price: 0, old: 0 }, { item: 'Rumble Premium', price: 9.99, old: 9.99 }], satisfaction: 62, nps: 28, sentiment: 'Melange', hqCountry: 'Canada', languages: ['EN'] },
+        'ryanair': { hq: 'Dublin, Irlande', founded: 1984, employees: 19000, revenue: 13400, marketShare: 18, growth: 25, valuation: 22000, competitors: ['easyJet', 'Vueling', 'Wizz Air'], sector: 'travel', currency: 'M$', realPrices: [{ item: 'Paris-Bari', price: 24.99, old: 19.99 }, { item: 'Bagage cabine', price: 24.99, old: 24.99 }, { item: 'Prioritaire', price: 8.99, old: 8.99 }], satisfaction: 58, nps: 18, sentiment: 'Negatif', hqCountry: 'Irlande', languages: ['EN', 'FR'] },
+        'sage': { hq: 'Newcastle, UK', founded: 1981, employees: 13000, revenue: 2300, growth: 8, valuation: 9000, competitors: ['QuickBooks', 'SAP', 'Odoo'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'Start', price: 12, old: 12 }, { item: 'Standard', price: 28, old: 26 }, { item: 'Plus', price: 42, old: 40 }], satisfaction: 70, nps: 38, sentiment: 'Neutre', hqCountry: 'UK', languages: ['EN', 'FR'] },
+        'sanofi': { hq: 'Paris, France', founded: 1973, employees: 89000, revenue: 45200, marketShare: 3.2, growth: 5.5, valuation: 130000, competitors: ['Pfizer', 'Novartis', 'Roche'], sector: 'healthtech', currency: 'M$', realPrices: [{ item: 'Doliprane', price: 2.15, old: 2.05 }, { item: 'Allegra', price: 12.5, old: 11.9 }, { item: 'Lovenox', price: 250, old: 240 }], satisfaction: 68, nps: 35, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'sap': { hq: 'Walldorf, Allemagne', founded: 1972, employees: 107000, revenue: 34870, marketShare: 9, growth: 9.6, valuation: 250000, competitors: ['Oracle', 'Microsoft Dynamics', 'Salesforce'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'S/4HANA Cloud', price: 0, old: 0 }, { item: 'Business ByDesign', price: 0, old: 0 }, { item: 'SuccessFactors', price: 0, old: 0 }], satisfaction: 72, nps: 40, sentiment: 'Neutre', hqCountry: 'Allemagne', languages: ['DE', 'EN'] },
+        'sega': { hq: 'Tokyo, Japon', founded: 1960, employees: 5300, revenue: 2600, growth: 12, valuation: 7000, competitors: ['Capcom', 'Bandai Namco', 'Square Enix'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Sonic Frontiers', price: 39.99, old: 39.99 }, { item: 'Like a Dragon', price: 69.99, old: 69.99 }, { item: 'Persona 5', price: 59.99, old: 39.99 }], satisfaction: 84, nps: 65, sentiment: 'Positif', hqCountry: 'Japon', languages: ['JA', 'EN'] },
+        'shein': { hq: 'Singapour', founded: 2008, employees: 10000, revenue: 30000, marketShare: 2.5, growth: 30, valuation: 66000, competitors: ['Temu', 'Zara', 'H&M'], sector: 'ecommerce', currency: 'M$', realPrices: [{ item: 'T-shirt', price: 3.5, old: 2.9 }, { item: 'Robe', price: 12, old: 9.9 }, { item: 'Veste', price: 25, old: 22 }], satisfaction: 65, nps: 28, sentiment: 'Melange', hqCountry: 'Singapour', languages: ['EN', 'FR'] },
+        'signal': { hq: 'Mountain View, USA', founded: 2014, employees: 40, revenue: 50, growth: 15, valuation: 0, competitors: ['Telegram', 'WhatsApp', 'iMessage'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'Signal', price: 0, old: 0 }], satisfaction: 92, nps: 78, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'skype': { hq: 'Luxembourg', founded: 2003, employees: 0, revenue: 0, growth: -20, valuation: 0, competitors: ['Zoom', 'FaceTime', 'WhatsApp'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'Skype to Phone', price: 2.99, old: 2.99 }, { item: 'Skype Number', price: 6.49, old: 6.49 }], satisfaction: 42, nps: 12, sentiment: 'Negatif', hqCountry: 'Luxembourg', languages: ['EN'] },
+        'snapchat': { hq: 'Santa Monica, USA', founded: 2011, employees: 5300, revenue: 5363, growth: 16, valuation: 20000, competitors: ['Instagram', 'TikTok', 'Tencent'], sector: 'social', currency: 'M$', realPrices: [{ item: 'Snapchat+', price: 3.99, old: 3.99 }, { item: 'Sponsored Lens', price: 0, old: 0 }], satisfaction: 71, nps: 38, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'societe generale': { hq: 'Paris, France', founded: 1864, employees: 117000, revenue: 33000, marketShare: 1.1, growth: 2.8, valuation: 25000, competitors: ['BNP', 'Crédit Agricole', 'LCL'], sector: 'fintech', currency: 'M$', realPrices: [{ item: 'Compte courant', price: 7.5, old: 7 }, { item: 'Assurance emprunteur', price: 20, old: 19 }, { item: 'Livret A', price: 0, old: 0 }], satisfaction: 58, nps: 18, sentiment: 'Negatif', hqCountry: 'France', languages: ['FR'] },
+        'soundcloud': { hq: 'Berlin, Allemagne', founded: 2007, employees: 600, revenue: 200, growth: 5, valuation: 700, competitors: ['Spotify', 'Bandcamp', 'YouTube'], sector: 'streaming', currency: 'M$', realPrices: [{ item: 'Go+', price: 9.99, old: 9.99 }, { item: 'Pro Unlimited', price: 14.99, old: 14.99 }], satisfaction: 68, nps: 38, sentiment: 'Neutre', hqCountry: 'Allemagne', languages: ['EN', 'DE'] },
+        'square enix': { hq: 'Tokyo, Japon', founded: 1986, employees: 5500, revenue: 2800, growth: -3, valuation: 7000, competitors: ['Capcom', 'Bandai Namco', 'Sega'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Final Fantasy XVI', price: 69.99, old: 69.99 }, { item: 'FF VII Rebirth', price: 69.99, old: 69.99 }, { item: 'Octopath Traveler', price: 59.99, old: 39.99 }], satisfaction: 82, nps: 60, sentiment: 'Positif', hqCountry: 'Japon', languages: ['JA', 'EN'] },
+        'steam': { hq: 'Bellevue, USA', founded: 2003, employees: 350, revenue: 9000, growth: 12, valuation: 0, competitors: ['Epic Games', 'GOG', 'Xbox Store'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Steam Deck', price: 349, old: 419 }, { item: 'Steam Deck OLED', price: 549, old: 549 }, { item: 'Controller', price: 54, old: 49 }], satisfaction: 90, nps: 75, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'steelseries': { hq: 'Copenhague, Danemark', founded: 2001, employees: 500, revenue: 400, growth: 6.2, valuation: 800, competitors: ['Razer', 'Logitech', 'HyperX'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Apex Pro', price: 199, old: 189 }, { item: 'Arctis Nova Pro', price: 349, old: 349 }, { item: 'Rival 3', price: 29, old: 29 }], satisfaction: 81, nps: 58, sentiment: 'Positif', hqCountry: 'Danemark', languages: ['EN'] },
+        'stripe': { hq: 'Dublin, Irlande', founded: 2010, employees: 8000, revenue: 16000, growth: 25, valuation: 65000, competitors: ['PayPal', 'Adyen', 'Square'], sector: 'fintech', currency: 'M$', realPrices: [{ item: 'Commission', price: 1.5, old: 1.5 }, { item: 'Payouts', price: 0.25, old: 0.25 }, { item: 'Billing', price: 0.5, old: 0.5 }], satisfaction: 88, nps: 74, sentiment: 'Positif', hqCountry: 'Irlande', languages: ['EN'] },
+        'subway': { hq: 'Shelton, USA', founded: 1965, employees: 0, revenue: 16000, growth: -2, valuation: 0, competitors: ["McDonald's", 'KFC', 'Burger King'], sector: 'food', currency: 'M$', realPrices: [{ item: 'Footlong', price: 9.99, old: 8.99 }, { item: '6 pouces', price: 6.49, old: 5.99 }, { item: 'Menu', price: 12.99, old: 11.99 }], satisfaction: 62, nps: 25, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN', 'FR'] },
+        'teams': { hq: 'Redmond, USA', founded: 2017, employees: 0, revenue: 0, growth: 18, valuation: 0, competitors: ['Slack', 'Zoom', 'Discord'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'Essentials', price: 0, old: 0 }, { item: 'Business Basic', price: 6, old: 6 }, { item: 'Business Standard', price: 12.5, old: 12.5 }], satisfaction: 68, nps: 32, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'telegram': { hq: 'Dubai, EAU', founded: 2013, employees: 30, revenue: 350, growth: 30, valuation: 7000, competitors: ['WhatsApp', 'Signal', 'Discord'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'Telegram Premium', price: 4.99, old: 4.99 }, { item: 'Stars', price: 0.99, old: 0.99 }], satisfaction: 88, nps: 72, sentiment: 'Positif', hqCountry: 'EAU', languages: ['EN'] },
+        'temu': { hq: 'Boston, USA', founded: 2022, employees: 15000, revenue: 20000, growth: 100, valuation: 50000, competitors: ['Shein', 'AliExpress', 'Amazon'], sector: 'ecommerce', currency: 'M$', realPrices: [{ item: 'Coupons', price: 0.99, old: 0.99 }, { item: 'Livraison', price: 0, old: 0 }, { item: 'Retour 90j', price: 0, old: 0 }], satisfaction: 58, nps: 18, sentiment: 'Melange', hqCountry: 'USA', languages: ['EN', 'FR'] },
+        'tesla': { hq: 'Austin, USA', founded: 2003, employees: 140473, revenue: 97690, marketShare: 2.1, growth: 1.1, valuation: 800000, competitors: ['BMW', 'Mercedes-Benz', 'Toyota'], sector: 'auto', currency: 'M$', realPrices: [{ item: 'Model 3', price: 42490, old: 42490 }, { item: 'Model Y', price: 44990, old: 47490 }, { item: 'Model S', price: 89990, old: 94990 }], satisfaction: 79, nps: 63, sentiment: 'Melange', hqCountry: 'USA', languages: ['EN'] },
+        'tf1': { hq: 'Tours, France', founded: 1975, employees: 4500, revenue: 2500, marketShare: 2.2, growth: -5, valuation: 3000, competitors: ['M6', 'France 2', 'Canal+'], sector: 'streaming', currency: 'M$', realPrices: [{ item: 'TF1+', price: 0, old: 0 }, { item: 'TF1 Premium', price: 5.99, old: 5.99 }, { item: 'Publicité', price: 0, old: 0 }], satisfaction: 60, nps: 25, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR'] },
+        'tidal': { hq: 'Oslo, Norvège', founded: 2014, employees: 200, revenue: 300, growth: 8, valuation: 350, competitors: ['Spotify', 'Apple Music', 'Deezer'], sector: 'streaming', currency: 'M$', realPrices: [{ item: 'Individual', price: 10.99, old: 10.99 }, { item: 'Family', price: 16.99, old: 16.99 }, { item: 'HiFi Plus', price: 19.99, old: 19.99 }], satisfaction: 80, nps: 55, sentiment: 'Positif', hqCountry: 'Norvège', languages: ['EN'] },
+        'tommy hilfiger': { hq: 'Amsterdam, Pays-Bas', founded: 1985, employees: 17000, revenue: 4200, marketShare: 0.6, growth: 2.5, valuation: 8000, competitors: ['Ralph Lauren', 'Calvin Klein', 'Lacoste'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Polo', price: 98, old: 89 }, { item: 'Jean', price: 110, old: 99 }, { item: 'Veste', price: 250, old: 225 }], satisfaction: 74, nps: 48, sentiment: 'Neutre', hqCountry: 'Pays-Bas', languages: ['EN'] },
+        'tripadvisor': { hq: 'Needham, USA', founded: 2000, employees: 2800, revenue: 1750, growth: 8, valuation: 2700, competitors: ['Booking', 'Yelp', 'Google Maps'], sector: 'travel', currency: 'M$', realPrices: [{ item: 'Tripadvisor Plus', price: 99.99, old: 99.99 }, { item: 'Business Advantage', price: 0, old: 0 }], satisfaction: 72, nps: 42, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN', 'FR'] },
+        'tumblr': { hq: 'New York, USA', founded: 2007, employees: 200, revenue: 120, growth: -5, valuation: 300, competitors: ['Twitter', 'WordPress', 'Reddit'], sector: 'social', currency: 'M$', realPrices: [{ item: 'Tumblr+', price: 4.99, old: 4.99 }, { item: 'Ad-Free', price: 4.99, old: 4.99 }], satisfaction: 58, nps: 22, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'twitch': { hq: 'San Francisco, USA', founded: 2011, employees: 1800, revenue: 2000, growth: 8, valuation: 45000, competitors: ['YouTube Gaming', 'Kick', 'Rumble'], sector: 'streaming', currency: 'M$', realPrices: [{ item: 'Turbo', price: 8.99, old: 8.99 }, { item: 'Bits', price: 1.4, old: 1.4 }, { item: 'Sub', price: 4.99, old: 4.99 }], satisfaction: 72, nps: 45, sentiment: 'Melange', hqCountry: 'USA', languages: ['EN'] },
+        'twitter': { hq: 'San Francisco, USA', founded: 2006, employees: 1500, revenue: 4400, growth: -20, valuation: 19000, competitors: ['X', 'Threads', 'Mastodon'], sector: 'social', currency: 'M$', realPrices: [{ item: 'X Premium', price: 8, old: 8 }, { item: 'X Premium+', price: 16, old: 16 }, { item: 'Verified Org', price: 1000, old: 1000 }], satisfaction: 45, nps: 15, sentiment: 'Negatif', hqCountry: 'USA', languages: ['EN'] },
+        'ubisoft connect': { hq: 'Rennes, France', founded: 2000, employees: 20000, revenue: 2300, growth: 8.5, valuation: 6000, competitors: ['Steam', 'Epic Games', 'Xbox Store'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Ubisoft Plus', price: 17.99, old: 17.99 }, { item: 'Far Cry 6', price: 59.99, old: 39.99 }, { item: 'Assassin\'s Creed', price: 69.99, old: 49.99 }], satisfaction: 65, nps: 30, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'valve': { hq: 'Bellevue, USA', founded: 1996, employees: 350, revenue: 9000, growth: 12, valuation: 0, competitors: ['Epic Games', 'Riot Games', 'Take-Two'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Half-Life Alyx', price: 59.99, old: 59.99 }, { item: 'Steam Deck', price: 349, old: 419 }, { item: 'Counter-Strike 2', price: 0, old: 0 }], satisfaction: 91, nps: 80, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'versace': { hq: 'Milan, Italie', founded: 1978, employees: 6500, revenue: 1100, marketShare: 0.3, growth: 3.2, valuation: 4000, competitors: ['Armani', 'Dolce & Gabbana', 'Prada'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Robe', price: 2500, old: 2300 }, { item: 'Chemise', price: 575, old: 525 }, { item: 'Méduse', price: 395, old: 375 }], satisfaction: 78, nps: 58, sentiment: 'Neutre', hqCountry: 'Italie', languages: ['IT', 'EN'] },
+        'viber': { hq: 'Luxembourg', founded: 2010, employees: 400, revenue: 200, growth: -2, valuation: 900, competitors: ['WhatsApp', 'Telegram', 'Skype'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'Viber Out', price: 9.99, old: 9.99 }], satisfaction: 62, nps: 28, sentiment: 'Neutre', hqCountry: 'Luxembourg', languages: ['EN'] },
+        'vimeo': { hq: 'New York, USA', founded: 2004, employees: 1000, revenue: 250, growth: 5, valuation: 1000, competitors: ['YouTube', 'Wistia', 'Dailymotion'], sector: 'streaming', currency: 'M$', realPrices: [{ item: 'Starter', price: 12, old: 12 }, { item: 'Pro', price: 20, old: 20 }, { item: 'Business', price: 50, old: 50 }], satisfaction: 74, nps: 45, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'visa': { hq: 'San Francisco, USA', founded: 1958, employees: 31600, revenue: 35926, growth: 9, valuation: 550000, competitors: ['Mastercard', 'Amex', 'UnionPay'], sector: 'fintech', currency: 'M$', realPrices: [{ item: 'Commission', price: 1.5, old: 1.5 }, { item: 'FX', price: 3, old: 3 }], satisfaction: 74, nps: 45, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'webex': { hq: 'San Jose, USA', founded: 2007, employees: 0, revenue: 0, growth: -5, valuation: 0, competitors: ['Zoom', 'Teams', 'Google Meet'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'Starter', price: 14.5, old: 13.5 }, { item: 'Business', price: 25, old: 23.5 }, { item: 'Enterprise', price: 0, old: 0 }], satisfaction: 65, nps: 30, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'wechat': { hq: 'Shenzhen, Chine', founded: 2011, employees: 0, revenue: 0, growth: 5, valuation: 0, competitors: ['QQ', 'Line', 'WhatsApp'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'WeChat Pay', price: 0, old: 0 }, { item: 'WeChat Out', price: 1.99, old: 1.99 }], satisfaction: 70, nps: 40, sentiment: 'Neutre', hqCountry: 'Chine', languages: ['ZH'] },
+        'whatsapp': { hq: 'Menlo Park, USA', founded: 2009, employees: 200, revenue: 0, growth: 8, valuation: 0, competitors: ['Telegram', 'Signal', 'Messenger'], sector: 'saas', currency: 'M$', realPrices: [{ item: 'WhatsApp Business API', price: 0, old: 0 }, { item: 'Meta Verified', price: 14.99, old: 14.99 }], satisfaction: 74, nps: 48, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'x': { hq: 'San Francisco, USA', founded: 2006, employees: 1500, revenue: 4400, growth: -20, valuation: 19000, competitors: ['Threads', 'Bluesky', 'Mastodon'], sector: 'social', currency: 'M$', realPrices: [{ item: 'X Premium', price: 8, old: 8 }, { item: 'X Premium+', price: 16, old: 16 }, { item: 'Verified Org', price: 1000, old: 1000 }], satisfaction: 45, nps: 15, sentiment: 'Negatif', hqCountry: 'USA', languages: ['EN'] },
+        'xbox': { hq: 'Redmond, USA', founded: 2001, employees: 0, revenue: 0, growth: 5, valuation: 0, competitors: ['PlayStation', 'Nintendo', 'Steam'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Game Pass Ultimate', price: 19.99, old: 16.99 }, { item: 'Game Pass Core', price: 9.99, old: 9.99 }, { item: 'Xbox Series X', price: 499, old: 499 }], satisfaction: 78, nps: 55, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'youtube': { hq: 'San Bruno, USA', founded: 2005, employees: 0, revenue: 31500, growth: 8, valuation: 0, competitors: ['Twitch', 'Dailymotion', 'Vimeo'], sector: 'streaming', currency: 'M$', realPrices: [{ item: 'Premium', price: 13.99, old: 13.99 }, { item: 'Music Premium', price: 10.99, old: 10.99 }, { item: 'Family', price: 22.99, old: 22.99 }], satisfaction: 82, nps: 61, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'youtube music': { hq: 'San Bruno, USA', founded: 2015, employees: 0, revenue: 3000, growth: 15, valuation: 0, competitors: ['Spotify', 'Apple Music', 'Amazon Music'], sector: 'streaming', currency: 'M$', realPrices: [{ item: 'Individual', price: 10.99, old: 10.99 }, { item: 'Family', price: 16.99, old: 16.99 }, { item: 'Student', price: 5.49, old: 5.49 }], satisfaction: 74, nps: 45, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'zalando': { hq: 'Berlin, Allemagne', founded: 2008, employees: 15000, revenue: 10500, marketShare: 1.8, growth: 4.2, valuation: 12000, competitors: ['ASOS', 'About You', 'Amazon'], sector: 'ecommerce', currency: 'M$', realPrices: [{ item: 'Livraison', price: 3.95, old: 3.95 }, { item: 'Retour', price: 0, old: 0 }, { item: 'Premium', price: 0, old: 0 }], satisfaction: 76, nps: 48, sentiment: 'Positif', hqCountry: 'Allemagne', languages: ['DE', 'EN', 'FR'] },
+        'aigle': { hq: 'Châtellerault, France', founded: 1853, employees: 800, revenue: 250, marketShare: 0.05, growth: 2, valuation: 300, competitors: ['Petit Bateau', 'Decathlon', 'Veja'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Wellington', price: 75, old: 69.99 }, { item: 'Veste', price: 120, old: 110 }, { item: 'Chaussures', price: 89.99, old: 79.99 }], satisfaction: 72, nps: 45, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR'] },
+        'alexander mcqueen': { hq: 'Londres, UK', founded: 1992, employees: 1500, revenue: 800, marketShare: 0.1, growth: 4, valuation: 0, competitors: ['Givenchy', 'Balenciaga', 'Vivienne Westwood'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Sac', price: 1850, old: 1750 }, { item: 'Sneakers', price: 650, old: 620 }, { item: 'Robe', price: 3200, old: 3000 }], satisfaction: 80, nps: 60, sentiment: 'Positif', hqCountry: 'UK', languages: ['EN'] },
+        'ami paris': { hq: 'Paris, France', founded: 2011, employees: 150, revenue: 150, growth: 25, valuation: 300, competitors: ['Jacquemus', 'Sandro', 'A.P.C.'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Sweat Ami de Coeur', price: 195, old: 175 }, { item: 'T-shirt', price: 110, old: 95 }, { item: 'Jean', price: 195, old: 180 }], satisfaction: 82, nps: 62, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'anastasia beverly hills': { hq: 'Los Angeles, USA', founded: 1997, employees: 500, revenue: 400, growth: 8, valuation: 1000, competitors: ['Huda Beauty', 'NYX', 'Benefit'], sector: 'beauty', currency: 'M$', realPrices: [{ item: 'Brow Wiz', price: 26, old: 23 }, { item: 'Soft Glam', price: 45, old: 42 }, { item: 'Contour Kit', price: 40, old: 37 }], satisfaction: 80, nps: 60, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'balenciaga': { hq: 'Paris, France', founded: 1919, employees: 3500, revenue: 2500, marketShare: 0.4, growth: 3, valuation: 8000, competitors: ['Gucci', 'Saint Laurent', 'Prada'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Sac City', price: 2450, old: 2250 }, { item: 'Sneakers Triple S', price: 1050, old: 995 }, { item: 'Casquette', price: 475, old: 445 }], satisfaction: 76, nps: 52, sentiment: 'Melange', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'bershka': { hq: 'Arteixo, Espagne', founded: 1998, employees: 0, revenue: 0, growth: 5, valuation: 0, competitors: ['Zara', 'Pull&Bear', 'Mango'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'T-shirt', price: 9.99, old: 7.99 }, { item: 'Jean', price: 25.99, old: 22.99 }, { item: 'Sac', price: 15.99, old: 12.99 }], satisfaction: 65, nps: 30, sentiment: 'Neutre', hqCountry: 'Espagne', languages: ['ES', 'EN', 'FR'] },
+        'bimba y lola': { hq: 'Bilbao, Espagne', founded: 2005, employees: 800, revenue: 150, growth: 10, valuation: 200, competitors: ['Sandro', 'Maje', 'Desigual'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Sac', price: 195, old: 175 }, { item: 'Robe', price: 145, old: 130 }, { item: 'Pull', price: 95, old: 85 }], satisfaction: 74, nps: 48, sentiment: 'Positif', hqCountry: 'Espagne', languages: ['ES', 'EN', 'FR'] },
+        'bottega veneta': { hq: 'Vicenza, Italie', founded: 1966, employees: 2500, revenue: 1800, marketShare: 0.3, growth: 6, valuation: 0, competitors: ['Gucci', 'Fendi', 'Loewe'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Sac Cassette', price: 3500, old: 3200 }, { item: 'Sac Jodie', price: 3200, old: 2990 }, { item: 'Botte', price: 1500, old: 1400 }], satisfaction: 86, nps: 70, sentiment: 'Positif', hqCountry: 'Italie', languages: ['IT', 'EN'] },
+        'camaieu': { hq: 'Roubaix, France', founded: 1984, employees: 3000, revenue: 600, marketShare: 0.1, growth: -10, valuation: 0, competitors: ['Naf Naf', 'Kookaï', 'Mango'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Robe', price: 39.99, old: 34.99 }, { item: 'Jean', price: 29.99, old: 24.99 }, { item: 'Sac', price: 19.99, old: 16.99 }], satisfaction: 60, nps: 25, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR'] },
+        'canada goose': { hq: 'Toronto, Canada', founded: 1957, employees: 3000, revenue: 1300, marketShare: 0.3, growth: 8, valuation: 6000, competitors: ['Moncler', 'The North Face', 'Arc\'teryx'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Expedition Parka', price: 1595, old: 1495 }, { item: 'Chilliwack', price: 995, old: 945 }, { item: 'Bonnet', price: 150, old: 135 }], satisfaction: 82, nps: 62, sentiment: 'Positif', hqCountry: 'Canada', languages: ['EN', 'FR'] },
+        'caudalie': { hq: 'Paris, France', founded: 1995, employees: 400, revenue: 400, growth: 8, valuation: 600, competitors: ['Nuxe', 'Clerins', 'Vichy'], sector: 'beauty', currency: 'M$', realPrices: [{ item: 'Eau de Beauté', price: 19.9, old: 18.9 }, { item: 'Vinoperfect', price: 34.9, old: 32.9 }, { item: 'Hand Cream', price: 9.9, old: 8.9 }], satisfaction: 78, nps: 55, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'cerave': { hq: 'Paris, France', founded: 2005, employees: 0, revenue: 0, growth: 25, valuation: 0, competitors: ['La Roche-Posay', 'Cetaphil', 'Eucerin'], sector: 'beauty', currency: 'M$', realPrices: [{ item: 'Hydratant', price: 12.5, old: 11.5 }, { item: 'Nettoyant', price: 10.5, old: 9.5 }, { item: 'SPF', price: 14.5, old: 13.5 }], satisfaction: 82, nps: 62, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'clarins': { hq: 'Paris, France', founded: 1954, employees: 6000, revenue: 2500, marketShare: 0.5, growth: 5, valuation: 3000, competitors: ['Sisley', 'Nuxe', 'Estée Lauder'], sector: 'beauty', currency: 'M$', realPrices: [{ item: 'Double Serum', price: 89, old: 82 }, { item: 'Glow', price: 39, old: 36 }, { item: 'Lip', price: 32, old: 30 }], satisfaction: 80, nps: 58, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'claudie pierlot': { hq: 'Paris, France', founded: 1984, employees: 800, revenue: 200, marketShare: 0.05, growth: 2, valuation: 300, competitors: ['Sandro', 'Maje', 'The Kooples'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Robe', price: 245, old: 220 }, { item: 'Blazer', price: 295, old: 270 }, { item: 'Sac', price: 195, old: 175 }], satisfaction: 72, nps: 45, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'cos': { hq: 'Stockholm, Suède', founded: 2007, employees: 0, revenue: 0, growth: 8, valuation: 0, competitors: ['Zara', 'Arket', '& Other Stories'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Robe', price: 79, old: 69 }, { item: 'Chemise', price: 55, old: 49 }, { item: 'Manteau', price: 150, old: 135 }], satisfaction: 76, nps: 50, sentiment: 'Positif', hqCountry: 'Suède', languages: ['EN', 'FR'] },
+        'desigual': { hq: 'Barcelone, Espagne', founded: 1984, employees: 4000, revenue: 1200, marketShare: 0.2, growth: 2, valuation: 800, competitors: ['Mango', 'Zara', 'Bershka'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Top', price: 39.99, old: 34.99 }, { item: 'Robe', price: 69.99, old: 59.99 }, { item: 'Sac', price: 59.99, old: 49.99 }], satisfaction: 65, nps: 32, sentiment: 'Neutre', hqCountry: 'Espagne', languages: ['ES', 'EN', 'FR'] },
+        'dolce gabbana': { hq: 'Milan, Italie', founded: 1985, employees: 3500, revenue: 1600, marketShare: 0.3, growth: 2, valuation: 0, competitors: ['Armani', 'Versace', 'Prada'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Robe', price: 2900, old: 2700 }, { item: 'Chemise', price: 675, old: 645 }, { item: 'Parfum', price: 105, old: 98 }], satisfaction: 74, nps: 48, sentiment: 'Neutre', hqCountry: 'Italie', languages: ['IT', 'EN'] },
+        'fendi': { hq: 'Rome, Italie', founded: 1925, employees: 3000, revenue: 1500, marketShare: 0.3, growth: 4, valuation: 0, competitors: ['Gucci', 'Prada', 'Bottega Veneta'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Sac Baguette', price: 2800, old: 2590 }, { item: 'Fourrure', price: 5000, old: 4800 }, { item: 'Lunettes', price: 350, old: 320 }], satisfaction: 80, nps: 60, sentiment: 'Positif', hqCountry: 'Italie', languages: ['IT', 'EN'] },
+        'fenty beauty': { hq: 'San Francisco, USA', founded: 2017, employees: 300, revenue: 600, growth: 20, valuation: 2800, competitors: ['MAC', 'NARS', 'Rare Beauty'], sector: 'beauty', currency: 'M$', realPrices: [{ item: 'Fenty Skin', price: 35, old: 32 }, { item: 'Gloss Bomb', price: 21, old: 19 }, { item: 'Filt\'r', price: 40, old: 36 }], satisfaction: 85, nps: 70, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'garnier': { hq: 'Paris, France', founded: 1904, employees: 0, revenue: 0, growth: 3, valuation: 0, competitors: ['L\'Oreal', 'Nivea', 'Vichy'], sector: 'beauty', currency: 'M$', realPrices: [{ item: 'Micellar Water', price: 7.99, old: 6.99 }, { item: 'Shampooing', price: 4.99, old: 4.49 }, { item: 'Crème solaire', price: 9.99, old: 8.99 }], satisfaction: 72, nps: 45, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'givenchy': { hq: 'Paris, France', founded: 1952, employees: 2500, revenue: 1200, marketShare: 0.2, growth: 2, valuation: 0, competitors: ['Dior', 'Saint Laurent', 'Balenciaga'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Sac Antigona', price: 2390, old: 2250 }, { item: 'Parfum', price: 110, old: 105 }, { item: 'Sweat', price: 590, old: 545 }], satisfaction: 76, nps: 52, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'glossier': { hq: 'New York, USA', founded: 2014, employees: 250, revenue: 250, growth: 10, valuation: 1800, competitors: ['Rare Beauty', 'Fenty Beauty', 'Kylie Cosmetics'], sector: 'beauty', currency: 'M$', realPrices: [{ item: 'Boy Brow', price: 18, old: 16 }, { item: 'Skin Tint', price: 26, old: 24 }, { item: 'Balm Dotcom', price: 16, old: 14 }], satisfaction: 80, nps: 60, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'guerrilla games': { hq: 'Amsterdam, Pays-Bas', founded: 1995, employees: 400, revenue: 0, growth: 0, valuation: 0, competitors: ['Naughty Dog', 'Insomniac', 'Santa Monica Studio'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Horizon Forbidden West', price: 59.99, old: 59.99 }, { item: 'Burning Shores', price: 19.99, old: 19.99 }], satisfaction: 88, nps: 75, sentiment: 'Positif', hqCountry: 'Pays-Bas', languages: ['EN'] },
+        'h&m': { hq: 'Stockholm, Suède', founded: 1947, employees: 100000, revenue: 21500, marketShare: 2.5, growth: 5.5, valuation: 20000, competitors: ['Zara', 'Primark', 'Uniqlo'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Pull', price: 29.99, old: 24.99 }, { item: 'Jean', price: 39.99, old: 34.99 }, { item: 'Manteau', price: 79.99, old: 89.99 }], satisfaction: 68, nps: 42, sentiment: 'Negatif', hqCountry: 'Suède', languages: ['SV', 'EN', 'FR', 'DE'] },
+        'huda beauty': { hq: 'Dubai, EAU', founded: 2013, employees: 200, revenue: 300, growth: 15, valuation: 1200, competitors: ['Anastasia Beverly Hills', 'Fenty Beauty', 'Kylie Cosmetics'], sector: 'beauty', currency: 'M$', realPrices: [{ item: 'Easy Bake', price: 38, old: 34 }, { item: 'Liquid Matte', price: 25, old: 23 }, { item: 'Nude Obsessions', price: 29, old: 27 }], satisfaction: 82, nps: 65, sentiment: 'Positif', hqCountry: 'EAU', languages: ['EN'] },
+        'innersloth': { hq: 'Redmond, USA', founded: 2015, employees: 5, revenue: 500, growth: -20, valuation: 0, competitors: ['Fall Guys', 'Deceit', 'Project Winter'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Among Us', price: 5, old: 5 }, { item: 'Cosmetics', price: 2.99, old: 2.99 }], satisfaction: 75, nps: 50, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'insomniac': { hq: 'Burbank, USA', founded: 1994, employees: 400, revenue: 0, growth: 0, valuation: 0, competitors: ['Naughty Dog', 'Santa Monica Studio', 'Guerrilla Games'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Spider-Man 2', price: 69.99, old: 69.99 }, { item: 'Ratchet & Clank', price: 49.99, old: 39.99 }], satisfaction: 90, nps: 78, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'isabel marant': { hq: 'Paris, France', founded: 1988, employees: 1000, revenue: 400, marketShare: 0.1, growth: 5, valuation: 800, competitors: ['Sandro', 'Maje', 'Zadig & Voltaire'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Bottines', price: 695, old: 645 }, { item: 'Robe', price: 590, old: 545 }, { item: 'Sac', price: 490, old: 450 }], satisfaction: 80, nps: 60, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'jacquemus': { hq: 'Paris, France', founded: 2009, employees: 200, revenue: 250, growth: 40, valuation: 500, competitors: ['Isabel Marant', 'Ami Paris', 'Sandro'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Sac Le Bambino', price: 450, old: 420 }, { item: 'Robe', price: 590, old: 545 }, { item: 'Chapeau', price: 190, old: 175 }], satisfaction: 84, nps: 68, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'king': { hq: 'Stockholm, Suède', founded: 2003, employees: 2000, revenue: 2500, growth: 3, valuation: 0, competitors: ['Supercell', 'Rovio', 'Zynga'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Gold Bar', price: 4.99, old: 4.99 }, { item: 'Lives', price: 0.99, old: 0.99 }], satisfaction: 68, nps: 38, sentiment: 'Neutre', hqCountry: 'Suède', languages: ['EN'] },
+        'kookai': { hq: 'Paris, France', founded: 1983, employees: 1200, revenue: 250, marketShare: 0.05, growth: -3, valuation: 150, competitors: ['Naf Naf', 'Camaïeu', 'Mango'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Robe', price: 44.99, old: 39.99 }, { item: 'Jean', price: 29.99, old: 24.99 }, { item: 'Sac', price: 19.99, old: 16.99 }], satisfaction: 58, nps: 22, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR'] },
+        'krafton': { hq: 'Seoul, Corée du Sud', founded: 2007, employees: 3000, revenue: 1500, growth: 15, valuation: 14000, competitors: ['Epic Games', 'Riot Games', 'Activision'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'PUBG', price: 0, old: 0 }, { item: 'BP', price: 9.99, old: 9.99 }, { item: 'PUBG Mobile', price: 0, old: 0 }], satisfaction: 65, nps: 32, sentiment: 'Neutre', hqCountry: 'Corée du Sud', languages: ['EN'] },
+        'kylie cosmetics': { hq: 'Los Angeles, USA', founded: 2015, employees: 100, revenue: 200, growth: 5, valuation: 900, competitors: ['Huda Beauty', 'Fenty Beauty', 'Rare Beauty'], sector: 'beauty', currency: 'M$', realPrices: [{ item: 'Lip Kit', price: 32, old: 29 }, { item: 'Gloss', price: 18, old: 16 }, { item: 'Blush', price: 22, old: 20 }], satisfaction: 70, nps: 42, sentiment: 'Melange', hqCountry: 'USA', languages: ['EN'] },
+        'la mer': { hq: 'New York, USA', founded: 1965, employees: 0, revenue: 0, growth: 5, valuation: 0, competitors: ['SK-II', 'Sisley', 'Clé de Peau'], sector: 'beauty', currency: 'M$', realPrices: [{ item: 'Crème', price: 345, old: 325 }, { item: 'Sérum', price: 425, old: 395 }, { item: 'Eye', price: 265, old: 245 }], satisfaction: 88, nps: 72, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'la roche posay': { hq: 'Paris, France', founded: 1975, employees: 0, revenue: 0, growth: 8, valuation: 0, competitors: ['Vichy', 'CeraVe', 'Eucerin'], sector: 'beauty', currency: 'M$', realPrices: [{ item: 'Effaclar', price: 14.5, old: 13.5 }, { item: 'Anthelios', price: 19.5, old: 18.5 }, { item: 'Toleriane', price: 16.5, old: 15.5 }], satisfaction: 80, nps: 58, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'maison margiela': { hq: 'Paris, France', founded: 1988, employees: 1000, revenue: 600, marketShare: 0.1, growth: 8, valuation: 0, competitors: ['Rick Owens', 'Comme des Garçons', 'Yohji Yamamoto'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Replica', price: 320, old: 295 }, { item: 'Sac 5AC', price: 2400, old: 2250 }, { item: 'Tabi', price: 990, old: 950 }], satisfaction: 82, nps: 62, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'maje': { hq: 'Paris, France', founded: 1998, employees: 3000, revenue: 800, marketShare: 0.1, growth: 4, valuation: 1500, competitors: ['Sandro', 'The Kooples', 'Claudie Pierlot'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Robe', price: 220, old: 195 }, { item: 'Blazer', price: 290, old: 270 }, { item: 'Sac', price: 195, old: 175 }], satisfaction: 72, nps: 45, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'massimo dutti': { hq: 'Arteixo, Espagne', founded: 1985, employees: 0, revenue: 0, growth: 5, valuation: 0, competitors: ['Zara', 'COS', 'Sandro'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Veste', price: 149, old: 129 }, { item: 'Chemise', price: 49.99, old: 45.99 }, { item: 'Jean', price: 69.99, old: 59.99 }], satisfaction: 72, nps: 42, sentiment: 'Neutre', hqCountry: 'Espagne', languages: ['ES', 'EN', 'FR'] },
+        'maybelline': { hq: 'New York, USA', founded: 1915, employees: 0, revenue: 0, growth: 5, valuation: 0, competitors: ['L\'Oreal', 'NYX', 'Revlon'], sector: 'beauty', currency: 'M$', realPrices: [{ item: 'Colossal', price: 9.99, old: 8.99 }, { item: 'Fit Me', price: 8.99, old: 7.99 }, { item: 'Super Stay', price: 11.99, old: 10.99 }], satisfaction: 74, nps: 48, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'mediatonic': { hq: 'Londres, UK', founded: 2005, employees: 100, revenue: 100, growth: 10, valuation: 0, competitors: ['Innersloth', 'Psyonix', 'Epic Games'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Fall Guys', price: 0, old: 0 }, { item: 'Kudos', price: 4.99, old: 4.99 }, { item: 'Season Pass', price: 9.99, old: 9.99 }], satisfaction: 70, nps: 42, sentiment: 'Neutre', hqCountry: 'UK', languages: ['EN'] },
+        'mojang': { hq: 'Stockholm, Suède', founded: 2010, employees: 100, revenue: 500, growth: 10, valuation: 2500, competitors: ['Roblox', 'Terraria', 'Valheim'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Minecraft', price: 29.99, old: 26.95 }, { item: 'Realms Plus', price: 7.99, old: 6.99 }, { item: 'Minecoins', price: 8.99, old: 7.99 }], satisfaction: 91, nps: 82, sentiment: 'Positif', hqCountry: 'Suède', languages: ['EN'] },
+        'moncler': { hq: 'Milan, Italie', founded: 1952, employees: 5000, revenue: 3000, marketShare: 0.5, growth: 15, valuation: 25000, competitors: ['Canada Goose', 'Arc\'teryx', 'The North Face'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Doudoune Maya', price: 1650, old: 1550 }, { item: 'Doudoune长', price: 2200, old: 2050 }, { item: 'Bonnet', price: 350, old: 320 }], satisfaction: 85, nps: 68, sentiment: 'Positif', hqCountry: 'Italie', languages: ['IT', 'EN'] },
+        'naf naf': { hq: 'Coudray-Montceaux, France', founded: 1973, employees: 1500, revenue: 300, marketShare: 0.05, growth: -5, valuation: 200, competitors: ['Camaïeu', 'Kookaï', 'Mango'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Robe', price: 49.99, old: 44.99 }, { item: 'Sac', price: 29.99, old: 24.99 }, { item: 'Pull', price: 24.99, old: 19.99 }], satisfaction: 62, nps: 28, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR'] },
+        'nuxe': { hq: 'Paris, France', founded: 1957, employees: 500, revenue: 500, growth: 6, valuation: 800, competitors: ['Caudalie', 'Clarins', 'Vichy'], sector: 'beauty', currency: 'M$', realPrices: [{ item: 'Huile Prodigieuse', price: 27.9, old: 25.9 }, { item: 'Crème Rêve de Miel', price: 22.9, old: 20.9 }, { item: 'Sérum', price: 39.9, old: 36.9 }], satisfaction: 80, nps: 58, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'nyx': { hq: 'Los Angeles, USA', founded: 1999, employees: 0, revenue: 0, growth: 8, valuation: 0, competitors: ['Maybelline', 'Revlon', 'MAC'], sector: 'beauty', currency: 'M$', realPrices: [{ item: 'Butter Gloss', price: 6, old: 5 }, { item: 'Epic Ink', price: 10, old: 9 }, { item: 'Eyes', price: 12, old: 11 }], satisfaction: 76, nps: 52, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'oysho': { hq: 'Arteixo, Espagne', founded: 2001, employees: 0, revenue: 0, growth: 6, valuation: 0, competitors: ['Intimissimi', 'H&M', 'Etam'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Soutien-gorge', price: 19.99, old: 15.99 }, { item: 'Pyjama', price: 39.99, old: 34.99 }, { item: 'Legging', price: 25.99, old: 22.99 }], satisfaction: 70, nps: 40, sentiment: 'Neutre', hqCountry: 'Espagne', languages: ['ES', 'EN', 'FR'] },
+        'petit bateau': { hq: 'Paris, France', founded: 1918, employees: 1500, revenue: 400, marketShare: 0.1, growth: 3, valuation: 500, competitors: ['Aigle', 'Camaïeu', 'Zara'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'T-shirt marin', price: 29.99, old: 24.99 }, { item: 'Jean', price: 49.99, old: 44.99 }, { item: 'Pull', price: 44.99, old: 39.99 }], satisfaction: 74, nps: 48, sentiment: 'Positif', hqCountry: 'France', languages: ['FR'] },
+        'primark': { hq: 'Dublin, Irlande', founded: 1969, employees: 78000, revenue: 10500, marketShare: 1.2, growth: 8, valuation: 0, competitors: ['H&M', 'Zara', 'Shein'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'T-shirt', price: 2.5, old: 1.95 }, { item: 'Jean', price: 10, old: 8 }, { item: 'Robe', price: 8, old: 6 }], satisfaction: 68, nps: 35, sentiment: 'Neutre', hqCountry: 'Irlande', languages: ['EN', 'FR'] },
+        'psyonix': { hq: 'San Diego, USA', founded: 2001, employees: 200, revenue: 200, growth: 5, valuation: 0, competitors: ['Epic Games', '2K', 'EA'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Rocket League', price: 0, old: 0 }, { item: 'Credits', price: 4.99, old: 4.99 }, { item: 'Rocket Pass', price: 9.99, old: 9.99 }], satisfaction: 85, nps: 68, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'pullbear': { hq: 'Arteixo, Espagne', founded: 1991, employees: 0, revenue: 0, growth: 4, valuation: 0, competitors: ['Zara', 'Bershka', 'Massimo Dutti'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'T-shirt', price: 9.99, old: 7.99 }, { item: 'Jean', price: 25.99, old: 22.99 }, { item: 'Sweat', price: 19.99, old: 15.99 }], satisfaction: 66, nps: 32, sentiment: 'Neutre', hqCountry: 'Espagne', languages: ['ES', 'EN', 'FR'] },
+        'rare beauty': { hq: 'San Francisco, USA', founded: 2020, employees: 100, revenue: 400, growth: 50, valuation: 2000, competitors: ['Fenty Beauty', 'Glossier', 'Kylie Cosmetics'], sector: 'beauty', currency: 'M$', realPrices: [{ item: 'Soft Pinch', price: 23, old: 21 }, { item: 'Kind Words', price: 20, old: 18 }, { item: 'Positive Light', price: 25, old: 23 }], satisfaction: 88, nps: 75, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'rovio': { hq: 'Espoo, Finlande', founded: 2003, employees: 300, revenue: 300, growth: -5, valuation: 0, competitors: ['King', 'Supercell', 'Gameloft'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Angry Birds 2', price: 0, old: 0 }, { item: 'Seasons', price: 0.99, old: 0.99 }], satisfaction: 70, nps: 40, sentiment: 'Positif', hqCountry: 'Finlande', languages: ['EN'] },
+        'saint laurent': { hq: 'Paris, France', founded: 1961, employees: 4000, revenue: 3200, marketShare: 0.6, growth: 5, valuation: 12000, competitors: ['Gucci', 'Balenciaga', 'Dior'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Sac Kate', price: 2250, old: 2050 }, { item: 'Trench', price: 2900, old: 2700 }, { item: 'Sneakers', price: 595, old: 545 }], satisfaction: 84, nps: 68, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'sandro': { hq: 'Paris, France', founded: 1984, employees: 5000, revenue: 1300, marketShare: 0.2, growth: 5, valuation: 2500, competitors: ['Maje', 'The Kooples', 'Zara'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Robe', price: 195, old: 175 }, { item: 'Veste', price: 295, old: 275 }, { item: 'Sac', price: 245, old: 225 }], satisfaction: 74, nps: 48, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'sezane': { hq: 'Paris, France', founded: 2013, employees: 500, revenue: 300, growth: 30, valuation: 500, competitors: ['Sandro', 'Maje', 'Rouje'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Chemise', price: 95, old: 85 }, { item: 'Robe', price: 145, old: 130 }, { item: 'Sac', price: 180, old: 165 }], satisfaction: 85, nps: 70, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'shiseido': { hq: 'Tokyo, Japon', founded: 1872, employees: 27000, revenue: 8800, marketShare: 1.5, growth: 5, valuation: 20000, competitors: ['SK-II', 'Clé de Peau', 'La Mer'], sector: 'beauty', currency: 'M$', realPrices: [{ item: 'Ultimune', price: 130, old: 120 }, { item: 'Future', price: 95, old: 88 }, { item: 'Synchro', price: 55, old: 50 }], satisfaction: 82, nps: 62, sentiment: 'Positif', hqCountry: 'Japon', languages: ['JA', 'EN'] },
+        'sisley': { hq: 'Paris, France', founded: 1976, employees: 1500, revenue: 1200, marketShare: 0.2, growth: 4, valuation: 1500, competitors: ['La Mer', 'Clarins', 'SK-II'], sector: 'beauty', currency: 'M$', realPrices: [{ item: 'Sisleÿa', price: 550, old: 520 }, { item: 'Black Rose', price: 195, old: 180 }, { item: 'Ecological', price: 130, old: 120 }], satisfaction: 85, nps: 68, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'sk-ii': { hq: 'Tokyo, Japon', founded: 1980, employees: 0, revenue: 0, growth: 3, valuation: 0, competitors: ['La Mer', 'Shiseido', 'Clé de Peau'], sector: 'beauty', currency: 'M$', realPrices: [{ item: 'FTE', price: 185, old: 175 }, { item: 'Mask', price: 135, old: 125 }, { item: 'Cream', price: 235, old: 220 }], satisfaction: 85, nps: 68, sentiment: 'Positif', hqCountry: 'Japon', languages: ['JA', 'EN'] },
+        'stradivarius': { hq: 'Arteixo, Espagne', founded: 1994, employees: 0, revenue: 0, growth: 3, valuation: 0, competitors: ['Zara', 'Bershka', 'Mango'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Robe', price: 19.99, old: 15.99 }, { item: 'Top', price: 9.99, old: 7.99 }, { item: 'Sac', price: 12.99, old: 9.99 }], satisfaction: 64, nps: 28, sentiment: 'Neutre', hqCountry: 'Espagne', languages: ['ES', 'EN', 'FR'] },
+        'sucker punch': { hq: 'Bellevue, USA', founded: 1997, employees: 300, revenue: 0, growth: 0, valuation: 0, competitors: ['Naughty Dog', 'Insomniac', 'Guerrilla Games'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Ghost of Tsushima', price: 59.99, old: 59.99 }, { item: 'Director\'s Cut', price: 69.99, old: 69.99 }], satisfaction: 91, nps: 80, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'supercell': { hq: 'Helsinki, Finlande', founded: 2010, employees: 340, revenue: 3000, growth: 10, valuation: 17000, competitors: ['King', 'Gameloft', 'Rovio'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Gold Pass', price: 4.99, old: 4.99 }, { item: 'Gems', price: 4.99, old: 4.99 }, { item: 'Brawl Pass', price: 9.99, old: 9.99 }], satisfaction: 78, nps: 55, sentiment: 'Positif', hqCountry: 'Finlande', languages: ['EN'] },
+        'the kooples': { hq: 'Paris, France', founded: 2008, employees: 1200, revenue: 300, marketShare: 0.05, growth: 3, valuation: 400, competitors: ['Sandro', 'Maje', 'Claudie Pierlot'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Veste cuir', price: 395, old: 370 }, { item: 'Robe', price: 225, old: 195 }, { item: 'Sac', price: 245, old: 225 }], satisfaction: 68, nps: 38, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'tom ford': { hq: 'Los Angeles, USA', founded: 2005, employees: 1000, revenue: 1000, marketShare: 0.2, growth: 5, valuation: 4000, competitors: ['Armani', 'Ralph Lauren', 'Hugo Boss'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Costume', price: 3500, old: 3300 }, { item: 'Lunettes', price: 450, old: 420 }, { item: 'Parfum', price: 135, old: 125 }], satisfaction: 82, nps: 65, sentiment: 'Positif', hqCountry: 'USA', languages: ['EN'] },
+        'valentino': { hq: 'Rome, Italie', founded: 1960, employees: 3000, revenue: 1400, marketShare: 0.3, growth: 3, valuation: 0, competitors: ['Gucci', 'Prada', 'Armani'], sector: 'luxe', currency: 'M$', realPrices: [{ item: 'Sac Rockstud', price: 2790, old: 2590 }, { item: 'Robe', price: 3200, old: 3000 }, { item: 'Sneakers', price: 790, old: 745 }], satisfaction: 78, nps: 55, sentiment: 'Positif', hqCountry: 'Italie', languages: ['IT', 'EN'] },
+        'vichy': { hq: 'Paris, France', founded: 1931, employees: 0, revenue: 0, growth: 4, valuation: 0, competitors: ['La Roche-Posay', 'Nuxe', 'Caudalie'], sector: 'beauty', currency: 'M$', realPrices: [{ item: 'Minéral 89', price: 22.5, old: 20.5 }, { item: 'Liftactiv', price: 32.5, old: 29.5 }, { item: 'SPF 50', price: 16.5, old: 15.5 }], satisfaction: 76, nps: 50, sentiment: 'Positif', hqCountry: 'France', languages: ['FR', 'EN'] },
+        'warner bros games': { hq: 'Burbank, USA', founded: 2004, employees: 3000, revenue: 5000, growth: 5, valuation: 0, competitors: ['Activision', 'EA', 'Ubisoft'], sector: 'gaming', currency: 'M$', realPrices: [{ item: 'Mortal Kombat 1', price: 69.99, old: 69.99 }, { item: 'Hogwarts Legacy', price: 59.99, old: 59.99 }, { item: 'Injustice 2', price: 19.99, old: 19.99 }], satisfaction: 72, nps: 45, sentiment: 'Neutre', hqCountry: 'USA', languages: ['EN'] },
+        'zadig & voltaire': { hq: 'Paris, France', founded: 1997, employees: 1500, revenue: 400, marketShare: 0.1, growth: 2, valuation: 500, competitors: ['Sandro', 'Maje', 'Isabel Marant'], sector: 'fashion', currency: 'M$', realPrices: [{ item: 'Sweat', price: 195, old: 175 }, { item: 'Sac', price: 295, old: 270 }, { item: 'Robe', price: 245, old: 225 }], satisfaction: 70, nps: 42, sentiment: 'Neutre', hqCountry: 'France', languages: ['FR', 'EN'] }
         };
 
 
 
         // ========== GET COMPANY DATA ==========
+        // Game title to parent company mapping
+        var gameToCompany = {
+            'valorant': 'riot games', 'counter-strike': 'valve', 'counter-strike 2': 'valve',
+            'dota 2': 'valve', 'world of warcraft': 'blizzard', 'overwatch': 'blizzard',
+            'overwatch 2': 'blizzard', 'apex legends': 'ea', 'fifa': 'ea', 'ea fc': 'ea',
+            'ea fc 25': 'ea', "assassin's creed": 'ubisoft connect', 'far cry': 'ubisoft connect',
+            'rainbow six': 'ubisoft connect', 'mario': 'nintendo', 'zelda': 'nintendo',
+            'pokemon': 'nintendo', 'animal crossing': 'nintendo', 'splatoon': 'nintendo',
+            'sonic': 'sega', 'persona': 'sega', 'final fantasy': 'square enix',
+            'resident evil': 'capcom', 'street fighter': 'capcom', 'tekken': 'bandai namco',
+            'mortal kombat': 'warner bros games', 'rocket league': 'psyonix',
+            'fall guys': 'mediatonic', 'among us': 'innersloth', 'fallout': 'bethesda',
+            'elder scrolls': 'bethesda', 'doom': 'bethesda', 'cyberpunk 2077': 'cd projekt',
+            'witcher': 'cd projekt', 'dark souls': 'fromsoftware', 'elden ring': 'fromsoftware',
+            'god of war': 'playstation', 'uncharted': 'naughty dog', 'the last of us': 'naughty dog',
+            'spider-man': 'insomniac', 'horizon': 'guerrilla games', 'ghost of tsushima': 'sucker punch',
+            'gran turismo': 'playstation', 'clash of clans': 'supercell', 'clash royale': 'supercell',
+            'brawl stars': 'supercell', 'candy crush': 'king', 'angry birds': 'rovio',
+            'fortnite': 'epic games', 'minecraft': 'mojang', 'roblox': 'roblox corporation',
+            'pubg': 'krafton', 'league of legends': 'riot games'
+        };
+
+        function getGameCompany(name) {
+            var lower = name.toLowerCase().trim();
+            if (gameToCompany[lower]) return gameToCompany[lower];
+            // Fuzzy: check if name contains a game title
+            for (var game in gameToCompany) {
+                if (lower.indexOf(game) >= 0 || game.indexOf(lower) >= 0) return gameToCompany[game];
+            }
+            return null;
+        }
+
+        function normKey(s) {
+            return s.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        }
         function getCompanyData(name) {
             const lower = name.toLowerCase().trim();
+            const norm = normKey(name);
             // User's own company
             if (myCompany && lower === myCompany.name.toLowerCase()) {
                 return { ...getMyCompanyData(), name: myCompany.name, isMine: true };
             }
-            // Direct match
+            // Direct match (raw or accent-normalized)
             if (companyDB[lower]) return { ...companyDB[lower], name };
-            // Partial match
+            if (companyDB[norm]) return { ...companyDB[norm], name };
+            // Game title -> parent company
+            var gameCompany = getGameCompany(norm) || getGameCompany(lower);
+            if (gameCompany && companyDB[gameCompany]) {
+                return { ...companyDB[gameCompany], name: name, gameTitle: name };
+            }
+            // Partial match — guard against single-letter keys and too-short queries
             for (const [key, data] of Object.entries(companyDB)) {
-                if (lower.includes(key) || key.includes(lower)) {
+                if (key.length < 2 || norm.length < 2) continue;
+                var keyNorm = normKey(key);
+                if (norm.includes(keyNorm) || (keyNorm.includes(norm) && norm.length >= 3)) {
                     return { ...data, name };
                 }
             }
@@ -2773,7 +3164,7 @@
             renderComps();
         }
 
-        function planLimit() { return plan === 'enterprise' ? 999 : plan === 'pro' ? PRO_LIMIT : plan === 'business' ? BIZ_LIMIT : FREE_LIMIT; }
+        function planLimit() { return plan === 'enterprise' ? 999 : plan === 'scale' ? 25 : plan === 'business' ? BIZ_LIMIT : plan === 'pro' ? PRO_LIMIT : plan === 'starter' ? 2 : FREE_LIMIT; }
         let myCompany = null;
         try { myCompany = JSON.parse(localStorage.getItem('rivaleye_mycompany') || 'null'); } catch(e) { myCompany = null; }
         function saveMyCompany() { localStorage.setItem('rivaleye_mycompany', JSON.stringify(myCompany)); }
@@ -3276,13 +3667,49 @@
             if (box) box.classList.remove('on');
             const isKnown = knownBrands.find(b => b.name.toLowerCase() === name.toLowerCase());
             const isDb = getCompanyData(name);
-            if (!isKnown || !isDb || isDb.realData === false) {
+            // Allow if known brand OR already in DB OR has game mapping
+            const hasGameMap = getGameCompany(name);
+            const hasData = isDb && isDb.realData !== false;
+            if (!isKnown && !hasData && !hasGameMap) {
                 input.style.borderColor = 'rgba(255,59,59,0.6)';
                 if (box) {
                     box.innerHTML = '<div style="padding:20px;text-align:center;color:var(--gray-5);font-size:12px">\u26A0 \u00AB ' + escHtml(name) + ' \u00BB n\u2019est pas dans notre base<br><span style="font-size:11px">Choisissez une marque dans les suggestions</span></div>';
                     box.classList.add('on');
                 }
                 setTimeout(() => { input.style.borderColor = ''; }, 2000);
+                return;
+            }
+            // If known brand but no data in DB, show loading and enrich
+            if (isKnown && !hasData && !hasGameMap) {
+                if (box) {
+                    box.innerHTML = '<div style="padding:20px;text-align:center;color:var(--accent);font-size:13px"><div style="margin:0 auto 10px;width:20px;height:20px;border:2px solid var(--accent);border-top:2px solid transparent;border-radius:50%;animation:spin 0.8s linear infinite"></div>Chargement des donn\u00e9es \u00AB ' + escHtml(name) + ' \u00BB...</div>';
+                    box.classList.add('on');
+                }
+                input.disabled = true;
+                autoEnrichBrand(name, function(data) {
+                    input.disabled = false;
+                    if (!data) {
+                        if (box) box.innerHTML = '<div style="padding:20px;text-align:center;color:var(--gray-5);font-size:12px">Aucune donn\u00e9e trouv\u00e9e pour \u00AB ' + escHtml(name) + ' \u00BB</div>';
+                        return;
+                    }
+                    if (box) box.classList.remove('on');
+                    saveRecentSearch(name);
+                    if (comps.length < planLimit()) {
+                        const existingIdx = comps.findIndex(c => c.name.toLowerCase() === name.toLowerCase());
+                        if (existingIdx >= 0) {
+                            curIdx = existingIdx;
+                        } else {
+                            const brand = getBrandByName(name);
+                            comps.push({ name: name, type: brand ? brand.type : data.sector || 'tech', url: brand ? brand.domain || '' : '', color: '#FF3B3B' });
+                            curIdx = comps.length - 1;
+                        }
+                        saveComps();
+                        renderComps();
+                        generateAll();
+                    } else {
+                        showUpgradeModal('pro');
+                    }
+                });
                 return;
             }
             saveRecentSearch(name);
@@ -3359,12 +3786,14 @@ function renderComps() {
 
         // ========== TAB LOCKING ==========
         const FREE_TABS = ['overview', 'settings'];
-        const PRO_TABS = ['prices', 'posts', 'ads', 'reviews'];
-        const BIZ_TABS = ['hiring', 'blog', 'alerts'];
+        const STARTER_TABS = ['prices', 'reviews'];
+        const PRO_TABS = ['posts', 'ads'];
+        const BIZ_TABS = ['hiring', 'blog', 'alerts', 'market'];
+        const SCALE_TABS = ['forecast', 'exports', 'api'];
 
         function isTabLocked(tab) {
             var required = getRequiredPlan(tab);
-            var planOrder = { free: 0, pro: 1, business: 2, enterprise: 3 };
+            var planOrder = { free: 0, starter: 1, pro: 2, business: 3, scale: 4, enterprise: 5 };
             return (planOrder[plan] || 0) < (planOrder[required] || 0);
         }
 
@@ -3372,29 +3801,35 @@ function renderComps() {
             document.querySelectorAll('.sb-item[data-tab]').forEach(function(el) {
                 var tab = el.getAttribute('data-tab');
                 el.classList.remove('premium', 'locked', 'biz');
+                el.removeAttribute('data-req');
                 if (tab) {
                     var req = getRequiredPlan(tab);
-                    if (req === 'pro') el.classList.add('premium');
-                    if (req === 'business') { el.classList.add('premium'); el.classList.add('biz'); }
+                    if (req) {
+                        el.setAttribute('data-req', req);
+                        el.classList.add('premium');
+                        if (req === 'business' || req === 'scale' || req === 'enterprise') el.classList.add('biz');
+                    }
                     if (isTabLocked(tab)) el.classList.add('locked');
                 }
             });
         }
 
         function getRequiredPlan(tab) {
-            if (tab === 'mycompany' || tab === 'overview' || tab === 'settings') return null;
+            if (tab === 'mycompany' || tab === 'overview' || tab === 'settings' || tab === 'duel') return null;
+            if (STARTER_TABS.includes(tab)) return 'starter';
             if (PRO_TABS.includes(tab)) return 'pro';
             if (BIZ_TABS.includes(tab)) return 'business';
+            if (SCALE_TABS.includes(tab)) return 'scale';
             return null;
         }
 
         function getPlanPrice(planName) {
-            const prices = { pro: '19,99€', business: '49,99€', enterprise: '99,99€' };
+            const prices = { starter: '9,99€', pro: '19,99€', business: '49,99€', scale: '99,99€', enterprise: '199,99€' };
             return prices[planName] || '19,99€';
         }
 
         function getPlanName(planName) {
-            const names = { pro: 'Pro', business: 'Business', enterprise: 'Enterprise' };
+            const names = { starter: 'Starter', pro: 'Pro', business: 'Business', scale: 'Scale', enterprise: 'Enterprise' };
             return names[planName] || 'Pro';
         }
 
@@ -3665,6 +4100,113 @@ function renderComps() {
             return html;
         }
 
+        // ========== DUEL MODE (multi-company comparison) ==========
+        var duelSel = []; // names selected for duel
+        function duelSlots() { return plan === 'enterprise' ? 8 : plan === 'scale' ? 6 : plan === 'business' ? 5 : plan === 'pro' ? 4 : plan === 'starter' ? 3 : 2; }
+        function renderDuel() {
+            var pickBox = document.getElementById('duelPicker');
+            var board = document.getElementById('duelBoard');
+            var cnt = document.getElementById('duelCount');
+            if (!pickBox || !board) return;
+            var slots = duelSlots();
+            if (cnt) cnt.textContent = duelSel.length + '/' + slots + ' entreprises';
+            // Picker: all tracked comps + myCompany + ability to add
+            var options = [];
+            if (myCompany) options.push({ name: myCompany.name, mine: true });
+            comps.forEach(function(c) { options.push({ name: c.name, mine: false }); });
+            var ph = '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px">';
+            options.forEach(function(o) {
+                var active = duelSel.indexOf(o.name) >= 0;
+                ph += '<button class="btn ' + (active ? 'btn-primary' : 'btn-ghost') + '" style="padding:6px 14px;font-size:12px" onclick="toggleDuel(\'' + escHtml(o.name).replace(/'/g, "\\'") + '\')">' + (o.mine ? '🏠 ' : '') + escHtml(o.name) + '</button>';
+            });
+            ph += '</div>';
+            if (comps.length < 2 && !myCompany) {
+                ph += '<div style="font-size:12px;color:var(--gray-4);padding:8px 0">Ajoutez au moins 2 concurrents (ou définissez votre entreprise) pour lancer un duel.</div>';
+            }
+            pickBox.innerHTML = ph;
+            // Build board
+            if (duelSel.length < 2) {
+                board.innerHTML = '<div style="text-align:center;padding:40px;color:var(--gray-4);font-size:13px">Sélectionnez au moins 2 entreprises pour comparer ⚔️</div>';
+                return;
+            }
+            var metrics = [
+                { key: 'revenue', label: 'Revenus', unit: 'M€', better: 'high' },
+                { key: 'valuation', label: 'Valorisation', unit: 'M€', better: 'high' },
+                { key: 'growth', label: 'Croissance', unit: '%', better: 'high' },
+                { key: 'employees', label: 'Employés', unit: '', better: 'high' },
+                { key: 'marketShare', label: 'Part de marché', unit: '%', better: 'high' },
+                { key: 'satisfaction', label: 'Satisfaction', unit: '/100', better: 'high' },
+                { key: 'nps', label: 'NPS', unit: '', better: 'high' }
+            ];
+            var datas = duelSel.map(function(n) { return getCompanyData(n) || {}; });
+            // Winner per metric
+            var winners = {};
+            metrics.forEach(function(m) {
+                var bestIdx = -1, bestVal = -Infinity;
+                datas.forEach(function(d, i) {
+                    var v = d[m.key];
+                    if (typeof v === 'number' && v > bestVal) { bestVal = v; bestIdx = i; }
+                });
+                winners[m.key] = bestIdx;
+            });
+            // Overall score (normalized 0-100 per metric, averaged)
+            var scores = datas.map(function() { return []; });
+            metrics.forEach(function(m) {
+                var vals = datas.map(function(d) { return typeof d[m.key] === 'number' ? d[m.key] : 0; });
+                var max = Math.max.apply(null, vals.map(Math.abs)) || 1;
+                vals.forEach(function(v, i) { scores[i].push(Math.abs(v) / max * 100); });
+            });
+            var totals = scores.map(function(arr) { return arr.length ? Math.round(arr.reduce(function(a, b) { return a + b; }, 0) / arr.length) : 0; });
+            var champIdx = totals.indexOf(Math.max.apply(null, totals));
+            // HTML
+            var cols = duelSel.length;
+            var h = '<div style="padding:0 16px 16px">';
+            // Header row
+            h += '<div style="display:grid;grid-template-columns:140px repeat(' + cols + ',1fr);gap:8px;margin-bottom:8px">';
+            h += '<div></div>';
+            duelSel.forEach(function(n, i) {
+                var color = i === champIdx ? 'var(--green)' : 'var(--gray-2)';
+                h += '<div style="text-align:center;padding:10px;border-radius:10px;background:' + (i === champIdx ? 'rgba(34,197,94,0.1)' : 'var(--bg)') + ';border:1px solid ' + (i === champIdx ? 'rgba(34,197,94,0.3)' : 'var(--border)') + '"><div style="font-size:14px;font-weight:700;color:' + color + '">' + escHtml(n) + '</div>' + (i === champIdx ? '<div style="font-size:10px;color:var(--green);margin-top:2px">🏆 CHAMPION · Score ' + totals[i] + '</div>' : '<div style="font-size:10px;color:var(--gray-5);margin-top:2px">Score ' + totals[i] + '</div>') + '</div>';
+            });
+            h += '</div>';
+            // Metric rows
+            metrics.forEach(function(m) {
+                h += '<div style="display:grid;grid-template-columns:140px repeat(' + cols + ',1fr);gap:8px;padding:8px 0;border-top:1px solid var(--border)">';
+                h += '<div style="font-size:12px;color:var(--gray-4);display:flex;align-items:center">' + m.label + '</div>';
+                datas.forEach(function(d, i) {
+                    var v = d[m.key];
+                    var isWin = winners[m.key] === i;
+                    var txt = (typeof v === 'number') ? (v >= 1000 ? (v / 1000).toFixed(1) + 'Md' : v) + m.unit : '—';
+                    h += '<div style="text-align:center;font-size:13px;font-weight:' + (isWin ? '700' : '400') + ';color:' + (isWin ? 'var(--green)' : 'var(--gray-2)') + '">' + txt + (isWin ? ' 👑' : '') + '</div>';
+                });
+                h += '</div>';
+            });
+            // Sector / HQ info row
+            h += '<div style="display:grid;grid-template-columns:140px repeat(' + cols + ',1fr);gap:8px;padding:8px 0;border-top:1px solid var(--border)">';
+            h += '<div style="font-size:12px;color:var(--gray-4)">Siège</div>';
+            datas.forEach(function(d) { h += '<div style="text-align:center;font-size:12px;color:var(--gray-3)">' + escHtml(d.hq || '—') + '</div>'; });
+            h += '</div>';
+            // Verdict
+            h += '<div style="margin-top:16px;padding:14px;border-radius:10px;background:var(--bg);border:1px solid var(--border)">';
+            h += '<div style="font-size:12px;font-weight:700;color:var(--gray-2);margin-bottom:4px">Verdict du duel</div>';
+            h += '<div style="font-size:13px;color:var(--gray-3)"><strong style="color:var(--green)">' + escHtml(duelSel[champIdx]) + '</strong> remporte le duel avec un score global de <strong>' + totals[champIdx] + '/100</strong>. ';
+            // Best at revenue
+            if (winners.revenue >= 0) h += 'C\'est aussi le plus gros chiffre d\'affaires (' + escHtml(duelSel[winners.revenue]) + '). ';
+            if (winners.growth >= 0 && winners.growth !== champIdx) h += escHtml(duelSel[winners.growth]) + ' a la meilleure croissance \u2014 \u00e0 surveiller. ';
+            h += '</div></div>';
+            h += '</div>';
+            board.innerHTML = h;
+        }
+        function toggleDuel(name) {
+            var i = duelSel.indexOf(name);
+            if (i >= 0) duelSel.splice(i, 1);
+            else {
+                if (duelSel.length >= duelSlots()) { showToast('Limite de duel atteinte pour votre plan (' + duelSlots() + ')', 'error'); showUpgradeModal('pro'); return; }
+                duelSel.push(name);
+            }
+            renderDuel();
+        }
+
         function generateAll() {
             if (comps.length === 0) { clearOverview(); return; }
             const c = cur();
@@ -3691,6 +4233,7 @@ function renderComps() {
 
             // Fill all other tabs with detailed data
             fillAllTabs(name);
+            renderDuel();
 
             enrichWithRealData(name);
             renderSettings();
@@ -3830,20 +4373,246 @@ function renderComps() {
         
         // ========== REAL DATA (Wikipedia API) ==========
         var wikiCache = {};
+        function autoEnrichBrand(name, callback) {
+            // If already in DB, return immediately
+            var existing = companyDB[name.toLowerCase().trim()];
+            if (existing) { callback({ ...existing, name: name }); return; }
+            // Fetch from Wikipedia (FR then EN)
+            fetchWikiData(name, function(wiki) {
+                if (!wiki) { callback(null); return; }
+                // Build minimal company profile from wiki extract
+                var sector = 'unknown';
+                var lower = name.toLowerCase();
+                // Guess sector from extract + known patterns
+                if (/game|jeu|gaming|studio/i.test(wiki.extract)) sector = 'gaming';
+                else if (/luxury|luxe|fashion|mode|couture/i.test(wiki.extract)) sector = 'luxe';
+                else if (/bank|finance|insur|assurance/i.test(wiki.extract)) sector = 'fintech';
+                else if (/softwar|logiciel|saas|cloud/i.test(wiki.extract)) sector = 'saas';
+                else if (/stream|vidéo|video|music|musique/i.test(wiki.extract)) sector = 'media';
+                else if (/food|restaur|aliment|drink|boisson/i.test(wiki.extract)) sector = 'food';
+                else if (/telecom|mobile|network|réseau/i.test(wiki.extract)) sector = 'telecom';
+                else if (/pharma|medic|santé|health/i.test(wiki.extract)) sector = 'pharma';
+                else if (/electric|auto|car|vehicle|véhicule/i.test(wiki.extract)) sector = 'auto';
+                else if (/ai |artificial|intelligence|llm|openai|anthropic/i.test(wiki.extract)) sector = 'ia';
+                else if (/retail|magasin|store|shop/i.test(wiki.extract)) sector = 'retail';
+                else if (/tech|digital|internet/i.test(wiki.extract)) sector = 'tech';
+                // Guess HQ country from description/extract
+                var hqCountry = 'N/A';
+                var countryPatterns = [
+                    [/France|français|Paris/i, 'France'],
+                    [/USA|American|New York|Californ|Silicon/i, 'USA'],
+                    [/UK|British|London|England/i, 'UK'],
+                    [/Germany|Deutsch|Berlin|Munich/i, 'Allemagne'],
+                    [/Japan|Tokyo|Japon/i, 'Japon'],
+                    [/China|Pékin|Beijing|Chinois/i, 'Chine'],
+                    [/Korea|Seoul|Corée/i, 'Corée du Sud'],
+                    [/Sweden|Stockholm|Suède|Swedish/i, 'Suède'],
+                    [/Finland|Helsinki|Finlande/i, 'Finlande'],
+                    [/Canada|Toronto|Montréal|Québec/i, 'Canada'],
+                    [/Italy|Rome|Milan|Italie|Italian/i, 'Italie'],
+                    [/Spain|Madrid|Espagne|Spanish/i, 'Espagne'],
+                    [/Netherlands|Amsterdam|Pays-Bas|Dutch/i, 'Pays-Bas'],
+                    [/India|Bangalore|Mumbai|Inde/i, 'Inde'],
+                    [/Brazil|Brésil|São Paulo/i, 'Brésil'],
+                    [/Ireland|Dublin|Irlande/i, 'Irlande'],
+                    [/Switzerland|Suisse|Zurich|Geneva/i, 'Suisse']
+                ];
+                for (var ci = 0; ci < countryPatterns.length; ci++) {
+                    if (countryPatterns[ci][0].test(wiki.extract) || (wiki.description && countryPatterns[ci][0].test(wiki.description))) {
+                        hqCountry = countryPatterns[ci][1]; break;
+                    }
+                }
+                var profile = {
+                    hq: hqCountry !== 'N/A' ? hqCountry : 'Non disponible',
+                    hqCountry: hqCountry,
+                    founded: null, employees: null, revenue: null, marketShare: null,
+                    growth: null, valuation: null, competitors: [], sector: sector,
+                    currency: 'M$', realPrices: null, satisfaction: null, nps: null,
+                    sentiment: 'Neutre', languages: ['EN'],
+                    realData: true, source: 'Wikipedia (' + wiki.lang + ')',
+                    wikiExtract: wiki.extract, wikiUrl: wiki.url,
+                    wikiThumb: wiki.thumbnail, wikiDescription: wiki.description
+                };
+                // Cache it
+                companyDB[name.toLowerCase().trim()] = profile;
+                callback({ ...profile, name: name });
+            });
+        }
+
+        // ========== COMPANY DISCOVERY / SUBMISSION SYSTEM ==========
+        var DISCOVERY_SOURCES = {
+            github: function(q, cb) { tryFetchJSON('https://api.github.com/search/repositories?q=' + encodeURIComponent(q) + '&per_page=1', function(d) { if (d && d.items && d.items[0]) { var it = d.items[0]; cb({ url: it.html_url, desc: it.description, stars: it.stargazers_count, lang: it.language, source: 'GitHub' }); } else cb(null); }); },
+            npm: function(q, cb) { tryFetchJSON('https://registry.npmjs.org/' + encodeURIComponent(q.toLowerCase()), function(d) { if (d && d.name) { cb({ url: 'https://www.npmjs.com/package/' + d.name, desc: (d.description || '').slice(0, 200), source: 'npm', version: d['dist-tags'] ? d['dist-tags'].latest : null }); } else cb(null); }); },
+            wikipedia: function(q, cb) { fetchWikiData(q, function(w) { if (w && w.extract) cb({ url: w.url, desc: w.extract, source: 'Wikipedia' }); else cb(null); }); }
+        };
+        function tryFetchJSON(url, cb) {
+            try { fetch(url).then(function(r) { return r.json(); }).then(cb).catch(function() { cb(null); }); } catch(e) { cb(null); }
+        }
+        function discoverCompany(nameOrUrl, cb) {
+            var results = { name: nameOrUrl, urls: [], descriptions: [], sources: [], stars: null };
+            var pending = 0; var done = false;
+            function finish() { if (!done && pending <= 0) { done = true; cb(results.urls.length > 0 ? results : null); } }
+            // If URL provided, use it directly
+            if (/^https?:\/\//i.test(nameOrUrl)) {
+                results.urls.push(nameOrUrl);
+                var domain = nameOrUrl.replace(/^https?:\/\//, '').split('/')[0].replace(/^www\./, '');
+                results.name = domain;
+                results.sources.push('URL');
+                // Try to fetch homepage title
+                tryFetchJSON('https://api.allorigins.win/get?url=' + encodeURIComponent(nameOrUrl), function(d) {
+                    if (d && d.contents) { var t = d.contents.match(/<title>([^<]+)<\/title>/i); if (t) results.descriptions.push(t[1]); }
+                    cb(results);
+                });
+                return;
+            }
+            // Search multiple sources in parallel
+            var sources = ['wikipedia', 'github', 'npm'];
+            pending = sources.length;
+            sources.forEach(function(src) {
+                DISCOVERY_SOURCES[src](nameOrUrl, function(r) {
+                    if (r) { if (r.url) results.urls.push(r.url); if (r.desc) results.descriptions.push(r.desc); if (r.source) results.sources.push(r.source); if (r.stars) results.stars = r.stars; }
+                    pending--; finish();
+                });
+            });
+            // Timeout safety
+            setTimeout(function() { if (!done) { done = true; cb(results.urls.length > 0 ? results : null); } }, 4000);
+        }
+        function submitOwnCompany(name, url, type, cb) {
+            // Merge discovery + manual info into companyDB
+            discoverCompany(url || name, function(disc) {
+                var key = name.toLowerCase().trim();
+                var existing = companyDB[key];
+                var profile = existing || {
+                    hq: 'Non renseign\u00e9', founded: null, employees: null, revenue: null,
+                    marketShare: null, growth: null, valuation: null, competitors: [],
+                    sector: type || 'tech', currency: 'M\u20AC', realPrices: null,
+                    satisfaction: null, nps: null, sentiment: 'Neutre', languages: ['FR'],
+                    realData: true, source: 'Soumis par l\u2019utilisateur', isUserSubmitted: true
+                };
+                if (disc) {
+                    profile.discovery = disc;
+                    if (disc.urls.length) profile.website = disc.urls[0];
+                    if (disc.descriptions.length) profile.desc = disc.descriptions[0];
+                    if (disc.stars) profile.githubStars = disc.stars;
+                    profile.realData = true;
+                }
+                companyDB[key] = profile;
+                // Also add to knownBrands so it appears in suggestions
+                if (!knownBrands.find(function(b) { return b.name.toLowerCase() === key; })) {
+                    knownBrands.push({ name: name, type: type || 'tech', domain: disc && disc.urls[0] ? disc.urls[0].replace(/^https?:\/\//, '').split('/')[0] : '' });
+                }
+                cb(profile);
+            });
+        }
+
+        var subPickedType = 'site';
+        function pickSubType(el) {
+            document.querySelectorAll('#subTypeGrid .type-opt').forEach(function(o) { o.classList.remove('sel'); });
+            el.classList.add('sel');
+            subPickedType = el.getAttribute('data-type');
+        }
+        function openSubmitModal(prefillName) {
+            document.getElementById('subName').value = prefillName || '';
+            document.getElementById('subUrl').value = '';
+            document.getElementById('subExtraFields').style.display = 'none';
+            document.getElementById('discoveryBox').style.display = 'none';
+            document.getElementById('discoveryBox').innerHTML = '';
+            document.getElementById('submitModal').classList.add('on');
+        }
+        function startDiscovery() {
+            var name = document.getElementById('subName').value.trim();
+            var url = document.getElementById('subUrl').value.trim();
+            if (!name && !url) { document.getElementById('subName').focus(); return; }
+            var box = document.getElementById('discoveryBox');
+            var btn = document.getElementById('discoBtn');
+            box.style.display = 'block';
+            box.innerHTML = '<div style="padding:14px;text-align:center;font-size:12px;color:var(--accent)"><div style="margin:0 auto 8px;width:18px;height:18px;border:2px solid var(--accent);border-top:2px solid transparent;border-radius:50%;animation:spin 0.8s linear infinite"></div>Recherche sur le web (Wikipedia, GitHub, npm, site)...<\/div>';
+            btn.disabled = true;
+            discoverCompany(url || name, function(disc) {
+                btn.disabled = false;
+                if (disc) {
+                    var srcs = disc.sources.length ? disc.sources.join(' · ') : 'Web';
+                    var desc = disc.descriptions.length ? escHtml(disc.descriptions[0].slice(0, 280)) : 'Aucune description trouvée automatiquement.';
+                    var links = disc.urls.map(function(u) { return '<a href="' + escHtml(u) + '" target="_blank" rel="noopener" style="color:var(--accent);font-size:11px;word-break:break-all">' + escHtml(u) + '<\/a>'; }).join('<br>');
+                    box.innerHTML = '<div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px">' +
+                        '<div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:6px">✅ Trouvé — sources : ' + escHtml(srcs) + '<\/div>' +
+                        '<p style="font-size:12px;color:var(--gray-3);margin-bottom:8px">' + desc + '<\/p>' + links + '</div>';
+                    if (disc.stars) box.innerHTML += '<div style="font-size:11px;color:var(--gray-4);margin-top:6px">⭐ ' + disc.stars + ' étoiles GitHub<\/div>';
+                    document.getElementById('subExtraFields').style.display = 'block';
+                } else {
+                    box.innerHTML = '<div style="padding:14px;text-align:center;font-size:12px;color:var(--gray-4)">Rien trouvé automatiquement. Remplissez les infos à la main puis validez — le profil sera marqué « donnée soumise ».<\/div>';
+                    document.getElementById('subExtraFields').style.display = 'block';
+                }
+                // Swap button to confirm
+                btn.textContent = '✅ Ajouter au dashboard';
+                btn.onclick = confirmSubmitCompany;
+            });
+        }
+        function confirmSubmitCompany() {
+            var name = document.getElementById('subName').value.trim();
+            var url = document.getElementById('subUrl').value.trim();
+            if (!name) return;
+            var btn = document.getElementById('discoBtn');
+            btn.disabled = true;
+            btn.textContent = 'Ajout...';
+            submitOwnCompany(name, url, subPickedType, function(profile) {
+                // Fill manual fields
+                var hq = document.getElementById('subHq').value.trim();
+                var founded = parseInt(document.getElementById('subFounded').value) || null;
+                var employees = parseInt(document.getElementById('subEmployees').value) || null;
+                var revenue = parseFloat(document.getElementById('subRevenue').value) || null;
+                var growth = parseFloat(document.getElementById('subGrowth').value) || null;
+                var sector = document.getElementById('subSector').value;
+                if (hq) { profile.hq = hq; profile.hqCountry = hq.split(',').pop().trim(); }
+                if (founded) profile.founded = founded;
+                if (employees) profile.employees = employees;
+                if (revenue) profile.revenue = revenue;
+                if (growth) profile.growth = growth;
+                profile.sector = sector;
+                companyDB[name.toLowerCase()] = profile;
+                closeModal('submitModal');
+                showToast(name + ' ajouté à votre base de données', 'success');
+                addNotif('success', 'Entreprise ajoutée', name + ' est maintenant trackable et comparable.');
+                // Auto-add as competitor if slot available
+                if (comps.length < planLimit() && !comps.find(function(c) { return c.name.toLowerCase() === name.toLowerCase(); })) {
+                    comps.push({ name: name, type: subPickedType === 'jeu' ? 'boite' : subPickedType, url: url || (profile.website || ''), color: '#FF3B3B' });
+                    curIdx = comps.length - 1;
+                    saveComps();
+                    renderComps();
+                    go('overview', document.querySelector('.sb-item[data-tab="overview"]'));
+                    generateAll();
+                }
+                btn.disabled = false;
+                btn.textContent = '🔎 Découvrir automatiquement';
+                btn.onclick = startDiscovery;
+            });
+        }
+
         function fetchWikiData(name, callback) {
             if (wikiCache[name]) { callback(wikiCache[name]); return; }
-            var url = 'https://fr.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(name);
-            fetch(url).then(function(r) { return r.json(); }).then(function(data) {
-                if (data && data.extract) {
-                    var wiki = {
-                        extract: data.extract,
-                        thumbnail: data.thumbnail ? data.thumbnail.source : null,
-                        url: data.content_urls ? data.content_urls.desktop.page : null
-                    };
-                    wikiCache[name] = wiki;
-                    callback(wiki);
-                } else { callback(null); }
-            }).catch(function() { callback(null); });
+            // Try French Wikipedia first, then English
+            var urls = [
+                'https://fr.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(name),
+                'https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(name)
+            ];
+            function tryFetch(idx) {
+                if (idx >= urls.length) { callback(null); return; }
+                fetch(urls[idx]).then(function(r) { return r.json(); }).then(function(data) {
+                    if (data && data.extract && data.extract.length > 20) {
+                        var wiki = {
+                            extract: data.extract,
+                            thumbnail: data.thumbnail ? data.thumbnail.source : null,
+                            url: data.content_urls ? data.content_urls.desktop.page : null,
+                            lang: idx === 0 ? 'fr' : 'en',
+                            title: data.title || name,
+                            description: data.description || null
+                        };
+                        wikiCache[name] = wiki;
+                        callback(wiki);
+                    } else { tryFetch(idx + 1); }
+                }).catch(function() { tryFetch(idx + 1); });
+            }
+            tryFetch(0);
         }
         function fetchWikiBatch(names, callback) {
             var results = {};
@@ -4427,6 +5196,162 @@ function renderComps() {
                 alB += '</div>';
                 alertsBox.innerHTML = alB;
             }
+
+            // ===== NEW TABS: market, forecast, exports, api =====
+            fillMarketTab(name, data);
+            fillForecastTab(name, data);
+            fillExportsTab(name, data);
+            fillApiTab(name, data);
+        }
+
+        function fillMarketTab(name, data) {
+            var box = document.getElementById('marketBox');
+            if (!box) return;
+            if (!data || data.realData === false) { box.innerHTML = '<div style="padding:30px;text-align:center;color:var(--gray-4)">Donn\u00e9es non disponibles.</div>'; return; }
+            var sectorPeers = [];
+            for (var k in companyDB) {
+                if (k === name.toLowerCase()) continue;
+                var d = companyDB[k];
+                if (d && d.sector === data.sector && typeof d.marketShare === 'number') {
+                    sectorPeers.push({ name: k, share: d.marketShare || d.marketShare });
+                }
+            }
+            sectorPeers.sort(function(a, b) { return b.share - a.share; });
+            var top = sectorPeers.slice(0, 8);
+            var myShare = data.marketShare || 0;
+            var totalTracked = top.reduce(function(s, p) { return s + p.share; }, 0) + myShare;
+            var rank = 1;
+            top.forEach(function(p) { if (p.share > myShare) rank++; });
+            var h = '<div style="padding:16px">';
+            h += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px">';
+            h += '<div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center"><div style="font-size:22px;font-weight:800;color:var(--accent)">#' + rank + '</div><div style="font-size:11px;color:var(--gray-4)">Rang dans le secteur</div></div>';
+            h += '<div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center"><div style="font-size:22px;font-weight:800;color:var(--accent)">' + myShare + '%</div><div style="font-size:11px;color:var(--gray-4)">Part de march\u00e9 estim\u00e9e</div></div>';
+            h += '<div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center"><div style="font-size:22px;font-weight:800;color:var(--accent)">' + (sectorPeers.length + 1) + '</div><div style="font-size:11px;color:var(--gray-4)">Concurrents track\u00e9s</div></div>';
+            h += '</div>';
+            // Bar chart: peers + me
+            h += '<div style="font-size:12px;font-weight:700;color:var(--gray-2);margin-bottom:8px">Part de march\u00e9 (estimation relative)</div>';
+            var allBars = top.concat([{ name: name, share: myShare, me: true }]).sort(function(a, b) { return b.share - a.share; });
+            var maxShare = Math.max.apply(null, allBars.map(function(b) { return b.share; })) || 1;
+            allBars.forEach(function(b) {
+                var pct = (b.share / maxShare * 100).toFixed(0);
+                var color = b.me ? 'var(--accent)' : 'var(--gray-5)';
+                h += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">';
+                h += '<div style="width:110px;font-size:12px;color:' + (b.me ? 'var(--accent)' : 'var(--gray-3)') + ';font-weight:' + (b.me ? '700' : '400') + ';text-align:right">' + escHtml(b.name) + '</div>';
+                h += '<div style="flex:1;background:var(--bg);border-radius:6px;height:20px;overflow:hidden;border:1px solid var(--border)"><div style="width:' + pct + '%;height:100%;background:' + color + ';border-radius:5px;opacity:' + (b.me ? '1' : '.5') + '"></div></div>';
+                h += '<div style="width:48px;font-size:11px;color:var(--gray-4)">' + b.share + '%</div>';
+                h += '</div>';
+            });
+            h += '<div style="margin-top:12px;font-size:11px;color:var(--gray-5)">Estimation relative base sur les parts de march\u00e9 d\u00e9clar\u00e9es de la base RivalEye.</div>';
+            h += '</div>';
+            box.innerHTML = h;
+        }
+
+        function fillForecastTab(name, data) {
+            var box = document.getElementById('forecastBox');
+            if (!box) return;
+            if (!data || data.realData === false) { box.innerHTML = '<div style="padding:30px;text-align:center;color:var(--gray-4)">Donn\u00e9es non disponibles.</div>'; return; }
+            var growth = typeof data.growth === 'number' ? data.growth : 5;
+            var rev = typeof data.revenue === 'number' ? data.revenue : 100;
+            var seed = hashSeed(name);
+            var conf = 55 + (seed % 30);
+            var months = [];
+            var cur = rev;
+            for (var mth = 1; mth <= 12; mth++) {
+                cur = cur * (1 + growth / 100 / 12);
+                var noise = ((seed >> (mth % 16)) % 10 - 5) / 100;
+                months.push(cur * (1 + noise));
+            }
+            var h = '<div style="padding:16px">';
+            h += '<div style="font-size:11px;font-weight:700;color:var(--amber);background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);border-radius:8px;padding:8px 12px;margin-bottom:14px;display:inline-block">\u26A1 Pronostic IA — projection indicative, pas un conseil financier</div>';
+            h += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px">';
+            h += '<div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px"><div style="font-size:11px;color:var(--gray-4)">CA projet\u00e9 M+12</div><div style="font-size:20px;font-weight:800;color:var(--accent)">' + Math.round(months[11]) + ' M</div></div>';
+            h += '<div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px"><div style="font-size:11px;color:var(--gray-4)">Croissance annualis\u00e9e</div><div style="font-size:20px;font-weight:800;color:' + (growth >= 0 ? 'var(--green)' : 'var(--red)') + '">' + growth + '%</div></div>';
+            h += '<div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px"><div style="font-size:11px;color:var(--gray-4)">Confiance mod\u00e8le</div><div style="font-size:20px;font-weight:800;color:var(--accent)">' + conf + '%</div></div>';
+            h += '</div>';
+            // Mini line chart (SVG)
+            var w = 600, hgt = 140, pad = 10;
+            var vals = [rev].concat(months);
+            var mn = Math.min.apply(null, vals), mx = Math.max.apply(null, vals);
+            var pts = vals.map(function(v, i) {
+                var x = pad + i * (w - 2 * pad) / (vals.length - 1);
+                var y = hgt - pad - ((v - mn) / ((mx - mn) || 1)) * (hgt - 2 * pad);
+                return x.toFixed(0) + ',' + y.toFixed(0);
+            }).join(' ');
+            h += '<svg viewBox="0 0 ' + w + ' ' + hgt + '" style="width:100%;height:140px">';
+            h += '<polyline points="' + pts + '" fill="none" stroke="var(--accent)" stroke-width="2.5"/>';
+            h += '<polygon points="' + pad + ',' + (hgt - pad) + ' ' + pts + ' ' + (w - pad) + ',' + (hgt - pad) + '" fill="var(--accent)" opacity=".08"/>';
+            h += '</svg>';
+            h += '<div style="display:flex;justify-content:space-between;font-size:10px;color:var(--gray-5);margin-top:4px"><span>Maintenant</span><span>M+6</span><span>M+12</span></div>';
+            h += '<div style="margin-top:16px;font-size:12px;color:var(--gray-3);line-height:1.6">';
+            if (growth >= 15) h += '<strong style="color:var(--green)">Trajectoire forte.</strong> Au rythme actuel, ' + escHtml(name) + ' pourrait passer de ' + Math.round(rev) + ' M\u20AC \u00e0 plus de ' + Math.round(months[11]) + ' M\u20AC en 12 mois. Surveillez les embauches (onglet Recrutements) pour confirmer la trajectoire.';
+            else if (growth >= 0) h += '<strong style="color:var(--accent)">Croissance stable.</strong> Projection mod\u00e9r\u00e9e : ' + Math.round(rev) + ' M\u20AC \u2192 ' + Math.round(months[11]) + ' M\u20AC. Pour acc\u00e9l\u00e9rer, comparez vos prix face aux concurrents (onglet Duels).';
+            else h += '<strong style="color:var(--red)">Trajectoire n\u00e9gative.</strong> Sans inflexion, le CA pourrait reculer vers ' + Math.round(months[11]) + ' M\u20AC. Analysez les avis clients et la strat\u00e9gie de prix des rivaux gagnants.';
+            h += '</div></div>';
+            box.innerHTML = h;
+        }
+
+        function fillExportsTab(name, data) {
+            var box = document.getElementById('exportsBox');
+            if (!box) return;
+            var h = '<div style="padding:16px">';
+            h += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:16px">';
+            h += '<div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:18px"><div style="font-size:24px;margin-bottom:8px">\uD83D\uDCC4</div><div style="font-size:14px;font-weight:700;color:var(--gray-2);margin-bottom:4px">Rapport PDF</div><div style="font-size:12px;color:var(--gray-4);margin-bottom:12px">Synth\u00e8se compl\u00e8te de l\u2019analyse ' + escHtml(name) + '</div><button class="btn btn-primary" style="padding:8px 16px;font-size:12px" onclick="exportPdf(\'' + escHtml(name).replace(/'/g, "\\'") + '\')">T\u00e9l\u00e9charger</button></div>';
+            h += '<div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:18px"><div style="font-size:24px;margin-bottom:8px">\uD83D\uDCCA</div><div style="font-size:14px;font-weight:700;color:var(--gray-2);margin-bottom:4px">Donn\u00e9es CSV</div><div style="font-size:12px;color:var(--gray-4);margin-bottom:12px">Toutes les m\u00e9triques brutes (KPI, prix, parts de march\u00e9)</div><button class="btn btn-ghost" style="padding:8px 16px;font-size:12px" onclick="exportCsv(\'' + escHtml(name).replace(/'/g, "\\'") + '\')">Exporter CSV</button></div>';
+            h += '<div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:18px"><div style="font-size:24px;margin-bottom:8px">\uD83D\uDD17</div><div style="font-size:14px;font-weight:700;color:var(--gray-2);margin-bottom:4px">Lien de partage</div><div style="font-size:12px;color:var(--gray-4);margin-bottom:12px">Profil public lecture-seule \u00e0 partager avec votre \u00e9quipe</div><button class="btn btn-ghost" style="padding:8px 16px;font-size:12px" onclick="shareProfile(\'' + escHtml(name).replace(/'/g, "\\'") + '\')">Copier le lien</button></div>';
+            h += '</div>';
+            if (plan !== 'scale' && plan !== 'enterprise') {
+                h += '<div style="padding:14px;border-radius:10px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);font-size:12px;color:var(--gray-3)">\uD83D\uDD12 Export automatique programm\u00e9 (hebdo / mensuel) et rapports multi-entreprises : r\u00e9serv\u00e9 au plan <strong>Scale</strong>.</div>';
+            }
+            h += '</div>';
+            box.innerHTML = h;
+        }
+
+        function fillApiTab(name, data) {
+            var box = document.getElementById('apiBox');
+            if (!box) return;
+            var apiKey = localStorage.getItem('rivaleye_apikey');
+            if (!apiKey) { apiKey = 'rv_' + Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10); localStorage.setItem('rivaleye_apikey', apiKey); }
+            var h = '<div style="padding:16px">';
+            h += '<div style="font-size:12px;color:var(--gray-4);margin-bottom:14px">Int\u00e9grez les scores RivalEye dans vos outils. Disponible aux plans <strong>Scale</strong> et <strong>Enterprise</strong>.</div>';
+            if (plan === 'scale' || plan === 'enterprise') {
+                h += '<div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:14px"><div style="font-size:11px;color:var(--gray-4);margin-bottom:6px">Votre cl\u00e9 API</div><div style="display:flex;gap:8px"><code style="flex:1;font-size:12px;color:var(--accent);word-break:break-all">' + apiKey + '</code><button class="btn btn-ghost" style="padding:6px 12px;font-size:11px" onclick="navigator.clipboard.writeText(\'' + apiKey + '\');showToast(\'Cl\u00e9 copi\u00e9e\',\'success\')">Copier</button><button class="btn btn-ghost" style="padding:6px 12px;font-size:11px" onclick="regenApiKey()">R\u00e9g\u00e9n\u00e9rer</button></div></div>';
+                h += '<div style="font-size:12px;font-weight:700;color:var(--gray-2);margin-bottom:8px">Exemple</div>';
+                h += '<pre style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;font-size:11px;color:var(--gray-3);overflow-x:auto">curl https://api.rivaleye.app/v1/company/' + encodeURIComponent(name) + ' \\\n  -H \"Authorization: Bearer ' + apiKey + '\"</pre>';
+            } else {
+                h += '<div style="padding:24px;text-align:center;border:1px dashed var(--border);border-radius:12px">\uD83D\uDD12 <strong>API r\u00e9serv\u00e9e aux plans Scale et Enterprise</strong><br><span style="font-size:12px;color:var(--gray-4)">Passez \u00e0 Scale pour d\u00e9bloquer l\u2019acc\u00e8s API complet.</span><br><button class="btn btn-primary" style="margin-top:12px;padding:10px 24px;font-size:13px" onclick="showUpgradeModal(\'scale\')">Voir le plan Scale</button></div>';
+            }
+            h += '</div>';
+            box.innerHTML = h;
+        }
+
+        function regenApiKey() {
+            var key = 'rv_' + Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10);
+            localStorage.setItem('rivaleye_apikey', key);
+            fillApiTab(cur() ? cur().name : '', null);
+            showToast('Nouvelle cl\u00e9 API g\u00e9n\u00e9r\u00e9e', 'success');
+        }
+
+        function exportCsv(name) {
+            var d = getCompanyData(name) || {};
+            var rows = [['Champ', 'Valeur']];
+            ['hq', 'founded', 'employees', 'revenue', 'marketShare', 'growth', 'valuation', 'sector', 'satisfaction', 'nps'].forEach(function(k) { rows.push([k, d[k] !== undefined ? d[k] : '']); });
+            var csv = rows.map(function(r) { return r.join(';'); }).join('\n');
+            var blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'rivaleye-' + name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.csv';
+            a.click();
+            showToast('CSV export\u00e9', 'success');
+        }
+
+        function exportPdf(name) {
+            showToast('G\u00e9n\u00e9ration du rapport PDF...', 'info');
+            setTimeout(function() { window.print(); }, 400);
+        }
+
+        function shareProfile(name) {
+            var url = location.origin + location.pathname + '#/p/' + encodeURIComponent(name);
+            navigator.clipboard.writeText(url).then(function() { showToast('Lien de partage copi\u00e9 !', 'success'); }).catch(function() { prompt('Copiez le lien :', url); });
         }
 
         // ========== PREMIUM ADVICE ==========
@@ -4457,10 +5382,12 @@ function renderComps() {
                 var badge = document.getElementById('planBadge');
                 if (badge) { badge.textContent = plan.charAt(0).toUpperCase() + plan.slice(1); badge.className = 'badge-plan ' + plan; }
                 var planOptions = [
-                    { id: 'free', name: 'Free', price: '0\u20AC', desc: '1 concurrent \u00B7 Aper\u00E7u limit\u00E9', color: '#9CA3AF' },
-                    { id: 'pro', name: 'Pro', price: '19,99\u20AC/mois', desc: '3 concurrents \u00B7 Prix, Posts, Ads, Avis \u00B7 Verdict + Pronostics', color: '#3B82F6' },
-                    { id: 'business', name: 'Business', price: '49,99\u20AC/mois', desc: '10 concurrents \u00B7 + Recrutements, Blog, Alertes \u00B7 Monitoring H24', color: '#8B5CF6' },
-                    { id: 'enterprise', name: 'Enterprise', price: '99,99\u20AC/mois', desc: 'Illimit\u00E9 \u00B7 Acc\u00E8s total \u00B7 Support d\u00E9di\u00E9', color: '#F59E0B' }
+                    { id: 'free', name: 'Free', price: '0\u20AC', desc: '1 concurrent \u00B7 Vue d\u2019ensemble + Duels (2)', color: '#9CA3AF' },
+                    { id: 'starter', name: 'Starter', price: '9,99\u20AC/mois', desc: '2 concurrents \u00B7 Prix + Avis \u00B7 Duels (3)', color: '#14B8A6' },
+                    { id: 'pro', name: 'Pro', price: '19,99\u20AC/mois', desc: '4 concurrents \u00B7 + Posts, Pubs \u00B7 Duels (4)', color: '#3B82F6' },
+                    { id: 'business', name: 'Business', price: '49,99\u20AC/mois', desc: '10 concurrents \u00B7 + Recrutements, Blog, Alertes, March\u00E9', color: '#8B5CF6' },
+                    { id: 'scale', name: 'Scale', price: '99,99\u20AC/mois', desc: '25 concurrents \u00B7 + Pronostics, Exports, API', color: '#F59E0B' },
+                    { id: 'enterprise', name: 'Enterprise', price: '199,99\u20AC/mois', desc: 'Illimit\u00E9 \u00B7 Acc\u00E8s total \u00B7 Support d\u00E9di\u00E9', color: '#38BDF8' }
                 ];
                 var ph = '<div style="font-size:14px;font-weight:700;margin-bottom:8px">Votre abonnement</div><div class="plan-selector">';
                 planOptions.forEach(function(p) {
@@ -4508,6 +5435,7 @@ function renderComps() {
 
         // ========== TAB NAVIGATION ==========
         function go(tab, el) {
+            if (tab === 'duel') { renderDuel(); }
             if (isTabLocked(tab)) {
                 const req = getRequiredPlan(tab);
                 document.querySelectorAll('.tc').forEach(function(t) { t.classList.remove('on'); });
@@ -4516,8 +5444,8 @@ function renderComps() {
                 const tc = document.getElementById('tc-' + tab);
                 if (tc) {
                     tc.classList.add('on');
-                    const tabLabels = { prices: 'Prix', posts: 'Posts', ads: 'Pubs', reviews: 'Avis', hiring: 'Recrutements', blog: 'Blog', alerts: 'Alertes' };
-                    const planPrice = req === 'pro' ? '19,99\u20AC/mois' : req === 'business' ? '49,99\u20AC/mois' : '99,99\u20AC/mois';
+                    const tabLabels = { prices: 'Prix', posts: 'Posts', ads: 'Pubs', reviews: 'Avis', hiring: 'Recrutements', blog: 'Blog', alerts: 'Alertes', market: 'March\u00e9', forecast: 'Pronostics', exports: 'Exports', api: 'API' };
+                    const planPrice = getPlanPrice(req) + '/mois';
                     tc.innerHTML = '<div style="padding:60px 40px;text-align:center"><div style="font-size:48px;margin-bottom:16px">\uD83D\uDD12</div><h3 style="font-size:20px;font-weight:700;color:var(--gray-1);margin-bottom:8px">' + (tabLabels[tab] || tab) + ' \u2014 R\u00E9serv\u00E9 au plan ' + req.charAt(0).toUpperCase() + req.slice(1) + '</h3><p style="font-size:13px;color:var(--gray-4);margin-bottom:24px">Abonnez-vous \u00E0 ' + req.charAt(0).toUpperCase() + req.slice(1) + ' (' + planPrice + ') pour d\u00E9bloquer cet onglet et toutes ses analyses.</p><button class="btn btn-red" style="font-size:14px;padding:12px 32px" onclick="showUpgradeModal(\'' + req + '\')">Passer \u00E0 ' + req.charAt(0).toUpperCase() + req.slice(1) + '</button></div>';
                 }
                 return;
@@ -4631,23 +5559,35 @@ function renderComps() {
             const body = document.getElementById('upgradeBody');
             
             const plans = {
+                starter: {
+                    name: 'Starter',
+                    price: '9,99€',
+                    period: '/mois',
+                    features: ['2 concurrents surveillés', 'Historique des prix', 'Avis clients', 'Duels à 3', 'Thème teal', 'Support email']
+                },
                 pro: {
                     name: 'Pro',
                     price: '19,99€',
                     period: '/mois',
-                    features: ['3 concurrents surveillés', 'Alertes temps réel', 'Pubs + Recrutements', 'Blog & contenu', 'Historique 6 mois', 'Support prioritaire']
+                    features: ['4 concurrents', 'Posts & contenus', 'Pubs trackées', 'Duels à 4', 'Thème bleu', 'Alertes de base']
                 },
                 business: {
                     name: 'Business',
                     price: '49,99€',
                     period: '/mois',
-                    features: ['10 concurrents', 'Pronostics IA', 'Export rapports PDF', 'Historique illimité', 'Support prioritaire 2h', 'API d\'intégration']
+                    features: ['10 concurrents', 'Recrutements', 'Blog & SEO', 'Alertes avancées', 'Marché & parts', 'Duels à 5', 'Thème violet']
+                },
+                scale: {
+                    name: 'Scale',
+                    price: '99,99€',
+                    period: '/mois',
+                    features: ['25 concurrents', 'Pronostics IA', 'Exports PDF/CSV', 'API complète', 'Duels à 6', 'Thème ambre', 'Support prioritaire']
                 },
                 enterprise: {
                     name: 'Enterprise',
-                    price: '99,99€',
+                    price: '199,99€',
                     period: '/mois',
-                    features: ['Concurrents illimités', 'Account manager dédié', 'SLA garanti 99,9%', 'API REST complète', 'Formation sur mesure', 'Support 24/7']
+                    features: ['Concurrents illimités', 'Duels à 8', 'Account manager dédié', 'SLA garanti 99,9%', 'API REST + webhook', 'Formation sur mesure', 'Support 24/7', 'Thème cyan']
                 }
             };
             
@@ -4698,8 +5638,59 @@ function renderComps() {
             if (gate) gate.style.display = 'none';
         }
         var _appInitialized = false;
+        // ===== GROWTH: public profile, leaderboard, referral =====
+        function checkPublicRoute() {
+            var h = location.hash || '';
+            var m = h.match(/^#\/p\/(.+)$/);
+            if (m) {
+                var name = decodeURIComponent(m[1]);
+                var d = getCompanyData(name);
+                if (d && d.realData !== false) {
+                    showPublicProfile(name, d);
+                    return true;
+                }
+            }
+            return false;
+        }
+        function showPublicProfile(name, d) {
+            document.body.innerHTML = '<div style="max-width:680px;margin:40px auto;padding:20px;font-family:system-ui"><div style="text-align:center;margin-bottom:24px"><div style="font-size:12px;color:var(--gray-4)">Propulsé par</div><a href="index.html" style="font-size:18px;font-weight:800;color:#FF3B3B;text-decoration:none">RivalEye</a></div>' +
+                '<div style="background:var(--card,#111);border:1px solid var(--border,#333);border-radius:16px;padding:28px">' +
+                '<h1 style="font-size:26px;margin-bottom:4px">' + escHtml(name) + '</h1>' +
+                '<p style="color:var(--gray-4);font-size:13px;margin-bottom:16px">Profil public · Données vérifiées</p>' +
+                (d.wikiExtract ? '<p style="font-size:14px;color:var(--gray-3);line-height:1.7;margin-bottom:16px">' + escHtml(d.wikiExtract.slice(0, 400)) + '</p>' : '') +
+                '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px">' +
+                ['Siège: ' + (d.hq || '—'), 'Fondée: ' + (d.founded || '—'), 'Employés: ' + (d.employees || '—'), 'Croissance: ' + (d.growth || '—') + '%', 'Satisfaction: ' + (d.satisfaction || '—') + '/100'].map(function(t) {
+                    return '<div style="background:var(--bg,#0a0a0a);border:1px solid var(--border,#333);border-radius:10px;padding:12px;font-size:12px;color:var(--gray-3);text-align:center">' + escHtml(t) + '</div>';
+                }).join('') + '</div>' +
+                (d.wikiUrl ? '<p style="margin-top:16px"><a href="' + escHtml(d.wikiUrl) + '" target="_blank" style="font-size:12px;color:#FF3B3B">Source : Wikipédia ↗</a></p>' : '') +
+                '</div>' +
+                '<div style="text-align:center;margin-top:24px"><a href="index.html" style="color:#FF3B3B;font-size:14px;font-weight:600;text-decoration:none">→ Analyser votre entreprise gratuitement</a></div></div>';
+            document.title = name + ' — RivalEye';
+        }
+        function buildLeaderboard() {
+            // Top companies by growth from companyDB
+            var entries = [];
+            for (var k in companyDB) {
+                var d = companyDB[k];
+                if (d && typeof d.growth === 'number' && d.growth > 0) entries.push({ name: k, growth: d.growth, sector: d.sector });
+            }
+            entries.sort(function(a, b) { return b.growth - a.growth; });
+            return entries.slice(0, 10);
+        }
+        function referralCode() {
+            var code = localStorage.getItem('rivaleye_ref');
+            if (!code) { code = 'RVL-' + Math.random().toString(36).slice(2, 8).toUpperCase(); localStorage.setItem('rivaleye_ref', code); }
+            return code;
+        }
+        function copyReferral() {
+            var url = location.origin + '?ref=' + referralCode();
+            navigator.clipboard.writeText(url).then(function() { showToast('Lien de parrainage copié !', 'success'); });
+        }
+
         function enterApp(u) {
             if (_appInitialized) return;
+            // Check public profile route first
+            if (checkPublicRoute()) return;
             applyPlanTheme();
             _appInitialized = true;
             user = u || null;
